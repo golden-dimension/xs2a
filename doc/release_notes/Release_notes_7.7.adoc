@@ -10,6 +10,7 @@
 * Fixed Double saving of psu data
 * Added currency conversion related information to Update PSU Data response
 * Replaced AIS authorisation type with general consent type
+* Removed deprecated methods from AuthorisationSpi
 
 == Add confirmation of funds functionality to `CMS-PSU-API`
 
@@ -91,3 +92,12 @@ into update psu data response.
 
 From now on, AIS authorisation type is deprecated, and will be removed in 8.0 version,
 use CONSENT authorisation type instead.
+
+== Removed deprecated methods from AuthorisationSpi
+
+- AuthorisationSpi#authorisePsu
+- PaymentCancellationSpi#verifyScaAuthorisationAndCancelPayment
+- PaymentSpi#verifyScaAuthorisationAndExecutePayment
+- PisExecutePaymentService#verifyScaAuthorisationAndExecutePayment
+- PaymentBaseAuthorisationProcessorService#updatePaymentData
+- PaymentBaseAuthorisationProcessorService#authorisePsu
