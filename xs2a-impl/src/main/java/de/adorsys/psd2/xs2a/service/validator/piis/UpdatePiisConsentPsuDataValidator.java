@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2020 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.service.validator.ais.consent;
+package de.adorsys.psd2.xs2a.service.validator.piis;
 
-import de.adorsys.psd2.core.data.ais.AisConsent;
+import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationServiceType;
 import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataReq;
-import de.adorsys.psd2.xs2a.service.validator.AisPsuDataUpdateAuthorisationCheckerValidator;
+import de.adorsys.psd2.xs2a.service.validator.PiisPsuDataUpdateAuthorisationCheckerValidator;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
-import de.adorsys.psd2.xs2a.service.validator.ais.consent.dto.UpdateConsentPsuDataRequestObject;
+import de.adorsys.psd2.xs2a.service.validator.ais.consent.AbstractConsentTppValidator;
 import de.adorsys.psd2.xs2a.service.validator.authorisation.AuthorisationStageCheckValidator;
+import de.adorsys.psd2.xs2a.service.validator.piis.dto.UpdatePiisConsentPsuDataRequestObject;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -39,10 +40,10 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.RESOURCE_UNKNOWN_
  */
 @Component
 @RequiredArgsConstructor
-public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<UpdateConsentPsuDataRequestObject> {
-    private final AisAuthorisationValidator aisAuthorisationValidator;
-    private final AisAuthorisationStatusValidator aisAuthorisationStatusValidator;
-    private final AisPsuDataUpdateAuthorisationCheckerValidator aisPsuDataUpdateAuthorisationCheckerValidator;
+public class UpdatePiisConsentPsuDataValidator extends AbstractConsentTppValidator<UpdatePiisConsentPsuDataRequestObject> {
+    private final PiisAuthorisationValidator piisAuthorisationValidator;
+    private final PiisPsuDataUpdateAuthorisationCheckerValidator piisPsuDataUpdateAuthorisationCheckerValidator;
+    private final PiisAuthorisationStatusValidator piisAuthorisationStatusValidator;
     private final AuthorisationStageCheckValidator authorisationStageCheckValidator;
 
     /**
@@ -53,12 +54,12 @@ public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<U
      */
     @NotNull
     @Override
-    protected ValidationResult executeBusinessValidation(UpdateConsentPsuDataRequestObject requestObject) {
-        AisConsent consent = requestObject.getAisConsent();
+    protected ValidationResult executeBusinessValidation(UpdatePiisConsentPsuDataRequestObject requestObject) {
+        PiisConsent consent = requestObject.getPiisConsent();
         UpdateConsentPsuDataReq updatePsuData = requestObject.getUpdateRequest();
         String authorisationId = updatePsuData.getAuthorizationId();
 
-        ValidationResult authorisationValidationResult = aisAuthorisationValidator.validate(authorisationId, consent);
+        ValidationResult authorisationValidationResult = piisAuthorisationValidator.validate(authorisationId, consent);
         if (authorisationValidationResult.isNotValid()) {
             return authorisationValidationResult;
         }
@@ -66,23 +67,23 @@ public class UpdateConsentPsuDataValidator extends AbstractConsentTppValidator<U
         Optional<ConsentAuthorization> authorisationOptional = consent.findAuthorisationInConsent(authorisationId);
 
         if (authorisationOptional.isEmpty()) {
-            return ValidationResult.invalid(ErrorType.AIS_403, RESOURCE_UNKNOWN_403);
+            return ValidationResult.invalid(ErrorType.PIIS_403, RESOURCE_UNKNOWN_403);
         }
 
         ConsentAuthorization authorisation = authorisationOptional.get();
 
-        ValidationResult validationResult = aisPsuDataUpdateAuthorisationCheckerValidator.validate(updatePsuData.getPsuData(), authorisation.getPsuIdData());
+        ValidationResult validationResult = piisPsuDataUpdateAuthorisationCheckerValidator.validate(updatePsuData.getPsuData(), authorisation.getPsuIdData());
 
         if (validationResult.isNotValid()) {
             return validationResult;
         }
 
-        ValidationResult authorisationStatusValidationResult = aisAuthorisationStatusValidator.validate(authorisation.getScaStatus(), StringUtils.isNotBlank(updatePsuData.getConfirmationCode()));
+        ValidationResult authorisationStatusValidationResult = piisAuthorisationStatusValidator.validate(authorisation.getScaStatus(), StringUtils.isNotBlank(updatePsuData.getConfirmationCode()));
         if (authorisationStatusValidationResult.isNotValid()) {
             return authorisationStatusValidationResult;
         }
 
-        ValidationResult authorisationStageCheckValidatorResult = authorisationStageCheckValidator.validate(updatePsuData, authorisation.getScaStatus(), AuthorisationServiceType.AIS);
+        ValidationResult authorisationStageCheckValidatorResult = authorisationStageCheckValidator.validate(updatePsuData, authorisation.getScaStatus(), AuthorisationServiceType.PIIS);
         if (authorisationStageCheckValidatorResult.isNotValid()) {
             return authorisationStageCheckValidatorResult;
         }

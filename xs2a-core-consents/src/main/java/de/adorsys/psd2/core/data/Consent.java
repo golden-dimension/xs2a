@@ -16,7 +16,7 @@
 
 package de.adorsys.psd2.core.data;
 
-import de.adorsys.psd2.xs2a.core.authorisation.AccountConsentAuthorization;
+import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentTppInformation;
@@ -67,7 +67,7 @@ public abstract class Consent<T> {
     @NotNull
     private List<PsuIdData> psuIdDataList;
     @NotNull
-    private List<AccountConsentAuthorization> authorisations;
+    private List<ConsentAuthorization> authorisations;
     @NotNull
     private Map<String, Integer> usages;
     @NotNull

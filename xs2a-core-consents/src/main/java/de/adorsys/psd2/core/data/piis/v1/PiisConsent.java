@@ -16,9 +16,11 @@
 
 package de.adorsys.psd2.core.data.piis.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.core.data.piis.PiisConsentData;
+import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentTppInformation;
@@ -31,6 +33,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class PiisConsent extends Consent<PiisConsentData> {
 
@@ -44,11 +47,19 @@ public class PiisConsent extends Consent<PiisConsentData> {
     public PiisConsent(PiisConsentData consentData, String id, String internalRequestId, ConsentStatus consentStatus, boolean recurringIndicator,
                        LocalDate expireDate, LocalDate lastActionDate, OffsetDateTime creationTimestamp, ConsentTppInformation consentTppInformation,
                        List<PsuIdData> psuIdDataList, AccountAccess aspspAccountAccess, String instanceId, ConsentType consentType) {
+                       List<PsuIdData> psuIdDataList, List<ConsentAuthorization> authorisations, AccountAccess aspspAccountAccess, String instanceId) {
 
         super(consentData, id, internalRequestId, consentStatus, 0, recurringIndicator, false,
               null, expireDate, lastActionDate, creationTimestamp, null, consentTppInformation,
               new AuthorisationTemplate(), psuIdDataList, Collections.emptyList(), Collections.emptyMap(),
               AccountAccess.EMPTY_ACCESS, aspspAccountAccess, instanceId, consentType);
+              new AuthorisationTemplate(), psuIdDataList, authorisations, Collections.emptyMap(),
+              AccountAccess.EMPTY_ACCESS, aspspAccountAccess, instanceId);
+    }
+
+    @Override
+    public ConsentType getConsentType() {
+        return ConsentType.PIIS_ASPSP;
     }
 
     public AccountReference getAccountReference() {
@@ -74,5 +85,16 @@ public class PiisConsent extends Consent<PiisConsentData> {
         }
 
         return null;
+    }
+
+    public Optional<ConsentAuthorization> findAuthorisationInConsent(String authorisationId) {
+        return getAuthorisations().stream()
+                   .filter(auth -> auth.getId().equals(authorisationId))
+                   .findFirst();
+    }
+
+    @JsonIgnore
+    public boolean isExpired() {
+        return getConsentStatus() == ConsentStatus.EXPIRED;
     }
 }

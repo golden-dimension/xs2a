@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.service.validator.ais.consent;
+package de.adorsys.psd2.xs2a.service.validator.piis;
 
-import de.adorsys.psd2.core.data.ais.AisConsent;
+import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
@@ -30,15 +30,15 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.RESOURCE_UNKNOWN_
 
 @Slf4j
 @Component
-public class AisAuthorisationValidator {
+public class PiisAuthorisationValidator {
 
     @NotNull
-    public ValidationResult validate(@NotNull String authorisationId, @NotNull AisConsent consent) {
+    public ValidationResult validate(@NotNull String authorisationId, @NotNull PiisConsent consent) {
         Optional<ConsentAuthorization> authorisationOptional = consent.findAuthorisationInConsent(authorisationId);
         if (authorisationOptional.isEmpty()) {
             log.info("Consent ID: [{}], Authorisation ID: [{}]. Authorisation validation has failed: couldn't find authorisation with given authorisationId for consent",
                      consent.getId(), authorisationId);
-            return ValidationResult.invalid(ErrorType.AIS_403, RESOURCE_UNKNOWN_403);
+            return ValidationResult.invalid(ErrorType.PIIS_403, RESOURCE_UNKNOWN_403);
         }
 
         return ValidationResult.valid();

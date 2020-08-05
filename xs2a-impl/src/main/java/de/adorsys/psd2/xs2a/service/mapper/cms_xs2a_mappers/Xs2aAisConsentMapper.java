@@ -169,4 +169,25 @@ public class Xs2aAisConsentMapper {
                    })
                    .orElse(null);
     }
+
+    private List<ConsentAuthorization> mapToAccountConsentAuthorisation(List<Authorisation> authorisations) {
+        if (CollectionUtils.isEmpty(authorisations)) {
+            return Collections.emptyList();
+        }
+        return authorisations.stream()
+                   .map(this::mapToAccountConsentAuthorisation)
+                   .collect(Collectors.toList());
+    }
+
+    private ConsentAuthorization mapToAccountConsentAuthorisation(Authorisation authorisation) {
+        return Optional.ofNullable(authorisation)
+                   .map(auth -> {
+                       ConsentAuthorization accountConsentAuthorisation = new ConsentAuthorization();
+                       accountConsentAuthorisation.setId(auth.getAuthorisationId());
+                       accountConsentAuthorisation.setPsuIdData(auth.getPsuIdData());
+                       accountConsentAuthorisation.setScaStatus(auth.getScaStatus());
+                       return accountConsentAuthorisation;
+                   })
+                   .orElse(null);
+    }
 }

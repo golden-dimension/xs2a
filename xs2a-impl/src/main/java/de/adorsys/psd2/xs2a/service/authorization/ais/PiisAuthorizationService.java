@@ -31,7 +31,7 @@ public interface PiisAuthorizationService extends ScaApproachServiceTypeProvider
 
     AuthorisationProcessorResponse updateConsentPsuData(UpdateAuthorisationRequest request, AuthorisationProcessorResponse response);
 
-    Optional<Authorisation> getAccountConsentAuthorizationById(String authorizationId);
+    Optional<Authorisation> getPiisConsentAuthorizationById(String authorizationId);
 
     Optional<ScaStatus> getAuthorisationScaStatus(String consentId, String authorisationId);
 }

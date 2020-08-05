@@ -17,13 +17,21 @@
 package de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers;
 
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
+import de.adorsys.psd2.xs2a.core.profile.AccountReference;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountReference;
+import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiScaConfirmation;
 import de.adorsys.psd2.xs2a.spi.domain.piis.SpiPiisConsent;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface Xs2aToSpiPiisConsentMapper {
-    @Mapping(target = "account", expression = "java(piisConsent.getAccountReference())")
+
+    @Mapping(target = "account", expression = "java(toSpiAccountReference(piisConsent.getAccountReference()))")
     @Mapping(target = "cardExpiryDate", source = "consentData.cardExpiryDate")
     @Mapping(target = "cardInformation", source = "consentData.cardInformation")
     @Mapping(target = "cardNumber", source = "consentData.cardNumber")
@@ -32,4 +40,24 @@ public interface Xs2aToSpiPiisConsentMapper {
     @Mapping(target = "requestDateTime", source = "creationTimestamp")
     @Mapping(target = "tppAuthorisationNumber", source = "consentTppInformation.tppInfo.authorisationNumber")
     SpiPiisConsent mapToSpiPiisConsent(PiisConsent piisConsent);
+
+    default SpiScaConfirmation mapToSpiScaConfirmation(UpdateAuthorisationRequest request, PsuIdData psuData) {
+        SpiScaConfirmation accountConfirmation = new SpiScaConfirmation();
+        accountConfirmation.setConsentId(request.getBusinessObjectId());
+        accountConfirmation.setPsuId(Optional.ofNullable(psuData).map(PsuIdData::getPsuId).orElse(null));
+        accountConfirmation.setTanNumber(request.getScaAuthenticationData());
+        return accountConfirmation;
+    }
+
+    default SpiAccountReference toSpiAccountReference(AccountReference account) {
+        return new SpiAccountReference(
+            account.getAspspAccountId(),
+            account.getResourceId(),
+            account.getIban(),
+            account.getBban(),
+            account.getPan(),
+            account.getMaskedPan(),
+            account.getMsisdn(),
+            account.getCurrency());
+    }
 }

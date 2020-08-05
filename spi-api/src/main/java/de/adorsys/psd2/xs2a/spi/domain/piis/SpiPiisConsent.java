@@ -17,8 +17,8 @@
 package de.adorsys.psd2.xs2a.spi.domain.piis;
 
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
-import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class SpiPiisConsent {
     private LocalDate expireDate;
     private PsuIdData psuData;
     private ConsentStatus consentStatus;
-    private AccountReference account;
+    private SpiAccountReference account;
     private OffsetDateTime creationTimestamp;
     private String instanceId;
     private String cardNumber;

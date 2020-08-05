@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.xs2a.core.ais.AccountAccessType;
-import de.adorsys.psd2.xs2a.core.authorisation.AccountConsentAuthorization;
+import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
@@ -43,7 +43,7 @@ public class AisConsent extends Consent<AisConsentData> {
 
     public AisConsent(AisConsentData consentData, String id, String internalRequestId, ConsentStatus consentStatus, Integer frequencyPerDay, boolean recurringIndicator, boolean multilevelScaRequired,
                       LocalDate validUntil, LocalDate expireDate, LocalDate lastActionDate, OffsetDateTime creationTimestamp, OffsetDateTime statusChangeTimestamp, ConsentTppInformation consentTppInformation,
-                      AuthorisationTemplate authorisationTemplate, List<PsuIdData> psuIdDataList, List<AccountConsentAuthorization> authorisations, Map<String, Integer> usages,
+                      AuthorisationTemplate authorisationTemplate, List<PsuIdData> psuIdDataList, List<ConsentAuthorization> authorisations, Map<String, Integer> usages,
                       AccountAccess tppAccountAccess, AccountAccess aspspAccountAccess, String instanceId) {
 
         super(consentData, id, internalRequestId, consentStatus, frequencyPerDay, recurringIndicator, multilevelScaRequired,
@@ -91,6 +91,12 @@ public class AisConsent extends Consent<AisConsentData> {
     @JsonIgnore
     public boolean isConsentForDedicatedAccounts() {
         return getConsentRequestType() == AisConsentRequestType.DEDICATED_ACCOUNTS;
+    }
+
+    public Optional<ConsentAuthorization> findAuthorisationInConsent(String authorisationId) {
+        return getAuthorisations().stream()
+                   .filter(auth -> auth.getId().equals(authorisationId))
+                   .findFirst();
     }
 
     public boolean isConsentWithNotIbanAccount() {
