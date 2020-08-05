@@ -22,6 +22,7 @@ import de.adorsys.psd2.consent.api.ais.CmsConsent;
 import de.adorsys.psd2.consent.api.consent.CmsCreateConsentResponse;
 import de.adorsys.psd2.consent.api.service.ConsentServiceEncrypted;
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
+import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
@@ -58,6 +59,8 @@ class Xs2aPiisConsentServiceTest {
     private PiisConsent piisConsent;
     @Mock
     private ConsentServiceEncrypted consentService;
+    @Mock
+    private LoggingContextService loggingContextService;
 
     @Test
     void createConsent_success() throws WrongChecksumException {
@@ -143,6 +146,10 @@ class Xs2aPiisConsentServiceTest {
     @Test
     void updateConsentStatusById_success() throws WrongChecksumException {
         //Given
+        CmsResponse<Boolean> cmsResponse = CmsResponse.<Boolean>builder()
+                                               .payload(true)
+                                               .build();
+        when(consentService.updateConsentStatusById(CONSENT_ID, ConsentStatus.PARTIALLY_AUTHORISED)).thenReturn(cmsResponse);
         //When
         xs2aPiisConsentService.updateConsentStatus(CONSENT_ID, ConsentStatus.PARTIALLY_AUTHORISED);
         //Then

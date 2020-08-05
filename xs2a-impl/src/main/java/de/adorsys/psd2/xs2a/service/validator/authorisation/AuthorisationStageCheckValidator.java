@@ -57,12 +57,10 @@ public class AuthorisationStageCheckValidator {
         switch (authType) {
             case AIS:
                 return ErrorType.AIS_400;
-            case PIS:
-                return ErrorType.PIS_400;
             case PIIS:
                 return ErrorType.PIIS_400;
             default:
-                throw new IllegalStateException("Unsupported authorisation service type: " + authType);
+                return ErrorType.PIS_400;
         }
     }
 }
