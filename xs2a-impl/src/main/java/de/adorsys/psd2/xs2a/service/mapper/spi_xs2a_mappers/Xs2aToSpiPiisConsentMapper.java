@@ -28,6 +28,7 @@ import de.adorsys.psd2.xs2a.spi.domain.psu.SpiPsuData;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
@@ -37,7 +38,7 @@ public abstract class Xs2aToSpiPiisConsentMapper {
     @Mapping(target = "cardExpiryDate", source = "consentData.cardExpiryDate")
     @Mapping(target = "cardInformation", source = "consentData.cardInformation")
     @Mapping(target = "cardNumber", source = "consentData.cardNumber")
-    @Mapping(target = "psuData", expression = "java(toSpiPsuData(piisConsent.getPsuIdData()))")
+    @Mapping(target = "psuData", expression = "java(toSpiPsuDataList(piisConsent.getPsuIdDataList()))")
     @Mapping(target = "registrationInformation", source = "consentData.registrationInformation")
     @Mapping(target = "requestDateTime", source = "creationTimestamp")
     @Mapping(target = "tppAuthorisationNumber", source = "consentTppInformation.tppInfo.authorisationNumber")
@@ -62,6 +63,8 @@ public abstract class Xs2aToSpiPiisConsentMapper {
             account.getMsisdn(),
             account.getCurrency());
     }
+
+    abstract List<SpiPsuData> toSpiPsuDataList(List<PsuIdData> psuIdData);
 
     SpiPsuData toSpiPsuData(PsuIdData psuIdData) {
         return Optional.ofNullable(psuIdData)

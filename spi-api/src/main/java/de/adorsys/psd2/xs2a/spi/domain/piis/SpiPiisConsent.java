@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -35,7 +36,7 @@ public class SpiPiisConsent {
     private OffsetDateTime requestDateTime;
     private LocalDate lastActionDate;
     private LocalDate expireDate;
-    private SpiPsuData psuData;
+    private List<SpiPsuData> psuData;
     private ConsentStatus consentStatus;
     private SpiAccountReference account;
     private OffsetDateTime creationTimestamp;
