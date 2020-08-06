@@ -28,8 +28,8 @@ import org.springframework.stereotype.Service;
 public class ConfirmationOfFundsConsentValidationService {
     private final DeleteConfirmationOfFundsConsentByIdValidator deleteConfirmationOfFundsConsentByIdValidator;
     private final CreatePiisConsentAuthorisationValidator createPiisConsentAuthorisationValidator;
-    private final GetConfirmationOfFundsConsentAuthorisationsValidator getConfirmationOfFundsConsentAuthorisationsValidator;
-    private final GetConfirmationOfFundsConsentAuthorisationScaStatusValidator getConfirmationOfFundsConsentAuthorisationScaStatusValidator;
+    private final GetConfirmationOfFundsConsentAuthorisationsValidator getCofConsentAuthorisationsValidator;
+    private final GetConfirmationOfFundsConsentAuthorisationScaStatusValidator getCofConsentScaStatusValidator;
 
     public ValidationResult validateConsentOnDelete(PiisConsent consent) {
         return deleteConfirmationOfFundsConsentByIdValidator.validate(new CommonConfirmationOfFundsConsentObject(consent));
@@ -40,10 +40,10 @@ public class ConfirmationOfFundsConsentValidationService {
     }
 
     public ValidationResult validateConsentAuthorisationOnGettingById(PiisConsent consent) {
-        return getConfirmationOfFundsConsentAuthorisationsValidator.validate(new CommonConfirmationOfFundsConsentObject(consent));
+        return getCofConsentAuthorisationsValidator.validate(new CommonConfirmationOfFundsConsentObject(consent));
     }
 
     public ValidationResult validateConsentAuthorisationScaStatus(PiisConsent consent, String authorisationId) {
-        return getConfirmationOfFundsConsentAuthorisationScaStatusValidator.validate(new GetConfirmationOfFundsConsentAuthorisationScaStatusPO(consent, authorisationId));
+        return getCofConsentScaStatusValidator.validate(new GetConfirmationOfFundsConsentAuthorisationScaStatusPO(consent, authorisationId));
     }
 }
