@@ -31,8 +31,7 @@ import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aCreatePiisConsentResponse;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.ConsentStatusResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aConfirmationOfFundsResponse;
+import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.domain.fund.CreatePiisConsentRequest;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationMethodDecider;
 import de.adorsys.psd2.xs2a.service.authorization.ais.PiisScaAuthorisationServiceResolver;
@@ -83,6 +82,7 @@ public class PiisConsentService {
     private final CreatePiisConsentValidator createPiisConsentValidator;
     private final AuthorisationMethodDecider authorisationMethodDecider;
     private final PiisScaAuthorisationServiceResolver piisScaAuthorisationServiceResolver;
+    private final ConsentAuthorisationService consentAuthorisationService;
     private final ConfirmationOfFundsConsentValidationService confirmationOfFundsConsentValidationService;
     private final PiisConsentAuthorisationService piisConsentAuthorisationService;
 
@@ -204,6 +204,26 @@ public class PiisConsentService {
 
         return responseBuilder
                    .body(new ConsentStatusResponse(consentStatus, spiPayload.getPsuMessage()))
+                   .build();
+    }
+
+    public ResponseObject<Xs2aAuthorisationSubResources> getConsentInitiationAuthorisations(String consentId) {
+        return piisConsentAuthorisationService.getConsentInitiationAuthorisations(consentId);
+    }
+
+    public ResponseObject<Xs2aScaStatusResponse> getConsentAuthorisationScaStatus(String consentId, String authorisationId) {
+        ResponseObject<ConfirmationOfFundsConsentScaStatus> consentScaStatusResponse = piisConsentAuthorisationService.getConsentAuthorisationScaStatus(consentId, authorisationId);
+        if (consentScaStatusResponse.hasError()) {
+            return ResponseObject.<Xs2aScaStatusResponse>builder()
+                       .fail(consentScaStatusResponse.getError())
+                       .build();
+        }
+
+        ConfirmationOfFundsConsentScaStatus consentScaStatus = consentScaStatusResponse.getBody();
+        Xs2aScaStatusResponse response = new Xs2aScaStatusResponse(consentScaStatus.getScaStatus(), null);
+
+        return ResponseObject.<Xs2aScaStatusResponse>builder()
+                   .body(response)
                    .build();
     }
 

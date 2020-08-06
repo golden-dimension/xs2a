@@ -34,7 +34,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmbeddedPiisAuthorizationServiceTest {
@@ -90,6 +90,20 @@ class EmbeddedPiisAuthorizationServiceTest {
     @Test
     void getScaApproachServiceType() {
         assertEquals(ScaApproach.EMBEDDED, authorizationService.getScaApproachServiceType());
+    }
+
+    @Test
+    void getAuthorisationScaStatus() {
+        //Given
+        ScaStatus scaStatus = ScaStatus.RECEIVED;
+        when(aisConsentService.getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID))
+            .thenReturn(Optional.of(scaStatus));
+        //When
+        Optional<ScaStatus> authorisationScaStatus = authorizationService.getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
+        //Then
+        verify(aisConsentService, atLeastOnce()).getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
+        assert(authorisationScaStatus).isPresent();
+        assertEquals(scaStatus, authorisationScaStatus.get());
     }
 
     private CreateAuthorisationResponse buildCreateAuthorisationResponse() {

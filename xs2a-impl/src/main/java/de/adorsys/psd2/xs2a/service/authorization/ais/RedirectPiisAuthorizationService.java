@@ -72,7 +72,7 @@ public class RedirectPiisAuthorizationService implements PiisAuthorizationServic
 
     @Override
     public Optional<ScaStatus> getAuthorisationScaStatus(String consentId, String authorisationId) {
-        return Optional.empty();
+        return aisConsentService.getAuthorisationScaStatus(consentId, authorisationId);
     }
 
     @Override
