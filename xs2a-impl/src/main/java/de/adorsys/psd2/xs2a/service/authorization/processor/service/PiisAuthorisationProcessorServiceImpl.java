@@ -163,7 +163,7 @@ public class PiisAuthorisationProcessorServiceImpl extends BaseAuthorisationProc
         PsuIdData psuData = extractPsuIdData(request, authorisationProcessorRequest.getAuthorisation());
 
         SpiResponse<SpiVerifyScaAuthorisationResponse> spiResponse = piisConsentSpi.verifyScaAuthorisation(spiContextDataProvider.provideWithPsuIdData(psuData),
-                                                                                                           xs2aToSpiPiisConsentMapper.mapToSpiScaConfirmation(request, psuData),
+                                                                                                           xs2aToSpiPiisConsentMapper.toSpiScaConfirmation(request, psuData),
                                                                                                            xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(piisConsent),
                                                                                                            aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId));
 
