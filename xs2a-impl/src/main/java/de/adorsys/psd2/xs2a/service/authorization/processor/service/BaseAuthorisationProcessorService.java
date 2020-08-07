@@ -56,10 +56,12 @@ abstract class BaseAuthorisationProcessorService implements AuthorisationProcess
                    .orElse(false);
     }
 
+    private String resolveBusinessObjectName(ServiceType serviceType) {
+        return serviceType == ServiceType.AIS || serviceType == ServiceType.PIIS ? "Consent-ID" : "Payment-ID";
+    }
+
     void writeErrorLog(AuthorisationProcessorRequest request, PsuIdData psuData, ErrorHolder errorHolder, String message) {
-        String businessObjectName = request.getServiceType() == ServiceType.AIS
-                                        ? "Consent-ID"
-                                        : "Payment-ID";
+        String businessObjectName = resolveBusinessObjectName(request.getServiceType());
         String messageToLog = String.format("%s [{}], Authorisation-ID [{}], PSU-ID [{}], SCA Approach [{}]. %s Error msg: [{}]", businessObjectName, message);
         log.info(messageToLog,
                  request.getUpdateAuthorisationRequest().getBusinessObjectId(),

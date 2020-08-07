@@ -168,16 +168,39 @@ public class PiisConsentAuthorisationService {
     private final Xs2aAuthorisationService authorisationService;
 
     public ResponseObject<AuthorisationResponse> createPiisAuthorisation(PsuIdData psuData, String consentId, String password) {
-        ResponseObject<CreateConsentAuthorizationResponse> createAisAuthorizationResponse = createConsentAuthorizationWithResponse(psuData, consentId);
+        ResponseObject<CreateConsentAuthorizationResponse> createPiisAuthorizationResponse = createConsentAuthorizationWithResponse(psuData, consentId);
 
-        if (createAisAuthorizationResponse.hasError()) {
+        if (createPiisAuthorizationResponse.hasError()) {
             return ResponseObject.<AuthorisationResponse>builder()
-                       .fail(createAisAuthorizationResponse.getError())
+                       .fail(createPiisAuthorizationResponse.getError())
+                       .build();
+        }
+
+        PsuIdData psuIdDataFromResponse = createPiisAuthorizationResponse.getBody().getPsuIdData();
+        if (psuIdDataFromResponse == null || psuIdDataFromResponse.isEmpty() || StringUtils.isBlank(password)) {
+            loggingContextService.storeScaStatus(createPiisAuthorizationResponse.getBody().getScaStatus());
+            return ResponseObject.<AuthorisationResponse>builder()
+                       .body(createPiisAuthorizationResponse.getBody())
+                       .build();
+        }
+
+        String authorisationId = createPiisAuthorizationResponse.getBody().getAuthorisationId();
+
+        UpdateConsentPsuDataReq updatePsuData = new UpdateConsentPsuDataReq();
+        updatePsuData.setPsuData(psuData);
+        updatePsuData.setConsentId(consentId);
+        updatePsuData.setAuthorizationId(authorisationId);
+        updatePsuData.setPassword(password);
+
+        ResponseObject<UpdateConsentPsuDataResponse> updatePsuDataResponse = updateConsentPsuData(updatePsuData);
+        if (updatePsuDataResponse.hasError()) {
+            return ResponseObject.<AuthorisationResponse>builder()
+                       .fail(updatePsuDataResponse.getError())
                        .build();
         }
 
         return ResponseObject.<AuthorisationResponse>builder()
-                   .body(createAisAuthorizationResponse.getBody())
+                   .body(updatePsuDataResponse.getBody())
                    .build();
     }
 
