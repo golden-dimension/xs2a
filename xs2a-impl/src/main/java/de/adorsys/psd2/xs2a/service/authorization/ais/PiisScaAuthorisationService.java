@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class PiisScaAuthorisationService {
-
     /**
      * Checks whether authorisation resource of this consent can be authenticated using only single factor
      *
@@ -31,6 +30,6 @@ public class PiisScaAuthorisationService {
      * @return whether single-factor authentication is enough for this consent
      */
     public boolean isOneFactorAuthorisation(PiisConsent piisConsent) {
-        return true;
+        return false;
     }
 }

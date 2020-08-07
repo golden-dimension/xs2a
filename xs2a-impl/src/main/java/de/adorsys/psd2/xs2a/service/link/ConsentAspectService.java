@@ -107,6 +107,20 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
                    .orElse(null);
     }
 
+    public ResponseObject<UpdateConsentPsuDataResponse> invokeUpdatePiisConsentPsuDataAspect(ResponseObject<UpdateConsentPsuDataResponse> result) {
+        if (!result.hasError()) {
+            UpdateConsentPsuDataResponse body = result.getBody();
+            body.setLinks(buildLinksForUpdatePiisConsentResponse(body));
+        }
+        return result;
+    }
+
+    private Links buildLinksForUpdatePiisConsentResponse(UpdateConsentPsuDataResponse response) {
+        return Optional.ofNullable(response.getScaStatus())
+                   .map(status -> new UpdatePiisConsentLinks(getHttpUrl(), scaApproachResolver, response))
+                   .orElse(null);
+    }
+
     public ResponseObject<Xs2aConfirmationOfFundsResponse> createPiisConsentWithResponse(ResponseObject<Xs2aConfirmationOfFundsResponse> result, boolean explicitPreferred) {
         if (!result.hasError()) {
 
