@@ -144,7 +144,7 @@ public class Xs2aPiisConsentService {
             });
     }
 
-    public Optional<CreateAuthorisationResponse> createAisConsentAuthorisation(String consentId, ScaStatus scaStatus, PsuIdData psuData) {
+    public Optional<CreateAuthorisationResponse> createConsentAuthorisation(String consentId, ScaStatus scaStatus, PsuIdData psuData) {
         String tppRedirectURI = requestProviderService.getTppRedirectURI();
         String tppNOKRedirectURI = requestProviderService.getTppNokRedirectURI();
         CreateAuthorisationRequest request = consentAuthorisationMapper.mapToAuthorisationRequest(scaStatus, psuData, scaApproachResolver.resolveScaApproach(), tppRedirectURI, tppNOKRedirectURI);

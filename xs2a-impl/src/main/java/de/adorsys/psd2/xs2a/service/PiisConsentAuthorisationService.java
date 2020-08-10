@@ -77,7 +77,7 @@ public class PiisConsentAuthorisationService {
     private final LoggingContextService loggingContextService;
 
     public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(UpdateConsentPsuDataReq updatePsuData) {
-        xs2aEventService.recordAisTppRequest(updatePsuData.getConsentId(), EventType.UPDATE_PIIS_CONSENT_PSU_DATA_REQUEST_RECEIVED, updatePsuData);
+        xs2aEventService.recordConsentTppRequest(updatePsuData.getConsentId(), EventType.UPDATE_PIIS_CONSENT_PSU_DATA_REQUEST_RECEIVED, updatePsuData);
 
         String consentId = updatePsuData.getConsentId();
 
