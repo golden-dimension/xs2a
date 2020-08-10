@@ -115,8 +115,6 @@ public class PiisConsentService {
         PiisConsent piisConsent = xs2aCreatePiisConsentResponse.getPiisConsent();
         String encryptedConsentId = xs2aCreatePiisConsentResponse.getConsentId();
 
-//        SpiResponse<SpiInitiatePiisConsentResponse> spiInitiatePiisConsentResponseSpiResponse = initiatePiisConsent(psuData, tppInfo, piisConsent, encryptedConsentId);
-
         SpiContextData contextData = spiContextDataProvider.provide(psuData, tppInfo);
         SpiPiisConsent spiPiisConsent = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(piisConsent);
         InitialSpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
@@ -307,15 +305,6 @@ public class PiisConsentService {
         SpiAspspConsentDataProvider aspspDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId);
         return piisConsentSpi.getConsentStatus(spiContextDataProvider.provide(), spiPiisConsent, aspspDataProvider);
     }
-//
-//    private SpiResponse<SpiInitiatePiisConsentResponse> initiatePiisConsent(PsuIdData psuData, TppInfo tppInfo, PiisConsent piisConsent, String encryptedConsentId) {
-//        SpiContextData contextData = spiContextDataProvider.provide(psuData, tppInfo);
-//        SpiPiisConsent spiPiisConsent = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(piisConsent);
-//        InitialSpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider();
-//        SpiResponse<SpiInitiatePiisConsentResponse> response = piisConsentSpi.initiatePiisConsent(contextData, spiPiisConsent, aspspConsentDataProvider);
-//        aspspConsentDataProvider.saveWith(encryptedConsentId);
-//        return response;
-//    }
 
     private void proceedImplicitCaseForCreateConsent(Xs2aConfirmationOfFundsResponse response, PsuIdData psuData, String consentId) {
         piisScaAuthorisationServiceResolver.getService().createConsentAuthorization(psuData, consentId)
