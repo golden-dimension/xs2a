@@ -103,7 +103,7 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
 
     private Links buildLinksForUpdateConsentResponse(UpdateConsentPsuDataResponse response) {
         return Optional.ofNullable(response.getScaStatus())
-                   .map(status -> new UpdateConsentLinks(getHttpUrl(), scaApproachResolver, response))
+                   .map(status -> new UpdateAisConsentLinksImpl(getHttpUrl(), scaApproachResolver, response))
                    .orElse(null);
     }
 
@@ -117,7 +117,7 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
 
     private Links buildLinksForUpdatePiisConsentResponse(UpdateConsentPsuDataResponse response) {
         return Optional.ofNullable(response.getScaStatus())
-                   .map(status -> new UpdatePiisConsentLinks(getHttpUrl(), scaApproachResolver, response))
+                   .map(status -> new UpdatePiisConsentLinksImpl(getHttpUrl(), scaApproachResolver, response))
                    .orElse(null);
     }
 
