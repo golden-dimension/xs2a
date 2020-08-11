@@ -3434,7 +3434,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{consent_id}}/authorisations/{{authorisation_id}}",
+													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations/{{authorisation_id}}",
 													"protocol": "{{protocol}}",
 													"host": [
 														"{{url_xs2a}}"
@@ -3443,7 +3443,7 @@
 														"v2",
 														"consents",
 														"confirmation-of-funds",
-														"{{consent_id}}",
+														"{{piis_consent_id}}",
 														"authorisations",
 														"{{authorisation_id}}"
 													]
@@ -3481,7 +3481,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{consent_id}}/authorisations/",
+													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
 													"protocol": "{{protocol}}",
 													"host": [
 														"{{url_xs2a}}"
@@ -3490,9 +3490,8 @@
 														"v2",
 														"consents",
 														"confirmation-of-funds",
-														"{{consent_id}}",
-														"authorisations",
-														""
+														"{{piis_consent_id}}",
+														"authorisations"
 													]
 												},
 												"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
@@ -7229,7 +7228,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{consent_id}}/authorisations/{{authorisation_id}}",
+													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations/{{piis_authorisation_id}}",
 													"protocol": "{{protocol}}",
 													"host": [
 														"{{url_xs2a}}"
@@ -7238,9 +7237,9 @@
 														"v2",
 														"consents",
 														"confirmation-of-funds",
-														"{{consent_id}}",
+														"{{piis_consent_id}}",
 														"authorisations",
-														"{{authorisation_id}}"
+														"{{piis_authorisation_id}}"
 													]
 												},
 												"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
@@ -7276,7 +7275,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{consent_id}}/authorisations/",
+													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
 													"protocol": "{{protocol}}",
 													"host": [
 														"{{url_xs2a}}"
@@ -7285,9 +7284,8 @@
 														"v2",
 														"consents",
 														"confirmation-of-funds",
-														"{{consent_id}}",
-														"authorisations",
-														""
+														"{{piis_consent_id}}",
+														"authorisations"
 													]
 												},
 												"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
@@ -7443,7 +7441,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"implicit\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": false,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
+															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": false,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
 															"options": {
 																"raw": {
 																	"language": "json"
@@ -7486,28 +7484,13 @@
 																	"});",
 																	"",
 																	"pm.test(\"PIIS consent links exists\", () => {",
-																	"   pm.expect(jsonData._links).to.have.property('updatePsuAuthentication');",
+																	"   pm.expect(jsonData._links).to.have.property('startAuthorisation');",
 																	"   pm.expect(jsonData._links).to.have.property('status');",
-																	"   pm.expect(jsonData._links).to.have.property('scaStatus');",
 																	"});",
 																	"",
 																	"pm.globals.set(\"piis_consent_id\", jsonData.consentId);",
 																	"",
-																	"pm.test(\"Update PSU authentication link exists\", () => {",
-																	"    pm.expect(jsonData).to.have.property('_links');",
-																	"    const _links = jsonData._links;",
-																	"    ",
-																	"    var updatePsuAuthentication = _links.updatePsuAuthentication.href;",
-																	"",
-																	"    if (updatePsuAuthentication === undefined) {",
-																	"       pm.expect().fail();",
-																	"    }",
-																	"});",
-																	"",
-																	"pm.globals.set(\"updatePsuAuthentication\", jsonData._links.updatePsuAuthentication);",
-																	"",
-																	"const authorisationId = jsonData._links.updatePsuAuthentication.href.split('/').pop();",
-																	"pm.globals.set(\"piis_authorisation_id\", authorisationId);"
+																	""
 																],
 																"type": "text/javascript"
 															}
@@ -7956,6 +7939,99 @@
 														}
 													},
 													"response": []
+												},
+												{
+													"name": "8. Read the SCA status of the consent authorisation",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "62562fa4-0acc-4e50-afc5-8ffd1cd1faa7",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations/{{piis_authorisation_id}}",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations",
+																"{{piis_authorisation_id}}"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
+													},
+													"response": []
+												},
+												{
+													"name": "9.  Get consent authorisation sub-resources request",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "e4da34c1-6be8-4093-ab38-5e7a6ce33449",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
+													},
+													"response": []
 												}
 											],
 											"protocolProfileBehavior": {},
@@ -8041,7 +8117,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"implicit\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
+															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
 															"options": {
 																"raw": {
 																	"language": "json"
@@ -8084,28 +8160,12 @@
 																	"});",
 																	"",
 																	"pm.test(\"PIIS consent links exists\", () => {",
-																	"   pm.expect(jsonData._links).to.have.property('updatePsuAuthentication');",
+																	"   pm.expect(jsonData._links).to.have.property('startAuthorisation');",
 																	"   pm.expect(jsonData._links).to.have.property('status');",
-																	"   pm.expect(jsonData._links).to.have.property('scaStatus');",
 																	"});",
 																	"",
 																	"pm.globals.set(\"piis_consent_id\", jsonData.consentId);",
-																	"",
-																	"pm.test(\"Update PSU authentication link exists\", () => {",
-																	"    pm.expect(jsonData).to.have.property('_links');",
-																	"    const _links = jsonData._links;",
-																	"    ",
-																	"    var updatePsuAuthentication = _links.updatePsuAuthentication.href;",
-																	"",
-																	"    if (updatePsuAuthentication === undefined) {",
-																	"       pm.expect().fail();",
-																	"    }",
-																	"});",
-																	"",
-																	"pm.globals.set(\"updatePsuAuthentication\", jsonData._links.updatePsuAuthentication);",
-																	"",
-																	"const authorisationId = jsonData._links.updatePsuAuthentication.href.split('/').pop();",
-																	"pm.globals.set(\"piis_authorisation_id\", authorisationId);"
+																	""
 																],
 																"type": "text/javascript"
 															}
@@ -8554,6 +8614,99 @@
 														}
 													},
 													"response": []
+												},
+												{
+													"name": "8. Read the SCA status of the consent authorisation",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "3b5f83cd-785a-45e7-a988-f0adca4c4669",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations/{{piis_authorisation_id}}",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations",
+																"{{piis_authorisation_id}}"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
+													},
+													"response": []
+												},
+												{
+													"name": "9.  Get consent authorisation sub-resources request",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "b28f8313-d750-4b32-b594-a8daaceaf4dd",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
+													},
+													"response": []
 												}
 											],
 											"protocolProfileBehavior": {},
@@ -8639,7 +8792,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"implicit\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": false,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
+															"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"BOOKED\",\n                \"PENDING\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n            \t\"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        }\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": false,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ]\n    }\n}",
 															"options": {
 																"raw": {
 																	"language": "json"
@@ -8682,28 +8835,12 @@
 																	"});",
 																	"",
 																	"pm.test(\"PIIS consent links exists\", () => {",
-																	"   pm.expect(jsonData._links).to.have.property('updatePsuAuthentication');",
+																	"   pm.expect(jsonData._links).to.have.property('startAuthorisation');",
 																	"   pm.expect(jsonData._links).to.have.property('status');",
-																	"   pm.expect(jsonData._links).to.have.property('scaStatus');",
 																	"});",
 																	"",
 																	"pm.globals.set(\"piis_consent_id\", jsonData.consentId);",
-																	"",
-																	"pm.test(\"Update PSU authentication link exists\", () => {",
-																	"    pm.expect(jsonData).to.have.property('_links');",
-																	"    const _links = jsonData._links;",
-																	"    ",
-																	"    var updatePsuAuthentication = _links.updatePsuAuthentication.href;",
-																	"",
-																	"    if (updatePsuAuthentication === undefined) {",
-																	"       pm.expect().fail();",
-																	"    }",
-																	"});",
-																	"",
-																	"pm.globals.set(\"updatePsuAuthentication\", jsonData._links.updatePsuAuthentication);",
-																	"",
-																	"const authorisationId = jsonData._links.updatePsuAuthentication.href.split('/').pop();",
-																	"pm.globals.set(\"piis_authorisation_id\", authorisationId);"
+																	""
 																],
 																"type": "text/javascript"
 															}
@@ -9043,6 +9180,99 @@
 																"status"
 															]
 														}
+													},
+													"response": []
+												},
+												{
+													"name": "8. Read the SCA status of the consent authorisation",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "e5bd096f-2fa2-49fa-b823-760a64509025",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations/{{piis_authorisation_id}}",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations",
+																"{{piis_authorisation_id}}"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
+													},
+													"response": []
+												},
+												{
+													"name": "9.  Get consent authorisation sub-resources request",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"id": "958f46f7-0e18-43e2-afe9-dbd959ee5862",
+																"exec": [
+																	"pm.test(\"Status code is 200\", () => {",
+																	"    pm.response.to.have.status(200);",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"key": "X-Request-ID",
+																"value": "{{x_request_id}}"
+															}
+														],
+														"url": {
+															"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
+															"protocol": "{{protocol}}",
+															"host": [
+																"{{url_xs2a}}"
+															],
+															"path": [
+																"v2",
+																"consents",
+																"confirmation-of-funds",
+																"{{piis_consent_id}}",
+																"authorisations"
+															]
+														},
+														"description": "This method returns the SCA status of a consent initiation's authorisation sub-resource. "
 													},
 													"response": []
 												}

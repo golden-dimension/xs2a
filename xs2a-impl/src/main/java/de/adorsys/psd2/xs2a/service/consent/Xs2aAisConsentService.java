@@ -32,12 +32,12 @@ import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aCreateAisConsentResponse;
 import de.adorsys.psd2.xs2a.domain.consent.CreateConsentReq;
 import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataReq;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
-import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aConsentAuthorisationMapper;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aConsentAuthorisationMapper;
 import de.adorsys.psd2.xs2a.service.profile.FrequencyPerDateCalculationService;
@@ -163,21 +163,6 @@ public class Xs2aAisConsentService {
     }
 
     /**
-     * Sends a POST request to CMS to store created consent authorisation
-     *
-     * @param consentId String representation of identifier of stored consent
-     * @param scaStatus Enum for status of the SCA method applied
-     * @param psuData   authorisation data about PSU
-     * @return CreateAisConsentAuthorizationResponse object with authorisation ID and scaStatus
-     */
-    public Optional<CreateAuthorisationResponse> createAisConsentAuthorisation(String consentId, ScaStatus scaStatus, PsuIdData psuData) {
-        String tppRedirectURI = requestProviderService.getTppRedirectURI();
-        String tppNOKRedirectURI = requestProviderService.getTppNokRedirectURI();
-        CreateAuthorisationRequest request = consentAuthorisationMapper.mapToAuthorisationRequest(scaStatus, psuData, scaApproachResolver.resolveScaApproach(), tppRedirectURI, tppNOKRedirectURI);
-        return authorisationService.createAuthorisation(request, consentId, AuthorisationType.CONSENT);
-    }
-
-    /**
      * Sends a PUT request to CMS to update created AIS consent authorisation
      *
      * @param updatePsuData Consent PSU data
@@ -250,5 +235,4 @@ public class Xs2aAisConsentService {
             log.info("updateMultilevelScaRequired cannot be executed, checksum verification failed");
         }
     }
-
 }

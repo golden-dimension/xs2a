@@ -38,7 +38,6 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class EmbeddedPiisAuthorizationService implements PiisAuthorizationService {
-    private final Xs2aPiisConsentService xs2aPiisConsentService;
     private final Xs2aConsentService consentService;
     private final Xs2aPiisConsentService piisConsentService;
     private final Xs2aAuthorisationService authorisationService;
