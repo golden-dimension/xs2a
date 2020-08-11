@@ -314,50 +314,6 @@ class Xs2aPiisConsentServiceTest {
         verify(authorisationService, never()).updateAuthorisation(any(), any());
     }
 
-
-    @Test
-    void createConsentAuthorization_success() {
-        // Given
-        when(scaApproachResolver.resolveScaApproach())
-            .thenReturn(SCA_APPROACH);
-        when(consentAuthorisationMapper.mapToAuthorisationRequest(SCA_STATUS, PSU_ID_DATA   , SCA_APPROACH, REDIRECT_URI, NOK_REDIRECT_URI))
-            .thenReturn(CONSENT_AUTHORISATION_REQUEST);
-        when(authorisationService.createAuthorisation(CONSENT_AUTHORISATION_REQUEST, CONSENT_ID, AuthorisationType.CONSENT))
-            .thenReturn(Optional.of(buildCreateConsentAuthorizationResponse()));
-        when(requestProviderService.getTppRedirectURI())
-            .thenReturn(REDIRECT_URI);
-        when(requestProviderService.getTppNokRedirectURI())
-            .thenReturn(NOK_REDIRECT_URI);
-
-        // When
-        Optional<CreateAuthorisationResponse> actualResponse = xs2aPiisConsentService.createConsentAuthorisation(CONSENT_ID, SCA_STATUS, PSU_ID_DATA);
-        CreateAuthorisationResponse expected = buildCreateConsentAuthorizationResponse();
-
-        // Then
-        assertThat(actualResponse.isPresent()).isTrue();
-        assertThat(actualResponse.get()).isEqualTo(expected);
-    }
-
-    @Test
-    void createConsentAuthorization_false() {
-        // Given
-        when(requestProviderService.getTppRedirectURI()).thenReturn("ok.uri");
-        when(requestProviderService.getTppNokRedirectURI()).thenReturn("nok.uri");
-
-        when(scaApproachResolver.resolveScaApproach()).thenReturn(SCA_APPROACH);
-        CreateAuthorisationRequest request = new CreateAuthorisationRequest();
-        when(consentAuthorisationMapper.mapToAuthorisationRequest(SCA_STATUS, PSU_ID_DATA, SCA_APPROACH, "ok.uri", "nok.uri"))
-            .thenReturn(request);
-        when(authorisationService.createAuthorisation(request, CONSENT_ID, AuthorisationType.CONSENT))
-            .thenReturn(Optional.empty());
-
-        // When
-        Optional<CreateAuthorisationResponse> actualResponse = xs2aPiisConsentService.createConsentAuthorisation(CONSENT_ID, SCA_STATUS, PSU_ID_DATA);
-
-        // Then
-        assertThat(actualResponse.isPresent()).isFalse();
-    }
-
     private TppInfo buildTppInfo() {
         TppInfo tppInfo = new TppInfo();
         tppInfo.setAuthorisationNumber("Test TppId");

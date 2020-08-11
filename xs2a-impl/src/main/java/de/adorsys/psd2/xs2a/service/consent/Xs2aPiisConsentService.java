@@ -20,8 +20,6 @@ import de.adorsys.psd2.consent.api.CmsError;
 import de.adorsys.psd2.consent.api.CmsResponse;
 import de.adorsys.psd2.consent.api.WrongChecksumException;
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.authorisation.CreateAuthorisationRequest;
-import de.adorsys.psd2.consent.api.authorisation.CreateAuthorisationResponse;
 import de.adorsys.psd2.consent.api.authorisation.UpdateAuthorisationRequest;
 import de.adorsys.psd2.consent.api.consent.CmsCreateConsentResponse;
 import de.adorsys.psd2.consent.api.service.AisConsentServiceEncrypted;
@@ -29,16 +27,12 @@ import de.adorsys.psd2.consent.api.service.ConsentServiceEncrypted;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.logger.context.LoggingContextService;
-import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aCreatePiisConsentResponse;
 import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataReq;
 import de.adorsys.psd2.xs2a.domain.fund.CreatePiisConsentRequest;
-import de.adorsys.psd2.xs2a.service.RequestProviderService;
-import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aConsentAuthorisationMapper;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aPiisConsentMapper;
@@ -58,8 +52,6 @@ public class Xs2aPiisConsentService {
     private final AisConsentServiceEncrypted aisConsentService;
     private final Xs2aAuthorisationService authorisationService;
     private final Xs2aConsentAuthorisationMapper consentAuthorisationMapper;
-    private final RequestProviderService requestProviderService;
-    private final ScaApproachResolver scaApproachResolver;
     private final LoggingContextService loggingContextService;
 
     public Optional<Xs2aCreatePiisConsentResponse> createConsent(CreatePiisConsentRequest request, PsuIdData psuData, TppInfo tppInfo) {
@@ -142,13 +134,6 @@ public class Xs2aPiisConsentService {
 
                 authorisationService.updateAuthorisation(request, req.getAuthorizationId());
             });
-    }
-
-    public Optional<CreateAuthorisationResponse> createConsentAuthorisation(String consentId, ScaStatus scaStatus, PsuIdData psuData) {
-        String tppRedirectURI = requestProviderService.getTppRedirectURI();
-        String tppNOKRedirectURI = requestProviderService.getTppNokRedirectURI();
-        CreateAuthorisationRequest request = consentAuthorisationMapper.mapToAuthorisationRequest(scaStatus, psuData, scaApproachResolver.resolveScaApproach(), tppRedirectURI, tppNOKRedirectURI);
-        return authorisationService.createAuthorisation(request, consentId, AuthorisationType.CONSENT);
     }
 
     /**

@@ -53,9 +53,6 @@ public abstract class Xs2aPiisConsentMapper {
     @Mapping(target = "consentTppInformation", source = "tppInformation")
     public abstract PiisConsent mapToPiisConsent(CmsConsent cmsConsent);
 
-    @Mapping(target = "id", source = "authorisationId")
-    abstract ConsentAuthorization authorisationToAccountConsentAuthorization(Authorisation authorisation);
-
     public UpdateConsentPsuDataReq mapToUpdateConsentPsuDataReq(UpdateAuthorisationRequest request,
                                                                 AuthorisationProcessorResponse response) {
         return Optional.ofNullable(response)

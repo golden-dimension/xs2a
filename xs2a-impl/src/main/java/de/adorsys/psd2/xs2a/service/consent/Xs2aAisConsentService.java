@@ -32,7 +32,6 @@ import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aCreateAisConsentResponse;
 import de.adorsys.psd2.xs2a.domain.consent.CreateConsentReq;
@@ -58,7 +57,6 @@ public class Xs2aAisConsentService {
     private final Xs2aAuthorisationService authorisationService;
     private final Xs2aAisConsentMapper aisConsentMapper;
     private final Xs2aConsentAuthorisationMapper consentAuthorisationMapper;
-    private final Xs2aConsentAuthorisationMapper aisConsentAuthorisationMapper;
     private final FrequencyPerDateCalculationService frequencyPerDateCalculationService;
     private final LoggingContextService loggingContextService;
 
@@ -209,17 +207,6 @@ public class Xs2aAisConsentService {
      */
     public Optional<List<String>> getAuthorisationSubResources(String consentId) {
         return authorisationService.getAuthorisationSubResources(consentId, AuthorisationType.CONSENT);
-    }
-
-    /**
-     * Requests CMS to retrieve SCA status of AIS consent authorisation
-     *
-     * @param consentId       String representation of consent identifier
-     * @param authorisationId String representation of authorisation identifier
-     * @return SCA status of the authorisation
-     */
-    public Optional<ScaStatus> getAuthorisationScaStatus(String consentId, String authorisationId) {
-        return authorisationService.getAuthorisationScaStatus(authorisationId, consentId, AuthorisationType.CONSENT);
     }
 
     /**
