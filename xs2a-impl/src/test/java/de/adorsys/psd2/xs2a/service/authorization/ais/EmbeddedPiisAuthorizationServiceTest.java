@@ -22,7 +22,7 @@ import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.consent.CreateConsentAuthorizationResponse;
-import de.adorsys.psd2.xs2a.service.consent.Xs2aAisConsentService;
+import de.adorsys.psd2.xs2a.service.consent.Xs2aConsentService;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aPiisConsentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +51,7 @@ class EmbeddedPiisAuthorizationServiceTest {
     @Mock
     private Xs2aPiisConsentService xs2aPiisConsentService;
     @Mock
-    private Xs2aAisConsentService aisConsentService;
+    private Xs2aConsentService consentService;
     @Mock
     private PiisConsent consent;
 
@@ -71,7 +71,7 @@ class EmbeddedPiisAuthorizationServiceTest {
     @Test
     void createConsentAuthorization_Success() {
         //Given
-        when(aisConsentService.createAisConsentAuthorisation(CONSENT_ID, STARTED_XS2A_SCA_STATUS, PSU_DATA))
+        when(consentService.createConsentAuthorisation(CONSENT_ID, STARTED_XS2A_SCA_STATUS, PSU_DATA))
             .thenReturn(Optional.of(buildCreateAuthorisationResponse()));
         when(xs2aPiisConsentService.getPiisConsentById(CONSENT_ID)).thenReturn(Optional.of(consent));
         //When
@@ -96,12 +96,12 @@ class EmbeddedPiisAuthorizationServiceTest {
     void getAuthorisationScaStatus() {
         //Given
         ScaStatus scaStatus = ScaStatus.RECEIVED;
-        when(aisConsentService.getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID))
+        when(consentService.getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID))
             .thenReturn(Optional.of(scaStatus));
         //When
         Optional<ScaStatus> authorisationScaStatus = authorizationService.getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
         //Then
-        verify(aisConsentService, atLeastOnce()).getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
+        verify(consentService, atLeastOnce()).getAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
         assert(authorisationScaStatus).isPresent();
         assertEquals(scaStatus, authorisationScaStatus.get());
     }

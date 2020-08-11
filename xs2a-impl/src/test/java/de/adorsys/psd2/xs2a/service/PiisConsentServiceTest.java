@@ -246,7 +246,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<PiisConsent> piisConsentResponseObject = piisConsentService.getPiisConsentById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).updateConsentStatus(CONSENT_ID, spiConsentStatusResponse.getConsentStatus());
         assertFalse(piisConsentResponseObject.hasError());
         PiisConsent piisConsent = piisConsentResponseObject.getBody();
@@ -261,7 +261,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<PiisConsent> piisConsentResponseObject = piisConsentService.getPiisConsentById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
         assertTrue(piisConsentResponseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, piisConsentResponseObject.getError());
     }
@@ -285,7 +285,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<PiisConsent> piisConsentResponseObject = piisConsentService.getPiisConsentById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_REQUEST_RECEIVED);
         assertTrue(piisConsentResponseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, piisConsentResponseObject.getError());
     }
@@ -307,7 +307,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<ConsentStatusResponse> piisConsentResponseObject = piisConsentService.getPiisConsentStatusById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).updateConsentStatus(CONSENT_ID, spiConsentStatusResponse.getConsentStatus());
         assertFalse(piisConsentResponseObject.hasError());
     }
@@ -320,7 +320,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<ConsentStatusResponse> piisConsentResponseObject = piisConsentService.getPiisConsentStatusById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
         assertTrue(piisConsentResponseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, piisConsentResponseObject.getError());
     }
@@ -344,7 +344,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<ConsentStatusResponse> piisConsentResponseObject = piisConsentService.getPiisConsentStatusById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED);
         assertTrue(piisConsentResponseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, piisConsentResponseObject.getError());
     }
@@ -357,7 +357,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<Void> responseObject = piisConsentService.deleteAccountConsentsById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
         assertTrue(responseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, responseObject.getError());
     }
@@ -372,7 +372,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<Void> responseObject = piisConsentService.deleteAccountConsentsById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
         assertTrue(responseObject.hasError());
         assertEquals(INCORRECT_CERTIFICATE_ERROR, responseObject.getError());
     }
@@ -400,7 +400,7 @@ class PiisConsentServiceTest {
         //When
         ResponseObject<Void> responseObject = piisConsentService.deleteAccountConsentsById(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
         assertTrue(responseObject.hasError());
         assertEquals(CONSENT_UNKNOWN_ERROR, responseObject.getError());
     }
@@ -429,7 +429,7 @@ class PiisConsentServiceTest {
         ResponseObject<Void> responseObject = piisConsentService.deleteAccountConsentsById(CONSENT_ID);
         //Then
         assertFalse(responseObject.hasError());
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).updateConsentStatus(CONSENT_ID, ConsentStatus.REJECTED);
     }
 
@@ -457,7 +457,7 @@ class PiisConsentServiceTest {
         ResponseObject<Void> responseObject = piisConsentService.deleteAccountConsentsById(CONSENT_ID);
         //Then
         assertFalse(responseObject.hasError());
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.DELETE_PIIS_CONSENT_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).updateConsentStatus(CONSENT_ID, ConsentStatus.TERMINATED_BY_TPP);
     }
 

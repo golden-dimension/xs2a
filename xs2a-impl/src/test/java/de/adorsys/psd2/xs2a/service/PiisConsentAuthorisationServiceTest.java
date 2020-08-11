@@ -171,7 +171,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<Xs2aAuthorisationSubResources> xs2aAuthorisationSubResourcesResponseObject = service.getConsentInitiationAuthorisations(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         assertThat(xs2aAuthorisationSubResourcesResponseObject.getError()).isEqualTo(CONSENT_UNKNOWN_403_ERROR);
     }
@@ -185,7 +185,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<Xs2aAuthorisationSubResources> xs2aAuthorisationSubResourcesResponseObject = service.getConsentInitiationAuthorisations(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         verify(confirmationOfFundsConsentValidationService, atLeastOnce()).validateConsentAuthorisationOnGettingById(piisConsent);
         assertValidationError(xs2aAuthorisationSubResourcesResponseObject, GET_AUTHORISATIONS_MESSAGE_ERROR);
@@ -202,7 +202,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<Xs2aAuthorisationSubResources> xs2aAuthorisationSubResourcesResponseObject = service.getConsentInitiationAuthorisations(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         verify(confirmationOfFundsConsentValidationService, atLeastOnce()).validateConsentAuthorisationOnGettingById(piisConsent);
         verify(xs2aAuthorisationService, atLeastOnce()).getAuthorisationSubResources(CONSENT_ID, AuthorisationType.CONSENT);
@@ -221,7 +221,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<Xs2aAuthorisationSubResources> xs2aAuthorisationSubResourcesResponseObject = service.getConsentInitiationAuthorisations(CONSENT_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         verify(confirmationOfFundsConsentValidationService, atLeastOnce()).validateConsentAuthorisationOnGettingById(piisConsent);
         verify(xs2aAuthorisationService, atLeastOnce()).getAuthorisationSubResources(CONSENT_ID, AuthorisationType.CONSENT);
@@ -235,7 +235,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<ConfirmationOfFundsConsentScaStatus> confirmationOfFundsConsentScaStatusResponseObject = service.getConsentAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         assertThat(confirmationOfFundsConsentScaStatusResponseObject.getError()).isEqualTo(CONSENT_UNKNOWN_403_ERROR);
     }
@@ -249,7 +249,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<ConfirmationOfFundsConsentScaStatus> confirmationOfFundsConsentScaStatusResponseObject = service.getConsentAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         verify(confirmationOfFundsConsentValidationService, atLeastOnce()).validateConsentAuthorisationScaStatus(piisConsent, AUTHORISATION_ID);
         assertValidationError(confirmationOfFundsConsentScaStatusResponseObject, GET_AUTHORISATIONS_MESSAGE_ERROR);
@@ -269,7 +269,7 @@ public class PiisConsentAuthorisationServiceTest {
         //When
         ResponseObject<ConfirmationOfFundsConsentScaStatus> confirmationOfFundsConsentScaStatusResponseObject = service.getConsentAuthorisationScaStatus(CONSENT_ID, AUTHORISATION_ID);
         //Then
-        verify(xs2aEventService, atLeastOnce()).recordAisTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
+        verify(xs2aEventService, atLeastOnce()).recordConsentTppRequest(CONSENT_ID, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
         verify(xs2aPiisConsentService, atLeastOnce()).getPiisConsentById(CONSENT_ID);
         verify(confirmationOfFundsConsentValidationService, atLeastOnce()).validateConsentAuthorisationScaStatus(piisConsent, AUTHORISATION_ID);
         assertFalse(confirmationOfFundsConsentScaStatusResponseObject.hasError());

@@ -73,7 +73,7 @@ public class PiisConsentAuthorisationService {
     }
 
     private ResponseObject<CreateConsentAuthorizationResponse> createConsentAuthorizationWithResponse(PsuIdData psuDataFromRequest, String consentId) {
-        xs2aEventService.recordAisTppRequest(consentId, EventType.START_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        xs2aEventService.recordConsentTppRequest(consentId, EventType.START_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
 
         Optional<PiisConsent> piisConsentOptional = xs2aPiisConsentService.getPiisConsentById(consentId);
 
@@ -107,7 +107,7 @@ public class PiisConsentAuthorisationService {
     }
 
     public ResponseObject<Xs2aAuthorisationSubResources> getConsentInitiationAuthorisations(String consentId) {
-        xs2aEventService.recordAisTppRequest(consentId, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
+        xs2aEventService.recordConsentTppRequest(consentId, EventType.GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED);
 
         Optional<PiisConsent> piisConsentOptional = xs2aPiisConsentService.getPiisConsentById(consentId);
         if (piisConsentOptional.isEmpty()) {
@@ -140,7 +140,7 @@ public class PiisConsentAuthorisationService {
     }
 
     public ResponseObject<ConfirmationOfFundsConsentScaStatus> getConsentAuthorisationScaStatus(String consentId, String authorisationId) {
-        xs2aEventService.recordAisTppRequest(consentId, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
+        xs2aEventService.recordConsentTppRequest(consentId, EventType.GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED);
 
         Optional<PiisConsent> piisConsentOptional = xs2aPiisConsentService.getPiisConsentById(consentId);
         if (piisConsentOptional.isEmpty()) {

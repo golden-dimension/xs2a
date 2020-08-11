@@ -22,21 +22,16 @@ import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.RESOURCE_UNKNOWN_403;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(MockitoExtension.class)
 class ConfirmationOfFundsAuthorisationValidatorTest {
     private static final String AUTHORISATION_ID = "a8fc1f02-3639-4528-bd19-3eacf1c67038";
     private static final String WRONG_AUTHORISATION_ID = "234ef79c-d785-41ec-9b14-2ea3a7ae2ce0";
 
-    @InjectMocks
-    private ConfirmationOfFundsAuthorisationValidator validator;
+    private ConfirmationOfFundsAuthorisationValidator validator = new ConfirmationOfFundsAuthorisationValidator();
 
     private JsonReader jsonReader = new JsonReader();
     private PiisConsent piisConsent;
