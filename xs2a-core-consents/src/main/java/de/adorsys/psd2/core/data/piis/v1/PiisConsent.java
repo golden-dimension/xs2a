@@ -19,7 +19,6 @@ package de.adorsys.psd2.core.data.piis.v1;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.core.data.piis.PiisConsentData;
-import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
@@ -27,7 +26,6 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 public class PiisConsent extends Consent<PiisConsentData> {
 
@@ -61,12 +59,6 @@ public class PiisConsent extends Consent<PiisConsentData> {
         }
 
         return null;
-    }
-
-    public Optional<ConsentAuthorization> findAuthorisationInConsent(String authorisationId) {
-        return getAuthorisations().stream()
-                   .filter(auth -> auth.getId().equals(authorisationId))
-                   .findFirst();
     }
 
     @JsonIgnore

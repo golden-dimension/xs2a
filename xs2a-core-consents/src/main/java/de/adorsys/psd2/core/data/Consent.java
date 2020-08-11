@@ -90,5 +90,4 @@ public abstract class Consent<T> {
                    .filter(auth -> auth.getId().equals(authorisationId))
                    .findFirst();
     }
-
 }

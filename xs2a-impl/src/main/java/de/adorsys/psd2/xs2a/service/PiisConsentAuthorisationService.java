@@ -20,23 +20,18 @@ import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
-import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.ConfirmationOfFundsConsentScaStatus;
-import de.adorsys.psd2.xs2a.domain.consent.CreateConsentAuthorizationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataReq;
-import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataResponse;
+import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.PiisAuthorisationConfirmationService;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aAuthorisationSubResources;
-import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.PiisAuthorizationService;
 import de.adorsys.psd2.xs2a.service.authorization.ais.PiisScaAuthorisationServiceResolver;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.PiisAuthorisationProcessorRequest;
@@ -56,9 +51,6 @@ import java.util.Optional;
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
 import static de.adorsys.psd2.xs2a.core.error.ErrorType.*;
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
-import static de.adorsys.psd2.xs2a.core.error.ErrorType.PIIS_403;
-import static de.adorsys.psd2.xs2a.core.error.ErrorType.PIIS_404;
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 @Slf4j
 @Service
@@ -75,6 +67,8 @@ public class PiisConsentAuthorisationService {
     private final PiisAuthorisationConfirmationService piisAuthorisationConfirmationService;
     private final AuthorisationChainResponsibilityService authorisationChainResponsibilityService;
     private final LoggingContextService loggingContextService;
+    private final PsuIdDataAuthorisationService psuIdDataAuthorisationService;
+    private final Xs2aAuthorisationService authorisationService;
 
     public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(UpdateConsentPsuDataReq updatePsuData) {
         xs2aEventService.recordConsentTppRequest(updatePsuData.getConsentId(), EventType.UPDATE_PIIS_CONSENT_PSU_DATA_REQUEST_RECEIVED, updatePsuData);
@@ -164,8 +158,6 @@ public class PiisConsentAuthorisationService {
                                   .fail(PIIS_400, of(FORMAT_ERROR))
                                   ::build);
     }
-    private final PsuIdDataAuthorisationService psuIdDataAuthorisationService;
-    private final Xs2aAuthorisationService authorisationService;
 
     public ResponseObject<AuthorisationResponse> createPiisAuthorisation(PsuIdData psuData, String consentId, String password) {
         ResponseObject<CreateConsentAuthorizationResponse> createPiisAuthorizationResponse = createConsentAuthorizationWithResponse(psuData, consentId);
