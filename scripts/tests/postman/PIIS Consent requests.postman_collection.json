@@ -4506,7 +4506,7 @@
 													"response": []
 												},
 												{
-													"name": "15. Update a status of PIIS consent PATC",
+													"name": "15. Update a status of PIIS consent VALID",
 													"event": [
 														{
 															"listen": "test",
@@ -4575,13 +4575,13 @@
 																	"const jsonData = pm.response.json();",
 																	"",
 																	"const consentStatus = jsonData.consentStatus;",
-																	"pm.test(\"ConsentStatus is RECEIVED\", () => {",
-																	"    pm.expect(consentStatus).to.eql(\"RECEIVED\");",
+																	"pm.test(\"ConsentStatus is VALID\", () => {",
+																	"    pm.expect(consentStatus).to.eql(\"VALID\");",
 																	"});",
 																	"",
 																	"const authorisations = jsonData.authorisations;",
 																	"pm.test(\"Check if all authorisation is finilised\", () => {",
-																	"    //pm.expect(consentStatus).to.eql(\"RECEIVED\");",
+																	"    //pm.expect(consentStatus).to.eql(\"VALID\");",
 																	"",
 																	"    authorisations.forEach((auth) => {",
 																	"        pm.expect(auth.scaStatus).to.eql(\"finalised\");",
@@ -6377,7 +6377,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n\t\"psuData\": {\n\t\t\"password\": \"{{psu_id_password}}\"\n\t}\n}"
+													"raw": ""
 												},
 												"url": {
 													"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
