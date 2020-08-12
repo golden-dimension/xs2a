@@ -41,7 +41,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PiisConsentSpiImpl implements PiisConsentSpi {
+public class PiisConsentSpiMockImpl implements PiisConsentSpi {
     @Override
     public SpiResponse<SpiPsuAuthorisationResponse> authorisePsu(@NotNull SpiContextData contextData, @NotNull String authorisationId, @NotNull SpiPsuData psuLoginData, String password, SpiPiisConsent businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("PiisConsentSpiImpl#authorisePsu: contextData {}, psuLoginData {}, businessObject-id {}", contextData, psuLoginData, businessObject.getId());
