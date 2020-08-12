@@ -21,3 +21,4 @@ is implemented and gives response with sca status of piis consent authorisation.
 From now on, Funds Confirmation Consent in Embedded approach is supported by xs2a.
 
 Also type of field `account` in `SpiPiisConsent` was changed from `AccountReference` to `SpiAccountReference`.
+And type of `psuData` field was changed from `SpiPsuData` to `List<SpiPsuData> psuData`.

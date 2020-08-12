@@ -3406,7 +3406,7 @@
 											"response": []
 										},
 										{
-											"name": "7. Read the SCA status of the consent authorisation",
+											"name": "6. Read the SCA status of the consent authorisation",
 											"event": [
 												{
 													"listen": "test",
@@ -3453,7 +3453,7 @@
 											"response": []
 										},
 										{
-											"name": "8.  Get consent authorisation sub-resources request",
+											"name": "7.  Get consent authorisation sub-resources request",
 											"event": [
 												{
 													"listen": "test",
@@ -3499,7 +3499,7 @@
 											"response": []
 										},
 										{
-											"name": "9. Get consent response object by redirect id",
+											"name": "8. Get consent response object by redirect id",
 											"event": [
 												{
 													"listen": "test",
@@ -3564,6 +3564,154 @@
 														"consent",
 														"redirect",
 														"{{redirect_id}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "9. Update PSU Data in PIIS consent",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "d7a274db-fe3a-479a-a043-0c84c22f9562",
+														"exec": [
+															"pm.test(\"Status code is 200\", () => {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"type": "text",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"psuId\": \"{{psu_id_multilevel_1}}\",\n  \"psuIdType\": \"psuIdType\",\n  \"psuCorporateId\": \"psuCorporateId\",\n  \"psuCorporateIdType\": \"psuCorporateIdType\",\n  \"psuIpAddress\": \"1.1.1.1\"\n}"
+												},
+												"url": {
+													"raw": "{{protocol}}://{{url_cms}}/psu-api/v2/piis/consent/{{internal_consent_id}}/authorisation/{{authorisation_id}}/psu-data",
+													"protocol": "{{protocol}}",
+													"host": [
+														"{{url_cms}}"
+													],
+													"path": [
+														"psu-api",
+														"v2",
+														"piis",
+														"consent",
+														"{{internal_consent_id}}",
+														"authorisation",
+														"{{authorisation_id}}",
+														"psu-data"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "10. Update a status of PIIS consent authorisation",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "10d4803a-8d12-4f80-8943-8cf1d295bd47",
+														"exec": [
+															"pm.test(\"Status code is 200\", () => {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "PSU-ID",
+														"value": "{{psu_id_multilevel_1}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{protocol}}://{{url_cms}}/psu-api/v2/piis/consent/{{internal_consent_id}}/authorisation/{{authorisation_id}}/status/FINALISED",
+													"protocol": "{{protocol}}",
+													"host": [
+														"{{url_cms}}"
+													],
+													"path": [
+														"psu-api",
+														"v2",
+														"piis",
+														"consent",
+														"{{internal_consent_id}}",
+														"authorisation",
+														"{{authorisation_id}}",
+														"status",
+														"FINALISED"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "11. Update a status of PIIS consent VALID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "db921059-8152-4e63-95a4-70658c175082",
+														"exec": [
+															"pm.test(\"Status code is 200\", () => {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "PSU-ID",
+														"value": "{{psu_id_multilevel_1}}",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": {
+													"raw": "{{protocol}}://{{url_cms}}/psu-api/v2/piis/consent/{{internal_consent_id}}/status/VALID",
+													"protocol": "{{protocol}}",
+													"host": [
+														"{{url_cms}}"
+													],
+													"path": [
+														"psu-api",
+														"v2",
+														"piis",
+														"consent",
+														"{{internal_consent_id}}",
+														"status",
+														"VALID"
 													]
 												}
 											},
@@ -4565,119 +4713,6 @@
 														{
 															"listen": "test",
 															"script": {
-																"id": "f1cc96cc-8cb8-4e4b-83d9-988420f94581",
-																"exec": [
-																	"pm.test(\"Status code is 200\", () => {",
-																	"    pm.response.to.have.status(200);",
-																	"});",
-																	"",
-																	"const jsonData = pm.response.json();",
-																	"",
-																	"const consentStatus = jsonData.consentStatus;",
-																	"pm.test(\"ConsentStatus is VALID\", () => {",
-																	"    pm.expect(consentStatus).to.eql(\"VALID\");",
-																	"});",
-																	"",
-																	"const authorisations = jsonData.authorisations;",
-																	"pm.test(\"Check if all authorisation is finilised\", () => {",
-																	"    //pm.expect(consentStatus).to.eql(\"VALID\");",
-																	"",
-																	"    authorisations.forEach((auth) => {",
-																	"        pm.expect(auth.scaStatus).to.eql(\"finalised\");",
-																	"    });",
-																	"",
-																	"});",
-																	"",
-																	""
-																],
-																"type": "text/javascript"
-															}
-														},
-														{
-															"listen": "prerequest",
-															"script": {
-																"id": "5a8ecae7-81e8-43b5-8b81-f777a960abb9",
-																"exec": [
-																	""
-																],
-																"type": "text/javascript"
-															}
-														}
-													],
-													"request": {
-														"method": "GET",
-														"header": [],
-														"url": {
-															"raw": "{{protocol}}://{{url_cms}}/psu-api/v2/piis/consent/{{internal_consent_id}}",
-															"protocol": "{{protocol}}",
-															"host": [
-																"{{url_cms}}"
-															],
-															"path": [
-																"psu-api",
-																"v2",
-																"piis",
-																"consent",
-																"{{internal_consent_id}}"
-															]
-														}
-													},
-													"response": []
-												},
-												{
-													"name": "17. Confirm PIIS consent",
-													"event": [
-														{
-															"listen": "test",
-															"script": {
-																"id": "63049095-0e8d-48ba-8e21-766cc2599c04",
-																"exec": [
-																	"pm.test(\"Status code is 200\", () => {",
-																	"    pm.response.to.have.status(200);",
-																	"});"
-																],
-																"type": "text/javascript"
-															}
-														}
-													],
-													"request": {
-														"method": "PUT",
-														"header": [
-															{
-																"key": "PSU-ID",
-																"value": "{{psu_id_none}}",
-																"type": "text"
-															}
-														],
-														"body": {
-															"mode": "raw",
-															"raw": ""
-														},
-														"url": {
-															"raw": "{{protocol}}://{{url_cms}}/psu-api/v2/piis/consent/{{internal_consent_id}}/status/VALID",
-															"protocol": "{{protocol}}",
-															"host": [
-																"{{url_cms}}"
-															],
-															"path": [
-																"psu-api",
-																"v2",
-																"piis",
-																"consent",
-																"{{internal_consent_id}}",
-																"status",
-																"VALID"
-															]
-														}
-													},
-													"response": []
-												},
-												{
-													"name": "18.  Get Confirmation of Funds Consent by its ID",
-													"event": [
-														{
-															"listen": "test",
-															"script": {
 																"id": "f9544bd4-7612-41ff-b5a9-2bcbf31d8943",
 																"exec": [
 																	"pm.test(\"Status code is 200\", () => {",
@@ -4738,7 +4773,7 @@
 													"response": []
 												},
 												{
-													"name": "19. Get PIIS consent in XS2A",
+													"name": "17. Get PIIS consent in XS2A",
 													"event": [
 														{
 															"listen": "test",

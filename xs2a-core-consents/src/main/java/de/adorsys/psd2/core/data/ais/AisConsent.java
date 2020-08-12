@@ -118,11 +118,6 @@ public class AisConsent extends Consent<AisConsentData> {
                    .allMatch(acc -> StringUtils.isAllBlank(acc.getMaskedPan(), acc.getPan()));
     }
 
-    @JsonIgnore
-    public boolean isExpired() {
-        return getConsentStatus() == ConsentStatus.EXPIRED;
-    }
-
     public Map<String, Integer> getUsageCounterMap() {
         return getUsages();
     }

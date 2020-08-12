@@ -18,27 +18,24 @@ package de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers;
 
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
-import de.adorsys.psd2.xs2a.core.psu.AdditionalPsuIdData;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountReference;
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiScaConfirmation;
 import de.adorsys.psd2.xs2a.spi.domain.piis.SpiPiisConsent;
-import de.adorsys.psd2.xs2a.spi.domain.psu.SpiPsuData;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
 import java.util.Optional;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {Xs2aToSpiPsuDataMapper.class})
 public abstract class Xs2aToSpiPiisConsentMapper {
 
     @Mapping(target = "account", expression = "java(toSpiAccountReference(piisConsent.getAccountReference()))")
     @Mapping(target = "cardExpiryDate", source = "consentData.cardExpiryDate")
     @Mapping(target = "cardInformation", source = "consentData.cardInformation")
     @Mapping(target = "cardNumber", source = "consentData.cardNumber")
-    @Mapping(target = "psuData", expression = "java(toSpiPsuDataList(piisConsent.getPsuIdDataList()))")
+    @Mapping(target = "psuData", source = "psuIdDataList")
     @Mapping(target = "registrationInformation", source = "consentData.registrationInformation")
     @Mapping(target = "requestDateTime", source = "creationTimestamp")
     @Mapping(target = "tppAuthorisationNumber", source = "consentTppInformation.tppInfo.authorisationNumber")
@@ -62,39 +59,5 @@ public abstract class Xs2aToSpiPiisConsentMapper {
             account.getMaskedPan(),
             account.getMsisdn(),
             account.getCurrency());
-    }
-
-    abstract List<SpiPsuData> toSpiPsuDataList(List<PsuIdData> psuIdData);
-
-    SpiPsuData toSpiPsuData(PsuIdData psuIdData) {
-        return Optional.ofNullable(psuIdData)
-                   .map(this::builderWithPsuData)
-                   .orElseGet(SpiPsuData::builder)
-                   .build();
-    }
-
-    private SpiPsuData.SpiPsuDataBuilder builderWithPsuData(PsuIdData psuIdData) {
-        SpiPsuData.SpiPsuDataBuilder builder = SpiPsuData.builder()
-                                                   .psuId(psuIdData.getPsuId())
-                                                   .psuIdType(psuIdData.getPsuIdType())
-                                                   .psuCorporateId(psuIdData.getPsuCorporateId())
-                                                   .psuCorporateIdType(psuIdData.getPsuCorporateIdType())
-                                                   .psuIpAddress(psuIdData.getPsuIpAddress());
-
-        return Optional.ofNullable(psuIdData.getAdditionalPsuIdData())
-                   .map(dta -> addAdditionalPsuIdData(builder, dta))
-                   .orElse(builder);
-    }
-
-    private SpiPsuData.SpiPsuDataBuilder addAdditionalPsuIdData(SpiPsuData.SpiPsuDataBuilder builder, AdditionalPsuIdData data) {
-        return builder.psuIpPort(data.getPsuIpPort())
-                   .psuUserAgent(data.getPsuUserAgent())
-                   .psuGeoLocation(data.getPsuGeoLocation())
-                   .psuAccept(data.getPsuAccept())
-                   .psuAcceptCharset(data.getPsuAcceptCharset())
-                   .psuAcceptEncoding(data.getPsuAcceptEncoding())
-                   .psuAcceptLanguage(data.getPsuAcceptLanguage())
-                   .psuHttpMethod(data.getPsuHttpMethod())
-                   .psuDeviceId(data.getPsuDeviceId());
     }
 }

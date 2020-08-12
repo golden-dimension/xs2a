@@ -31,9 +31,9 @@ import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
 import de.adorsys.psd2.xs2a.domain.consent.UpdateConsentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
-import de.adorsys.psd2.xs2a.service.authorization.ais.CommonDecoupledPiisService;
-import de.adorsys.psd2.xs2a.service.authorization.ais.PiisAuthorizationService;
-import de.adorsys.psd2.xs2a.service.authorization.ais.PiisScaAuthorisationService;
+import de.adorsys.psd2.xs2a.service.authorization.piis.CommonDecoupledPiisService;
+import de.adorsys.psd2.xs2a.service.authorization.piis.PiisAuthorizationService;
+import de.adorsys.psd2.xs2a.service.authorization.piis.PiisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorResponse;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aPiisConsentService;
@@ -184,7 +184,6 @@ public class PiisAuthorisationProcessorServiceImpl extends BaseAuthorisationProc
         if (piisConsent.getConsentStatus() != responseConsentStatus) {
             piisConsentService.updateConsentStatus(consentId, responseConsentStatus);
         }
-        piisConsentService.findAndTerminateOldConsentsByNewConsentId(consentId);
 
         return new UpdateConsentPsuDataResponse(ScaStatus.FINALISED, consentId, request.getAuthorisationId(), psuData);
     }

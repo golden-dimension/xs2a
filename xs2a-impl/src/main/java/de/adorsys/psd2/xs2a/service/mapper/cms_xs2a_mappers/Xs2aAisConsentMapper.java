@@ -21,7 +21,9 @@ import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.core.data.ais.AisConsentData;
 import de.adorsys.psd2.core.mapper.ConsentDataMapper;
-import de.adorsys.psd2.xs2a.core.authorisation.*;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthenticationObject;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentTppInformation;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
@@ -38,13 +40,10 @@ import de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers.Xs2aToSpiPsuDataMapp
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiScaConfirmation;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -167,27 +166,6 @@ public class Xs2aAisConsentMapper {
                        aisConsent.setAspspAccountAccesses(ais.getAspspAccountAccesses());
                        aisConsent.setInstanceId(ac.getInstanceId());
                        return aisConsent;
-                   })
-                   .orElse(null);
-    }
-
-    private List<ConsentAuthorization> mapToAccountConsentAuthorisation(List<Authorisation> authorisations) {
-        if (CollectionUtils.isEmpty(authorisations)) {
-            return Collections.emptyList();
-        }
-        return authorisations.stream()
-                   .map(this::mapToAccountConsentAuthorisation)
-                   .collect(Collectors.toList());
-    }
-
-    private ConsentAuthorization mapToAccountConsentAuthorisation(Authorisation authorisation) {
-        return Optional.ofNullable(authorisation)
-                   .map(auth -> {
-                       ConsentAuthorization accountConsentAuthorisation = new ConsentAuthorization();
-                       accountConsentAuthorisation.setId(auth.getAuthorisationId());
-                       accountConsentAuthorisation.setPsuIdData(auth.getPsuIdData());
-                       accountConsentAuthorisation.setScaStatus(auth.getScaStatus());
-                       return accountConsentAuthorisation;
                    })
                    .orElse(null);
     }

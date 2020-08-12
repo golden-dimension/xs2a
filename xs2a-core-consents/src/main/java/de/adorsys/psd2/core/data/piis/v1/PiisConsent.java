@@ -16,10 +16,8 @@
 
 package de.adorsys.psd2.core.data.piis.v1;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.core.data.piis.PiisConsentData;
-import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -59,10 +57,5 @@ public class PiisConsent extends Consent<PiisConsentData> {
         }
 
         return null;
-    }
-
-    @JsonIgnore
-    public boolean isExpired() {
-        return getConsentStatus() == ConsentStatus.EXPIRED;
     }
 }

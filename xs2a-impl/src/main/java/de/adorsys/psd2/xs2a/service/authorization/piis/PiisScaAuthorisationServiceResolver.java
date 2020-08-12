@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.service.authorization.ais;
+package de.adorsys.psd2.xs2a.service.authorization.piis;
 
-import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
-import lombok.AllArgsConstructor;
+import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
+import de.adorsys.psd2.xs2a.service.authorization.ScaServiceResolver;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@AllArgsConstructor
-public class PiisScaAuthorisationService {
-    /**
-     * Checks whether authorisation resource of this consent can be authenticated using only single factor
-     *
-     * @param piisConsent consent which is being authorised
-     * @return whether single-factor authentication is enough for this consent
-     */
-    public boolean isOneFactorAuthorisation(PiisConsent piisConsent) {
-        return false;
+public class PiisScaAuthorisationServiceResolver extends ScaServiceResolver<PiisAuthorizationService> {
+
+    public PiisScaAuthorisationServiceResolver(List<PiisAuthorizationService> services, ScaApproachResolver scaApproachResolver) {
+        super(services, scaApproachResolver);
     }
 }

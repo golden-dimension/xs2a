@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.core.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.authorisation.ConsentAuthorization;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
@@ -89,5 +90,10 @@ public abstract class Consent<T> {
         return getAuthorisations().stream()
                    .filter(auth -> auth.getId().equals(authorisationId))
                    .findFirst();
+    }
+
+    @JsonIgnore
+    public boolean isExpired() {
+        return getConsentStatus() == ConsentStatus.EXPIRED;
     }
 }
