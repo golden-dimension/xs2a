@@ -66,7 +66,7 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
      * - data is transferred to SPI level and checking should be implemented at ASPSP side.
      *
      * @param request {@link UpdateConsentPsuDataReq} with all consent information.
-     * @return {@link Xs2aUpdatePisCommonPaymentPsuDataResponse} with new authorisation status.
+     * @return {@link UpdateConsentPsuDataResponse} with new authorisation status.
      */
     public ResponseObject<UpdateConsentPsuDataResponse> processAuthorisationConfirmation(UpdateConsentPsuDataReq request) {
         String authorisationId = request.getAuthorisationId();
