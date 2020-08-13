@@ -92,7 +92,7 @@ class XRequestIdHeaderValidatorImplTest {
     void checkInterfaces() {
         assertTrue(
             Stream.of(ConsentHeaderValidator.class, PaymentHeaderValidator.class, TransactionListHeaderValidator.class, FundsConfirmationHeaderValidator.class,
-                      CancelPaymentHeaderValidator.class, TransactionListDownloadHeaderValidator.class, ConfirmationOfFundsHeaderValidator.class)
+                      CancelPaymentHeaderValidator.class, TransactionListDownloadHeaderValidator.class, CreateConsentConfirmationOfFundsHeaderValidator.class)
                 .allMatch(interfaceClass -> interfaceClass.isInstance(validator))
         );
     }
