@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.validator.certificate.util;
 
+import com.nimbusds.jose.util.Base64;
 import com.nimbusds.jose.util.X509CertUtils;
 import de.adorsys.psd2.validator.certificate.CertificateErrorMsgCode;
 import de.adorsys.psd2.validator.common.PSD2QCStatement;
@@ -24,6 +25,8 @@ import de.adorsys.psd2.validator.common.RoleOfPSP;
 import de.adorsys.psd2.validator.common.RolesOfPSP;
 import lombok.extern.slf4j.Slf4j;
 import no.difi.certvalidator.api.CertificateValidationException;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
@@ -36,6 +39,7 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateParsingException;
@@ -51,8 +55,13 @@ public class CertificateExtractorUtil {
     }
 
     public static TppCertificateData extract(String encodedCert) throws CertificateValidationException {
-
-        X509Certificate cert = X509CertUtils.parse(encodedCert);
+        final X509Certificate cert;
+        byte[] encodedCertData = encodedCert.getBytes();
+        if (URLEncodingUtil.isURLEncoded(encodedCertData)) {
+            cert = X509CertUtils.parse(URLEncodingUtil.decode(encodedCertData));
+        } else {
+            cert = X509CertUtils.parse(encodedCert);
+        }
 
         if (cert == null) {
             log.debug("Error reading certificate ");
@@ -98,27 +107,27 @@ public class CertificateExtractorUtil {
     }
 
     private static String getValueFromX500Name(X500Name x500Name, ASN1ObjectIdentifier asn1ObjectIdentifier) {
-        boolean exist = ArrayUtils.contains( x500Name.getAttributeTypes(), asn1ObjectIdentifier );
-        return  exist ? IETFUtils.valueToString(x500Name.getRDNs(asn1ObjectIdentifier)[0].getFirst().getValue()) : null;
+        boolean exist = ArrayUtils.contains(x500Name.getAttributeTypes(), asn1ObjectIdentifier);
+        return exist ? IETFUtils.valueToString(x500Name.getRDNs(asn1ObjectIdentifier)[0].getFirst().getValue()) : null;
     }
 
     private static String extractIssuerCNFromIssuerDN(Principal issuerDN) {
         List<Rdn> rdns = getRdns(issuerDN);
         return rdns
-            .stream()
-            .filter(rdn ->  LDAP_COMMON_NAME.equalsIgnoreCase(rdn.getType()))
-            .findFirst()
-            .filter(rdn -> rdn.getValue() instanceof String)
-            .map(rdn -> (String) rdn.getValue())
-            .orElse(null);
+                   .stream()
+                   .filter(rdn -> LDAP_COMMON_NAME.equalsIgnoreCase(rdn.getType()))
+                   .findFirst()
+                   .filter(rdn -> rdn.getValue() instanceof String)
+                   .map(rdn -> (String) rdn.getValue())
+                   .orElse(null);
     }
 
     private static List<Rdn> getRdns(Principal issuerDN) {
         return Optional.ofNullable(issuerDN)
-            .map(Principal::getName)
-            .map(CertificateExtractorUtil::getLdapName)
-            .map(LdapName::getRdns)
-            .orElseGet(Collections::emptyList);
+                   .map(Principal::getName)
+                   .map(CertificateExtractorUtil::getLdapName)
+                   .map(LdapName::getRdns)
+                   .orElseGet(Collections::emptyList);
     }
 
     private static LdapName getLdapName(String dn) {
