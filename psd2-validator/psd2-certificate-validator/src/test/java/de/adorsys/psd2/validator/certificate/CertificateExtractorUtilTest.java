@@ -30,7 +30,6 @@ import java.util.TimeZone;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CertificateExtractorUtilTest {
-
     @Test
     void testExtractCertData() throws CertificateValidationException {
 

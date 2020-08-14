@@ -38,7 +38,6 @@ import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import java.security.Principal;
 import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.*;
@@ -52,11 +51,10 @@ public class CertificateExtractorUtil {
     }
 
     public static TppCertificateData extract(String encodedCert) throws CertificateValidationException {
-
         byte[] encodedCertData = encodedCert.getBytes();
 
         X509Certificate cert = X509CertUtils.parse(encodedCert);
-        if( cert == null ){
+        if (cert == null) {
             cert = X509CertUtils.parse(URLDecodingUtil.decode(encodedCertData));
         }
 
