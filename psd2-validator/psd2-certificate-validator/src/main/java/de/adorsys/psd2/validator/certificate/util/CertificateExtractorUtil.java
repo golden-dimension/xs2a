@@ -55,7 +55,7 @@ public class CertificateExtractorUtil {
 
         byte[] encodedCertData = encodedCert.getBytes();
 
-        X509Certificate cert = X509CertUtils.parse(encodedCertData);
+        X509Certificate cert = X509CertUtils.parse(encodedCert);
         if( cert == null ){
             cert = X509CertUtils.parse(URLDecodingUtil.decode(encodedCertData));
         }
