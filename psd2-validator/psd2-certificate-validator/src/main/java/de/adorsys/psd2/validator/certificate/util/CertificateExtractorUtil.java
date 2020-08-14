@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.validator.certificate.util;
 
-import com.nimbusds.jose.util.Base64;
 import com.nimbusds.jose.util.X509CertUtils;
 import de.adorsys.psd2.validator.certificate.CertificateErrorMsgCode;
 import de.adorsys.psd2.validator.common.PSD2QCStatement;
@@ -25,8 +24,6 @@ import de.adorsys.psd2.validator.common.RoleOfPSP;
 import de.adorsys.psd2.validator.common.RolesOfPSP;
 import lombok.extern.slf4j.Slf4j;
 import no.difi.certvalidator.api.CertificateValidationException;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
@@ -39,7 +36,6 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateParsingException;

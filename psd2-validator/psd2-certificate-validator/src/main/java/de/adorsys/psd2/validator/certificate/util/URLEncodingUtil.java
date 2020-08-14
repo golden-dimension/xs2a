@@ -1,10 +1,12 @@
 package de.adorsys.psd2.validator.certificate.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.net.URLCodec;
 
 import java.util.Arrays;
 
+@Slf4j
 public class URLEncodingUtil {
     public static boolean isURLEncoded(final byte[] encodedCert) {
         try {
@@ -15,7 +17,7 @@ public class URLEncodingUtil {
                 return false;
             }
         } catch (DecoderException e) {
-            e.printStackTrace();
+            log.debug("Error URL-decoding the data");
         }
 
         return true;
@@ -29,7 +31,7 @@ public class URLEncodingUtil {
         try {
             return URLCodec.decodeUrl(encodedCert);
         } catch (DecoderException e) {
-            e.printStackTrace();
+            log.debug("Error URL-decoding the data");
         }
         return null;
     }
