@@ -195,9 +195,8 @@ class PaymentModelMapperPsd2Test {
 
     @Test
     void mapToPaymentRequestParameters_incorrect_payment_type_throw_wrong_payment_type_exception() {
-        //Givan
+        //Given
         TppNotificationData tppNotificationData = new TppNotificationData(NOTIFICATION_MODES, "notification.uri");
-        //When
         //Then
         assertThrows(WrongPaymentTypeException.class, () -> mapper.mapToPaymentRequestParameters(PAYMENT_PRODUCT, "incorrect payment type", "certificate".getBytes(), "ok.uri", "nok.uri",
                                                                                                                                       true, PSU_ID_DATA, tppNotificationData, TPP_BRAND_LOGGING_INFORMATION, null));
