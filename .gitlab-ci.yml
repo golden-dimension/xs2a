@@ -146,7 +146,7 @@ Lint:XS2A_core_yaml_json_xml:
 # commented cause get many small errors for yaml with spaces empty lines and etc
 #    - find ./ -type f \( -name "*.yml" -o -name "*.yaml" \) -exec yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" {} \;
 # commented cause get error Unsupported version '1.1'
-	  - find ./ -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \; # lint all xml
+#	  - find ./ -type f \( -iname "*.xml" ! -iname pom.xml \) -exec xmllint --noout {} \; # lint all xml
 
 Lint:XS2A_core_dockerfiles:
   image: debian:stretch-slim
