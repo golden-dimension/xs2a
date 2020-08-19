@@ -59,6 +59,7 @@ public class RequestProviderService {
     private static final String ACCEPT_HEADER = "accept";
     static final String TPP_QWAC_CERTIFICATE_HEADER = "tpp-qwac-certificate";
     private static final String TPP_BRAND_LOGGING_INFORMATION = "tpp-brand-logging-information";
+    private static final String TPP_REJECTION_NO_FUNDS_PREFERRED = "tpp-rejection-nofunds-preffered";
     static final String INSTANCE_ID = "instance-id";
 
     private final HttpServletRequest httpServletRequest;
@@ -105,7 +106,7 @@ public class RequestProviderService {
     }
 
     @Nullable
-    public String getInstanceId(){
+    public String getInstanceId() {
         return getHeader(INSTANCE_ID);
     }
 
@@ -179,6 +180,12 @@ public class RequestProviderService {
 
     public String getTppBrandLoggingInformationHeader() {
         return getHeader(TPP_BRAND_LOGGING_INFORMATION);
+    }
+
+    public Boolean getTppRejectionNoFundsPreferred() {
+        return Optional.ofNullable(getHeader(TPP_REJECTION_NO_FUNDS_PREFERRED))
+                   .map(Boolean::getBoolean)
+                   .orElse(null);
     }
 
     private String getHeader(String headerName) {
