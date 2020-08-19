@@ -51,10 +51,9 @@ public class CertificateExtractorUtil {
     }
 
     public static TppCertificateData extract(String encodedCert) throws CertificateValidationException {
-        byte[] encodedCertData = encodedCert.getBytes();
-
         X509Certificate cert = X509CertUtils.parse(encodedCert);
         if (cert == null) {
+            byte[] encodedCertData = encodedCert.getBytes();
             cert = X509CertUtils.parse(URLDecodingUtil.decode(encodedCertData));
         }
 
