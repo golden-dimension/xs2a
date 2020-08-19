@@ -164,30 +164,6 @@ Lint:XS2A_core_dockerfiles:
     - docker run --rm -i hadolint/hadolint < ./xs2a-standalone-starter/Dockerfile
     - docker run --rm -i hadolint/hadolint < ./certificate-generator/Dockerfile
 
-Lint:PMD_CPD_Report:
-  image: maven:3.6-jdk-8-slim
-  stage: "Lint"
-  cache: {}
-  except:
-    - schedules
-    - develop
-    - master
-  script:
-#    - jabba use ${JAVA_VERSION}
-    - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
-    - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
-    - mvn -ntp -Dmaven.test.skip=true package pmd:pmd pmd:cpd
-  variables:
-    JAVA_VERSION: "system@1.8"
-  artifacts:
-    paths:
-    - "qa/pmd/pmd-ruleset.xml"
-    - "**/**/*/pmd.html"
-    - "**/*/pmd.xml"
-    name: "${CI_PROJECT_NAME}-${CI_BUILD_REF_NAME#*v}-pmd"
-    expire_in: "10 day"
-
-
 Lint:PMD_Check_Java11:
   image: maven:3.6-jdk-11-slim
   stage: "Lint"
