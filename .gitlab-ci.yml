@@ -162,7 +162,7 @@ Lint:XS2A_core_dockerfiles:
     - docker run --rm -i hadolint/hadolint < ./consent-management/cms-standalone-service/Dockerfile
     - docker run --rm -i hadolint/hadolint < ./aspsp-profile/aspsp-profile-server/Dockerfile
     - docker run --rm -i hadolint/hadolint < ./xs2a-standalone-starter/Dockerfile
-    - - docker run --rm -i hadolint/hadolint < ./certificate-generator/Dockerfile
+    - docker run --rm -i hadolint/hadolint < ./certificate-generator/Dockerfile
 
 Lint:PMD_CPD_Report:
   image: maven:3.6-jdk-8-slim
