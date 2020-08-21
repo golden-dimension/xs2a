@@ -102,4 +102,7 @@ And following properties:
 
 * `spring.jpa.properties.hibernate.default_schema`
 
+*WARNING:*  `For encryption\decryption of aspsp data we use secret server key ('server_key') which is read from Environment variables.
+So, before starting project you need to create environment variables and set value, as example:  'server_key=12345678' or run app with this parameter`
+
 === Embedding Profile library
