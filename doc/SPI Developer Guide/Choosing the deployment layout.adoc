@@ -227,7 +227,6 @@ So, before starting project you need to create environment variables and set val
 
 In order to start xs2a service with embedded APSPS Profile Library, one should add following dependencies:
 
-    <dependencies>
         <dependency>
             <groupId>de.adorsys.psd2</groupId>
             <artifactId>aspsp-profile-lib</artifactId>
@@ -247,10 +246,9 @@ Also it's required to add into `org.springframework.boot` plugin in pom file exe
                         <goals>
                             <goal>build-info</goal>
                         </goals>
-                        <configuration>
-                            <additionalProperties>
-                                <java.version>${java.version}</java.version>
-                                <build.number>&#8203;</build.number>
-                            </additionalProperties>
-                        </configuration>
                     </execution>
+
+Also, one needs to define property `xs2a.license.url`.
+
+And if one have separate CMS service, that also communicates with ASPSP Profile, then one need to define property
+`xs2a.cms.aspsp-profile.baseurl`.
