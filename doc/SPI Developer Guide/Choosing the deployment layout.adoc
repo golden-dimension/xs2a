@@ -29,7 +29,7 @@ When XS2A services are deployed as microservices there is risk of getting error 
 In this case the request should be protected against unavailability of remote services by catching `ResourceAccessException` error.
 When writing custom filters it's recommended to extend `GlobalAbstractExceptionFilter` class and write code in `doFilterInternalCustom` method that handles this error.
 
-=== Embedded Deployment
+== Embedded Deployment
 
 === Embedding XS2A Library
 
