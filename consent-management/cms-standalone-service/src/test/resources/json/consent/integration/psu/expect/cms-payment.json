@@ -61,11 +61,7 @@
   "paymentStatus": "RCVD",
   "requestedExecutionDate": "2020-01-01",
   "ultimateDebtor": "Mueller",
-  "remittanceInformationStructured": {
-    "reference": "Ref Number Merchant",
-    "referenceType": "reference type",
-    "referenceIssuer": "reference issuer"
-  },
+  "remittanceInformationStructured": "Ref Number Merchant",
   "remittanceInformationStructuredArray": [],
   "paymentType": "payments"
 }

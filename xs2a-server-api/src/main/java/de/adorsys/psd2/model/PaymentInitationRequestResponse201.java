@@ -1,40 +1,29 @@
-/*
- * Copyright 2018-2020 adorsys GmbH & Co KG
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.adorsys.psd2.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import de.adorsys.psd2.model.Amount;
+import de.adorsys.psd2.model.ChallengeData;
+import de.adorsys.psd2.model.ChosenScaMethod;
+import de.adorsys.psd2.model.ScaMethods;
+import de.adorsys.psd2.model.TppMessage2XX;
+import de.adorsys.psd2.model.TransactionStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Body of the response for a successful payment initiation request.
  */
 @ApiModel(description = "Body of the response for a successful payment initiation request.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-10T11:45:50.610815+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-25T18:03:04.675305+03:00[Europe/Kiev]")
 
 public class PaymentInitationRequestResponse201   {
   @JsonProperty("transactionStatus")
@@ -392,21 +381,20 @@ public class PaymentInitationRequestResponse201   {
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }
-    PaymentInitationRequestResponse201 paymentInitationRequestResponse201 = (PaymentInitationRequestResponse201) o;
+}    PaymentInitationRequestResponse201 paymentInitationRequestResponse201 = (PaymentInitationRequestResponse201) o;
     return Objects.equals(this.transactionStatus, paymentInitationRequestResponse201.transactionStatus) &&
-        Objects.equals(this.paymentId, paymentInitationRequestResponse201.paymentId) &&
-        Objects.equals(this.transactionFees, paymentInitationRequestResponse201.transactionFees) &&
-        Objects.equals(this.currencyConversionFee, paymentInitationRequestResponse201.currencyConversionFee) &&
-        Objects.equals(this.estimatedTotalAmount, paymentInitationRequestResponse201.estimatedTotalAmount) &&
-        Objects.equals(this.estimatedInterbankSettlementAmount, paymentInitationRequestResponse201.estimatedInterbankSettlementAmount) &&
-        Objects.equals(this.transactionFeeIndicator, paymentInitationRequestResponse201.transactionFeeIndicator) &&
-        Objects.equals(this.scaMethods, paymentInitationRequestResponse201.scaMethods) &&
-        Objects.equals(this.chosenScaMethod, paymentInitationRequestResponse201.chosenScaMethod) &&
-        Objects.equals(this.challengeData, paymentInitationRequestResponse201.challengeData) &&
-        Objects.equals(this._links, paymentInitationRequestResponse201._links) &&
-        Objects.equals(this.psuMessage, paymentInitationRequestResponse201.psuMessage) &&
-        Objects.equals(this.tppMessages, paymentInitationRequestResponse201.tppMessages);
+    Objects.equals(this.paymentId, paymentInitationRequestResponse201.paymentId) &&
+    Objects.equals(this.transactionFees, paymentInitationRequestResponse201.transactionFees) &&
+    Objects.equals(this.currencyConversionFee, paymentInitationRequestResponse201.currencyConversionFee) &&
+    Objects.equals(this.estimatedTotalAmount, paymentInitationRequestResponse201.estimatedTotalAmount) &&
+    Objects.equals(this.estimatedInterbankSettlementAmount, paymentInitationRequestResponse201.estimatedInterbankSettlementAmount) &&
+    Objects.equals(this.transactionFeeIndicator, paymentInitationRequestResponse201.transactionFeeIndicator) &&
+    Objects.equals(this.scaMethods, paymentInitationRequestResponse201.scaMethods) &&
+    Objects.equals(this.chosenScaMethod, paymentInitationRequestResponse201.chosenScaMethod) &&
+    Objects.equals(this.challengeData, paymentInitationRequestResponse201.challengeData) &&
+    Objects.equals(this._links, paymentInitationRequestResponse201._links) &&
+    Objects.equals(this.psuMessage, paymentInitationRequestResponse201.psuMessage) &&
+    Objects.equals(this.tppMessages, paymentInitationRequestResponse201.tppMessages);
   }
 
   @Override

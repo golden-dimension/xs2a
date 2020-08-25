@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers;
 
-import de.adorsys.psd2.xs2a.core.pis.Remittance;
 import de.adorsys.psd2.xs2a.domain.pis.PeriodicPayment;
 import de.adorsys.psd2.xs2a.spi.domain.payment.SpiPeriodicPayment;
 import de.adorsys.psd2.xs2a.web.mapper.RemittanceMapper;
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -62,10 +60,10 @@ public class Xs2aToSpiPeriodicPaymentMapper {
         periodic.setUltimateDebtor(payment.getUltimateDebtor());
         periodic.setUltimateCreditor(payment.getUltimateCreditor());
         periodic.setPurposeCode(payment.getPurposeCode());
-        periodic.setRemittanceInformationStructured(remittanceMapper.mapToSpiRemittance(payment.getRemittanceInformationStructured()));
-        List<Remittance> remittanceInformationStructuredArray = payment.getRemittanceInformationStructuredArray();
+        periodic.setRemittanceInformationStructured(payment.getRemittanceInformationStructured());
+        List<String> remittanceInformationStructuredArray = payment.getRemittanceInformationStructuredArray();
         if (remittanceInformationStructuredArray != null) {
-            periodic.setRemittanceInformationStructuredArray(remittanceInformationStructuredArray.stream().map(remittanceMapper::mapToSpiRemittance).collect(Collectors.toList()));
+            periodic.setRemittanceInformationStructuredArray(remittanceInformationStructuredArray);
         }
         periodic.setCreationTimestamp(payment.getCreationTimestamp());
         periodic.setContentType(payment.getContentType());

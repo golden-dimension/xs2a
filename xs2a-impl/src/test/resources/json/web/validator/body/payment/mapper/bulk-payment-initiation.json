@@ -36,17 +36,9 @@
       "ultimateDebtor": "ultimateDebtor",
       "ultimateCreditor": "ultimateCreditor",
       "purposeCode": "CDQC",
-      "remittanceInformationStructured": {
-        "reference": "reference",
-        "referenceType": "referenceType",
-        "referenceIssuer": "referenceIssuer"
-      },
+      "remittanceInformationStructured": "reference",
       "remittanceInformationStructuredArray": [
-        {
-          "reference": "reference entry",
-          "referenceType": "reference entry type",
-          "referenceIssuer": "reference entry issuer"
-        }
+        "reference entry"
       ]
     }
   ]

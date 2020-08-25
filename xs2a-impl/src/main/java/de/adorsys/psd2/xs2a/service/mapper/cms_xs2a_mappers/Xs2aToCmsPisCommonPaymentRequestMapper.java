@@ -127,7 +127,7 @@ public class Xs2aToCmsPisCommonPaymentRequestMapper {
                        pisPayment.setCreditorName(pmt.getCreditorName());
                        pisPayment.setCreditorAddress(mapToCmsAddress(pmt.getCreditorAddress()));
                        pisPayment.setRemittanceInformationUnstructured(pmt.getRemittanceInformationUnstructured());
-                       pisPayment.setRemittanceInformationStructured(xs2aRemittanceMapper.mapToCmsRemittance(pmt.getRemittanceInformationStructured()));
+                       pisPayment.setRemittanceInformationStructured(pmt.getRemittanceInformationStructured());
                        pisPayment.setRequestedExecutionDate(pmt.getRequestedExecutionDate());
                        pisPayment.setRequestedExecutionTime(pmt.getRequestedExecutionTime());
                        pisPayment.setUltimateCreditor(pmt.getUltimateCreditor());
@@ -157,7 +157,7 @@ public class Xs2aToCmsPisCommonPaymentRequestMapper {
                        pisPayment.setCreditorName(pmt.getCreditorName());
                        pisPayment.setCreditorAddress(mapToCmsAddress(pmt.getCreditorAddress()));
                        pisPayment.setRemittanceInformationUnstructured(pmt.getRemittanceInformationUnstructured());
-                       pisPayment.setRemittanceInformationStructured(xs2aRemittanceMapper.mapToCmsRemittance(pmt.getRemittanceInformationStructured()));
+                       pisPayment.setRemittanceInformationStructured(pmt.getRemittanceInformationStructured());
                        pisPayment.setRequestedExecutionDate(pmt.getRequestedExecutionDate());
                        pisPayment.setRequestedExecutionTime(pmt.getRequestedExecutionTime());
                        pisPayment.setUltimateCreditor(pmt.getUltimateCreditor());

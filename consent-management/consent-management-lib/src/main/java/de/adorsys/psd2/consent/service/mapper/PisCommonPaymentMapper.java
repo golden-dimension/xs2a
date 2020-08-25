@@ -17,7 +17,6 @@
 package de.adorsys.psd2.consent.service.mapper;
 
 import de.adorsys.psd2.consent.api.CmsAddress;
-import de.adorsys.psd2.consent.api.pis.CmsRemittance;
 import de.adorsys.psd2.consent.api.pis.PisPayment;
 import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
@@ -119,7 +118,7 @@ public class PisCommonPaymentMapper {
                        pisPayment.setCreditorName(pm.getCreditorName());
                        pisPayment.setCreditorAddress(mapToCmsAddress(pm.getCreditorAddress()));
                        pisPayment.setRemittanceInformationUnstructured(pm.getRemittanceInformationUnstructured());
-                       pisPayment.setRemittanceInformationStructured(mapToCmsRemittance(pm.getRemittanceInformationStructured()));
+                       pisPayment.setRemittanceInformationStructured(mapToStringRemittance(pm.getRemittanceInformationStructured()));
                        pisPayment.setRequestedExecutionDate(pm.getRequestedExecutionDate());
                        pisPayment.setRequestedExecutionTime(pm.getRequestedExecutionTime());
                        pisPayment.setUltimateCreditor(pm.getUltimateCreditor());
@@ -136,16 +135,10 @@ public class PisCommonPaymentMapper {
                    }).orElse(null);
     }
 
-    private CmsRemittance mapToCmsRemittance(PisRemittance pisRemittance) {
+    private String mapToStringRemittance(PisRemittance pisRemittance) {
         return Optional.ofNullable(pisRemittance)
-                   .map(r -> {
-                       CmsRemittance remittance = new CmsRemittance();
-                       remittance.setReference(r.getReference());
-                       remittance.setReferenceIssuer(r.getReferenceIssuer());
-                       remittance.setReferenceType(r.getReferenceType());
-                       return remittance;
-                   })
-                   .orElse(null);
+            .map(PisRemittance::getReference)
+            .orElse(null);
     }
 
     CmsAddress mapToCmsAddress(PisAddress pisAddress) {

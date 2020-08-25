@@ -43,8 +43,9 @@ public interface PaymentValidationConfig{
     ValidationObject getReferenceType();
     ValidationObject getReferenceIssuer();
 
+    ValidationObject getRemittanceInformationStructured();
+
     ValidationObject getExecutionRule();
     ValidationObject getCreditorId();
     ValidationObject getDayOfExecution();
-
 }

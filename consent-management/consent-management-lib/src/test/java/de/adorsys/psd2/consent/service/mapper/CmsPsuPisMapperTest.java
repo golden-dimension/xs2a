@@ -108,8 +108,9 @@ class CmsPsuPisMapperTest {
     private static final LocalDate END_DATE = LocalDate.now();
     private static final PisExecutionRule EXECUTION_RULE = PisExecutionRule.FOLLOWING;
     private static final String FREEQUENCY = "DAILY";
+    private static final String REMITTANCE = "reference";
     private static final JsonReader jsonReader = new JsonReader();
-    private static final PisRemittance REMITTANCE = jsonReader.getObjectFromFile("json/remittance.json", PisRemittance.class);
+    private static final PisRemittance REMITTANCE_OBJECT = jsonReader.getObjectFromFile("json/remittance.json", PisRemittance.class);
     private static final PisPaymentData PIS_PAYMENT_DATA_SINGLE = buildPisPaymentData(PIS_COMMON_PAYMENT_DATA_SINGLE);
     private static final PisPaymentData PIS_PAYMENT_DATA_PERIODIC = buildPisPaymentData(PIS_COMMON_PAYMENT_DATA_PERIODIC);
     private static final PisPaymentData PIS_PAYMENT_DATA_BULK = buildPisPaymentData(PIS_COMMON_PAYMENT_DATA_BULK);
@@ -186,7 +187,7 @@ class CmsPsuPisMapperTest {
         assertEquals(ULTIMATE_DEBTOR, singlePayment.getUltimateDebtor());
         assertEquals(ULTIMATE_CREDITOR, singlePayment.getUltimateCreditor());
         assertEquals(PURPOSE_CODE, singlePayment.getPurposeCode());
-        assertEquals(cmsRemittanceMapper.mapToCmsRemittance(REMITTANCE), singlePayment.getRemittanceInformationStructured());
+        assertEquals(REMITTANCE, singlePayment.getRemittanceInformationStructured());
     }
 
     @Test
@@ -223,7 +224,7 @@ class CmsPsuPisMapperTest {
         assertEquals(ULTIMATE_DEBTOR, periodicPayment.getUltimateDebtor());
         assertEquals(ULTIMATE_CREDITOR, periodicPayment.getUltimateCreditor());
         assertEquals(PURPOSE_CODE, periodicPayment.getPurposeCode());
-        assertEquals(cmsRemittanceMapper.mapToCmsRemittance(REMITTANCE), periodicPayment.getRemittanceInformationStructured());
+        assertEquals(REMITTANCE, periodicPayment.getRemittanceInformationStructured());
     }
 
     @Test
@@ -269,7 +270,7 @@ class CmsPsuPisMapperTest {
         assertEquals(ULTIMATE_DEBTOR, singlePayment.getUltimateDebtor());
         assertEquals(ULTIMATE_CREDITOR, singlePayment.getUltimateCreditor());
         assertEquals(PURPOSE_CODE, singlePayment.getPurposeCode());
-        assertEquals(cmsRemittanceMapper.mapToCmsRemittance(REMITTANCE), singlePayment.getRemittanceInformationStructured());
+        assertEquals(REMITTANCE, singlePayment.getRemittanceInformationStructured());
     }
 
     private static PisCommonPaymentData buildPisCommonPaymentData(PaymentType paymentType) {
@@ -335,7 +336,7 @@ class CmsPsuPisMapperTest {
         pisPaymentData.setUltimateDebtor(ULTIMATE_DEBTOR);
         pisPaymentData.setUltimateCreditor(ULTIMATE_CREDITOR);
         pisPaymentData.setPurposeCode(PURPOSE_CODE);
-        pisPaymentData.setRemittanceInformationStructured(REMITTANCE);
+        pisPaymentData.setRemittanceInformationStructured(REMITTANCE_OBJECT);
         return pisPaymentData;
     }
 

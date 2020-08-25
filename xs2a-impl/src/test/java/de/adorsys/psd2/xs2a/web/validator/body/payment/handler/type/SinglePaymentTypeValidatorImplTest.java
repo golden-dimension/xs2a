@@ -21,7 +21,6 @@ import de.adorsys.psd2.xs2a.core.domain.address.Xs2aAddress;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
-import de.adorsys.psd2.xs2a.core.pis.Remittance;
 import de.adorsys.psd2.xs2a.core.pis.Xs2aAmount;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -49,6 +48,7 @@ class SinglePaymentTypeValidatorImplTest {
 
     private static final String VALUE_36_LENGHT = "QWERTYUIOPQWERTYUIOPQWERTYUIOPDFGHJK";
     private static final String VALUE_71_LENGHT = "QWERTYUIOPQWERTYUIOPQWERTYUIOPDFGHJKQWERTYUIOPQWERTYUIOPQWERTYUIOPDFGHJ";
+    private static final String VALUE_141_LENGHT = "BaYRKDrBPFcAP7qsEaYcjqO98KQNtDWUG4ilvUNcRDp1uEKEAtFy5oygoAbEvpiNdSLdmaJjzOWlOmLgtLpO5w70DKxBDZPc82qkCELD37rGjobkk3ZqfIYOxCTVNtHoyyycV0prpFL42";
     private SinglePaymentTypeValidatorImpl validator;
     private MessageError messageError;
 
@@ -74,7 +74,7 @@ class SinglePaymentTypeValidatorImplTest {
 
         validator = new SinglePaymentTypeValidatorImpl(errorBuildingServiceMock,
                                                        xs2aObjectMapper,
-                                                       new PaymentMapper(xs2aObjectMapper, purposeCodeMapper, remittanceMapper),
+                                                       new PaymentMapper(xs2aObjectMapper, purposeCodeMapper),
                                                        new AmountValidator(errorBuildingServiceMock),
                                                        new IbanValidator(errorBuildingServiceMock));
     }
@@ -356,83 +356,20 @@ class SinglePaymentTypeValidatorImplTest {
     }
 
     @Test
-    void doValidation_remittance_no_reference_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference(null);
-        singlePayment.setRemittanceInformationStructured(remittance);
-
-        validator.doSingleValidation(singlePayment, messageError, validationConfig);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"reference"}, messageError.getTppMessage().getTextParameters());
-    }
-
-    @Test
-    void doValidation_remittance_reference_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructured(remittance);
-
-        validator.doSingleValidation(singlePayment, messageError, validationConfig);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"reference", 35}, messageError.getTppMessage().getTextParameters());
-    }
-
-    @Test
-    void doValidation_remittance_reference_type_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference("reference");
-        remittance.setReferenceType(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructured(remittance);
-
-        validator.doSingleValidation(singlePayment, messageError, validationConfig);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"referenceType", 35}, messageError.getTppMessage().getTextParameters());
-    }
-
-    @Test
     void doValidation_remittance_reference_issuer_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference("reference");
-        remittance.setReferenceIssuer(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructured(remittance);
+        singlePayment.setRemittanceInformationStructured(VALUE_141_LENGHT);
 
         validator.doSingleValidation(singlePayment, messageError, validationConfig);
         assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"referenceIssuer", 35}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[]{"remittanceInformationStructured", 140}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
     void doSingleValidation_remittanceInformationStructuredArray_reference_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructuredArray(Collections.singletonList(remittance));
+        singlePayment.setRemittanceInformationStructuredArray(Collections.singletonList(VALUE_141_LENGHT));
 
         validator.doSingleValidation(singlePayment, messageError, validationConfig);
         assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"reference", 35}, messageError.getTppMessage().getTextParameters());
-    }
-
-    @Test
-    void doSingleValidation_remittanceInformationStructuredArray_reference_type_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference("reference");
-        remittance.setReferenceType(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructuredArray(Collections.singletonList(remittance));
-
-        validator.doSingleValidation(singlePayment, messageError, validationConfig);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"referenceType", 35}, messageError.getTppMessage().getTextParameters());
-    }
-
-    @Test
-    void doSingleValidation_remittanceInformationStructuredArray_reference_issuer_error() {
-        Remittance remittance = new Remittance();
-        remittance.setReference("reference");
-        remittance.setReferenceIssuer(VALUE_36_LENGHT);
-        singlePayment.setRemittanceInformationStructuredArray(Collections.singletonList(remittance));
-
-        validator.doSingleValidation(singlePayment, messageError, validationConfig);
-        assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[]{"referenceIssuer", 35}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[]{"remittanceInformationStructured", 140}, messageError.getTppMessage().getTextParameters());
     }
 }

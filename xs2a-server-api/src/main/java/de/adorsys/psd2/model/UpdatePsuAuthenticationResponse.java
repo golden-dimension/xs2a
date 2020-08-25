@@ -1,38 +1,26 @@
-/*
- * Copyright 2018-2020 adorsys GmbH & Co KG
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.adorsys.psd2.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import de.adorsys.psd2.model.Amount;
+import de.adorsys.psd2.model.ChallengeData;
+import de.adorsys.psd2.model.ChosenScaMethod;
+import de.adorsys.psd2.model.ScaMethods;
+import de.adorsys.psd2.model.ScaStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Map;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Body of the JSON response for a successful update PSU authentication request.
  */
 @ApiModel(description = "Body of the JSON response for a successful update PSU authentication request.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-09T12:59:45.333674+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-25T18:03:04.675305+03:00[Europe/Kiev]")
 
 public class UpdatePsuAuthenticationResponse   {
   @JsonProperty("transactionFees")
@@ -328,19 +316,18 @@ public class UpdatePsuAuthenticationResponse   {
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }
-    UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = (UpdatePsuAuthenticationResponse) o;
+}    UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = (UpdatePsuAuthenticationResponse) o;
     return Objects.equals(this.transactionFees, updatePsuAuthenticationResponse.transactionFees) &&
-        Objects.equals(this.currencyConversionFees, updatePsuAuthenticationResponse.currencyConversionFees) &&
-        Objects.equals(this.estimatedTotalAmount, updatePsuAuthenticationResponse.estimatedTotalAmount) &&
-        Objects.equals(this.estimatedInterbankSettlementAmount, updatePsuAuthenticationResponse.estimatedInterbankSettlementAmount) &&
-        Objects.equals(this.chosenScaMethod, updatePsuAuthenticationResponse.chosenScaMethod) &&
-        Objects.equals(this.challengeData, updatePsuAuthenticationResponse.challengeData) &&
-        Objects.equals(this.scaMethods, updatePsuAuthenticationResponse.scaMethods) &&
-        Objects.equals(this._links, updatePsuAuthenticationResponse._links) &&
-        Objects.equals(this.scaStatus, updatePsuAuthenticationResponse.scaStatus) &&
-        Objects.equals(this.psuMessage, updatePsuAuthenticationResponse.psuMessage) &&
-        Objects.equals(this.authorisationId, updatePsuAuthenticationResponse.authorisationId);
+    Objects.equals(this.currencyConversionFees, updatePsuAuthenticationResponse.currencyConversionFees) &&
+    Objects.equals(this.estimatedTotalAmount, updatePsuAuthenticationResponse.estimatedTotalAmount) &&
+    Objects.equals(this.estimatedInterbankSettlementAmount, updatePsuAuthenticationResponse.estimatedInterbankSettlementAmount) &&
+    Objects.equals(this.chosenScaMethod, updatePsuAuthenticationResponse.chosenScaMethod) &&
+    Objects.equals(this.challengeData, updatePsuAuthenticationResponse.challengeData) &&
+    Objects.equals(this.scaMethods, updatePsuAuthenticationResponse.scaMethods) &&
+    Objects.equals(this._links, updatePsuAuthenticationResponse._links) &&
+    Objects.equals(this.scaStatus, updatePsuAuthenticationResponse.scaStatus) &&
+    Objects.equals(this.psuMessage, updatePsuAuthenticationResponse.psuMessage) &&
+    Objects.equals(this.authorisationId, updatePsuAuthenticationResponse.authorisationId);
   }
 
   @Override

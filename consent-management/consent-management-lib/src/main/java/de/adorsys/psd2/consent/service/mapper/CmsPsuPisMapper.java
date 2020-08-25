@@ -20,6 +20,7 @@ import de.adorsys.psd2.consent.api.pis.*;
 import de.adorsys.psd2.consent.domain.AccountReferenceEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
 import de.adorsys.psd2.consent.domain.payment.PisPaymentData;
+import de.adorsys.psd2.consent.domain.payment.PisRemittance;
 import de.adorsys.psd2.consent.service.CorePaymentsConvertService;
 import de.adorsys.psd2.xs2a.core.pis.FrequencyCode;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
@@ -39,7 +40,6 @@ public class CmsPsuPisMapper {
     private final PisCommonPaymentMapper pisCommonPaymentMapper;
     private final TppInfoMapper tppInfoMapper;
     private final PsuDataMapper psuDataMapper;
-    private final CmsRemittanceMapper cmsRemittanceMapper;
     private final CorePaymentsConvertService corePaymentsConvertService;
 
     public CmsPayment mapToCmsPayment(@NotNull PisCommonPaymentData paymentData) {
@@ -121,8 +121,14 @@ public class CmsPsuPisMapper {
         periodicPayment.setUltimateDebtor(pisPaymentData.getUltimateDebtor());
         periodicPayment.setUltimateCreditor(pisPaymentData.getUltimateCreditor());
         periodicPayment.setPurposeCode(pisPaymentData.getPurposeCode());
-        periodicPayment.setRemittanceInformationStructured(cmsRemittanceMapper.mapToCmsRemittance(pisPaymentData.getRemittanceInformationStructured()));
+        periodicPayment.setRemittanceInformationStructured(mapToStringRemittance(pisPaymentData.getRemittanceInformationStructured()));
         return periodicPayment;
+    }
+
+    private String mapToStringRemittance(PisRemittance pisRemittance) {
+        return Optional.ofNullable(pisRemittance)
+                   .map(PisRemittance::getReference)
+                   .orElse(null);
     }
 
     private CmsPayment mapToCmsBulkPayment(List<PisPaymentData> pisPaymentDataList, String paymentProduct) {
@@ -166,7 +172,7 @@ public class CmsPsuPisMapper {
         singlePayment.setUltimateDebtor(pisPaymentData.getUltimateDebtor());
         singlePayment.setUltimateCreditor(pisPaymentData.getUltimateCreditor());
         singlePayment.setPurposeCode(pisPaymentData.getPurposeCode());
-        singlePayment.setRemittanceInformationStructured(cmsRemittanceMapper.mapToCmsRemittance(pisPaymentData.getRemittanceInformationStructured()));
+        singlePayment.setRemittanceInformationStructured(mapToStringRemittance(pisPaymentData.getRemittanceInformationStructured()));
         return singlePayment;
     }
 

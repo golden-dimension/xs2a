@@ -1,38 +1,25 @@
-/*
- * Copyright 2018-2020 adorsys GmbH & Co KG
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.adorsys.psd2.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import de.adorsys.psd2.model.Amount;
+import de.adorsys.psd2.model.ChallengeData;
+import de.adorsys.psd2.model.ChosenScaMethod;
+import de.adorsys.psd2.model.ScaStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Map;
-import java.util.Objects;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Body of the JSON response for a successful select PSU authentication method request.
  */
 @ApiModel(description = "Body of the JSON response for a successful select PSU authentication method request.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-09T12:59:45.333674+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-25T18:03:04.675305+03:00[Europe/Kiev]")
 
 public class SelectPsuAuthenticationMethodResponse   {
   @JsonProperty("transactionFees")
@@ -277,17 +264,16 @@ public class SelectPsuAuthenticationMethodResponse   {
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
-    }
-    SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = (SelectPsuAuthenticationMethodResponse) o;
+}    SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = (SelectPsuAuthenticationMethodResponse) o;
     return Objects.equals(this.transactionFees, selectPsuAuthenticationMethodResponse.transactionFees) &&
-        Objects.equals(this.currencyConversionFees, selectPsuAuthenticationMethodResponse.currencyConversionFees) &&
-        Objects.equals(this.estimatedTotalAmount, selectPsuAuthenticationMethodResponse.estimatedTotalAmount) &&
-        Objects.equals(this.estimatedInterbankSettlementAmount, selectPsuAuthenticationMethodResponse.estimatedInterbankSettlementAmount) &&
-        Objects.equals(this.chosenScaMethod, selectPsuAuthenticationMethodResponse.chosenScaMethod) &&
-        Objects.equals(this.challengeData, selectPsuAuthenticationMethodResponse.challengeData) &&
-        Objects.equals(this._links, selectPsuAuthenticationMethodResponse._links) &&
-        Objects.equals(this.scaStatus, selectPsuAuthenticationMethodResponse.scaStatus) &&
-        Objects.equals(this.psuMessage, selectPsuAuthenticationMethodResponse.psuMessage);
+    Objects.equals(this.currencyConversionFees, selectPsuAuthenticationMethodResponse.currencyConversionFees) &&
+    Objects.equals(this.estimatedTotalAmount, selectPsuAuthenticationMethodResponse.estimatedTotalAmount) &&
+    Objects.equals(this.estimatedInterbankSettlementAmount, selectPsuAuthenticationMethodResponse.estimatedInterbankSettlementAmount) &&
+    Objects.equals(this.chosenScaMethod, selectPsuAuthenticationMethodResponse.chosenScaMethod) &&
+    Objects.equals(this.challengeData, selectPsuAuthenticationMethodResponse.challengeData) &&
+    Objects.equals(this._links, selectPsuAuthenticationMethodResponse._links) &&
+    Objects.equals(this.scaStatus, selectPsuAuthenticationMethodResponse.scaStatus) &&
+    Objects.equals(this.psuMessage, selectPsuAuthenticationMethodResponse.psuMessage);
   }
 
   @Override

@@ -1,99 +1,84 @@
-/*
- * Copyright 2018-2020 adorsys GmbH & Co KG
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package de.adorsys.psd2.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import de.adorsys.psd2.model.TransactionDetails;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-
 import javax.validation.Valid;
-import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * InlineResponse2001
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-03-16T13:49:16.891743+02:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-25T18:03:04.675305+03:00[Europe/Kiev]")
 
-public class InlineResponse2001 {
-    @JsonProperty("transactionsDetails")
-    private TransactionDetails transactionsDetails = null;
+public class InlineResponse2001   {
+  @JsonProperty("transactionsDetails")
+  private TransactionDetails transactionsDetails = null;
 
-    public InlineResponse2001 transactionsDetails(TransactionDetails transactionsDetails) {
-        this.transactionsDetails = transactionsDetails;
-        return this;
+  public InlineResponse2001 transactionsDetails(TransactionDetails transactionsDetails) {
+    this.transactionsDetails = transactionsDetails;
+    return this;
+  }
+
+  /**
+   * Get transactionsDetails
+   * @return transactionsDetails
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+
+  @JsonProperty("transactionsDetails")
+  public TransactionDetails getTransactionsDetails() {
+    return transactionsDetails;
+  }
+
+  public void setTransactionsDetails(TransactionDetails transactionsDetails) {
+    this.transactionsDetails = transactionsDetails;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+}    InlineResponse2001 inlineResponse2001 = (InlineResponse2001) o;
+    return Objects.equals(this.transactionsDetails, inlineResponse2001.transactionsDetails);
+  }
 
-    /**
-     * Get transactionsDetails
-     *
-     * @return transactionsDetails
-     **/
-    @ApiModelProperty(value = "")
+  @Override
+  public int hashCode() {
+    return Objects.hash(transactionsDetails);
+  }
 
-    @Valid
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class InlineResponse2001 {\n");
 
+    sb.append("    transactionsDetails: ").append(toIndentedString(transactionsDetails)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    @JsonProperty("transactionsDetails")
-    public TransactionDetails getTransactionsDetails() {
-        return transactionsDetails;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setTransactionsDetails(TransactionDetails transactionsDetails) {
-        this.transactionsDetails = transactionsDetails;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        InlineResponse2001 inlineResponse2001 = (InlineResponse2001) o;
-        return Objects.equals(this.transactionsDetails, inlineResponse2001.transactionsDetails);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(transactionsDetails);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class InlineResponse2001 {\n");
-
-        sb.append("    transactionsDetails: ").append(toIndentedString(transactionsDetails)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 

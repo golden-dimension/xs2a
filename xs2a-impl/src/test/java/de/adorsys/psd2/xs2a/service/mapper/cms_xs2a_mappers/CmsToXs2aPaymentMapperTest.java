@@ -157,7 +157,7 @@ class CmsToXs2aPaymentMapperTest {
         assertEquals(pisPayment.getUltimateDebtor(), periodicPayment.getUltimateDebtor());
         assertEquals(pisPayment.getUltimateCreditor(), periodicPayment.getUltimateCreditor());
         assertEquals(pisPayment.getPurposeCode(), periodicPayment.getPurposeCode().toString());
-        assertEquals(xs2aRemittanceMapper.mapToRemittance(pisPayment.getRemittanceInformationStructured()), periodicPayment.getRemittanceInformationStructured());
+        assertEquals((pisPayment.getRemittanceInformationStructured()), periodicPayment.getRemittanceInformationStructured());
         assertEquals(pisPayment.getCreationTimestamp(), periodicPayment.getCreationTimestamp());
     }
 
@@ -216,7 +216,7 @@ class CmsToXs2aPaymentMapperTest {
         assertEquals(pisPayment.getUltimateDebtor(), singlePayment.getUltimateDebtor());
         assertEquals(pisPayment.getUltimateCreditor(), singlePayment.getUltimateCreditor());
         assertEquals(pisPayment.getPurposeCode(), singlePayment.getPurposeCode().toString());
-        assertEquals(xs2aRemittanceMapper.mapToRemittance(pisPayment.getRemittanceInformationStructured()), singlePayment.getRemittanceInformationStructured());
+        assertEquals(pisPayment.getRemittanceInformationStructured(), singlePayment.getRemittanceInformationStructured());
         assertEquals(pisPayment.getCreationTimestamp(), singlePayment.getCreationTimestamp());
     }
 
@@ -281,7 +281,7 @@ class CmsToXs2aPaymentMapperTest {
         assertEquals(pisPayment.getUltimateDebtor(), firstPayment.getUltimateDebtor());
         assertEquals(pisPayment.getUltimateCreditor(), firstPayment.getUltimateCreditor());
         assertEquals(pisPayment.getPurposeCode(), firstPayment.getPurposeCode().toString());
-        assertEquals(xs2aRemittanceMapper.mapToRemittance(pisPayment.getRemittanceInformationStructured()), firstPayment.getRemittanceInformationStructured());
+        assertEquals(pisPayment.getRemittanceInformationStructured(), firstPayment.getRemittanceInformationStructured());
         assertEquals(pisPayment.getCreationTimestamp(), firstPayment.getCreationTimestamp());
     }
 
@@ -331,7 +331,7 @@ class CmsToXs2aPaymentMapperTest {
         pisPayment.setCreditorName(CREDITOR_NAME);
         pisPayment.setCreditorAddress(buildCmsAddress());
         pisPayment.setRemittanceInformationUnstructured(REMITTANCE_INFORMATION_UNSTRUCTURED);
-        pisPayment.setRemittanceInformationStructured(buildCmsRemittance());
+        pisPayment.setRemittanceInformationStructured(REMITTANCE_INFORMATION_STRUCTURED_REFERENCE);
         pisPayment.setRequestedExecutionDate(REQUESTED_EXECUTION_DATE);
         pisPayment.setRequestedExecutionTime(REQUESTED_EXECUTION_TIME);
         pisPayment.setUltimateCreditor(ULTIMATE_CREDITOR);
@@ -357,12 +357,6 @@ class CmsToXs2aPaymentMapperTest {
         cmsAddress.setPostalCode(CREDITOR_ADDRESS_POSTAL_CODE);
         cmsAddress.setCountry(CREDITOR_ADDRESS_COUNTRY);
         return cmsAddress;
-    }
-
-    private CmsRemittance buildCmsRemittance() {
-        CmsRemittance cmsRemittance = new CmsRemittance();
-        cmsRemittance.setReference(REMITTANCE_INFORMATION_STRUCTURED_REFERENCE);
-        return cmsRemittance;
     }
 
     private PisCommonPaymentResponse buildPisCommonPaymentResponse() {

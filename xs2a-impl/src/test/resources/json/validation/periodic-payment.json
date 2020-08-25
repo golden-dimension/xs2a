@@ -35,11 +35,7 @@
     "currency": "EUR"
   },
   "purposeCode": "CDCS",
-  "remittanceInformationStructured": {
-    "reference": "Ref Number Merchant",
-    "referenceIssuer": "string",
-    "referenceType": "string"
-  },
+  "remittanceInformationStructured":  "Ref Number Merchant",
   "remittanceInformationUnstructured": "Ref. Number TELEKOM-1222",
   "startDate": "2017-03-03",
   "ultimateCreditor": "Telekom",

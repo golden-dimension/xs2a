@@ -68,7 +68,7 @@ public class CmsToXs2aPaymentMapper {
                        periodic.setStatusChangeTimestamp(p.getStatusChangeTimestamp());
                        periodic.setUltimateDebtor(p.getUltimateDebtor());
                        periodic.setUltimateCreditor(p.getUltimateCreditor());
-                       periodic.setRemittanceInformationStructured(xs2aRemittanceMapper.mapToRemittance(p.getRemittanceInformationStructured()));
+                       periodic.setRemittanceInformationStructured(p.getRemittanceInformationStructured());
                        periodic.setPurposeCode(PurposeCode.fromValue(p.getPurposeCode()));
                        periodic.setCreationTimestamp(p.getCreationTimestamp());
                        return periodic;
@@ -97,7 +97,7 @@ public class CmsToXs2aPaymentMapper {
                        single.setStatusChangeTimestamp(p.getStatusChangeTimestamp());
                        single.setUltimateCreditor(p.getUltimateCreditor());
                        single.setUltimateDebtor(p.getUltimateDebtor());
-                       single.setRemittanceInformationStructured(xs2aRemittanceMapper.mapToRemittance(p.getRemittanceInformationStructured()));
+                       single.setRemittanceInformationStructured(p.getRemittanceInformationStructured());
                        single.setPurposeCode(PurposeCode.fromValue(p.getPurposeCode()));
                        single.setCreationTimestamp(p.getCreationTimestamp());
                        return single;

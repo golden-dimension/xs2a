@@ -73,7 +73,7 @@ public class PisPayment {
     private String remittanceInformationUnstructured;
 
     @ApiModelProperty(value = "remittance information structured")
-    private CmsRemittance remittanceInformationStructured;
+    private String remittanceInformationStructured;
 
     @ApiModelProperty(value = "Requested execution date", example = "2020-01-01")
     private LocalDate requestedExecutionDate;

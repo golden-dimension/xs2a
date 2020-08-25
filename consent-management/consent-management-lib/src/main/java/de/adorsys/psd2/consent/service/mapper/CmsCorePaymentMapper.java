@@ -36,7 +36,7 @@ public class CmsCorePaymentMapper {
                    .map(ref -> {
                        PaymentInitiationJson payment = new PaymentInitiationJson();
                        payment.setCreditorAddress(mapToAddress(pisPayment.getCreditorAddress()));
-                       payment.setRemittanceInformationStructured(mapToRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured()));
+                       payment.setRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured());
                        payment.setCreditorAgent(pisPayment.getCreditorAgent());
                        payment.setCreditorName(pisPayment.getCreditorName());
                        payment.setCreditorAccount(mapToAccountReference(pisPayment.getCreditorAccount()));
@@ -92,7 +92,7 @@ public class CmsCorePaymentMapper {
 
         payment.setDebtorAccount(mapToAccountReference(pisPayment.getDebtorAccount()));
         payment.setCreditorAddress(mapToAddress(pisPayment.getCreditorAddress()));
-        payment.setRemittanceInformationStructured(mapToRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured()));
+        payment.setRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured());
         payment.setCreditorAgent(pisPayment.getCreditorAgent());
         payment.setCreditorName(pisPayment.getCreditorName());
         payment.setCreditorAccount(mapToAccountReference(pisPayment.getCreditorAccount()));
@@ -120,7 +120,7 @@ public class CmsCorePaymentMapper {
     private PaymentInitiationBulkElementJson mapToPaymentInitiationBulkElementJson(PisPayment pisPayment) {
         PaymentInitiationBulkElementJson payment = new PaymentInitiationBulkElementJson();
         payment.setCreditorAddress(mapToAddress(pisPayment.getCreditorAddress()));
-        payment.setRemittanceInformationStructured(mapToRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured()));
+        payment.setRemittanceInformationStructured(pisPayment.getRemittanceInformationStructured());
         payment.setCreditorAgent(pisPayment.getCreditorAgent());
         payment.setCreditorName(pisPayment.getCreditorName());
         payment.setCreditorAccount(mapToAccountReference(pisPayment.getCreditorAccount()));
@@ -149,18 +149,6 @@ public class CmsCorePaymentMapper {
                        address.setTownName(ref.getCity());
 
                        return address;
-                   }).orElse(null);
-    }
-
-    private RemittanceInformationStructured mapToRemittanceInformationStructured(CmsRemittance remittanceInformationStructured) {
-        return Optional.ofNullable(remittanceInformationStructured)
-                   .map(ref -> {
-                       RemittanceInformationStructured informationStructured = new RemittanceInformationStructured();
-                       informationStructured.setReference(ref.getReference());
-                       informationStructured.setReferenceIssuer(ref.getReferenceIssuer());
-                       informationStructured.setReferenceType(ref.getReferenceType());
-
-                       return informationStructured;
                    }).orElse(null);
     }
 

@@ -47,8 +47,8 @@ public class CmsSinglePayment extends BaseCmsPayment {
     private String ultimateDebtor;
     private String ultimateCreditor;
     private String purposeCode;
-    private CmsRemittance remittanceInformationStructured;
-    private List<CmsRemittance> remittanceInformationStructuredArray;
+    private String remittanceInformationStructured;
+    private List<String> remittanceInformationStructuredArray;
 
     public CmsSinglePayment(String paymentProduct) {
         setPaymentProduct(paymentProduct);
