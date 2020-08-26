@@ -17,6 +17,7 @@
 package de.adorsys.psd2.xs2a.web.controller;
 
 import de.adorsys.psd2.api.AccountApi;
+import de.adorsys.psd2.model.TrustedBeneficiaries;
 import de.adorsys.psd2.xs2a.core.ais.BookingStatus;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
@@ -110,7 +111,7 @@ public class AccountController implements AccountApi {
     }
 
     @Override
-    public ResponseEntity listOfTrustedBeneficiaries(String accountId, UUID xRequestID, String consentID, String psUIPAddress, String authorization) {
+    public ResponseEntity listOfTrustedBeneficiaries(UUID xRequestID, String consentID, String accountId, String psUIPAddress, String authorization) {
         ResponseObject<Xs2aTrustedBeneficiariesList> trustedBeneficiaries =
             trustedBeneficiariesService.getTrustedBeneficiaries(consentID, accountId, trimEndingSlash(request.getRequestURI()));
         return trustedBeneficiaries.hasError()
