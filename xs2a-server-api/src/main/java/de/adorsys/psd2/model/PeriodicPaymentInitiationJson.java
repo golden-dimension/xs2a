@@ -557,7 +557,6 @@ public class PeriodicPaymentInitiationJson   {
   @ApiModelProperty(value = "")
 
   @Valid
-@Size(max=2)
 
   @JsonProperty("dayOfExecution")
   public DayOfExecution getDayOfExecution() {

@@ -142,7 +142,6 @@ public class PeriodicPaymentInitiationXmlPart2StandingorderTypeJson   {
   @ApiModelProperty(value = "")
 
   @Valid
-@Size(max=2)
 
   @JsonProperty("dayOfExecution")
   public DayOfExecution getDayOfExecution() {

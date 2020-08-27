@@ -223,7 +223,6 @@ public class StandingOrderDetails   {
   @ApiModelProperty(value = "")
 
   @Valid
-@Size(max=2)
 
   @JsonProperty("dayOfExecution")
   public DayOfExecution getDayOfExecution() {
