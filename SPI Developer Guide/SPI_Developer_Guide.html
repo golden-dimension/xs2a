@@ -446,7 +446,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_choosing_the_deployment_layout">Choosing the deployment layout</a>
 <ul class="sectlevel2">
 <li><a href="#_microservices_deployment">Microservices Deployment</a></li>
-<li><a href="#_embedded_deployment">Embedded Deployment</a></li>
+</ul>
+</li>
+<li><a href="#_embedded_deployment">Embedded Deployment</a>
+<ul class="sectlevel2">
 <li><a href="#_embedding_xs2a_library">Embedding XS2A Library</a></li>
 <li><a href="#_embedding_cms_library">Embedding CMS Library</a></li>
 <li><a href="#_embedding_profile_library">Embedding Profile library</a></li>
@@ -501,17 +504,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_special_modes">Special modes</a>
 <ul class="sectlevel2">
 <li><a href="#_multi_tenancy_support">Multi-tenancy support</a></li>
-<li><a href="#_support_multi_tenancy_in_xs2a">Support multi-tenancy in XS2A</a></li>
-<li><a href="#_support_multi_tenancy_in_aspsp_profile">Support multi-tenancy in ASPSP Profile</a></li>
 <li><a href="#_configure_event_service_in_embedded_mode">Configure Event-Service in embedded mode</a></li>
 </ul>
 </li>
 <li><a href="#_certificate_generator">Certificate generator</a></li>
-<li><a href="#_configuration_properties">Configuration properties</a>
-<ul class="sectlevel2">
-<li><a href="#_supported_configuration_properties">Supported configuration properties</a></li>
-</ul>
-</li>
+<li><a href="#_multilevel_sca">Multilevel Sca</a></li>
 </ul>
 </div>
 </div>
@@ -564,21 +561,333 @@ In this case the request should be protected against unavailability of remote se
 When writing custom filters it&#8217;s recommended to extend <code>GlobalAbstractExceptionFilter</code> class and write code in <code>doFilterInternalCustom</code> method that handles this error.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_embedded_deployment">Embedded Deployment</h3>
-
 </div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_deployment">Embedded Deployment</h2>
+<div class="sectionbody">
 <div class="sect2">
 <h3 id="_embedding_xs2a_library">Embedding XS2A Library</h3>
-
+<div class="paragraph">
+<p>In order to start Connector with embedded XS2A Library, one should use following annotations in SpringBootApplication:</p>
+</div>
+<div class="paragraph">
+<p><code>@EnableXs2aSwagger</code></p>
+</div>
+<div class="paragraph">
+<p><code>@EnableXs2aInterface</code></p>
+</div>
+<div class="paragraph">
+<p>Also one needs following dependencies:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/releases">Choose your version of XS2A</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;properties&gt;
+    &lt;xs2a.version&gt;7.9&lt;/xs2a.version&gt;
+&lt;/properties&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>XS2A implementation</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;xs2a-impl&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/blob/develop/doc/SPI%20Developer%20Guide/Configuring%20XS2A%20Service.adoc#configuring-mapping-of-type-specific-payments-for-spi">Configuring mapping of type-specific payments for SPI</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;xs2a-payment-common-impl&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Connector you have to implement <a href="https://github.com/adorsys/xs2a/blob/develop/doc/SPI%20Developer%20Guide/Implementing%20SPI-API.adoc#implementing-spi-api">SPI-API</a></p>
+</div>
+<div class="paragraph">
+<p>But for testing purposes you can use SPI-STUB</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;spi-stub&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ve chosen spi-stub, don&#8217;t forget add next annotation to app</p>
+</div>
+<div class="paragraph">
+<p><code>@ComponentScan(basePackages = {"de.adorsys.psd2.stub"})</code></p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/blob/develop/doc/architecture/08_concepts.adoc#event-api-structure">Saving events in CMS database</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-rest-client&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Working with ASPSP Profile remotely</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-remote&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Working with CMS remotely</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-xs2a-client&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also to start project as web application add</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add following properties and change it when necessary:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>xs2a:
+    endpoints:
+        cors:
+            # Whether credentials are supported. When not set, credentials are not supported.
+            allow-credentials: false
+            # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
+            allowed-origins: '*'
+            # Comma-separated list of headers to include in a response.
+            allowed-headers: '*'
+            # Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
+            allowed-methods: DELETE,GET,OPTIONS,PATCH,POST,PUT
+            # How long, in seconds, the response from a pre-flight request can be cached by clients
+            max-age: 3600
+            # number of characters in a json string
+    application:
+        ais:
+            transaction:
+                max-length: 1000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For testing purposes without real QWAC certificate, you can start application with <code>mock-qwac</code> profile.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_embedding_cms_library">Embedding CMS Library</h3>
-
+<div class="paragraph">
+<p>In order to start xs2a service with embedded CMS Library, one should use following annotations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>@EnableTransactionManagement</code></p>
+</li>
+<li>
+<p><code>@EntityScan({"de.adorsys.psd2.consent.domain", "de.adorsys.psd2.event.persist.entity"})</code></p>
+</li>
+<li>
+<p><code>@EnableJpaRepositories(basePackages = {"de.adorsys.psd2.consent.repository", "de.adorsys.psd2.event"})</code></p>
+</li>
+<li>
+<p><code>@ComponentScan(basePackages = {"de.adorsys.psd2.report"})</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Also one needs following dependencies:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-management-lib&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;cms-payment-support-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-psu-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-aspsp-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-xs2a-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-aspsp-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;cms-scheduler-service&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-persist-db-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Datasource settings:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.datasource.url</code></p>
+</li>
+<li>
+<p><code>spring.datasource.username</code></p>
+</li>
+<li>
+<p><code>spring.datasource.password</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JPA settings:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.jpa.properties.hibernate.default_schema</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>WARNING:</strong>  <code>For encryption\decryption of aspsp data we use secret server key ('server_key') which is read from Environment variables.
+So, before starting project you need to create environment variables and set value, as example:  'server_key=12345678' or run app with this parameter</code></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_embedding_profile_library">Embedding Profile library</h3>
-
+<div class="paragraph">
+<p>In order to start xs2a service with embedded APSPS Profile Library, one should add following dependencies:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-lib&lt;/artifactId&gt;
+    &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-web&lt;/artifactId&gt;
+    &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also it&#8217;s required to add into <code>org.springframework.boot</code> plugin in pom file execution block:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;execution&gt;
+    &lt;id&gt;build-info&lt;/id&gt;
+    &lt;goals&gt;
+        &lt;goal&gt;build-info&lt;/goal&gt;
+    &lt;/goals&gt;
+&lt;/execution&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also, one needs to define property <code>xs2a.license.url</code>.</p>
+</div>
+<div class="paragraph">
+<p>And if one have separate CMS service, that also communicates with ASPSP Profile, then one need to define property
+<code>xs2a.cms.aspsp-profile.baseurl</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -3014,23 +3323,6 @@ mvn liquibase:updateSQL</pre>
 <div class="sect2">
 <h3 id="_multi_tenancy_support">Multi-tenancy support</h3>
 <div class="paragraph">
-<p>By default, multi-tenancy mode is disabled.
-Multi-tenancy is an architecture in which a single instance of a software application serves multiple customers.
-Each customer shares the software applications (ASPSP Profile, CMS) and shares a single database. Each tenant’s data is isolated and remains invisible to other tenants.</p>
-</div>
-<div class="paragraph">
-<p>ASPSP Profile supports multi-tenancy mode. Configuration can be done by switching flag on and registering all supporting bank profiles in <code>application.yml</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>xs2a.bank_profile.multitenancy.enabled=true
-xs2a.bank_profile.multitenancy.customBankProfiles={bank1:'classpath:bank1_profile.yml', bank2:'classpath:bank2_profile.yml'}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>When multi-tenancy is enabled and fully configured additional header <code>instance-id</code> is required for all HTTP requests, otherwise get an error 400 <code>BAD_REQUEST</code>.</p>
-</div>
-<div class="paragraph">
 <p>It&#8217;s possible to use CMS database in multi-tenancy mode, with multiple XS2A instances being connected to one CMS database.
 This approach is not recommended and in general multiple XS2A instances should be used with their own database instances.
 But if it&#8217;s still necessary to use one database, CMS should be additionally configured to support this mode.</p>
@@ -3041,41 +3333,9 @@ To access such resource, appropriate <code>instanceId</code> value should be pas
 Default value for <code>instanceId</code> is set to <code>UNDEFINED</code>.</p>
 </div>
 <div class="paragraph">
-<p>To configure CMS service to properly work with multiple XS2A instances, multiple instances of <code>cms-standalone-service</code> can be used, with <code>xs2a.cms.service.instance-id</code> property set to appropriate value for each instance.
+<p>To configure CMS service to properly work with multiple XS2A instances, multiple instances of <code>cms-standalone-service</code> can be used, with <code>cms.service.instance-id</code> property set to appropriate value for each instance.
 Alternatively, some kind of an interceptor should be implemented in CMS (or in connector application in case of using CMS in embedded mode) to set <code>instanceId</code> property before saving records to the database.
 Example of Hibernate interceptor with such functionality can be found in <code>cms-standalone-service</code>: in <code>de.adorsys.psd2.consent.config.ServiceInstanceIdEventListener</code>, along with the configuration in <code>de.adorsys.psd2.consent.config.HibernateListenerConfig</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_support_multi_tenancy_in_xs2a">Support multi-tenancy in XS2A</h3>
-<div class="paragraph">
-<p>XS2A supports multi-tenancy with 1 database and 1 CMS instances.
-Request header <code>Instance-ID</code> defines a current tenant. The header is not mandatory.</p>
-</div>
-<div class="paragraph">
-<p>Response link <code>scaRedirect</code> will include <code>Instance-ID</code> parameter if the mentioned header comes with request.</p>
-</div>
-<div class="paragraph">
-<p>SPI objects <code>SpiAccountConsent</code>, <code>SpiPaymentInfo</code>, <code>SpiSinglePayment</code> and <code>SpiBulkPayment</code> were extended for <code>instanceId</code> field.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_support_multi_tenancy_in_aspsp_profile">Support multi-tenancy in ASPSP Profile</h3>
-<div class="paragraph">
-<p>ASPSP Profile supports more than one ASPSP profiles. In this mode ASPSP Profile needs to be configured for each supporting instances separately.
-HTTP header <code>instance-id</code> is required for all requests to the profile otherwise error will occur.</p>
-</div>
-<div class="paragraph">
-<p>To enable multi tenancy in ASPSP Profile in <code>application.yml</code> set flag and register config profiles for every tenant:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>xs2a.bank_profile.multitenancy.enabled=true
-xs2a.bank_profile.multitenancy.customBankProfiles={bank1:'classpath:bank1_profile.yml', bank2:'classpath:bank2_profile.yml'}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By default, multi-tenancy mode for ASPSP Profile is disabled.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3325,123 +3585,53 @@ Mocked certificate in xs2a-impl uses the data provided as example in Swagger UI 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration_properties">Configuration properties</h2>
+<h2 id="_multilevel_sca">Multilevel Sca</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_supported_configuration_properties">Supported configuration properties</h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Description</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.license.url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Link to license agreement</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/adorsys/xs2a/blob/master/LICENSE.md" class="bare">https://github.com/adorsys/xs2a/blob/master/LICENSE.md</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.rest-consent-config.read-timeout.ms</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Read timeout for consent REST API in ms</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.rest-consent-config.connection-timeout.ms</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Connection timeout for consent REST API in ms</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.masked-pan-begin-chars</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Masked PAN begin chars for identification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.masked-pan-end-chars</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Masked PAN end chars for identification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.iban.validation.enabled</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enable IBAN field validation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TRUE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.application.ais.transaction.max-length</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of characters in a json string</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">100000</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.consent-service.baseurl</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Consent service base URL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:38080/api/v1" class="bare">http://localhost:38080/api/v1</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.aspsp-profile.baseurl</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP service base URL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:48080/api/v1" class="bare">http://localhost:48080/api/v1</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.service.instance-id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance identification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UNDEFINED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.stoplist.cron.expression</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cron expression to unblock TPP in stop list</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 0 * * * *</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.not-confirmed-consent-expiration.cron.expression</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cron expression to update status for non confirmed consents</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 0 * * * *</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.not-confirmed-payment-expiration.cron.expression</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cron expression to update status for non confirmed payments</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 0 * * * *</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.used-non-recurring-consent-expiration.cron.expression</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cron expression to expire non-recurring consents</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 0 * * * *</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.consent.cron.expression</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cron expression to expire consents with statuses (VALID and RECEIVED)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0 0 1 * * ?</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.scheduler.pool.size</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Size of CMS scheduler pool</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.encryption.defaultProvider.dataProvider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Crypto provider for Data encryption</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JcHZwvJMuc</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.encryption.defaultProvider.idProvider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Crypto provider for ID encryption</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psGLvQpt9Q</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>On initiation payment request (*PaymentSpi.initiatePayment(&#8230;&#8203;)) or create consent request (AisConsentSpi.initiateAisConsent(&#8230;&#8203;)) in SPI level
+ASPSP is able to provide <code>multilevelScaRequired</code> flag.
+When this flag is true, then XS2A doesn&#8217;t start creation of authorisation implicitly for consent or payment. In this case XS2A provides to TPP additional
+link <code>startAuthorisation</code> for starting authorisation process for several PSUs.
+Then different PSUs, that are involved in payment or consent authorisation process, are able to create authorisation using this link.</p>
+</div>
+<div class="paragraph">
+<p>When the authorisation from first PSU is finalised and second PSU is in progress, ASPSP is able to change status of payment or consent, to indicate that status is partially authorised.</p>
+</div>
+<div class="paragraph">
+<p>For payment status should be <strong>TransactionStatus.PATC</strong>, for consent <strong>ConsentStatus.PARTIALLY_AUTHORISED</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In EMBEDDED approach this could be done in next SPI methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>for payment in <code>PaymentSpi.executePaymentWithoutSca(&#8230;&#8203;)</code> or <code>verifyScaAuthorisationAndExecutePaymentWithPaymentResponse(&#8230;&#8203;)</code></p>
+</li>
+<li>
+<p>for consent in <code>AisConsentSpi.verifyScaAuthorisation(&#8230;&#8203;)</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In Redirect approach this could be done using CMS-PSU-API:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>for payment use <code>CmsPsuPisService.updatePaymentStatus(&#8230;&#8203;)</code> or <code>PUT /psu-api/v1/payment/{payment-id}/status/{status}</code> endpoint</p>
+</li>
+<li>
+<p>for consent use <code>CmsPsuAisService.authorisePartiallyConsent(&#8230;&#8203;)</code> method or <code>PUT /psu-api/v1/ais/consent/{consent-id}/authorise-partially-consent</code> endpoint</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-20 17:47:41 UTC
+Last updated 2020-08-28 09:08:13 UTC
 </div>
 </div>
 </body>

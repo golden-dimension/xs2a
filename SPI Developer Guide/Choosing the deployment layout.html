@@ -482,28 +482,340 @@ In this case the request should be protected against unavailability of remote se
 When writing custom filters it&#8217;s recommended to extend <code>GlobalAbstractExceptionFilter</code> class and write code in <code>doFilterInternalCustom</code> method that handles this error.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_embedded_deployment">Embedded Deployment</h3>
-
 </div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_deployment">Embedded Deployment</h2>
+<div class="sectionbody">
 <div class="sect2">
 <h3 id="_embedding_xs2a_library">Embedding XS2A Library</h3>
-
+<div class="paragraph">
+<p>In order to start Connector with embedded XS2A Library, one should use following annotations in SpringBootApplication:</p>
+</div>
+<div class="paragraph">
+<p><code>@EnableXs2aSwagger</code></p>
+</div>
+<div class="paragraph">
+<p><code>@EnableXs2aInterface</code></p>
+</div>
+<div class="paragraph">
+<p>Also one needs following dependencies:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/releases">Choose your version of XS2A</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;properties&gt;
+    &lt;xs2a.version&gt;7.9&lt;/xs2a.version&gt;
+&lt;/properties&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>XS2A implementation</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;xs2a-impl&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/blob/develop/doc/SPI%20Developer%20Guide/Configuring%20XS2A%20Service.adoc#configuring-mapping-of-type-specific-payments-for-spi">Configuring mapping of type-specific payments for SPI</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;xs2a-payment-common-impl&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Connector you have to implement <a href="https://github.com/adorsys/xs2a/blob/develop/doc/SPI%20Developer%20Guide/Implementing%20SPI-API.adoc#implementing-spi-api">SPI-API</a></p>
+</div>
+<div class="paragraph">
+<p>But for testing purposes you can use SPI-STUB</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;spi-stub&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you&#8217;ve chosen spi-stub, don&#8217;t forget add next annotation to app</p>
+</div>
+<div class="paragraph">
+<p><code>@ComponentScan(basePackages = {"de.adorsys.psd2.stub"})</code></p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/adorsys/xs2a/blob/develop/doc/architecture/08_concepts.adoc#event-api-structure">Saving events in CMS database</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-rest-client&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Working with ASPSP Profile remotely</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-remote&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Working with CMS remotely</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-xs2a-client&lt;/artifactId&gt;
+    &lt;version&gt;${xs2a.version}&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also to start project as web application add</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add following properties and change it when necessary:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>xs2a:
+    endpoints:
+        cors:
+            # Whether credentials are supported. When not set, credentials are not supported.
+            allow-credentials: false
+            # Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled.
+            allowed-origins: '*'
+            # Comma-separated list of headers to include in a response.
+            allowed-headers: '*'
+            # Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET.
+            allowed-methods: DELETE,GET,OPTIONS,PATCH,POST,PUT
+            # How long, in seconds, the response from a pre-flight request can be cached by clients
+            max-age: 3600
+            # number of characters in a json string
+    application:
+        ais:
+            transaction:
+                max-length: 1000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For testing purposes without real QWAC certificate, you can start application with <code>mock-qwac</code> profile.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_embedding_cms_library">Embedding CMS Library</h3>
-
+<div class="paragraph">
+<p>In order to start xs2a service with embedded CMS Library, one should use following annotations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>@EnableTransactionManagement</code></p>
+</li>
+<li>
+<p><code>@EntityScan({"de.adorsys.psd2.consent.domain", "de.adorsys.psd2.event.persist.entity"})</code></p>
+</li>
+<li>
+<p><code>@EnableJpaRepositories(basePackages = {"de.adorsys.psd2.consent.repository", "de.adorsys.psd2.event"})</code></p>
+</li>
+<li>
+<p><code>@ComponentScan(basePackages = {"de.adorsys.psd2.report"})</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Also one needs following dependencies:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-management-lib&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;cms-payment-support-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-psu-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-aspsp-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;consent-xs2a-web&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-aspsp-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;cms-scheduler-service&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;event-service-persist-db-impl&lt;/artifactId&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Datasource settings:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.datasource.url</code></p>
+</li>
+<li>
+<p><code>spring.datasource.username</code></p>
+</li>
+<li>
+<p><code>spring.datasource.password</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>JPA settings:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>spring.jpa.properties.hibernate.default_schema</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>WARNING:</strong>  <code>For encryption\decryption of aspsp data we use secret server key ('server_key') which is read from Environment variables.
+So, before starting project you need to create environment variables and set value, as example:  'server_key=12345678' or run app with this parameter</code></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_embedding_profile_library">Embedding Profile library</h3>
-
+<div class="paragraph">
+<p>In order to start xs2a service with embedded APSPS Profile Library, one should add following dependencies:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-lib&lt;/artifactId&gt;
+    &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;dependency&gt;
+    &lt;groupId&gt;de.adorsys.psd2&lt;/groupId&gt;
+    &lt;artifactId&gt;aspsp-profile-web&lt;/artifactId&gt;
+    &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also it&#8217;s required to add into <code>org.springframework.boot</code> plugin in pom file execution block:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>&lt;execution&gt;
+    &lt;id&gt;build-info&lt;/id&gt;
+    &lt;goals&gt;
+        &lt;goal&gt;build-info&lt;/goal&gt;
+    &lt;/goals&gt;
+&lt;/execution&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also, one needs to define property <code>xs2a.license.url</code>.</p>
+</div>
+<div class="paragraph">
+<p>And if one have separate CMS service, that also communicates with ASPSP Profile, then one need to define property
+<code>xs2a.cms.aspsp-profile.baseurl</code>.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-20 17:47:41 UTC
+Last updated 2020-08-28 09:08:13 UTC
 </div>
 </div>
 </body>

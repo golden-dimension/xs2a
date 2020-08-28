@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Release notes v.7.1</title>
+<title>Multilevel Sca</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,123 +438,56 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.7.1</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_table_of_contents">Table of Contents</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Bugfix: Liquibase migration is not working for H2</p>
-</li>
-<li>
-<p>Migrate to OpenAPI file v. 1.3.6</p>
-</li>
-<li>
-<p>Change types of remittance information structured properties in SpiTransaction</p>
-</li>
-<li>
-<p>Bugfix: Read account details request returns error for global consent with owner name</p>
-</li>
-<li>
-<p>Bugfix: Create Consent Request should not be rejected when Account Owner Name Service is not supported by ASPSP</p>
-</li>
-<li>
-<p>Removed <code>owner_address_type</code> column from <code>ais_consent</code> table</p>
-</li>
-<li>
-<p>Fixed javadoc warnings</p>
-</li>
-<li>
-<p>Accept certificate from request when "mock-qwac" profile is activated</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_liquibase_migration_is_not_working_for_h2">Bugfix: Liquibase migration is not working for H2</h2>
+<h2 id="_multilevel_sca">Multilevel Sca</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, CMS Liquibase migration is working correctly for H2 database.
-Minimal version of H2 required to properly apply changelogs is <code>1.4.200</code>.</p>
+<p>On initiation payment request (*PaymentSpi.initiatePayment(&#8230;&#8203;)) or create consent request (AisConsentSpi.initiateAisConsent(&#8230;&#8203;)) in SPI level
+ASPSP is able to provide <code>multilevelScaRequired</code> flag.
+When this flag is true, then XS2A doesn&#8217;t start creation of authorisation implicitly for consent or payment. In this case XS2A provides to TPP additional
+link <code>startAuthorisation</code> for starting authorisation process for several PSUs.
+Then different PSUs, that are involved in payment or consent authorisation process, are able to create authorisation using this link.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_migrate_to_openapi_file_v_1_3_6">Migrate to OpenAPI file v. 1.3.6</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>From now on, XS2A uses version <code>1.3.6_20200306v1</code> of OpenAPI file provided by the Berlin Group.</p>
+<p>When the authorisation from first PSU is finalised and second PSU is in progress, ASPSP is able to change status of payment or consent, to indicate that status is partially authorised.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_change_types_of_remittance_information_structured_properties_in_spitransaction">Change types of remittance information structured properties in SpiTransaction</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>In accordance with the changes to OpenAPI file v. 1.3.6, types of <code>remittanceInformationStructured</code> and <code>remittanceInformationStructuredArray</code> properties in <code>de.adorsys.psd2.xs2a.spi.domain.account.SpiTransaction</code> were changed:</p>
+<p>For payment status should be <strong>TransactionStatus.PATC</strong>, for consent <strong>ConsentStatus.PARTIALLY_AUTHORISED</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In EMBEDDED approach this could be done in next SPI methods:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>from <code>String</code> to <code>Remittance</code> for <code>remittanceInformationStructured</code></p>
+<p>for payment in <code>PaymentSpi.executePaymentWithoutSca(&#8230;&#8203;)</code> or <code>verifyScaAuthorisationAndExecutePaymentWithPaymentResponse(&#8230;&#8203;)</code></p>
 </li>
 <li>
-<p>from <code>List&lt;String&gt;</code> to <code>List&lt;Remittance&gt;</code> for <code>remittanceInformationStructuredArray</code></p>
+<p>for consent in <code>AisConsentSpi.verifyScaAuthorisation(&#8230;&#8203;)</code></p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_read_account_details_request_returns_error_for_global_consent_with_owner_name">Bugfix: Read account details request returns error for global consent with owner name</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>From now on, executing read account details request with global consent with owner name will no longer result in <code>401 CONSENT_INVALID</code> error being returned to the TPP.</p>
+<p>In Redirect approach this could be done using CMS-PSU-API:</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_create_consent_request_should_not_be_rejected_when_account_owner_name_service_is_not_supported_by_aspsp">Bugfix: Create Consent Request should not be rejected when Account Owner Name Service is not supported by ASPSP</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, create consent request with owner name will not be rejected if ASPSP doesn&#8217;t support owner name.
-Consent will be saved to database without owner name information.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_removed_owner_address_type_column_from_ais_consent_table">Removed <code>owner_address_type</code> column from <code>ais_consent</code> table</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, <code>owner_address_type</code> column is removed from <code>ais_consent</code> table</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fixed_javadoc_warnings">Fixed javadoc warnings</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, there are no javadoc warnings while executing <code>mvn javadoc:javadoc</code></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_accept_certificate_from_request_when_mock_qwac_profile_is_activated">Accept certificate from request when "mock-qwac" profile is activated</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, when "mock-qwac" profile is activated accept certificate from request (<code>tpp-qwac-certificate</code> header)
-if it exists and mock certificate otherwise.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for payment use <code>CmsPsuPisService.updatePaymentStatus(&#8230;&#8203;)</code> or <code>PUT /psu-api/v1/payment/{payment-id}/status/{status}</code> endpoint</p>
+</li>
+<li>
+<p>for consent use <code>CmsPsuAisService.authorisePartiallyConsent(&#8230;&#8203;)</code> method or <code>PUT /psu-api/v1/ais/consent/{consent-id}/authorise-partially-consent</code> endpoint</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-20 17:47:41 UTC
+Last updated 2020-08-28 09:08:13 UTC
 </div>
 </div>
 </body>

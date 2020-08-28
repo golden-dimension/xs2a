@@ -446,23 +446,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_multi_tenancy_support">Multi-tenancy support</h3>
 <div class="paragraph">
-<p>By default, multi-tenancy mode is disabled.
-Multi-tenancy is an architecture in which a single instance of a software application serves multiple customers.
-Each customer shares the software applications (ASPSP Profile, CMS) and shares a single database. Each tenant’s data is isolated and remains invisible to other tenants.</p>
-</div>
-<div class="paragraph">
-<p>ASPSP Profile supports multi-tenancy mode. Configuration can be done by switching flag on and registering all supporting bank profiles in <code>application.yml</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>xs2a.bank_profile.multitenancy.enabled=true
-xs2a.bank_profile.multitenancy.customBankProfiles={bank1:'classpath:bank1_profile.yml', bank2:'classpath:bank2_profile.yml'}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>When multi-tenancy is enabled and fully configured additional header <code>instance-id</code> is required for all HTTP requests, otherwise get an error 400 <code>BAD_REQUEST</code>.</p>
-</div>
-<div class="paragraph">
 <p>It&#8217;s possible to use CMS database in multi-tenancy mode, with multiple XS2A instances being connected to one CMS database.
 This approach is not recommended and in general multiple XS2A instances should be used with their own database instances.
 But if it&#8217;s still necessary to use one database, CMS should be additionally configured to support this mode.</p>
@@ -473,41 +456,9 @@ To access such resource, appropriate <code>instanceId</code> value should be pas
 Default value for <code>instanceId</code> is set to <code>UNDEFINED</code>.</p>
 </div>
 <div class="paragraph">
-<p>To configure CMS service to properly work with multiple XS2A instances, multiple instances of <code>cms-standalone-service</code> can be used, with <code>xs2a.cms.service.instance-id</code> property set to appropriate value for each instance.
+<p>To configure CMS service to properly work with multiple XS2A instances, multiple instances of <code>cms-standalone-service</code> can be used, with <code>cms.service.instance-id</code> property set to appropriate value for each instance.
 Alternatively, some kind of an interceptor should be implemented in CMS (or in connector application in case of using CMS in embedded mode) to set <code>instanceId</code> property before saving records to the database.
 Example of Hibernate interceptor with such functionality can be found in <code>cms-standalone-service</code>: in <code>de.adorsys.psd2.consent.config.ServiceInstanceIdEventListener</code>, along with the configuration in <code>de.adorsys.psd2.consent.config.HibernateListenerConfig</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_support_multi_tenancy_in_xs2a">Support multi-tenancy in XS2A</h3>
-<div class="paragraph">
-<p>XS2A supports multi-tenancy with 1 database and 1 CMS instances.
-Request header <code>Instance-ID</code> defines a current tenant. The header is not mandatory.</p>
-</div>
-<div class="paragraph">
-<p>Response link <code>scaRedirect</code> will include <code>Instance-ID</code> parameter if the mentioned header comes with request.</p>
-</div>
-<div class="paragraph">
-<p>SPI objects <code>SpiAccountConsent</code>, <code>SpiPaymentInfo</code>, <code>SpiSinglePayment</code> and <code>SpiBulkPayment</code> were extended for <code>instanceId</code> field.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_support_multi_tenancy_in_aspsp_profile">Support multi-tenancy in ASPSP Profile</h3>
-<div class="paragraph">
-<p>ASPSP Profile supports more than one ASPSP profiles. In this mode ASPSP Profile needs to be configured for each supporting instances separately.
-HTTP header <code>instance-id</code> is required for all requests to the profile otherwise error will occur.</p>
-</div>
-<div class="paragraph">
-<p>To enable multi tenancy in ASPSP Profile in <code>application.yml</code> set flag and register config profiles for every tenant:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>xs2a.bank_profile.multitenancy.enabled=true
-xs2a.bank_profile.multitenancy.customBankProfiles={bank1:'classpath:bank1_profile.yml', bank2:'classpath:bank2_profile.yml'}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By default, multi-tenancy mode for ASPSP Profile is disabled.</p>
 </div>
 </div>
 <div class="sect2">
@@ -731,7 +682,7 @@ for adding additional products e.g., it should be updated ASPSP-Profile as well.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-20 17:47:41 UTC
+Last updated 2020-08-28 09:08:13 UTC
 </div>
 </div>
 </body>
