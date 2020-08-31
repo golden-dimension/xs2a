@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "JSON based account report. This account report contains transactions resulting from the query parameters.  'information' is used if and only if the bookingStatus entry equals \"information\". Every active standing order related to the dedicated payment account result into one entry.  'booked' shall be contained if bookingStatus parameter is set to \"booked\" or \"both\".  'pending' is not contained if the bookingStatus parameter is set to \"booked\". ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T12:29:06.642536+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T16:39:54.348465+03:00[Europe/Kiev]")
 
 public class AccountReport   {
   @JsonProperty("booked")

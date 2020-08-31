@@ -3036,9 +3036,10 @@ paths:
       #header
           #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
+        - $ref: "#/components/parameters/piisConsentId_HEADER_optional"
         - $ref: "#/components/parameters/Authorization"
           #method specific header elements
-        - $ref: "#/components/parameters/consentId_HEADER_optional" # Consent-Id for usage of extended services
+          #- $ref: "#/components/parameters/consentId_HEADER_optional" # Consent-Id for usage of extended services
           #header to support the signature function
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
@@ -6770,8 +6771,8 @@ components:
         instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
 #        debtorId: # N.A. for all, but can be used by ASPSP if needed
@@ -6840,8 +6841,8 @@ components:
         instructionIdentification:  # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
 #        debtorId: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/debtorId"
         debtorAccount: 
@@ -8096,6 +8097,10 @@ components:
 
     MessageCode406_PIS:
       description: Message codes defined for PIS for HTTP Error code 406 (NOT ACCEPTABLE).
+      type: string
+
+    MessageCode406_PIIS:
+      description: Message codes defined for AIS for HTTP Error code 406 (NOT ACCEPTABLE).
       type: string
 
     MessageCode409_AIS: 

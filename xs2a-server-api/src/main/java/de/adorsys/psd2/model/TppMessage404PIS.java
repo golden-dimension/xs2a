@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * TppMessage404PIS
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T12:29:06.642536+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T16:39:54.348465+03:00[Europe/Kiev]")
 
 public class TppMessage404PIS   {
   @JsonProperty("category")

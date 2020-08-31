@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Generic JSON response body consistion of the corresponding payment initation JSON body together with an optional transaction status field. ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T12:29:06.642536+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T16:39:54.348465+03:00[Europe/Kiev]")
 
 public class PaymentInitiationWithStatusResponse   {
   @JsonProperty("endToEndIdentification")
@@ -29,6 +29,9 @@ public class PaymentInitiationWithStatusResponse   {
 
   @JsonProperty("instructionIdentification")
   private String instructionIdentification = null;
+
+  @JsonProperty("debtorName")
+  private String debtorName = null;
 
   @JsonProperty("debtorAccount")
   private AccountReference debtorAccount = null;
@@ -117,6 +120,28 @@ public class PaymentInitiationWithStatusResponse   {
 
   public void setInstructionIdentification(String instructionIdentification) {
     this.instructionIdentification = instructionIdentification;
+  }
+
+  public PaymentInitiationWithStatusResponse debtorName(String debtorName) {
+    this.debtorName = debtorName;
+    return this;
+  }
+
+  /**
+   * Get debtorName
+   * @return debtorName
+  **/
+  @ApiModelProperty(value = "")
+
+@Size(max=70)
+
+  @JsonProperty("debtorName")
+  public String getDebtorName() {
+    return debtorName;
+  }
+
+  public void setDebtorName(String debtorName) {
+    this.debtorName = debtorName;
   }
 
   public PaymentInitiationWithStatusResponse debtorAccount(AccountReference debtorAccount) {
@@ -472,6 +497,7 @@ public class PaymentInitiationWithStatusResponse   {
 }    PaymentInitiationWithStatusResponse paymentInitiationWithStatusResponse = (PaymentInitiationWithStatusResponse) o;
     return Objects.equals(this.endToEndIdentification, paymentInitiationWithStatusResponse.endToEndIdentification) &&
     Objects.equals(this.instructionIdentification, paymentInitiationWithStatusResponse.instructionIdentification) &&
+    Objects.equals(this.debtorName, paymentInitiationWithStatusResponse.debtorName) &&
     Objects.equals(this.debtorAccount, paymentInitiationWithStatusResponse.debtorAccount) &&
     Objects.equals(this.ultimateDebtor, paymentInitiationWithStatusResponse.ultimateDebtor) &&
     Objects.equals(this.instructedAmount, paymentInitiationWithStatusResponse.instructedAmount) &&
@@ -491,7 +517,7 @@ public class PaymentInitiationWithStatusResponse   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(endToEndIdentification, instructionIdentification, debtorAccount, ultimateDebtor, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, creditorId, ultimateCreditor, purposeCode, remittanceInformationUnstructured, remittanceInformationStructured, remittanceInformationStructuredArray, requestedExecutionDate, transactionStatus);
+    return Objects.hash(endToEndIdentification, instructionIdentification, debtorName, debtorAccount, ultimateDebtor, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, creditorId, ultimateCreditor, purposeCode, remittanceInformationUnstructured, remittanceInformationStructured, remittanceInformationStructuredArray, requestedExecutionDate, transactionStatus);
   }
 
   @Override
@@ -501,6 +527,7 @@ public class PaymentInitiationWithStatusResponse   {
 
     sb.append("    endToEndIdentification: ").append(toIndentedString(endToEndIdentification)).append("\n");
     sb.append("    instructionIdentification: ").append(toIndentedString(instructionIdentification)).append("\n");
+    sb.append("    debtorName: ").append(toIndentedString(debtorName)).append("\n");
     sb.append("    debtorAccount: ").append(toIndentedString(debtorAccount)).append("\n");
     sb.append("    ultimateDebtor: ").append(toIndentedString(ultimateDebtor)).append("\n");
     sb.append("    instructedAmount: ").append(toIndentedString(instructedAmount)).append("\n");
