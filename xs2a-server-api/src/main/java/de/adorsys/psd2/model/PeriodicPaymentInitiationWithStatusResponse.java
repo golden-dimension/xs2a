@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Generic JSON response body consistion of the corresponding periodic payment initation JSON body together with an optional transaction status field. ")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-25T18:03:04.675305+03:00[Europe/Kiev]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-08-31T12:29:06.642536+03:00[Europe/Kiev]")
 
 public class PeriodicPaymentInitiationWithStatusResponse   {
   @JsonProperty("endToEndIdentification")
@@ -31,9 +31,6 @@ public class PeriodicPaymentInitiationWithStatusResponse   {
 
   @JsonProperty("instructionIdentification")
   private String instructionIdentification = null;
-
-  @JsonProperty("debtorName")
-  private String debtorName = null;
 
   @JsonProperty("debtorAccount")
   private AccountReference debtorAccount = null;
@@ -128,28 +125,6 @@ public class PeriodicPaymentInitiationWithStatusResponse   {
 
   public void setInstructionIdentification(String instructionIdentification) {
     this.instructionIdentification = instructionIdentification;
-  }
-
-  public PeriodicPaymentInitiationWithStatusResponse debtorName(String debtorName) {
-    this.debtorName = debtorName;
-    return this;
-  }
-
-  /**
-   * Get debtorName
-   * @return debtorName
-  **/
-  @ApiModelProperty(value = "")
-
-@Size(max=70)
-
-  @JsonProperty("debtorName")
-  public String getDebtorName() {
-    return debtorName;
-  }
-
-  public void setDebtorName(String debtorName) {
-    this.debtorName = debtorName;
   }
 
   public PeriodicPaymentInitiationWithStatusResponse debtorAccount(AccountReference debtorAccount) {
@@ -553,7 +528,6 @@ public class PeriodicPaymentInitiationWithStatusResponse   {
 }    PeriodicPaymentInitiationWithStatusResponse periodicPaymentInitiationWithStatusResponse = (PeriodicPaymentInitiationWithStatusResponse) o;
     return Objects.equals(this.endToEndIdentification, periodicPaymentInitiationWithStatusResponse.endToEndIdentification) &&
     Objects.equals(this.instructionIdentification, periodicPaymentInitiationWithStatusResponse.instructionIdentification) &&
-    Objects.equals(this.debtorName, periodicPaymentInitiationWithStatusResponse.debtorName) &&
     Objects.equals(this.debtorAccount, periodicPaymentInitiationWithStatusResponse.debtorAccount) &&
     Objects.equals(this.ultimateDebtor, periodicPaymentInitiationWithStatusResponse.ultimateDebtor) &&
     Objects.equals(this.instructedAmount, periodicPaymentInitiationWithStatusResponse.instructedAmount) &&
@@ -575,7 +549,7 @@ public class PeriodicPaymentInitiationWithStatusResponse   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(endToEndIdentification, instructionIdentification, debtorName, debtorAccount, ultimateDebtor, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, ultimateCreditor, purposeCode, remittanceInformationUnstructured, remittanceInformationStructured, startDate, endDate, executionRule, frequency, dayOfExecution, transactionStatus);
+    return Objects.hash(endToEndIdentification, instructionIdentification, debtorAccount, ultimateDebtor, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, ultimateCreditor, purposeCode, remittanceInformationUnstructured, remittanceInformationStructured, startDate, endDate, executionRule, frequency, dayOfExecution, transactionStatus);
   }
 
   @Override
@@ -585,7 +559,6 @@ public class PeriodicPaymentInitiationWithStatusResponse   {
 
     sb.append("    endToEndIdentification: ").append(toIndentedString(endToEndIdentification)).append("\n");
     sb.append("    instructionIdentification: ").append(toIndentedString(instructionIdentification)).append("\n");
-    sb.append("    debtorName: ").append(toIndentedString(debtorName)).append("\n");
     sb.append("    debtorAccount: ").append(toIndentedString(debtorAccount)).append("\n");
     sb.append("    ultimateDebtor: ").append(toIndentedString(ultimateDebtor)).append("\n");
     sb.append("    instructedAmount: ").append(toIndentedString(instructedAmount)).append("\n");
