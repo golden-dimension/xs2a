@@ -1842,19 +1842,19 @@ paths:
         # it is recommandes to adjust the security schemes according to
         # your system enviroments and security policies.
         #####################################################
-        - { }
+        - {}
         #- BearerAuthOAuth: []
 
       parameters:
         #path # NO PATH PARAMETER
         #query
-        - $ref: "#/components/parameters/accountId"
+        - $ref: "#/components/parameters/accountIdQuery"
         #header
         #common header parameter
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/PSU-IP-Address_optional"
         - $ref: "#/components/parameters/consentId_HEADER_mandatory"
-        # - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/Authorization"
 
       responses:
         '200':
@@ -3038,7 +3038,7 @@ paths:
         - $ref: "#/components/parameters/X-Request-ID"
         - $ref: "#/components/parameters/Authorization"
           #method specific header elements
-        #- $ref: "#/components/parameters/consentId_HEADER_optional" # Consent-Id for usage of extended services
+        - $ref: "#/components/parameters/consentId_HEADER_optional" # Consent-Id for usage of extended services
           #header to support the signature function
         - $ref: "#/components/parameters/Digest"
         - $ref: "#/components/parameters/Signature"
@@ -6072,8 +6072,8 @@ components:
         instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
         debtorAccount: 
           $ref: "#/components/schemas/accountReference"
 #        debtorId: # N.A. for all, but can be used by ASPSP if needed
@@ -6205,8 +6205,8 @@ components:
         instructionIdentification: # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
 #        debtorId: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/debtorId"
         ultimateDebtor: # N.A. for all, but can be used by ASPSP if needed
@@ -6332,8 +6332,8 @@ components:
         instructionIdentification:  # N.A. for all, but can be used by ASPSP if needed
           type: string
           maxLength: 35
-#        debtorName: # N.A. for all, but can be used by ASPSP if needed
-#          $ref: "#/components/schemas/debtorName"
+        debtorName: # N.A. for all, but can be used by ASPSP if needed
+          $ref: "#/components/schemas/debtorName"
 #        debtorId: # N.A. for all, but can be used by ASPSP if needed
 #          $ref: "#/components/schemas/debtorId"
         debtorAccount: 
@@ -11124,13 +11124,13 @@ components:
       name: account-id
       in: query
       description: |
-        Reference to a dedicated account, which where a list of trusted beneficiaries might be restricted to.
-        The reference is the corresponding URI resource identification of the /accounts endpoint.
-        This parameter might only be used by the TPP if the ASPSP is supporting dedicated lists of trusted
-        beneficiaries per PSU account.
+        This identification is denoting the addressed account.
+        The account-id is retrieved by using a "Read account list" call.
+        The account-id is the "id" attribute of the account structure.
+        Its value is constant at least throughout the lifecycle of a given consent.
       required: false
       schema:
-        type: string
+        $ref: "#/components/schemas/accountId"
 
 
     dateFrom:
