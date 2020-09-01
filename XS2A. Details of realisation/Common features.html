@@ -584,12 +584,73 @@ If it is needed to receive extra parameters in payment (for example, bank sort c
 And request is not rejected.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_tpp_certificate_generation">TPP Certificate generation</h3>
+<div class="paragraph">
+<p><strong>Generating certificate with validity less than 365 days</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Clone <a href="https://github.com/adorsys/xs2a" class="bare">https://github.com/adorsys/xs2a</a>, build and execute certificate-generator. Alternatively use the TPP certificate generator mentioned in 01 Links to the environments.</p>
+</li>
+<li>
+<p>Launch application and open swagger-ui.html, fill in certificate data and execute the request.</p>
+</li>
+<li>
+<p>Mocked certificate in xs2a-impl uses the data provided as example in Swagger UI for the request with the following changes:  commonName attribute contains empty value and roles attribute contains PISP, AISP and PIISP roles.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Certificate generation with validity exceeding 365 days is restricted by server-side validation</strong></p>
+</div>
+<div class="paragraph">
+<p>There are several ways to bypass this restriction:</p>
+</div>
+<div class="paragraph">
+<p><strong>a. Using debug mode:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Launch up certificate generator in debug mode;</p>
+</li>
+<li>
+<p>Send the request for certificate generation with validity  &#8656; 365;</p>
+</li>
+<li>
+<p>Intercept the request on controller or service layer and set validity to the desired value using debug tools.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>b. Adjusting xs2a-certificate-generator:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Clone <a href="https://github.com/adorsys/xs2a" class="bare">https://github.com/adorsys/xs2a</a> and find certificate-generator service;</p>
+</li>
+<li>
+<p>Remove<em> @Max(365)</em> from <em>validity</em> field in the
+<code><code>de.adorsys.psd2.certificate.generator.model.CertificateRequest.class </code></code>;</p>
+</li>
+<li>
+<p>Rebuild the service and launch;</p>
+</li>
+<li>
+<p>Send the request with desired validity.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-28 09:47:19 UTC
+Last updated 2020-09-01 08:02:32 UTC
 </div>
 </div>
 </body>

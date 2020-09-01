@@ -471,6 +471,11 @@ The ASPSP will reject the transaction if the TPP cannot be identified correctly 
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p><strong>Multipart periodic payment</strong> uses boundary from request header Content-Type: multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p
+or default --AaaBbbCcc otherwise when it is stored to CMS database.
+Resource get payment information returns such payment with boundary delemiters.</p>
+</div>
 <div class="sect2">
 <h3 id="_country_validation">Country validation</h3>
 <div class="paragraph">
@@ -655,7 +660,7 @@ It is up to the ASPSP to decide if a given payment can still be cancelled or not
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-28 09:47:19 UTC
+Last updated 2020-09-01 08:02:32 UTC
 </div>
 </div>
 </body>
