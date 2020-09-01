@@ -206,6 +206,11 @@ If parameter = FALSE, then no validation will occur.|TRUE |TRUE, FALSE
 
 If parameter = FALSE then XS2A sends the response with HTTP code 400 FORMAT_ERROR "Signing basket is not supported by ASPSP" |FALSE |TRUE, FALSE
 
+|signingBasketMaxEntries |This field indicates maximum entries in signing basket.
+
+|10 |1, 2, 3
+
+
 |aspspNotificationsSupported |This field indicates if an ASPSP supports resource status notification services. Possible values:
 
 SCA: A notification on every change of the scaStatus attribute for all related authorisation processes.
