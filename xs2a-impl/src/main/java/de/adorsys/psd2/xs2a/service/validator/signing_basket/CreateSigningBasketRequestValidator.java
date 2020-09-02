@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 /**
  * Validator to be used for validating create signing basket request according to some business rules
@@ -46,6 +46,11 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     @NotNull
     @Override
     public ValidationResult validate(@NotNull CreateSigningBasketRequestObject requestObject) {
+        ValidationResult signingBasketSupportedValidationResult = validateSigningBasketSupported();
+        if (signingBasketSupportedValidationResult.isNotValid()) {
+            return signingBasketSupportedValidationResult;
+        }
+
         ValidationResult psuDataValidationResult = psuDataInInitialRequestValidator.validate(requestObject.getPsuIdData());
         if (psuDataValidationResult.isNotValid()) {
             return psuDataValidationResult;
@@ -54,6 +59,14 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         ValidationResult signingBasketMaxEntriesValidationResult = validateSigningBasketMaxEntries(requestObject.getSigningBasketReq());
         if (signingBasketMaxEntriesValidationResult.isNotValid()) {
             return signingBasketMaxEntriesValidationResult;
+        }
+
+        return ValidationResult.valid();
+    }
+
+    private ValidationResult validateSigningBasketSupported() {
+        if (!aspspProfileService.isSigningBasketSupported()) {
+            return ValidationResult.invalid(ErrorType.SB_405, TppMessageInformation.buildWithCustomError(SERVICE_INVALID_405, "Signing basket is not supported by ASPSP"));
         }
 
         return ValidationResult.valid();

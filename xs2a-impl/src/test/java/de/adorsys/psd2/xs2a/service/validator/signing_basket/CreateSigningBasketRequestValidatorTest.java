@@ -34,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.FORMAT_ERROR;
+import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.SERVICE_INVALID_405;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -46,6 +47,8 @@ class CreateSigningBasketRequestValidatorTest {
         new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR));
     private static final MessageError MAX_ENTRIES_VALIDATION_ERROR =
         new MessageError(ErrorType.SB_400, TppMessageInformation.buildWithCustomError(FORMAT_ERROR, "Number of entries in Signing Basket should not exceed more than " + 5));
+    private static final MessageError SIGNING_BASKET_NOT_SUPPORTED_VALIDATION_ERROR =
+        new MessageError(ErrorType.SB_405, TppMessageInformation.buildWithCustomError(SERVICE_INVALID_405, "Signing basket is not supported by ASPSP"));
 
     @InjectMocks
     private CreateSigningBasketRequestValidator createSigningBasketRequestValidator;
@@ -57,6 +60,8 @@ class CreateSigningBasketRequestValidatorTest {
     @Test
     void validate_withInvalidPsuData_shouldReturnErrorFromValidator() {
         //Given
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(true);
         when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
             .thenReturn(ValidationResult.invalid(PSU_DATA_VALIDATION_ERROR));
         SigningBasketReq signingBasketReq = new SigningBasketReq();
@@ -72,6 +77,8 @@ class CreateSigningBasketRequestValidatorTest {
 
     @Test
     void validate_signingBasketMaxEntries_shouldReturnErrorFromValidator() {
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(true);
         when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
             .thenReturn(ValidationResult.valid());
         when(aspspProfileService.getSigningBasketMaxEntries())
@@ -87,5 +94,20 @@ class CreateSigningBasketRequestValidatorTest {
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
         assertThat(validationResult.getMessageError()).isEqualTo(MAX_ENTRIES_VALIDATION_ERROR);
+    }
+
+    @Test
+    void validate_signingBasketIsNotSupported_shouldReturnErrorFromValidator() {
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(false);
+
+        SigningBasketReq signingBasketReq = new SigningBasketReq();
+
+        //When
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(signingBasketReq, EMPTY_PSU_DATA));
+
+        //Then
+        assertThat(validationResult.isNotValid()).isTrue();
+        assertThat(validationResult.getMessageError()).isEqualTo(SIGNING_BASKET_NOT_SUPPORTED_VALIDATION_ERROR);
     }
 }
