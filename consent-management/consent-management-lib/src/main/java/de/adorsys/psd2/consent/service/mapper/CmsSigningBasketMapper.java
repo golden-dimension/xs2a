@@ -16,66 +16,145 @@
 
 package de.adorsys.psd2.consent.service.mapper;
 
-import de.adorsys.psd2.consent.api.signingBasket.*;
-import de.adorsys.psd2.consent.domain.AuthorisationEntity;
-import de.adorsys.psd2.consent.domain.signingBaskets.SigningBasket;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasket;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketConsent;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketPayment;
+import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
+import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
+import de.adorsys.psd2.consent.domain.signingbaskets.SigningBasket;
+import de.adorsys.psd2.consent.service.security.SecurityDataService;
+import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
 @Component
 @RequiredArgsConstructor
 public class CmsSigningBasketMapper {
-    private CmsConsentMapper cmsConsentMapper;
-    private PisCommonPaymentMapper pisCommonPaymentMapper;
-    private AuthorisationTemplateMapper authorisationTemplateMapper;
-    private PsuDataMapper psuDataMapper;
+    private final AuthorisationTemplateMapper authorisationTemplateMapper;
+    private final PsuDataMapper psuDataMapper;
 
-    public CmsSigningBasket mapToCmsSigningBasket(SigningBasket entity, List<AuthorisationEntity> authorisations, Map<String, Integer> usages) {
+    public Optional<CmsSigningBasket> decrypt(CmsSigningBasket cmsSigningBasket, SecurityDataService securityDataService) {
+        Optional<List<CmsSigningBasketConsent>> consents = decryptConsents(cmsSigningBasket, securityDataService);
+        Optional<List<CmsSigningBasketPayment>> payments = decryptPayments(cmsSigningBasket, securityDataService);
+
+        if (consents.isEmpty() || payments.isEmpty()) {
+            return Optional.empty();
+        }
+
+        CmsSigningBasket decryptedCmsSigningBasket = new CmsSigningBasket();
+        decryptedCmsSigningBasket.setId(cmsSigningBasket.getId());
+        decryptedCmsSigningBasket.setConsents(consents.get());
+        decryptedCmsSigningBasket.setPayments(payments.get());
+        decryptedCmsSigningBasket.setAuthorisationTemplate(cmsSigningBasket.getAuthorisationTemplate());
+        decryptedCmsSigningBasket.setTransactionStatus(cmsSigningBasket.getTransactionStatus());
+        decryptedCmsSigningBasket.setInternalRequestId(cmsSigningBasket.getInternalRequestId());
+        decryptedCmsSigningBasket.setPsuIdDatas(cmsSigningBasket.getPsuIdDatas());
+        decryptedCmsSigningBasket.setMultilevelScaRequired(cmsSigningBasket.isMultilevelScaRequired());
+        return Optional.of(decryptedCmsSigningBasket);
+    }
+
+    private Optional<List<CmsSigningBasketConsent>> decryptConsents(CmsSigningBasket cmsSigningBasket, SecurityDataService securityDataService) {
+        List<CmsSigningBasketConsent> consents = new ArrayList<>();
+        for (CmsSigningBasketConsent cmsSigningBasketConsent : cmsSigningBasket.getConsents()) {
+            Optional<CmsSigningBasketConsent> consent = decryptCmsSigningBasketConsent(cmsSigningBasketConsent, securityDataService);
+
+            if (consent.isEmpty()) {
+                return Optional.empty();
+            }
+
+            consents.add(consent.get());
+        }
+        return Optional.of(consents);
+    }
+
+    private Optional<List<CmsSigningBasketPayment>> decryptPayments(CmsSigningBasket cmsSigningBasket, SecurityDataService securityDataService) {
+        List<CmsSigningBasketPayment> payments = new ArrayList<>();
+        for (CmsSigningBasketPayment cmsSigningBasketPayment : cmsSigningBasket.getPayments()) {
+            Optional<CmsSigningBasketPayment> payment = decryptCmsSigningBasketPayment(cmsSigningBasketPayment, securityDataService);
+
+            if (payment.isEmpty()) {
+                return Optional.empty();
+            }
+
+            payments.add(payment.get());
+        }
+        return Optional.of(payments);
+    }
+
+    private Optional<CmsSigningBasketConsent> decryptCmsSigningBasketConsent(CmsSigningBasketConsent consent, SecurityDataService securityDataService) {
+        Optional<String> consentId = securityDataService.decryptId(consent.getId());
+
+        if (consentId.isEmpty()) {
+            return Optional.empty();
+        }
+
+        CmsSigningBasketConsent decryptedConsent = new CmsSigningBasketConsent();
+        decryptedConsent.setId(consentId.get());
+        return Optional.of(decryptedConsent);
+    }
+
+    private Optional<CmsSigningBasketPayment> decryptCmsSigningBasketPayment(CmsSigningBasketPayment payment, SecurityDataService securityDataService) {
+        Optional<String> paymentId = securityDataService.decryptId(payment.getId());
+
+        if (paymentId.isEmpty()) {
+            return Optional.empty();
+        }
+
+        CmsSigningBasketPayment decryptedPayment = new CmsSigningBasketPayment();
+        decryptedPayment.setId(paymentId.get());
+        return Optional.of(decryptedPayment);
+    }
+
+    public CmsSigningBasket mapToCmsSigningBasket(SigningBasket entity) {
         CmsSigningBasket cmsSigningBasket = new CmsSigningBasket();
         cmsSigningBasket.setId(entity.getExternalId());
-        cmsSigningBasket.setConsents(entity.getConsents().stream().map(consentEntity -> cmsConsentMapper.mapToCmsConsent(consentEntity, authorisations, usages)).collect(Collectors.toList()));
-        cmsSigningBasket.setPayments(entity.getPayments().stream().map(paymentEntity -> pisCommonPaymentMapper.mapToPisCommonPaymentResponse(paymentEntity, authorisations).get()).collect(Collectors.toList()));
+        cmsSigningBasket.setConsents(mapToCmsSigningBasketConsents(entity.getConsents()));
+        cmsSigningBasket.setPayments(mapToCmsSigningBasketPayments(entity.getPayments()));
         cmsSigningBasket.setAuthorisationTemplate(authorisationTemplateMapper.mapToAuthorisationTemplate(entity.getAuthorisationTemplate()));
-        cmsSigningBasket.setTransactionStatus(entity.getTransactionStatus());
+        cmsSigningBasket.setTransactionStatus(SigningBasketTransactionStatus.getByValue(entity.getTransactionStatus()));
         cmsSigningBasket.setInternalRequestId(entity.getInternalRequestId());
         cmsSigningBasket.setPsuIdDatas(psuDataMapper.mapToPsuIdDataList(entity.getPsuDataList()));
+        cmsSigningBasket.setMultilevelScaRequired(entity.isMultilevelScaRequired());
         return cmsSigningBasket;
     }
 
-//    public ConsentEntity mapToNewConsentEntity(CmsConsent cmsConsent) {
-//        ConsentEntity entity = new ConsentEntity();
-//        entity.setData(cmsConsent.getConsentData());
-//        entity.setChecksum(cmsConsent.getChecksum());
-//        entity.setExternalId(UUID.randomUUID().toString());
-//        entity.setConsentStatus(cmsConsent.getConsentStatus());
-//        entity.setConsentType(cmsConsent.getConsentType().getName());
-//        entity.setFrequencyPerDay(cmsConsent.getFrequencyPerDay());
-//        entity.setMultilevelScaRequired(cmsConsent.isMultilevelScaRequired());
-//        entity.setRequestDateTime(OffsetDateTime.now());
-//        entity.setValidUntil(cmsConsent.getValidUntil());
-//        entity.setExpireDate(cmsConsent.getExpireDate());
-//        entity.setPsuDataList(psuDataMapper.mapToPsuDataList(cmsConsent.getPsuIdDataList(), cmsConsent.getInstanceId()));
-//        entity.getPsuDataList().forEach(p -> p.setInstanceId(cmsConsent.getInstanceId()));
-//        entity.setAuthorisationTemplate(authorisationTemplateMapper.mapToAuthorisationTemplateEntity(cmsConsent.getAuthorisationTemplate()));
-//        entity.setRecurringIndicator(cmsConsent.isRecurringIndicator());
-//        entity.setLastActionDate(LocalDate.now());
-//        entity.setInternalRequestId(cmsConsent.getInternalRequestId());
-//        entity.setTppInformation(consentTppInformationMapper.mapToConsentTppInformationEntity(cmsConsent.getTppInformation()));
-//        AccountAccess tppAccountAccesses = cmsConsent.getTppAccountAccesses();
-//        entity.setTppAccountAccesses(accessMapper.mapToTppAccountAccess(tppAccountAccesses));
-//        entity.setAspspAccountAccesses(accessMapper.mapToAspspAccountAccess(cmsConsent.getAspspAccountAccesses()));
-//        entity.setInstanceId(cmsConsent.getInstanceId());
-//
-//        AdditionalInformationAccess additionalInformationAccess = tppAccountAccesses.getAdditionalInformationAccess();
-//        if (additionalInformationAccess != null) {
-//            entity.setOwnerNameType(AdditionalAccountInformationType.findTypeByList(additionalInformationAccess.getOwnerName()));
-//            entity.setTrustedBeneficiariesType(AdditionalAccountInformationType.findTypeByList(additionalInformationAccess.getTrustedBeneficiaries()));
-//        }
-//        return entity;
-//    }
+    public SigningBasket mapToNewSigningBasket(CmsSigningBasket cmsSigningBasket, List<ConsentEntity> consentEntities, List<PisCommonPaymentData> payments) {
+        SigningBasket signingBasket = new SigningBasket();
+        signingBasket.setExternalId(UUID.randomUUID().toString());
+        signingBasket.setConsents(consentEntities);
+        signingBasket.setPayments(payments);
+        signingBasket.setTransactionStatus(cmsSigningBasket.getTransactionStatus().toString());
+        signingBasket.setInternalRequestId(cmsSigningBasket.getInternalRequestId());
+        signingBasket.setAuthorisationTemplate(authorisationTemplateMapper.mapToAuthorisationTemplateEntity(cmsSigningBasket.getAuthorisationTemplate()));
+        signingBasket.setPsuDataList(psuDataMapper.mapToPsuDataList(cmsSigningBasket.getPsuIdDatas(), cmsSigningBasket.getInstanceId()));
+        signingBasket.setMultilevelScaRequired(cmsSigningBasket.isMultilevelScaRequired());
+        return signingBasket;
+    }
+
+    public List<CmsSigningBasketConsent> mapToCmsSigningBasketConsents(List<ConsentEntity> consentEntities) {
+        return consentEntities.stream().map(this::mapToCmsSigningBasketConsent).collect(Collectors.toList());
+    }
+
+    public List<CmsSigningBasketPayment> mapToCmsSigningBasketPayments(List<PisCommonPaymentData> payments) {
+        return payments.stream().map(this::mapToCmsSigningBasketPayments).collect(Collectors.toList());
+    }
+
+    private CmsSigningBasketConsent mapToCmsSigningBasketConsent(ConsentEntity consentEntity) {
+        CmsSigningBasketConsent cmsSigningBasketConsent = new CmsSigningBasketConsent();
+        cmsSigningBasketConsent.setId(consentEntity.getExternalId());
+        return cmsSigningBasketConsent;
+    }
+
+    private CmsSigningBasketPayment mapToCmsSigningBasketPayments(PisCommonPaymentData payment) {
+        CmsSigningBasketPayment cmsSigningBasketPayment = new CmsSigningBasketPayment();
+        cmsSigningBasketPayment.setId(payment.getExternalId());
+        return cmsSigningBasketPayment;
+    }
 }

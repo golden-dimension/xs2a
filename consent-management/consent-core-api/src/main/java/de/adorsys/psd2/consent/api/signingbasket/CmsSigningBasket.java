@@ -1,11 +1,9 @@
-package de.adorsys.psd2.consent.api.signingBasket;
+package de.adorsys.psd2.consent.api.signingbasket;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.pis.CommonPaymentData;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.signingBasket.TransactionStatus;
+import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
 import lombok.Data;
 
 import java.util.List;
@@ -14,10 +12,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CmsSigningBasket {
     private String id;
-    private List<CmsConsent> consents;
-    private List<CommonPaymentData> payments;
+    private String instanceId;
+    private List<CmsSigningBasketConsent> consents;
+    private List<CmsSigningBasketPayment> payments;
     private AuthorisationTemplate authorisationTemplate;
-    private TransactionStatus transactionStatus;
+    private SigningBasketTransactionStatus transactionStatus;
     private String internalRequestId;
     private List<PsuIdData> psuIdDatas;
+    private boolean multilevelScaRequired;
 }

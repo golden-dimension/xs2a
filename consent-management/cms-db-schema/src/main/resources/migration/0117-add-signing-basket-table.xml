@@ -39,6 +39,8 @@
             <column name="authorisation_template_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="multilevel_sca_required" type="BOOLEAN"/>
+            <column name="instance_id" type="VARCHAR(40)"/>
         </createTable>
     </changeSet>
 

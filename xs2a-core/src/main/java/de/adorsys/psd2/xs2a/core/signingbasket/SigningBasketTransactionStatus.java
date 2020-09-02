@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.core.signingBasket;
+package de.adorsys.psd2.xs2a.core.signingbasket;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TransactionStatus {
+public enum SigningBasketTransactionStatus {
     ACTC("AcceptedTechnicalValidation", false),  //AuthenticationObject and syntactical and semantical validation are successful"),
     RCVD("Received", false),  //Payment initiation has been received by the receiving agent
     RJCT("Rejected", true),  //Payment initiation or individual transaction included in the payment initiation has been rejected
     CANC("Canceled", true), //Canceled
     PATC("PartiallyAcceptedTechnicalCorrect", false); // The payment initiation needs multiple authentications, where some but not yet all have been performed. Syntactical and semantical validations are successful.
 
-    private static Map<String, TransactionStatus> container = new HashMap<>();
+    private static Map<String, SigningBasketTransactionStatus> container = new HashMap<>();
 
     static {
         Arrays.stream(values())
@@ -45,12 +45,12 @@ public enum TransactionStatus {
         return !isFinalisedStatus();
     }
 
-    TransactionStatus(String transactionStatus, boolean finalisedStatus) {
+    SigningBasketTransactionStatus(String transactionStatus, boolean finalisedStatus) {
         this.transactionStatus = transactionStatus;
         this.finalisedStatus = finalisedStatus;
     }
 
-    public static TransactionStatus getByValue(String transactionStatus) {
+    public static SigningBasketTransactionStatus getByValue(String transactionStatus) {
         return container.get(transactionStatus);
     }
 

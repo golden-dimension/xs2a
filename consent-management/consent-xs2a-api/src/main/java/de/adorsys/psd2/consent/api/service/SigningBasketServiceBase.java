@@ -17,7 +17,11 @@
 package de.adorsys.psd2.consent.api.service;
 
 import de.adorsys.psd2.consent.api.CmsResponse;
-import de.adorsys.psd2.consent.api.signingBasket.*;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasket;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketConsentsAndPaymentsResponse;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketCreationResponse;
+
+import java.util.List;
 
 /**
  * Base version of ConsentService that contains all method declarations.
@@ -34,5 +38,14 @@ interface SigningBasketServiceBase {
      * @param signingBasket needed parameters for creating Signing Basket
      * @return create sigining basket response, containing basket and its encrypted ID
      */
-    CmsResponse<CmsCreateSigningBasketResponse> createSigningBasket(CmsSigningBasket signingBasket);
+    CmsResponse<CmsSigningBasketCreationResponse> createSigningBasket(CmsSigningBasket signingBasket);
+
+    /**
+     * Get ids of payment and consents.
+     *
+     * @param consents consents of the to be created signing basket
+     * @param payments payments of the to be created signing basket
+     * @return signing basket consents and payments response, containing consents and payments of the signing basket
+     */
+    CmsResponse<CmsSigningBasketConsentsAndPaymentsResponse> getConsentsAndPayments(List<String> consents, List<String> payments);
 }
