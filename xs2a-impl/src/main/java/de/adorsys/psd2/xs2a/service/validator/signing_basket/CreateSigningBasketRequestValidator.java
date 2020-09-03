@@ -85,6 +85,15 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
 
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = requestObject.getCmsSigningBasketConsentsAndPaymentsResponse();
 
+        ValidationResult cmsSBResponseValidationResult = validateWithCmsSBResponse(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse);
+        if (cmsSBResponseValidationResult.isNotValid()) {
+            return cmsSBResponseValidationResult;
+        }
+
+        return ValidationResult.valid();
+    }
+
+    private ValidationResult validateWithCmsSBResponse(CreateSigningBasketRequest createSigningBasketRequest, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
         ValidationResult wrongIdsValidationResult = validateSigningBasketOnWrongIds(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse);
         if (wrongIdsValidationResult.isNotValid()) {
             return wrongIdsValidationResult;
@@ -105,9 +114,9 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return signingBasketObjectsBlockedValidationResult;
         }
 
-        ValidationResult signingBasketObjectsPartlyAuthorisedValidationResult = validateSigningBasketOnSigningBasketObjectsPartlyAuthorised(cmsSigningBasketConsentsAndPaymentsResponse);
-        if (signingBasketObjectsPartlyAuthorisedValidationResult.isNotValid()) {
-            return signingBasketObjectsPartlyAuthorisedValidationResult;
+        ValidationResult partlyAuthorisedValidationResult = validateSigningBasketOnSigningBasketObjectsPartlyAuthorised(cmsSigningBasketConsentsAndPaymentsResponse);
+        if (partlyAuthorisedValidationResult.isNotValid()) {
+            return partlyAuthorisedValidationResult;
         }
 
 
