@@ -16,8 +16,10 @@
 
 package de.adorsys.psd2.xs2a.service;
 
+import de.adorsys.psd2.consent.api.signingBasket.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
+import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
 import de.adorsys.psd2.xs2a.domain.signing_basket.CreateSigningBasketResponse;
 import de.adorsys.psd2.xs2a.domain.signing_basket.SigningBasketReq;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
@@ -25,15 +27,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SigningBasketService {
-    private final SigningBasketValidationService signingBasketValidationService;
+    private final SigningBasketValidationServiceImpl signingBasketValidationService;
 
     public ResponseObject<CreateSigningBasketResponse> createSigningBasket(SigningBasketReq signingBasketReq, PsuIdData psuIdData) {
 
-        ValidationResult validationResult = signingBasketValidationService.validateSigningBasketOnCreate(signingBasketReq, psuIdData);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(signingBasketReq.getPaymentIds(), signingBasketReq.getConsentIds(), null, null, null);
+        CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
+        ValidationResult validationResult = signingBasketValidationService.validateSigningBasketOnCreate(createSigningBasketRequest, psuIdData, cmsSigningBasketConsentsAndPaymentsResponse);
 
         if (validationResult.isNotValid()) {
             log.info("Create signing basket - validation failed: {}", validationResult.getMessageError());
@@ -41,6 +47,7 @@ public class SigningBasketService {
                        .fail(validationResult.getMessageError())
                        .build();
         }
+
 
         return ResponseObject.<CreateSigningBasketResponse>builder().build();
     }

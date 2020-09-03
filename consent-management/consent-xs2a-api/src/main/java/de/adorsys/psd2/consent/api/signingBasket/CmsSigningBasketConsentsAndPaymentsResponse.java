@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.service.validator.signing_basket.dto;
+package de.adorsys.psd2.consent.api.signingBasket;
 
-import de.adorsys.psd2.consent.api.signingBasket.CmsSigningBasketConsentsAndPaymentsResponse;
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
+import de.adorsys.psd2.consent.api.ais.CmsConsent;
+import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
 import lombok.Value;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 @Value
-public class CreateSigningBasketRequestObject {
-    @NotNull
-    private CreateSigningBasketRequest createSigningBasketRequest;
-    @NotNull
-    private CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse;
-    @NotNull
-    private PsuIdData psuIdData;
+public class CmsSigningBasketConsentsAndPaymentsResponse {
+    private final List<CmsConsent> consents;
+    private final List<PisCommonPaymentResponse> payments;
 }

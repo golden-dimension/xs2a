@@ -16,8 +16,10 @@
 
 package de.adorsys.psd2.xs2a.service;
 
+import de.adorsys.psd2.consent.api.signingBasket.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.domain.signing_basket.SigningBasketReq;
+import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
+import de.adorsys.psd2.xs2a.service.sb.SigningBasketValidationService;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.signing_basket.CreateSigningBasketRequestValidator;
 import de.adorsys.psd2.xs2a.service.validator.signing_basket.dto.CreateSigningBasketRequestObject;
@@ -26,11 +28,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SigningBasketValidationService {
+public class SigningBasketValidationServiceImpl implements SigningBasketValidationService {
     private final CreateSigningBasketRequestValidator createSigningBasketRequestValidator;
 
-    public ValidationResult validateSigningBasketOnCreate(SigningBasketReq request, PsuIdData psuIdData) {
-        return createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(request, psuIdData));
+    @Override
+    public ValidationResult validateSigningBasketOnCreate(CreateSigningBasketRequest createSigningBasketRequest, PsuIdData psuIdData, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
+        return createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, psuIdData));
     }
-
 }
