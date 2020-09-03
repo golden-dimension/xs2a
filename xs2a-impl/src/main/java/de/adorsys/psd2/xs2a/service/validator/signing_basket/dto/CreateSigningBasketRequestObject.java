@@ -16,7 +16,7 @@
 
 package de.adorsys.psd2.xs2a.service.validator.signing_basket.dto;
 
-import de.adorsys.psd2.consent.api.signingBasket.CmsSigningBasketConsentsAndPaymentsResponse;
+import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
 import lombok.Value;

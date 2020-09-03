@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.consent.api.signingBasket;
+package de.adorsys.psd2.consent.api.signingbasket;
 
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
 import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
