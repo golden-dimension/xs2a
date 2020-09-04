@@ -68,6 +68,7 @@ public class CmsConsentMapper {
                                                                                         entity.getOwnerNameType(),
                                                                                         entity.getTrustedBeneficiariesType()));
         cmsConsent.setInstanceId(entity.getInstanceId());
+        cmsConsent.setSigningBasketBlocked(entity.isSigningBasketBlocked());
         return cmsConsent;
     }
 
