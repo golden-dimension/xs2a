@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthenticationObject;
+import de.adorsys.psd2.xs2a.spi.domain.common.SpiAuthenticationObject;
+import org.mapstruct.Mapper;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface SpiToXs2aAuthenticationObjectMapper {
+    List<AuthenticationObject> toAuthenticationObjectList(List<SpiAuthenticationObject> spiAuthenticationObjects);
+
+    AuthenticationObject toAuthenticationObject(SpiAuthenticationObject authenticationObject);
 }

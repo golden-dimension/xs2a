@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.domain.sb;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.xs2a.core.tpp.TppNotificationData;
+import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
+import lombok.Data;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+import java.util.List;
+
+@Data
+public class CreateSigningBasketRequest {
+    private final List<String> paymentIds;
+    private final List<String> consentIds;
+    private final TppRedirectUri tppRedirectUri;
+    private final TppNotificationData tppNotificationData;
+    private final String instanceId;
 }

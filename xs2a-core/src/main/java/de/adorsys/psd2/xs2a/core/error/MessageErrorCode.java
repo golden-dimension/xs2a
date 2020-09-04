@@ -475,6 +475,13 @@ public enum MessageErrorCode {
             return SERVICE_INVALID_NAME;
         }
     },
+    // 405 - Signing basket is not supported by ASPSP
+    SERVICE_INVALID_405_SB(405) {
+        @Override
+        public String getName() {
+            return SERVICE_INVALID_NAME;
+        }
+    },
     // 405 - Wrong payment service
     SERVICE_INVALID_405_FOR_PAYMENT(405) {
         @Override

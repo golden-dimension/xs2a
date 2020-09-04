@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.consent.api.service;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
-
-public interface SpiConsent {
-    ConsentType getConsentType();
+/**
+ * ConsentService with enabled encryption and decryption
+ *
+ * @see ConsentServiceBase
+ * @see ConsentService
+ */
+public interface SigningBasketServiceEncrypted extends SigningBasketServiceBase {
 }

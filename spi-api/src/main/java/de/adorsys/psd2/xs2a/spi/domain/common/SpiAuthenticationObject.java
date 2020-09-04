@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.spi.domain.common;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import lombok.Data;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+@Data
+public class SpiAuthenticationObject {
+    private String authenticationType;
+    private String authenticationMethodId;
+    private String authenticationVersion;
+    private String name;
+    private String explanation;
+    /**
+     * Represents, whether current authentication object requires decoupled SCA
+     */
+    private boolean decoupled;
 }

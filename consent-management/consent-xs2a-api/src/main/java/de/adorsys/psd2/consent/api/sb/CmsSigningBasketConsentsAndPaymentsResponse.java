@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.consent.api.sb;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.consent.api.ais.CmsConsent;
+import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
+import lombok.Value;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+import java.util.List;
+
+@Value
+public class CmsSigningBasketConsentsAndPaymentsResponse {
+    private List<CmsConsent> consents;
+    private List<PisCommonPaymentResponse> payments;
 }

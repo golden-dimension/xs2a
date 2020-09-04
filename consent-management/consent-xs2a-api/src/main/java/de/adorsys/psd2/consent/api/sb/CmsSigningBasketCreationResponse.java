@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.consent.api.sb;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import lombok.Value;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+@Value
+public class CmsSigningBasketCreationResponse {
+    private String basketId;
+    private CmsSigningBasket cmsSigningBasket;
 }

@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.service.mapper.spi_xs2a_mappers;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
+import de.adorsys.psd2.xs2a.spi.domain.common.SpiChallengeData;
+import org.mapstruct.Mapper;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+@Mapper(componentModel = "spring")
+public interface SpiToXs2aChallengeDataMapper {
+    ChallengeData toChallengeData(SpiChallengeData spiChallengeData);
 }

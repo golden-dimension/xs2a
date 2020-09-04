@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.core.consent;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.xs2a.core.profile.NotificationSupportedMode;
+import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
+import lombok.Data;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+import java.util.List;
+
+@Data
+public class SigningBasketTppInformation {
+    private TppInfo tppInfo;
+    private List<NotificationSupportedMode> tppNotificationSupportedModes;
 }

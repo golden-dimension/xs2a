@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.spi.domain.common;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
-
-public interface SpiConsent {
-    ConsentType getConsentType();
+public enum SpiSigningBasketTransactionStatus {
+    ACTC,  //AuthenticationObject and syntactical and semantical validation are successful"),
+    RCVD,  //Payment initiation has been received by the receiving agent
+    RJCT,  //Payment initiation or individual transaction included in the payment initiation has been rejected
+    CANC, //Canceled
+    PATC; // The payment initiation needs multiple authentications, where some but not yet all have been performed. Syntactical and semantical validations are successful.
 }

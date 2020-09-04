@@ -14,10 +14,31 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.spi.domain;
+package de.adorsys.psd2.xs2a.core.pis;
 
-import de.adorsys.psd2.xs2a.core.consent.ConsentType;
+import de.adorsys.psd2.xs2a.core.profile.PaymentType;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 
-public interface SpiConsent {
-    ConsentType getConsentType();
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public interface CoreCommonPayment {
+
+    List<PsuIdData> getPsuDataList();
+
+    byte[] getPaymentData();
+
+    TransactionStatus getTransactionStatus();
+
+    OffsetDateTime getStatusChangeTimestamp();
+
+    String getPaymentProduct();
+
+    PaymentType getPaymentType();
+
+    OffsetDateTime getCreationTimestamp();
+
+    String getContentType();
+
+    String getInstanceId();
 }
