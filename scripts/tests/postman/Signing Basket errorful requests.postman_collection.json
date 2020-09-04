@@ -1,0 +1,3276 @@
+{
+	"info": {
+		"_postman_id": "e870760d-e97b-4442-a35d-2a293d51a852",
+		"name": "Signing Basket errorful requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Errorful",
+			"item": [
+				{
+					"name": "Preparations",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "17ddb6e4-60e8-4e6b-9391-36b5e4d21237",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d20b8f72-6d76-42cc-9099-1f5f67df4058",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 3,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1. Initiate first payment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "234b7b21-ae0d-4a53-aef4-db5750a493ba",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transcation status is RCVD\", () => {",
+											"    pm.expect(jsonData.transactionStatus).to.eql('RCVD');",
+											"});",
+											"",
+											"pm.test(\"Links exist\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    pm.expect(_links).to.have.property('self');",
+											"    pm.expect(_links).to.have.property('status');",
+											"    pm.expect(_links).to.have.property('startAuthorisation');",
+											"});",
+											"",
+											"pm.test(\"Payment ID exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('paymentId');",
+											"});",
+											"",
+											"pm.globals.set(\"payment_id\", jsonData.paymentId);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "ce16c4d8-3673-48ca-afdd-0e6c8a8891f1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "TPP-Redirect-URI",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Nok-Redirect-URI",
+										"value": "TPP-Nok-Redirect-URI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"endToEndIdentification\": \"WBG-123456789\",\n    \"debtorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"instructedAmount\": {\n      \"currency\": \"EUR\",\n      \"amount\": \"0.01\"\n    },\n    \"creditorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"creditorAgent\" : \"AAAADEBBXXX\",\n    \"creditorName\": \"WBG\",\n    \"creditorAddress\": {\n      \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n    },\n    \"remittanceInformationUnstructured\": \"Ref. Number WBG-1222\"\n  }"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"{{payment_service}}",
+										"{{payment_product}}"
+									]
+								},
+								"description": "This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like 'scaRedirect' or 'scaOAuth' cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the 'startAuthorisation' link. "
+							},
+							"response": []
+						},
+						{
+							"name": "2. Initiate second payment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2c3d0996-03fd-4b8d-a286-64a3ed3d5408",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transcation status is RCVD\", () => {",
+											"    pm.expect(jsonData.transactionStatus).to.eql('RCVD');",
+											"});",
+											"",
+											"pm.test(\"Links exist\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    pm.expect(_links).to.have.property('self');",
+											"    pm.expect(_links).to.have.property('status');",
+											"    pm.expect(_links).to.have.property('startAuthorisation');",
+											"});",
+											"",
+											"pm.test(\"Payment ID exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('paymentId');",
+											"});",
+											"",
+											"pm.globals.set(\"payment_id_1\", jsonData.paymentId);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9adf702c-fdd0-4c01-9aad-1128efebcba0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "TPP-Redirect-URI",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Nok-Redirect-URI",
+										"value": "TPP-Nok-Redirect-URI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"endToEndIdentification\": \"WBG-123456789\",\n    \"debtorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"instructedAmount\": {\n      \"currency\": \"EUR\",\n      \"amount\": \"0.01\"\n    },\n    \"creditorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"creditorAgent\" : \"AAAADEBBXXX\",\n    \"creditorName\": \"WBG\",\n    \"creditorAddress\": {\n      \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n    },\n    \"remittanceInformationUnstructured\": \"Ref. Number WBG-1222\"\n  }"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"{{payment_service}}",
+										"{{payment_product}}"
+									]
+								},
+								"description": "This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like 'scaRedirect' or 'scaOAuth' cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the 'startAuthorisation' link. "
+							},
+							"response": []
+						},
+						{
+							"name": "3. Initiate first consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4f767ccc-5b64-4f50-829d-f062657be06d",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.globals.set(\"consent_id\", jsonData.consentId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1cd3890f-a18f-4b66-94fe-f2fd43933b66",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Initiate second consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "271d9ccf-86ef-475a-8c88-d6f515a51e5a",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.globals.set(\"consent_id_1\", jsonData.consentId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "c9188221-e24b-426a-8091-079635b36d63",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "1) Max entries exceeded",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4ee99fa1-58dc-4883-bc6e-fc61669a2ae8",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "de56a578-3c24-45a8-a535-158de2b95eb0",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 3,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "454e8d43-7fb7-4c38-9339-bcfacf0935a1",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('FORMAT_ERROR');",
+											"    pm.expect(error.text).to.eql('Number of entries in Signing Basket should not exceed more than 3');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a3ccf897-2e04-46bd-bd83-86bd66dc0240",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "2) SB is not supported",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "116f7b45-f749-4a9f-9b87-bec097146c88",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "149b3742-cdcd-4663-beb2-f31df10425a5",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": false,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "606a8139-c129-47dd-aa12-7be722fa47a9",
+										"exec": [
+											"pm.test(\"Status code is 405\", () => {",
+											"    pm.response.to.have.status(405);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('SERVICE_INVALID');",
+											"    pm.expect(error.text).to.eql('Signing basket is not supported by ASPSP');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b4d1a413-23e6-498b-a3f8-34942d3aeaa2",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "3) Tpp explicit auhorisation preffered is false",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8283725d-8def-4cc0-92e2-8742756667b4",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7a4df241-06e7-4a48-b604-d05aff0c8011",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "caf06277-7b81-47da-9f4e-be3f3a7e9353",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('FORMAT_ERROR');",
+											"    pm.expect(error.text).to.eql('\\'TPP-Explicit-Authorisation-Preferred\\' header should be true for signing basket');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9eab955e-20c9-4014-ac83-4cbfa619925f",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "false",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "4) No Psu",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "db0e9786-49be-4644-bec9-5b623f9ac8c3",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a675b6e3-7062-4ac2-baae-b4777f462fb7",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3cad939-f9eb-4709-b4ba-5589257ba229",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('FORMAT_ERROR');",
+											"    pm.expect(error.text).to.eql('PSU-ID is missing in request');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "136dccfe-30b3-4dd0-9072-01eeb37c22cd",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "5) SB empty",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d8f695d9-58ed-4aa1-bb99-e529e1f3e4bf",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "82375f92-7058-4d56-90e9-ab87da03a864",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4388524-7390-457e-b045-f2182261b62e",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_MIX_INVALID');",
+											"    pm.expect(error.text).to.eql('The used combination of referenced objects is not supported in the ASPSPs signing basket function.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "742ee7a9-bf2c-4dc8-b4ef-abdef1a73f9b",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [],\n    \"consentIds\": []\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "6) Wrong ids",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2339637e-18a6-4ad4-98ef-c01f5825121f",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1be0c1f7-8d8b-493f-b3de-063ca8544cb9",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "436e3766-3ee0-4095-90f6-c667a3967925",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_MIX_INVALID');",
+											"    pm.expect(error.text).to.eql('The used combination of referenced objects is not supported in the ASPSPs signing basket function.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bcc98466-bf47-4581-a3a5-c28800709292",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"1{{consent_id_1}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "7) Bank-offered consent",
+					"item": [
+						{
+							"name": "1. Set redirect SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a146157-7f04-4ffd-a309-90e97113db91",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n\"REDIRECT\",\n  \"EMBEDDED\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c7b6afe7-4c18-42b9-9abc-322653978ee5",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": true,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create consent bank offered",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6978db16-512c-4f95-80f1-9cb0044a6b67",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"scaRedirect link exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    var scaRedirect = _links.scaRedirect.href;",
+											"",
+											"    if (scaRedirect === undefined) {",
+											"       pm.expect().fail();",
+											"    }",
+											"});",
+											"",
+											"pm.test(\"Consent status is received\", () => {",
+											"    pm.expect(jsonData.consentStatus).to.eql('received');",
+											"});",
+											"",
+											"pm.globals.set(\"consent_id_2\", jsonData.consentId);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "132419c7-04cd-4906-9bfe-1eff7989e7b0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									},
+									{
+										"key": "tpp-redirect-uri",
+										"value": "{{tpp-redirect-uri}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [],\n    \"balances\": [],\n    \"transactions\": []\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 10,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "137128d6-7c4f-4757-879b-0fe3082fc7f9",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_MIX_INVALID');",
+											"    pm.expect(error.text).to.eql('The used combination of referenced objects is not supported in the ASPSPs signing basket function.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "e733c29a-b433-494b-8b18-3a8a0a9b1d31",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\",\n        \"{{consent_id_2}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "8) Multilevel variations",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "64678d1d-c82f-485a-94e9-bb3cdab88563",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "772c164a-4f1d-43e8-bea6-e93ecdc3af27",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Create consent dedicated (multilevel)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4f994958-7fdc-4ea5-9a69-115551f661de",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Update PSU authentication link exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    var updatePsuAuthentication = _links.startAuthorisationWithPsuAuthentication.href;",
+											"",
+											"    if (updatePsuAuthentication === undefined) {",
+											"       pm.expect().fail();",
+											"    }",
+											"});",
+											"",
+											"pm.test(\"Consent status is received\", () => {",
+											"    pm.expect(jsonData.consentStatus).to.eql('received');",
+											"});",
+											"",
+											"pm.globals.set(\"consent_id_2\", jsonData.consentId);",
+											"pm.globals.set(\"updatePsuAuthentication\", jsonData._links.updatePsuAuthentication);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b5353da6-3489-4abf-a6ea-7dc98b221ffe",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_multilevel_1}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_multilevel}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_multilevel}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_multilevel}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "020f4783-a809-48de-996e-d590fff62949",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_MIX_INVALID');",
+											"    pm.expect(error.text).to.eql('The used combination of referenced objects is not supported in the ASPSPs signing basket function.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "47d151d3-1475-484d-ba0c-a8d70ec02a43",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\",\n        \"{{consent_id_2}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "9) SB objects are blocked",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e642fc82-ca35-4390-9e5a-be2710cca043",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7df3d47a-bf27-4576-a2f6-d6501c001d16",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Initiate third consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "51ded681-ff1d-4304-808c-bd23141d94e2",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.globals.set(\"consent_id_2\", jsonData.consentId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0412f126-7878-434a-b9c4-5a3896650d69",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{x_request_id}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "psu-ip-address",
+										"type": "text",
+										"value": "{{ip_address}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "78136fee-540b-47f9-a2b8-0fd2b5a47b54",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6169981a-fa43-48f3-9b8d-061eb691ed8b",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n\n    ],\n    \"consentIds\": [\n        \"{{consent_id_2}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. Create signing basket with blocked object",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f7ec5fef-09ae-4a0e-bd85-2607a5105b30",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_MIX_INVALID');",
+											"    pm.expect(error.text).to.eql('The used combination of referenced objects is not supported in the ASPSPs signing basket function.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "36f996b7-6524-4b4d-9891-1ffb7783bd7a",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\",\n        \"{{consent_id_2}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "10) SB objects are authorised",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6b36266b-efd2-4708-bf82-b35e0f0d02ad",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "02518b70-a60a-4917-8a9e-a804370e9094",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"NOT_SUPPORTED\"\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Initiate third consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "511503cb-ea7f-4204-b628-77271478a182",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.globals.set(\"consent_id_2\", jsonData.consentId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d1fa8b0a-aeb6-4383-9c86-560e619d19ce",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{x_request_id}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "psu-ip-address",
+										"type": "text",
+										"value": "{{ip_address}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Start the authorisation process for a consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d2ac0130-c384-4d1d-aa03-2cdcbfb67b5d",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"const authorisationId = jsonData._links.updatePsuAuthentication.href.split('/').pop();",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"updatePsuAuthentication link exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    pm.expect(_links).to.have.property('updatePsuAuthentication');",
+											"});",
+											"",
+											"pm.test(\"Select scaStatus \", () => {",
+											"    pm.expect(jsonData).to.have.property('scaStatus');",
+											"    const scaStatus = jsonData.scaStatus;",
+											"    pm.expect(scaStatus).to.eql('psuIdentified');",
+											"});",
+											"",
+											"pm.globals.set(\"authorisation_id\", authorisationId);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "e97788c5-cd81-4452-aca3-de94ae3dc137",
+										"exec": [
+											"pm.globals.unset(\"authorisation_id\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id_2}}/authorisations",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents",
+										"{{consent_id_2}}",
+										"authorisations"
+									]
+								},
+								"description": "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication'     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. "
+							},
+							"response": []
+						},
+						{
+							"name": "5. Update PSU Data for consents",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9f0cdcd9-7d6b-4d7f-860d-fe9b9ea93578",
+										"exec": [
+											"pm.test('Status code is 200', () => {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Sca status is scaMethodSelected', () => {",
+											"   pm.expect(jsonData.scaStatus).to.eql('scaMethodSelected');",
+											"});",
+											"",
+											"pm.test(\"Select authoriseTransaction method link exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    pm.expect(_links).to.have.property('authoriseTransaction');",
+											"});",
+											"",
+											"pm.test(\"Select chosenScaMethod exist\", () => {",
+											"    pm.expect(jsonData).to.have.property('chosenScaMethod');",
+											"    const chosenScaMethod = jsonData.chosenScaMethod;",
+											"    ",
+											"    pm.expect(chosenScaMethod).to.have.property('authenticationType');",
+											"    pm.expect(chosenScaMethod.authenticationType) !== undefined;",
+											"    ",
+											"    pm.expect(chosenScaMethod).to.have.property('authenticationMethodId');",
+											"    pm.expect(chosenScaMethod.authenticationMethodId) !== undefined;",
+											"});",
+											"",
+											"pm.test(\"Challenge data exist\", () => {",
+											"    pm.expect(jsonData).to.have.property('challengeData');",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"psuData\": {\n\t\t\"password\": \"{{psu_id_password}}\"\n\t}\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id_2}}/authorisations/{{authorisation_id}}",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents",
+										"{{consent_id_2}}",
+										"authorisations",
+										"{{authorisation_id}}"
+									]
+								},
+								"description": "This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. "
+							},
+							"response": []
+						},
+						{
+							"name": "6. Update PSU Data for consents finalization",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "79f9edf6-5fe7-4ca7-9b73-b21bc38ef895",
+										"exec": [
+											"pm.test('Status code is 200', () => {",
+											"   pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('Sca status is finalised', () => {",
+											"   pm.expect(jsonData.scaStatus).to.eql('finalised');",
+											"});",
+											"",
+											"pm.test(\"Select scaStatus link exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    pm.expect(_links).to.have.property('scaStatus');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"scaAuthenticationData\": \"{{tanNumber}}\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id_2}}/authorisations/{{authorisation_id}}",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents",
+										"{{consent_id_2}}",
+										"authorisations",
+										"{{authorisation_id}}"
+									]
+								},
+								"description": "This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. "
+							},
+							"response": []
+						},
+						{
+							"name": "7. Create signing basket with authotised object",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c9f32e65-a75d-4f90-a2a1-63b5c409043a",
+										"exec": [
+											"pm.test(\"Status code is 409\", () => {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('REFERENCE_STATUS_INVALID');",
+											"    pm.expect(error.text).to.eql('At least one of the references is already fully authorised.');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "54d84a50-f22a-40c3-b0ed-c199e744f004",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id}}\",\n        \"{{payment_id_1}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id}}\",\n        \"{{consent_id_1}}\",\n        \"{{consent_id_2}}\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

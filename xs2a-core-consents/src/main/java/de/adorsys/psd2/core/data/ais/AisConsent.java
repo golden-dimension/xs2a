@@ -93,6 +93,11 @@ public class AisConsent extends Consent<AisConsentData> {
         return getConsentRequestType() == AisConsentRequestType.DEDICATED_ACCOUNTS;
     }
 
+    @JsonIgnore
+    public boolean isBankOfferedConsent() {
+        return getConsentRequestType() == AisConsentRequestType.BANK_OFFERED;
+    }
+
     public boolean isConsentWithNotIbanAccount() {
         AccountAccess access = getAccess();
         if (access == null) {

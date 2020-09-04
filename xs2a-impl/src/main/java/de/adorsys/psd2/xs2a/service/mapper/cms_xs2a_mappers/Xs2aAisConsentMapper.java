@@ -72,7 +72,8 @@ public class Xs2aAisConsentMapper {
                             ac.getAisConsentRequestType(),
                             ac.getStatusChangeTimestamp(),
                             ac.getCreationTimestamp(),
-                            aisConsent.getInstanceId()
+                            ac.getInstanceId(),
+                            ac.getConsentType()
                         )
                    )
                    .orElse(null);
