@@ -81,6 +81,8 @@ class SigningBasketControllerTest {
     @Mock
     private NotificationSupportedModeService notificationSupportedModeService;
     @Mock
+    private AspspProfileServiceWrapper profileService;
+    @Mock
     private SigningBasketModelMapper signingBasketModelMapper;
     @Mock
     private RequestProviderService requestProviderService;
