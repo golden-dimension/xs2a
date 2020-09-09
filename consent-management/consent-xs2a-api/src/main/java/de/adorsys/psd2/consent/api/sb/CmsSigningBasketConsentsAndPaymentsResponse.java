@@ -17,7 +17,7 @@
 package de.adorsys.psd2.consent.api.sb;
 
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
 import lombok.Value;
 
 import java.util.List;

@@ -20,7 +20,7 @@ import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.pis.CoreCommonPayment;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

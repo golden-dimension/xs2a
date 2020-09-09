@@ -20,12 +20,12 @@ import de.adorsys.psd2.consent.api.CmsResponse;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasket;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasketCreationResponse;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 
 import java.util.List;
 
 /**
- * Base version of ConsentService that contains all method declarations.
+ * Base version of SigningBasketService that contains all method declarations.
  * Should not be implemented directly, consider using one of the interfaces that extends this one.
  *
  * @see SigningBasketService

@@ -22,7 +22,7 @@ import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.pis.CoreCommonPayment;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.spi.domain.SpiConsent;

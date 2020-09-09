@@ -24,7 +24,7 @@ import de.adorsys.psd2.consent.api.service.SigningBasketServiceEncrypted;
 import de.adorsys.psd2.xs2a.core.consent.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.profile.NotificationSupportedMode;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
 import de.adorsys.psd2.xs2a.domain.sb.Xs2aCreateSigningBasketResponse;

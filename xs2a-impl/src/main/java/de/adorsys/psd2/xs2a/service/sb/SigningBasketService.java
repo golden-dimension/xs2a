@@ -25,7 +25,7 @@ import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.mapper.ServiceType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
@@ -111,14 +111,14 @@ public class SigningBasketService {
 
         SpiResponse<SpiInitiateSigningBasketResponse> spiResponse = signingBasketSpi.initiateSigningBasket(contextData, spiSigningBasket, aspspConsentDataProvider);
 
-        String basketId = coreSigningBasket.getBasketId();
-        aspspConsentDataProvider.saveWith(basketId);
+        String encryptedBasketId = xs2aCreateSigningBasketResponse.getSigningBasketId();
+        aspspConsentDataProvider.saveWith(encryptedBasketId);
 
         if (spiResponse.hasError()) {
-            xs2aSigningBasketService.updateSigningBasketStatus(basketId, SigningBasketTransactionStatus.RJCT);
+            xs2aSigningBasketService.updateSigningBasketStatus(encryptedBasketId, SigningBasketTransactionStatus.RJCT);
             ErrorHolder errorHolder = spiErrorMapper.mapToErrorHolder(spiResponse, ServiceType.SB);
             log.info("SigningBasket-ID: [{}]. Create signing basket failed. Signing basket rejected. Couldn't initiate signing basket at SPI level: {}",
-                     basketId, errorHolder);
+                     encryptedBasketId, errorHolder);
             return ResponseObject.<CreateSigningBasketResponse>builder()
                        .fail(new MessageError(errorHolder))
                        .build();
@@ -128,12 +128,12 @@ public class SigningBasketService {
         boolean multilevelScaRequired = spiInitiateSigningBasketResponse.isMultilevelScaRequired();
 
         if (multilevelScaRequired) {
-            xs2aSigningBasketService.updateMultilevelScaRequired(basketId, multilevelScaRequired);
+            xs2aSigningBasketService.updateMultilevelScaRequired(encryptedBasketId, multilevelScaRequired);
         }
 
         CreateSigningBasketResponse createSigningBasketResponse = new CreateSigningBasketResponse(
             getTransactionStatus(spiInitiateSigningBasketResponse.getTransactionStatus()),
-            basketId,
+            encryptedBasketId,
             spiToXs2aAuthenticationObjectMapper.toAuthenticationObjectList(spiInitiateSigningBasketResponse.getScaMethods()),
             spiToXs2aAuthenticationObjectMapper.toAuthenticationObject(spiInitiateSigningBasketResponse.getChosenScaMethod()),
             spiToXs2aChallengeDataMapper.toChallengeData(spiInitiateSigningBasketResponse.getChallengeData()),
