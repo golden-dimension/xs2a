@@ -51,11 +51,16 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     public CmsResponse<CmsSigningBasketCreationResponse> createSigningBasket(CmsSigningBasket cmsSigningBasket) {
         Pair<List<ConsentEntity>, List<PisCommonPaymentData>> consentsAndPayments = retrieveConsentsAndPayments(cmsSigningBasket);
 
-        SigningBasket signingBasket = cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consentsAndPayments.getFirst(), consentsAndPayments.getSecond());
+        List<ConsentEntity> consents = consentsAndPayments.getFirst();
+        consents.forEach(consent -> consent.setSigningBasketBlocked(true));
+        List<PisCommonPaymentData> payments = consentsAndPayments.getSecond();
+        payments.forEach(payment -> payment.setSigningBasketBlocked(true));
+
+        SigningBasket signingBasket = cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consents, payments);
         SigningBasket savedEntity = signingBasketRepository.save(signingBasket);
 
-        Map<String, List<AuthorisationEntity>> authorisations = retrieveAuthorisations(consentsAndPayments.getFirst(), consentsAndPayments.getSecond());
-        Map<String, Map<String, Integer>> usages = retrieveUsages(consentsAndPayments.getFirst());
+        Map<String, List<AuthorisationEntity>> authorisations = retrieveAuthorisations(consents, payments);
+        Map<String, Map<String, Integer>> usages = retrieveUsages(consents);
 
         return CmsResponse.<CmsSigningBasketCreationResponse>builder()
                    .payload(new CmsSigningBasketCreationResponse(savedEntity.getExternalId(), cmsSigningBasketMapper.mapToCmsSigningBasket(savedEntity, authorisations, usages)))

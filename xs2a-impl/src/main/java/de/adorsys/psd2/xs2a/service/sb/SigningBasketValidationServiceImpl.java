@@ -20,12 +20,18 @@ import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsRespons
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
+import de.adorsys.psd2.xs2a.service.validator.signing_basket.CreateSigningBasketRequestValidator;
+import de.adorsys.psd2.xs2a.service.validator.signing_basket.dto.CreateSigningBasketRequestObject;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SigningBasketValidationServiceImpl implements SigningBasketValidationService {
+    private final CreateSigningBasketRequestValidator createSigningBasketRequestValidator;
+
     @Override
     public ValidationResult validateSigningBasketOnCreate(CreateSigningBasketRequest request, PsuIdData psuData, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse, boolean explicitPreferred) {
-        return ValidationResult.valid();
+        return createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(request, cmsSigningBasketConsentsAndPaymentsResponse, psuData, explicitPreferred));
     }
 }

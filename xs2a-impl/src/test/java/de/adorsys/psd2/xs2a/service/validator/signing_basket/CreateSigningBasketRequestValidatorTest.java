@@ -17,8 +17,8 @@
 package de.adorsys.psd2.xs2a.service.validator.signing_basket;
 
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
-import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketConsentsAndPaymentsResponse;
+import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
+import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.core.data.ais.AisConsentData;
 import de.adorsys.psd2.xs2a.core.ais.AccountAccessType;
@@ -32,7 +32,6 @@ import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
-import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.PsuDataInInitialRequestValidator;
@@ -47,7 +46,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,8 +76,6 @@ class CreateSigningBasketRequestValidatorTest {
     private AspspProfileServiceWrapper aspspProfileService;
     @Mock
     private Xs2aAisConsentMapper aisConsentMapper;
-    @Mock
-    private RequestProviderService requestProviderService;
 
     @Test
     void validate_withInvalidPsuData_shouldReturnErrorFromValidator() {
@@ -93,7 +89,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, EMPTY_PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, EMPTY_PSU_DATA, true));
 
         //Then
         verify(psuDataInInitialRequestValidator).validate(EMPTY_PSU_DATA);
@@ -115,7 +111,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -132,7 +128,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -144,14 +140,13 @@ class CreateSigningBasketRequestValidatorTest {
         //Given
         when(aspspProfileService.isSigningBasketSupported())
             .thenReturn(true);
-        when(requestProviderService.getTppExplicitAuthorisationPreferred())
-            .thenReturn(Optional.of(false));
+
 
         CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, false));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -170,7 +165,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -192,7 +187,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(buildCmsConsent("1")), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -223,7 +218,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.emptyList());
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -262,7 +257,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -292,7 +287,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -327,7 +322,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -365,7 +360,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
@@ -400,7 +395,7 @@ class CreateSigningBasketRequestValidatorTest {
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
-        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
 
         //Then
         assertThat(validationResult.isValid()).isTrue();

@@ -17,8 +17,8 @@
 package de.adorsys.psd2.xs2a.service.validator.signing_basket;
 
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
-import de.adorsys.psd2.consent.api.signingbasket.CmsSigningBasketConsentsAndPaymentsResponse;
+import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
+import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
@@ -26,7 +26,6 @@ import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
-import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.BusinessValidator;
@@ -37,11 +36,13 @@ import de.adorsys.psd2.xs2a.web.validator.constants.Xs2aHeaderConstant;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,7 +58,6 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     private final AspspProfileServiceWrapper aspspProfileService;
     private final PsuDataInInitialRequestValidator psuDataInInitialRequestValidator;
     private final Xs2aAisConsentMapper aisConsentMapper;
-    private final RequestProviderService requestProviderService;
 
     @NotNull
     @Override
@@ -67,7 +67,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return signingBasketSupportedValidationResult;
         }
 
-        ValidationResult explicitAuthorisationPreferredValidationResult = validateExplicitAuthorisationPreferred();
+        ValidationResult explicitAuthorisationPreferredValidationResult = validateExplicitAuthorisationPreferred(requestObject.isExplicitPreferred());
         if (explicitAuthorisationPreferredValidationResult.isNotValid()) {
             return explicitAuthorisationPreferredValidationResult;
         }
@@ -99,11 +99,8 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         return ValidationResult.valid();
     }
 
-    private ValidationResult validateExplicitAuthorisationPreferred() {
-        Optional<Boolean> tppExplicitAuthorisationPreferredOptional = requestProviderService.getTppExplicitAuthorisationPreferred();
-
-        if (tppExplicitAuthorisationPreferredOptional.isPresent()
-                && !BooleanUtils.toBoolean(tppExplicitAuthorisationPreferredOptional.get())) {
+    private ValidationResult validateExplicitAuthorisationPreferred(boolean explicitPreferred) {
+        if (!explicitPreferred) {
             log.error(Xs2aHeaderConstant.TPP_EXPLICIT_AUTHORISATION_PREFERRED + " header can't be false in SB");
             return ValidationResult.invalid(ErrorType.SB_400, FORMAT_ERROR);
         }
@@ -156,10 +153,10 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
 
     private ValidationResult validateSigningBasketOnSigningBasketObjectsPartlyAuthorised(CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
         Map<Boolean, List<SigningBasketObject>> partitionedSigningBasketObjects = getSigningBasketObjectStream(cmsSigningBasketConsentsAndPaymentsResponse)
-                                                                                      .collect(Collectors.partitioningBy(SigningBasketObject::isPartiallyAuthorised));
+                                                                                      .collect(Collectors.partitioningBy(SigningBasketObject::isPartlyAuthorised));
 
         if (!partitionedSigningBasketObjects.get(true).isEmpty()) {
-            log.error("SB has partially authorised objects: ");
+            log.error("SB has partly authorised objects: ");
             partitionedSigningBasketObjects.get(true).forEach(sbo -> log.error(sbo.toString()));
             return ValidationResult.invalid(ErrorType.SB_409, REFERENCE_STATUS_INVALID);
         }
@@ -177,7 +174,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     }
 
     private ValidationResult validateSigningBasketOnWrongIds(CreateSigningBasketRequest createSigningBasketRequest, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
-        if (getEntriesSize(createSigningBasketRequest) != getEntriesSize(cmsSigningBasketConsentsAndPaymentsResponse)) {
+        if (cmsSigningBasketConsentsAndPaymentsResponse == null || getEntriesSize(createSigningBasketRequest) != getEntriesSize(cmsSigningBasketConsentsAndPaymentsResponse)) {
             log.error("SB has wrong ids");
             return ValidationResult.invalid(ErrorType.SB_400, REFERENCE_MIX_INVALID);
         }
@@ -271,7 +268,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         private final SBObjectType SBObjectType;
         private final String id;
         private final boolean multilevelScaRequired;
-        private final boolean isPartiallyAuthorised;
+        private final boolean isPartlyAuthorised;
         private final boolean isBlocked;
     }
 

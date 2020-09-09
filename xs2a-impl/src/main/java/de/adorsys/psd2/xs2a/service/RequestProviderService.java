@@ -143,11 +143,6 @@ public class RequestProviderService {
         return getHeader(Xs2aHeaderConstant.TPP_NOK_REDIRECT_URI);
     }
 
-    public Optional<Boolean> getTppExplicitAuthorisationPreferred() {
-        return Optional.of(getHeader(Xs2aHeaderConstant.TPP_EXPLICIT_AUTHORISATION_PREFERRED))
-                   .map(BooleanUtils::toBoolean);
-    }
-
     public String getOAuth2Token() {
 
         String headerValue = getHeader(HttpHeaders.AUTHORIZATION);

@@ -143,4 +143,5 @@
     <include relativeToChangelogFile="true" file="migration/0115-added-type-column-to-authorisation-table.xml"/>
     <include relativeToChangelogFile="true" file="migration/0116-changed-owner-name-type-for-piis-consent.xml"/>
     <include relativeToChangelogFile="true" file="migration/0117-add-signing-basket-table.xml"/>
+    <include relativeToChangelogFile="true" file="migration/0118-add-signing-basket-blocked-column-consent-payment-tables.xml"/>
 </databaseChangeLog>
