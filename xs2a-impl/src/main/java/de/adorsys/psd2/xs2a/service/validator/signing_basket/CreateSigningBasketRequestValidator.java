@@ -26,22 +26,22 @@ import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
+import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.BusinessValidator;
 import de.adorsys.psd2.xs2a.service.validator.PsuDataInInitialRequestValidator;
 import de.adorsys.psd2.xs2a.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.signing_basket.dto.CreateSigningBasketRequestObject;
+import de.adorsys.psd2.xs2a.web.validator.constants.Xs2aHeaderConstant;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,6 +57,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     private final AspspProfileServiceWrapper aspspProfileService;
     private final PsuDataInInitialRequestValidator psuDataInInitialRequestValidator;
     private final Xs2aAisConsentMapper aisConsentMapper;
+    private final RequestProviderService requestProviderService;
 
     @NotNull
     @Override
@@ -64,6 +65,11 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         ValidationResult signingBasketSupportedValidationResult = validateSigningBasketSupported();
         if (signingBasketSupportedValidationResult.isNotValid()) {
             return signingBasketSupportedValidationResult;
+        }
+
+        ValidationResult explicitAuthorisationPreferredValidationResult = validateExplicitAuthorisationPreferred();
+        if (explicitAuthorisationPreferredValidationResult.isNotValid()) {
+            return explicitAuthorisationPreferredValidationResult;
         }
 
         ValidationResult psuDataValidationResult = psuDataInInitialRequestValidator.validate(requestObject.getPsuIdData());
@@ -88,6 +94,18 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         ValidationResult cmsSBResponseValidationResult = validateWithCmsSBResponse(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse);
         if (cmsSBResponseValidationResult.isNotValid()) {
             return cmsSBResponseValidationResult;
+        }
+
+        return ValidationResult.valid();
+    }
+
+    private ValidationResult validateExplicitAuthorisationPreferred() {
+        Optional<Boolean> tppExplicitAuthorisationPreferredOptional = requestProviderService.getTppExplicitAuthorisationPreferred();
+
+        if (tppExplicitAuthorisationPreferredOptional.isPresent()
+                && !BooleanUtils.toBoolean(tppExplicitAuthorisationPreferredOptional.get())) {
+            log.error(Xs2aHeaderConstant.TPP_EXPLICIT_AUTHORISATION_PREFERRED + " header can't be false in SB");
+            return ValidationResult.invalid(ErrorType.SB_400, FORMAT_ERROR);
         }
 
         return ValidationResult.valid();

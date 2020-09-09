@@ -32,6 +32,7 @@ import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
+import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.PsuDataInInitialRequestValidator;
@@ -46,6 +47,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,7 +59,7 @@ import static org.mockito.Mockito.when;
 class CreateSigningBasketRequestValidatorTest {
     private static final PsuIdData EMPTY_PSU_DATA = new PsuIdData(null, null, null, null, null);
     private static final PsuIdData PSU_DATA = new PsuIdData("psuId", null, null, null, null);
-    private static final MessageError PSU_DATA_VALIDATION_ERROR =
+    private static final MessageError FORMAT_ERROR_VALIDATION_ERROR =
         new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR));
     private static final MessageError MAX_ENTRIES_VALIDATION_ERROR =
         new MessageError(ErrorType.SB_400, TppMessageInformation.buildWithCustomError(FORMAT_ERROR, "Number of entries in Signing Basket should not exceed more than " + 5));
@@ -76,6 +78,8 @@ class CreateSigningBasketRequestValidatorTest {
     private AspspProfileServiceWrapper aspspProfileService;
     @Mock
     private Xs2aAisConsentMapper aisConsentMapper;
+    @Mock
+    private RequestProviderService requestProviderService;
 
     @Test
     void validate_withInvalidPsuData_shouldReturnErrorFromValidator() {
@@ -83,7 +87,7 @@ class CreateSigningBasketRequestValidatorTest {
         when(aspspProfileService.isSigningBasketSupported())
             .thenReturn(true);
         when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
-            .thenReturn(ValidationResult.invalid(PSU_DATA_VALIDATION_ERROR));
+            .thenReturn(ValidationResult.invalid(FORMAT_ERROR_VALIDATION_ERROR));
 
         CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
@@ -94,7 +98,7 @@ class CreateSigningBasketRequestValidatorTest {
         //Then
         verify(psuDataInInitialRequestValidator).validate(EMPTY_PSU_DATA);
         assertThat(validationResult.isNotValid()).isTrue();
-        assertThat(validationResult.getMessageError()).isEqualTo(PSU_DATA_VALIDATION_ERROR);
+        assertThat(validationResult.getMessageError()).isEqualTo(FORMAT_ERROR_VALIDATION_ERROR);
     }
 
     @Test
@@ -133,6 +137,25 @@ class CreateSigningBasketRequestValidatorTest {
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
         assertThat(validationResult.getMessageError()).isEqualTo(SIGNING_BASKET_NOT_SUPPORTED_VALIDATION_ERROR);
+    }
+
+    @Test
+    void validate_explicitAuthorisationPreferredFalse_shouldReturnErrorFromValidator() {
+        //Given
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(true);
+        when(requestProviderService.getTppExplicitAuthorisationPreferred())
+            .thenReturn(Optional.of(false));
+
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
+
+        //When
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA));
+
+        //Then
+        assertThat(validationResult.isNotValid()).isTrue();
+        assertThat(validationResult.getMessageError()).isEqualTo(FORMAT_ERROR_VALIDATION_ERROR);
     }
 
     @Test
