@@ -23,7 +23,6 @@ import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiAvailableScaMethodsRespo
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiPsuAuthorisationResponse;
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiAuthenticationObject;
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiChallengeData;
-import de.adorsys.psd2.xs2a.spi.domain.common.SpiOtpFormat;
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiSigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.spi.domain.psu.SpiPsuData;
 import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponse;
@@ -45,20 +44,11 @@ public class SigningBasketSpiMockImpl implements SigningBasketSpi {
     public SpiResponse<SpiInitiateSigningBasketResponse> initiateSigningBasket(@NotNull SpiContextData contextData, SpiSigningBasket spiSigningBasket, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         log.info("SigningBasketSpi#initiateSigningBasket: contextData {}, signingBasket-id {}", contextData, spiSigningBasket.getBasketId());
 
-        SpiAuthenticationObject spiAuthenticationObject = new SpiAuthenticationObject();
-        spiAuthenticationObject.setAuthenticationMethodId("J1e-h-XFTAcpnumH2eJaKM");
-        spiAuthenticationObject.setName("EMAIL");
-        spiAuthenticationObject.setAuthenticationVersion("version");
-        spiAuthenticationObject.setAuthenticationType("type");
-        spiAuthenticationObject.setExplanation("explanation");
-        spiAuthenticationObject.setDecoupled(false);
-
-        SpiChallengeData spiChallengeData = new SpiChallengeData("data".getBytes(), Collections.singletonList("data"), "link", 5, SpiOtpFormat.CHARACTERS, "additional info");
         SpiInitiateSigningBasketResponse spiInitiateSigningBasketResponse = new SpiInitiateSigningBasketResponse(SpiSigningBasketTransactionStatus.RCVD,
                                                                                                                  spiSigningBasket.getBasketId(),
-                                                                                                                 Collections.singletonList(spiAuthenticationObject),
-                                                                                                                 spiAuthenticationObject,
-                                                                                                                 spiChallengeData,
+                                                                                                                 getAuthenticationObjects(),
+                                                                                                                 getAuthenticationObjects().get(0),
+                                                                                                                 getSpiChallengeData(),
                                                                                                                  false,
                                                                                                                  "psu message",
                                                                                                                  Collections.emptyList());
