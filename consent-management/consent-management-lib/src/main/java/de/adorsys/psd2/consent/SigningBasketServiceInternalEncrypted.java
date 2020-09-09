@@ -82,7 +82,7 @@ public class SigningBasketServiceInternalEncrypted implements SigningBasketServi
         Optional<String> decryptIdOptional = securityDataService.decryptId(encryptedBasketId);
 
         if (decryptIdOptional.isEmpty()) {
-            log.info("Encrypted Basket ID: [{}]. Update transaction status of basket by id failed, couldn't decrypt basket id", encryptedBasketId);
+            log.info("Encrypted Basket ID: [{}]. Blocking basket by id failed, couldn't decrypt basket id", encryptedBasketId);
             return CmsResponse.<Boolean>builder()
                        .error(TECHNICAL_ERROR)
                        .build();
@@ -90,7 +90,7 @@ public class SigningBasketServiceInternalEncrypted implements SigningBasketServi
 
         return signingBasketService.blockBasket(decryptIdOptional.get());
     }
-    
+
     @Override
     @Transactional
     public CmsResponse<Boolean> updateTransactionStatusById(String encryptedBasketId, SigningBasketTransactionStatus transactionStatus) {
