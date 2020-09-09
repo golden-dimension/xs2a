@@ -66,6 +66,23 @@ public class SigningBasketServiceRemote implements SigningBasketServiceEncrypted
     }
 
     @Override
+    public CmsResponse<Boolean> blockBasket(String basketId) {
+        try {
+            consentRestTemplate.put(signingBasketRemoteUrls.blockBasket(), null, basketId);
+            return CmsResponse.<Boolean>builder()
+                       .payload(true)
+                       .build();
+        } catch (CmsRestException cmsRestException) {
+            log.info("Couldn't block basket with basket ID {}, HTTP response status: {}",
+                     basketId, cmsRestException.getHttpStatus());
+        }
+
+        return CmsResponse.<Boolean>builder()
+                   .payload(false)
+                   .build();
+    }
+
+    @Override
     public CmsResponse<Boolean> updateTransactionStatusById(String basketId, SigningBasketTransactionStatus transactionStatus) {
         try {
             consentRestTemplate.put(signingBasketRemoteUrls.updateTransactionStatus(), null, basketId, transactionStatus.getTransactionStatus());

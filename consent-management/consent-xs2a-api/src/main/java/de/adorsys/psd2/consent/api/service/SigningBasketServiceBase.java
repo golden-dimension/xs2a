@@ -51,6 +51,14 @@ interface SigningBasketServiceBase {
     CmsResponse<CmsSigningBasketConsentsAndPaymentsResponse> getConsentsAndPayments(List<String> consents, List<String> payments);
 
     /**
+     * Blocks the consents and payments of the basket with basketId.
+     *
+     * @param basketId the id of the basket, whose consents and payments need to be blocked.
+     * @return true if blocking of consent and payments was succesful, false otherwise
+     */
+    CmsResponse<Boolean> blockBasket(String basketId);
+
+    /**
      * Updates consent status by id
      *
      * @param basketId          id of signing basket

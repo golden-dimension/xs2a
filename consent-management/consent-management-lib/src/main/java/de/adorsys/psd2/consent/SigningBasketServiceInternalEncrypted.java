@@ -1,11 +1,11 @@
 package de.adorsys.psd2.consent;
 
 import de.adorsys.psd2.consent.api.CmsResponse;
-import de.adorsys.psd2.consent.api.service.SigningBasketService;
-import de.adorsys.psd2.consent.api.service.SigningBasketServiceEncrypted;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasket;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasketCreationResponse;
+import de.adorsys.psd2.consent.api.service.SigningBasketService;
+import de.adorsys.psd2.consent.api.service.SigningBasketServiceEncrypted;
 import de.adorsys.psd2.consent.service.security.SecurityDataService;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +77,20 @@ public class SigningBasketServiceInternalEncrypted implements SigningBasketServi
                    .build();
     }
 
+    @Override
+    public CmsResponse<Boolean> blockBasket(String encryptedBasketId) {
+        Optional<String> decryptIdOptional = securityDataService.decryptId(encryptedBasketId);
+
+        if (decryptIdOptional.isEmpty()) {
+            log.info("Encrypted Basket ID: [{}]. Update transaction status of basket by id failed, couldn't decrypt basket id", encryptedBasketId);
+            return CmsResponse.<Boolean>builder()
+                       .error(TECHNICAL_ERROR)
+                       .build();
+        }
+
+        return signingBasketService.blockBasket(decryptIdOptional.get());
+    }
+    
     @Override
     @Transactional
     public CmsResponse<Boolean> updateTransactionStatusById(String encryptedBasketId, SigningBasketTransactionStatus transactionStatus) {

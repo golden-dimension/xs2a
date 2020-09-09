@@ -56,4 +56,14 @@ public interface CmsSigningBasketApi {
         @PathVariable("encrypted-basket-id") String encryptedBasketId,
         @ApiParam(name = "multilevel-sca", value = "Multilevel SCA.", example = "false")
         @RequestParam(value = "multilevel-sca", defaultValue = "false") boolean multilevelSca);
+
+    @PutMapping(path = "/{encrypted-basket-id}/block")
+    @ApiOperation(value = "Block basket")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<Object> blockBasket(
+        @ApiParam(name = "encrypted-basket-id", value = "Encrypted basket ID", example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7", required = true)
+        @PathVariable("encrypted-basket-id") String encryptedBasketId);
+
 }

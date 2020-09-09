@@ -78,6 +78,11 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     }
 
     @Override
+    public CmsResponse<Boolean> blockBasket(String basketId) {
+        return null;
+    }
+
+    @Override
     @Transactional
     public CmsResponse<Boolean> updateTransactionStatusById(String basketId, SigningBasketTransactionStatus transactionStatus) {
         Optional<SigningBasket> signingBasketOptional = getActualSigningBasket(basketId);
@@ -137,7 +142,10 @@ public class SigningBasketServiceInternal implements SigningBasketService {
 
     private Map<String, List<AuthorisationEntity>> retrieveAuthorisations(List<ConsentEntity> consents, List<PisCommonPaymentData> payments) {
         return Stream.concat(consents.stream(), payments.stream()).reduce(new HashMap<>(), (map, authorisable) -> {
-            map.put(authorisable.getExternalId(), authorisationRepository.findAllByParentExternalIdAndTypeIn(authorisable.getExternalId(), Set.of(AuthorisationType.CONSENT, AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION)));
+            List<AuthorisationEntity> authorisations = authorisationRepository.findAllByParentExternalIdAndTypeIn(authorisable.getExternalId(), Set.of(AuthorisationType.CONSENT, AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION));
+            if (!authorisations.isEmpty()) {
+                map.put(authorisable.getExternalId(), authorisations);
+            }
             return map;
         }, (a, b) -> a);
     }

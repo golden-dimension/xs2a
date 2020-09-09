@@ -46,7 +46,7 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
     public ResponseEntity<Object> updateTransactionStatus(String encryptedBasketId, String transactionStatus) {
         CmsResponse<Boolean> cmsResponse = signingBasketServiceEncrypted.updateTransactionStatusById(encryptedBasketId, SigningBasketTransactionStatus.getByValue(transactionStatus));
 
-        if(cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())){
+        if (cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -57,7 +57,18 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
     public ResponseEntity<Object> updateMultilevelScaRequired(String encryptedBasketId, boolean multilevelSca) {
         CmsResponse<Boolean> cmsResponse = signingBasketServiceEncrypted.updateMultilevelScaRequired(encryptedBasketId, multilevelSca);
 
-        if(cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())){
+        if (cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(cmsResponse.getPayload(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Object> blockBasket(String encryptedBasketId) {
+        CmsResponse<Boolean> cmsResponse = signingBasketServiceEncrypted.blockBasket(encryptedBasketId);
+
+        if (cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
