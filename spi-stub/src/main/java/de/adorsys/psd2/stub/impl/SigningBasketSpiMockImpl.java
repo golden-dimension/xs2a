@@ -41,19 +41,18 @@ import java.util.List;
 @Slf4j
 public class SigningBasketSpiMockImpl implements SigningBasketSpi {
     @Override
-    public SpiResponse<SpiInitiateSigningBasketResponse> initiateSigningBasket(@NotNull SpiContextData contextData, SpiSigningBasket signingBasket, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
-        log.info("SigningBasketSpi#initiateSigningBasket: contextData {}, signingBasket-id {}", contextData, signingBasket.getBasketId());
+    public SpiResponse<SpiInitiateSigningBasketResponse> initiateSigningBasket(@NotNull SpiContextData contextData, SpiSigningBasket spiSigningBasket, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
+        log.info("SigningBasketSpi#initiateSigningBasket: contextData {}, signingBasket-id {}", contextData, spiSigningBasket.getBasketId());
 
-        SpiInitiateSigningBasketResponse spiInitiateSigningBasketResponse = new SpiInitiateSigningBasketResponse(
-            SpiSigningBasketTransactionStatus.RCVD,
-            signingBasket.getBasketId(),
-            getAuthenticationObjects(),
-            null,
-            getSpiChallengeData(),
-            false,
-            "psu message",
-            Collections.emptyList()
-        );
+        SpiInitiateSigningBasketResponse spiInitiateSigningBasketResponse = new SpiInitiateSigningBasketResponse(SpiSigningBasketTransactionStatus.RCVD,
+                                                                                                                 spiSigningBasket.getBasketId(),
+                                                                                                                 getAuthenticationObjects(),
+                                                                                                                 getAuthenticationObjects().get(0),
+                                                                                                                 getSpiChallengeData(),
+                                                                                                                 false,
+                                                                                                                 "psu message",
+                                                                                                                 Collections.emptyList());
+
         return SpiResponse.<SpiInitiateSigningBasketResponse>builder()
                    .payload(spiInitiateSigningBasketResponse)
                    .build();

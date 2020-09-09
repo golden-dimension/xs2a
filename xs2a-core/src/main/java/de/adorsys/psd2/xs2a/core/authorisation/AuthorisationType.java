@@ -26,7 +26,8 @@ public enum AuthorisationType {
     @Deprecated AIS,
     CONSENT,
     PIS_CREATION,
-    PIS_CANCELLATION;
+    PIS_CANCELLATION,
+    SIGNING_BASKET;
 
     private static final Map<String, AuthorisationType> HOLDER = new HashMap<>();
 

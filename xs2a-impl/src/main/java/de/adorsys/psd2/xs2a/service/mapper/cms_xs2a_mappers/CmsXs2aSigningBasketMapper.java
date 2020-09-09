@@ -17,7 +17,7 @@
 package de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers;
 
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
-import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasket;
 import de.adorsys.psd2.consent.api.sb.CmsSigningBasketConsentsAndPaymentsResponse;
 import de.adorsys.psd2.core.data.Consent;
@@ -27,7 +27,7 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.consent.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.pis.CoreCommonPayment;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.signingbasket.SigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.core.tpp.TppNotificationData;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
