@@ -14,5 +14,5 @@ public class SigningBasketRemoteUrls {
 
     public String updateTransactionStatus(){ return consentServiceBaseUrl + "/signing-baskets/{encrypted-basket-id}/status/{status}"; }
 
-    public String updateMultilevelScaRequired(){ return consentServiceBaseUrl + "/signing-baskets/{encrypted-basket-id}/multilevel-sca"; }
+    public String updateMultilevelScaRequired(){ return consentServiceBaseUrl + "/signing-baskets/{encrypted-basket-id}/multilevel-sca?multilevel-sca={multilevel-sca}"; }
 }

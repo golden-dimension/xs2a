@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -46,7 +47,13 @@ public class SigningBasketServiceRemote implements SigningBasketServiceEncrypted
     @Override
     public CmsResponse<CmsSigningBasketConsentsAndPaymentsResponse> getConsentsAndPayments(List<String> consents, List<String> payments) {
         try {
-            ResponseEntity<CmsSigningBasketConsentsAndPaymentsResponse> restResponse = consentRestTemplate.getForEntity(signingBasketRemoteUrls.getConsentsAndPayments(), CmsSigningBasketConsentsAndPaymentsResponse.class, consents, payments);
+            ResponseEntity<CmsSigningBasketConsentsAndPaymentsResponse> restResponse = consentRestTemplate.getForEntity(
+                UriComponentsBuilder.fromHttpUrl(signingBasketRemoteUrls.getConsentsAndPayments())
+                    .queryParam("consents", consents)
+                    .queryParam("payments", payments)
+                    .build()
+                    .toString(),
+                CmsSigningBasketConsentsAndPaymentsResponse.class);
             return CmsResponse.<CmsSigningBasketConsentsAndPaymentsResponse>builder()
                        .payload(restResponse.getBody())
                        .build();
@@ -76,17 +83,17 @@ public class SigningBasketServiceRemote implements SigningBasketServiceEncrypted
     }
 
     @Override
-    public CmsResponse<Boolean> updateMultilevelScaRequired(String basketId, boolean multilevelScaRequired) {
+    public CmsResponse<Boolean> updateMultilevelScaRequired(String encryptedBasketId, boolean multilevelScaRequired) {
         try {
             Boolean updateResponse = consentRestTemplate.exchange(signingBasketRemoteUrls.updateMultilevelScaRequired(),
-                                                                  HttpMethod.PUT, null, Boolean.class, basketId, multilevelScaRequired)
+                                                                  HttpMethod.PUT, null, Boolean.class, encryptedBasketId, multilevelScaRequired)
                                          .getBody();
             return CmsResponse.<Boolean>builder()
                        .payload(updateResponse)
                        .build();
         } catch (CmsRestException cmsRestException) {
             log.info("Couldn't update multilevel SCA required by basket ID {}, HTTP response status: {}",
-                     basketId, cmsRestException.getHttpStatus());
+                     encryptedBasketId, cmsRestException.getHttpStatus());
         }
 
         return CmsResponse.<Boolean>builder()

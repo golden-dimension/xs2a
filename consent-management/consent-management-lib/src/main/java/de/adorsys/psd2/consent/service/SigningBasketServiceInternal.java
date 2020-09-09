@@ -98,7 +98,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     }
 
     @Override
-    @Transactional()
+    @Transactional
     public CmsResponse<Boolean> updateMultilevelScaRequired(String basketId, boolean multilevelScaRequired) {
         Optional<SigningBasket> signingBasketOptional = signingBasketRepository.findByExternalId(basketId);
         if (signingBasketOptional.isEmpty()) {
@@ -148,5 +148,4 @@ public class SigningBasketServiceInternal implements SigningBasketService {
             return map;
         }, (a, b) -> a);
     }
-
 }

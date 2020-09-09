@@ -28,7 +28,7 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(cmsResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(cmsResponse.getPayload(), HttpStatus.CREATED);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(cmsResponse, HttpStatus.OK);
+        return new ResponseEntity<>(cmsResponse.getPayload(), HttpStatus.OK);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(cmsResponse, HttpStatus.OK);
+        return new ResponseEntity<>(cmsResponse.getPayload(), HttpStatus.OK);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(cmsResponse, HttpStatus.OK);
+        return new ResponseEntity<>(cmsResponse.getPayload(), HttpStatus.OK);
     }
 }
