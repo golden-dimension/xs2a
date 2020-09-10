@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum SigningBasketTransactionStatus {
-    ACTC("AcceptedTechnicalValidation", false),  //AuthenticationObject and syntactical and semantical validation are successful"),
+    ACTC("AcceptedTechnicalValidation", true),  //AuthenticationObject and syntactical and semantical validation are successful"),
     RCVD("Received", false),  //Payment initiation has been received by the receiving agent
     RJCT("Rejected", true),  //Payment initiation or individual transaction included in the payment initiation has been rejected
     CANC("Canceled", true), //Canceled
