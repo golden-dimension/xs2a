@@ -17,7 +17,7 @@
 package de.adorsys.psd2.consent.api.service;
 
 /**
- * ConsentService with enabled encryption and decryption
+ * SigningBasketService with enabled encryption and decryption
  *
  * @see ConsentServiceBase
  * @see ConsentService

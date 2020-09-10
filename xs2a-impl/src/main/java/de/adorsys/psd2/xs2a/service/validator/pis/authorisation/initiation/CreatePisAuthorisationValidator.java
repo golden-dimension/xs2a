@@ -62,10 +62,13 @@ public class CreatePisAuthorisationValidator extends AbstractPisValidator<Create
     @Override
     protected ValidationResult executeBusinessValidation(CreatePisAuthorisationObject createPisAuthorisationObject) {
 
+        PisCommonPaymentResponse pisCommonPaymentResponse = createPisAuthorisationObject.getPisCommonPaymentResponse();
+        if (pisCommonPaymentResponse.isSigningBasketBlocked()) {
+            return ValidationResult.invalid(PIS_400, RESOURCE_BLOCKED_SB);
+        }
+
         PsuIdData psuDataFromRequest = createPisAuthorisationObject.getPsuDataFromRequest();
         List<PsuIdData> psuDataFromDb = createPisAuthorisationObject.getPisCommonPaymentResponse().getPsuData();
-        PisCommonPaymentResponse pisCommonPaymentResponse = createPisAuthorisationObject.getPisCommonPaymentResponse();
-
         if (authorisationPsuDataChecker.isPsuDataWrong(
             pisCommonPaymentResponse.isMultilevelScaRequired(),
             psuDataFromDb,
