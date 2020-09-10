@@ -58,11 +58,11 @@ class CreateSigningBasketRequestValidatorTest {
     private static final PsuIdData EMPTY_PSU_DATA = new PsuIdData(null, null, null, null, null);
     private static final PsuIdData PSU_DATA = new PsuIdData("psuId", null, null, null, null);
     private static final MessageError FORMAT_ERROR_VALIDATION_ERROR =
-        new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR));
+        new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR_IMPLICIT_SB));
     private static final MessageError MAX_ENTRIES_VALIDATION_ERROR =
-        new MessageError(ErrorType.SB_400, TppMessageInformation.buildWithCustomError(FORMAT_ERROR, "Number of entries in Signing Basket should not exceed more than " + 5));
+        new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR_OVERSIZE_SB, 5));
     private static final MessageError SIGNING_BASKET_NOT_SUPPORTED_VALIDATION_ERROR =
-        new MessageError(ErrorType.SB_405, TppMessageInformation.buildWithCustomError(SERVICE_INVALID_405, "Signing basket is not supported by ASPSP"));
+        new MessageError(ErrorType.SB_405, TppMessageInformation.of(SERVICE_INVALID_405_SB));
     private static final MessageError REFERENCE_MIX_INVALID_VALIDATION_ERROR =
         new MessageError(ErrorType.SB_400, TppMessageInformation.of(REFERENCE_MIX_INVALID));
     private static final MessageError REFERENCE_STATUS_INVALID_VALIDATION_ERROR =

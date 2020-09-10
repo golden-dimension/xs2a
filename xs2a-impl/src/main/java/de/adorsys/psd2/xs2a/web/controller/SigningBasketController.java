@@ -18,9 +18,6 @@ package de.adorsys.psd2.xs2a.web.controller;
 
 import de.adorsys.psd2.api.SigningBasketApi;
 import de.adorsys.psd2.model.SigningBasket;
-import de.adorsys.psd2.xs2a.core.error.ErrorType;
-import de.adorsys.psd2.xs2a.core.error.MessageError;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.psu.AdditionalPsuIdData;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppNotificationData;
@@ -34,7 +31,6 @@ import de.adorsys.psd2.xs2a.service.NotificationSupportedModeService;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.ResponseMapper;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ResponseErrorMapper;
-import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.sb.SigningBasketService;
 import de.adorsys.psd2.xs2a.web.header.ResponseHeaders;
 import de.adorsys.psd2.xs2a.web.header.SigningBasketHeadersBuilder;
@@ -48,8 +44,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 import java.util.UUID;
 
-import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
-
 @RestController
 @AllArgsConstructor
 public class SigningBasketController implements SigningBasketApi {
@@ -58,7 +52,6 @@ public class SigningBasketController implements SigningBasketApi {
     private final ResponseErrorMapper responseErrorMapper;
     private final TppRedirectUriMapper tppRedirectUriMapper;
     private final NotificationSupportedModeService notificationSupportedModeService;
-    private final AspspProfileServiceWrapper profileService;
     private final SigningBasketModelMapper signingBasketModelMapper;
     private final RequestProviderService requestProviderService;
     private final SigningBasketHeadersBuilder signingBasketHeadersBuilder;
@@ -70,10 +63,6 @@ public class SigningBasketController implements SigningBasketApi {
                                               String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding,
                                               String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
 
-        if (!profileService.isSigningBasketSupported()) {
-            MessageError messageError = new MessageError(ErrorType.SB_405, of(MessageErrorCode.SERVICE_INVALID_405_SB));
-            return responseErrorMapper.generateErrorResponse(messageError);
-        }
         TppRedirectUri xs2aTppRedirectUri = tppRedirectUriMapper.mapToTppRedirectUri(tpPRedirectURI, tpPNokRedirectURI);
         TppNotificationData tppNotificationData = notificationSupportedModeService.getTppNotificationData(tpPNotificationContentPreferred, tpPNotificationURI);
 

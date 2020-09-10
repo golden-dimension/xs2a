@@ -35,7 +35,6 @@ import de.adorsys.psd2.xs2a.service.NotificationSupportedModeService;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.ResponseMapper;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ResponseErrorMapper;
-import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.sb.SigningBasketService;
 import de.adorsys.psd2.xs2a.web.header.ResponseHeaders;
 import de.adorsys.psd2.xs2a.web.header.SigningBasketHeadersBuilder;
@@ -82,8 +81,6 @@ class SigningBasketControllerTest {
     @Mock
     private NotificationSupportedModeService notificationSupportedModeService;
     @Mock
-    private AspspProfileServiceWrapper profileService;
-    @Mock
     private SigningBasketModelMapper signingBasketModelMapper;
     @Mock
     private RequestProviderService requestProviderService;
@@ -93,33 +90,8 @@ class SigningBasketControllerTest {
     private final JsonReader jsonReader = new JsonReader();
 
     @Test
-    void createSigningBasket_notSupportedInProfile() {
-        // Given
-        MessageError messageError = new MessageError(ErrorType.SB_405, of(MessageErrorCode.SERVICE_INVALID_405_SB));
-
-        when(profileService.isSigningBasketSupported()).thenReturn(false);
-        when(responseErrorMapper.generateErrorResponse(messageError))
-            .thenReturn(new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED));
-
-        // When
-        ResponseEntity actual = signingBasketController.createSigningBasket(null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null, null,
-                                                                            null, null);
-        // Then
-        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED);
-    }
-
-    @Test
     void createSigningBasket_creationError() {
         // Given
-        when(profileService.isSigningBasketSupported()).thenReturn(true);
-
         TppRedirectUri tppRedirectUri = new TppRedirectUri(TPP_REDIRECT_URI, TPP_NOK_REDIRECT_URI);
         when(tppRedirectUriMapper.mapToTppRedirectUri(TPP_REDIRECT_URI, TPP_NOK_REDIRECT_URI)).thenReturn(tppRedirectUri);
 
@@ -162,8 +134,6 @@ class SigningBasketControllerTest {
     @Test
     void createSigningBasket_success() {
         // Given
-        when(profileService.isSigningBasketSupported()).thenReturn(true);
-
         TppRedirectUri tppRedirectUri = new TppRedirectUri(TPP_REDIRECT_URI, TPP_NOK_REDIRECT_URI);
         when(tppRedirectUriMapper.mapToTppRedirectUri(TPP_REDIRECT_URI, TPP_NOK_REDIRECT_URI)).thenReturn(tppRedirectUri);
 

@@ -56,6 +56,18 @@ public enum MessageErrorCode {
     FORBIDDEN(403), // Token is not valid for the addressed service/resource
 
     FORMAT_ERROR(400),  // Format of certain request fields are not matching the XS2A requirements
+    FORMAT_ERROR_IMPLICIT_SB(400){
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    }, // 'TPP-Explicit-Authorisation-Preferred' header should be true for signing basket
+    FORMAT_ERROR_OVERSIZE_SB(400){
+        @Override
+        public String getName() {
+            return FORMAT_ERROR_NAME;
+        }
+    }, // Number of entries in Signing Basket should not exceed more than %s
 
     // Please provide the PSU identification data
     FORMAT_ERROR_NO_PSU(400) {
@@ -439,8 +451,8 @@ public enum MessageErrorCode {
     NO_PIIS_ACTIVATION(400), // The PSU has not activated the addressed account for the usage of the PIIS associated with the TPP
 
     // Signing Basket Specific Error Codes
-    REFERENCE_MIX_INVALID(400),
-    REFERENCE_STATUS_INVALID(409),
+    REFERENCE_MIX_INVALID(400), // The used combination of referenced objects is not supported in the ASPSPs signing basket function.
+    REFERENCE_STATUS_INVALID(409), // At least one of the references is already fully authorised.
 
     // AIS specific error code
     SESSIONS_NOT_SUPPORTED(400),  // Sessions are not supported by ASPSP
