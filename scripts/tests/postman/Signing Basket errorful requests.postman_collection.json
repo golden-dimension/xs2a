@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e870760d-e97b-4442-a35d-2a293d51a852",
+		"_postman_id": "b5c9fa0a-49e1-42ff-b4ae-e49e6e2ae87d",
 		"name": "Signing Basket errorful requests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "17ddb6e4-60e8-4e6b-9391-36b5e4d21237",
+										"id": "45f34b1b-a810-4350-a749-a5e2a57ba74b",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -65,7 +65,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d20b8f72-6d76-42cc-9099-1f5f67df4058",
+										"id": "817124c3-44db-4cd4-a067-c24a22eb40a4",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -118,7 +118,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "234b7b21-ae0d-4a53-aef4-db5750a493ba",
+										"id": "cf86702e-4636-4bf9-8e52-b5ea8094c676",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -152,7 +152,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "ce16c4d8-3673-48ca-afdd-0e6c8a8891f1",
+										"id": "1ac50308-60d8-4608-9b5a-93a031720e60",
 										"exec": [
 											""
 										],
@@ -230,7 +230,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2c3d0996-03fd-4b8d-a286-64a3ed3d5408",
+										"id": "b3d286d8-cdb5-429d-b6b1-f79a7cbb2d7a",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -264,7 +264,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9adf702c-fdd0-4c01-9aad-1128efebcba0",
+										"id": "d90c8551-e2dc-45fa-b15d-ca8de7db98af",
 										"exec": [
 											""
 										],
@@ -342,7 +342,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4f767ccc-5b64-4f50-829d-f062657be06d",
+										"id": "a97a6b95-a50b-42b2-8f19-9371e845a5c4",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -366,7 +366,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "1cd3890f-a18f-4b66-94fe-f2fd43933b66",
+										"id": "21894721-f6ec-4a22-bdf7-3c903517fbd7",
 										"exec": [
 											""
 										],
@@ -427,7 +427,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "271d9ccf-86ef-475a-8c88-d6f515a51e5a",
+										"id": "2e957c60-345e-430a-b374-ec5b07306255",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -451,7 +451,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c9188221-e24b-426a-8091-079635b36d63",
+										"id": "faf20c23-8ede-4c59-ae02-c6cb22fddf7d",
 										"exec": [
 											""
 										],
@@ -519,7 +519,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4ee99fa1-58dc-4883-bc6e-fc61669a2ae8",
+										"id": "361633ab-317b-4ede-b9f6-3586bca7a511",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -567,7 +567,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "de56a578-3c24-45a8-a535-158de2b95eb0",
+										"id": "7c8a5192-6f8e-4042-a191-87ff6f96ff57",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -620,7 +620,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "454e8d43-7fb7-4c38-9339-bcfacf0935a1",
+										"id": "1745ab84-f8df-4362-8109-6fa6805b69b8",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -651,7 +651,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "a3ccf897-2e04-46bd-bd83-86bd66dc0240",
+										"id": "eb8c6865-1a4e-447b-9106-da70b592f704",
 										"exec": [
 											""
 										],
@@ -725,7 +725,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "116f7b45-f749-4a9f-9b87-bec097146c88",
+										"id": "79c84e5b-d759-4f74-8ab3-378274a6f37d",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -773,7 +773,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "149b3742-cdcd-4663-beb2-f31df10425a5",
+										"id": "7914a0c7-bf7b-4477-85b7-f953be1bff8f",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -826,7 +826,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "606a8139-c129-47dd-aa12-7be722fa47a9",
+										"id": "6c7ff825-4cda-446a-9d8f-4e93adc987c0",
 										"exec": [
 											"pm.test(\"Status code is 405\", () => {",
 											"    pm.response.to.have.status(405);",
@@ -857,7 +857,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b4d1a413-23e6-498b-a3f8-34942d3aeaa2",
+										"id": "0ed30804-96f3-4b30-85de-4aecb082c188",
 										"exec": [
 											""
 										],
@@ -931,7 +931,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "8283725d-8def-4cc0-92e2-8742756667b4",
+										"id": "ae79e0f8-fcfb-4326-9842-73ef7f9adea8",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -979,7 +979,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "7a4df241-06e7-4a48-b604-d05aff0c8011",
+										"id": "7330ef1e-3bcf-40dd-93a3-03c0374dfef0",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1032,7 +1032,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "caf06277-7b81-47da-9f4e-be3f3a7e9353",
+										"id": "7f7c30fc-8486-4ae3-b2cb-2b79bfee9b0a",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -1063,7 +1063,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9eab955e-20c9-4014-ac83-4cbfa619925f",
+										"id": "e01f4e53-8f7e-415b-98a7-1696105f569a",
 										"exec": [
 											""
 										],
@@ -1137,7 +1137,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "db0e9786-49be-4644-bec9-5b623f9ac8c3",
+										"id": "98b323b7-45bc-48c4-9220-e6d38561f1e0",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1185,7 +1185,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "a675b6e3-7062-4ac2-baae-b4777f462fb7",
+										"id": "b3e86de6-6cf4-4db5-acfc-c31d0e5b0eed",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1238,7 +1238,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c3cad939-f9eb-4709-b4ba-5589257ba229",
+										"id": "6e193edd-549c-4b7c-ac26-4053639a8923",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -1269,7 +1269,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "136dccfe-30b3-4dd0-9072-01eeb37c22cd",
+										"id": "9ccfca1c-8892-47a3-8162-89766f5c280c",
 										"exec": [
 											""
 										],
@@ -1344,7 +1344,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d8f695d9-58ed-4aa1-bb99-e529e1f3e4bf",
+										"id": "87116829-0f02-46a8-a7db-d4daa368edb8",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1392,7 +1392,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "82375f92-7058-4d56-90e9-ab87da03a864",
+										"id": "e3ce0481-2a86-41cb-a85f-580ba5682d9a",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1445,7 +1445,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d4388524-7390-457e-b045-f2182261b62e",
+										"id": "77d5ea52-6b69-4b27-9251-4b27b32c599e",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -1476,7 +1476,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "742ee7a9-bf2c-4dc8-b4ef-abdef1a73f9b",
+										"id": "681048cf-8dae-4d5b-8c9a-53c8589f43df",
 										"exec": [
 											""
 										],
@@ -1550,7 +1550,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2339637e-18a6-4ad4-98ef-c01f5825121f",
+										"id": "3375e6b2-95fe-4159-b320-9ade8c337b27",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1598,7 +1598,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1be0c1f7-8d8b-493f-b3de-063ca8544cb9",
+										"id": "f50ca276-df31-4609-a1e5-50036658fdd0",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1651,7 +1651,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "436e3766-3ee0-4095-90f6-c667a3967925",
+										"id": "3e5a71de-3d20-4baf-aa48-79d16581b010",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -1682,7 +1682,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "bcc98466-bf47-4581-a3a5-c28800709292",
+										"id": "acb346b3-889d-4d90-af89-fcf5b54e801f",
 										"exec": [
 											""
 										],
@@ -1756,7 +1756,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "9a146157-7f04-4ffd-a309-90e97113db91",
+										"id": "a4089437-aad4-4c6a-8abd-4b5e6652b24f",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1804,7 +1804,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c7b6afe7-4c18-42b9-9abc-322653978ee5",
+										"id": "af3b6208-2163-4516-8222-39b243466af2",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -1857,7 +1857,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6978db16-512c-4f95-80f1-9cb0044a6b67",
+										"id": "d21af80c-800b-43f6-9498-c9e536266ffd",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -1892,7 +1892,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "132419c7-04cd-4906-9bfe-1eff7989e7b0",
+										"id": "be437b1b-0c4d-465a-959e-83ffdffb8d3e",
 										"exec": [
 											""
 										],
@@ -1958,7 +1958,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "137128d6-7c4f-4757-879b-0fe3082fc7f9",
+										"id": "4d5a6bc9-26a3-4cd9-bb9c-d548fc7ecfd7",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -1989,7 +1989,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e733c29a-b433-494b-8b18-3a8a0a9b1d31",
+										"id": "13724665-fdf0-4f32-9666-a2e6009ec375",
 										"exec": [
 											""
 										],
@@ -2063,7 +2063,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "64678d1d-c82f-485a-94e9-bb3cdab88563",
+										"id": "a479eba0-dce4-441b-aae5-c352c83d87ac",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2111,7 +2111,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "772c164a-4f1d-43e8-bea6-e93ecdc3af27",
+										"id": "4afa3a5f-f96e-4813-aa9f-0199570307b9",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2164,7 +2164,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4f994958-7fdc-4ea5-9a69-115551f661de",
+										"id": "1036e871-12dd-4070-9cac-cc7f979d6400",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -2202,7 +2202,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "b5353da6-3489-4abf-a6ea-7dc98b221ffe",
+										"id": "d6f45700-42f4-46e6-a289-278554f72a0c",
 										"exec": [
 											""
 										],
@@ -2263,7 +2263,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "020f4783-a809-48de-996e-d590fff62949",
+										"id": "8b6988db-dacc-40a2-aa5f-5dcfc81c77d6",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -2294,7 +2294,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "47d151d3-1475-484d-ba0c-a8d70ec02a43",
+										"id": "042b7557-6b5b-4bb5-9db1-c6d6ee4d1f2a",
 										"exec": [
 											""
 										],
@@ -2368,7 +2368,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "e642fc82-ca35-4390-9e5a-be2710cca043",
+										"id": "4a39d00d-0494-46e3-8472-942e9fafdbf3",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2416,7 +2416,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "7df3d47a-bf27-4576-a2f6-d6501c001d16",
+										"id": "ee44408c-38d2-4ffd-b2be-0d536fc945b1",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2469,7 +2469,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "51ded681-ff1d-4304-808c-bd23141d94e2",
+										"id": "e4dee797-883b-4e6e-8787-45665580794d",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -2493,7 +2493,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "0412f126-7878-434a-b9c4-5a3896650d69",
+										"id": "fab8ca70-4409-4935-a5f1-1f79a9ba6f10",
 										"exec": [
 											""
 										],
@@ -2554,7 +2554,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "78136fee-540b-47f9-a2b8-0fd2b5a47b54",
+										"id": "e17354f5-2544-4e61-9f99-3e6975f696d3",
 										"exec": [
 											"pm.test(\"Status code is 201\", () => {",
 											"    pm.response.to.have.status(201);",
@@ -2570,7 +2570,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "6169981a-fa43-48f3-9b8d-061eb691ed8b",
+										"id": "d180e53c-047e-4887-8cbf-b58d0abe4077",
 										"exec": [
 											""
 										],
@@ -2637,7 +2637,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f7ec5fef-09ae-4a0e-bd85-2607a5105b30",
+										"id": "e65d9720-ffcc-4733-bda6-750737f2ea98",
 										"exec": [
 											"pm.test(\"Status code is 400\", () => {",
 											"    pm.response.to.have.status(400);",
@@ -2668,7 +2668,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "36f996b7-6524-4b4d-9891-1ffb7783bd7a",
+										"id": "fc25932e-9b16-43bb-81f2-0657e5ae4a63",
 										"exec": [
 											""
 										],
@@ -2742,7 +2742,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "6b36266b-efd2-4708-bf82-b35e0f0d02ad",
+										"id": "fe677368-01f7-4243-b18b-f02305ac2d50",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2790,7 +2790,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "02518b70-a60a-4917-8a9e-a804370e9094",
+										"id": "0a7d6790-8d44-480f-a5ec-67815bfaf27b",
 										"exec": [
 											"pm.test(\"Status code is 200\", () => {",
 											"    pm.response.to.have.status(200);",
@@ -2843,7 +2843,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "511503cb-ea7f-4204-b628-77271478a182",
+										"id": "0897cc8b-03b5-4322-9187-cc0785b62011",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -2867,7 +2867,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "d1fa8b0a-aeb6-4383-9c86-560e619d19ce",
+										"id": "08e10a2c-7afa-4c1d-b5d3-4cf110155b75",
 										"exec": [
 											""
 										],
@@ -2928,7 +2928,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "d2ac0130-c384-4d1d-aa03-2cdcbfb67b5d",
+										"id": "88497385-08dc-47f9-bf3a-a9b722793934",
 										"exec": [
 											"const jsonData = pm.response.json();",
 											"",
@@ -2960,7 +2960,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e97788c5-cd81-4452-aca3-de94ae3dc137",
+										"id": "92ae449f-2508-42b5-84de-bbcdc673d7ef",
 										"exec": [
 											"pm.globals.unset(\"authorisation_id\");"
 										],
@@ -3015,7 +3015,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "9f0cdcd9-7d6b-4d7f-860d-fe9b9ea93578",
+										"id": "c771e42d-9e49-4271-adaf-03638113caf8",
 										"exec": [
 											"pm.test('Status code is 200', () => {",
 											"   pm.response.to.have.status(200);",
@@ -3102,7 +3102,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "79f9edf6-5fe7-4ca7-9b73-b21bc38ef895",
+										"id": "6648ece9-78ac-4c90-90fb-4a9a78a4cdd8",
 										"exec": [
 											"pm.test('Status code is 200', () => {",
 											"   pm.response.to.have.status(200);",
@@ -3172,7 +3172,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c9f32e65-a75d-4f90-a2a1-63b5c409043a",
+										"id": "11c3bd36-b1b2-439a-afde-ea5f769616ce",
 										"exec": [
 											"pm.test(\"Status code is 409\", () => {",
 											"    pm.response.to.have.status(409);",
@@ -3203,7 +3203,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "54d84a50-f22a-40c3-b0ed-c199e744f004",
+										"id": "68e888d8-3838-4ed9-b94b-e137ed987209",
 										"exec": [
 											""
 										],
@@ -3261,6 +3261,731 @@
 										""
 									]
 								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "11) SB objects are blocked and it's prohibited to create authorisations",
+					"item": [
+						{
+							"name": "1. Set embedded SCA approach",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b730ce8-95ca-4569-aba4-10bfceb1307f",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  \"EMBEDDED\",\n  \"REDIRECT\",\n  \"DECOUPLED\"\n]"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/sca-approaches",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"sca-approaches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Update ASPSP profile settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e58b7db8-4839-4a5a-a9c4-4cef26262aa1",
+										"exec": [
+											"pm.test(\"Status code is 200\", () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ais\": {\n        \"consentTypes\": {\n            \"bankOfferedConsentSupported\": false,\n            \"globalConsentSupported\": false,\n            \"availableAccountsConsentSupported\": true,\n            \"accountAccessFrequencyPerDay\": 4,\n            \"notConfirmedConsentExpirationTimeMs\": 86400000,\n            \"maxConsentValidityDays\": 0\n        },\n        \"redirectLinkToOnlineBanking\": {\n            \"aisRedirectUrlToAspsp\": \"http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}\"\n        },\n        \"transactionParameters\": {\n            \"availableBookingStatuses\": [\n                \"both\"\n            ],\n            \"transactionsWithoutBalancesSupported\": false,\n            \"supportedTransactionApplicationTypes\": [\n                \"application/json\"\n            ]\n        },\n        \"deltaReportSettings\": {\n            \"entryReferenceFromSupported\": false,\n            \"deltaListSupported\": false\n        },\n        \"scaRequirementsForOneTimeConsents\": {\n            \"scaByOneTimeAvailableAccountsConsentRequired\": true,\n            \"scaByOneTimeGlobalConsentRequired\": true\n        }\n    },\n    \"pis\": {\n        \"supportedPaymentTypeAndProductMatrix\": {\n            \"payments\": [\n                \"sepa-credit-transfers\",\n                \"instant-sepa-credit-transfers\"\n            ]\n        },\n        \"maxTransactionValidityDays\": 0,\n        \"notConfirmedPaymentExpirationTimeMs\": 86400000,\n        \"paymentCancellationAuthorisationMandated\": false,\n        \"redirectLinkToOnlineBanking\": {\n            \"pisRedirectUrlToAspsp\": \"http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}\",\n            \"pisPaymentCancellationRedirectUrlToAspsp\": \"http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}\",\n            \"paymentCancellationRedirectUrlExpirationTimeMs\": 600000\n        },\n        \"supportedTransactionStatusFormats\": [\n            \"application/json\"\n        ]\n    },\n    \"piis\": {\n        \"piisConsentSupported\": \"TPP_CONSENT_SUPPORTED\",\n                \"redirectLinkToOnlineBanking\": {\n            \"piisRedirectUrlToAspsp\": \"http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}\"\n        }\n    },\n    \"common\": {\n        \"scaRedirectFlow\": \"REDIRECT\",\n        \"startAuthorisationMode\": \"auto\",\n        \"tppSignatureRequired\": false,\n        \"psuInInitialRequestMandated\": true,\n        \"redirectUrlExpirationTimeMs\": 600000,\n        \"authorisationExpirationTimeMs\": 86400000,\n        \"forceXs2aBaseLinksUrl\": false,\n        \"xs2aBaseLinksUrl\": \"http://myhost.com/\",\n        \"supportedAccountReferenceFields\": [\n            \"IBAN\"\n        ],\n        \"multicurrencyAccountLevelSupported\": \"SUBACCOUNT\",\n        \"aisPisSessionsSupported\": false,\n        \"signingBasketSupported\": true,\n        \"signingBasketMaxEntries\": 10,\n        \"aspspNotificationsSupported\": [\n        \t\"NONE\"\t\n        ],\n       \t\"authorisationConfirmationRequestMandated\": false,\n    \t\"authorisationConfirmationCheckByXs2a\": false, \n    \t\"checkUriComplianceToDomainSupported\": false \n   }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_aspsp_profile}}/api/v1/aspsp-profile/for-debug/aspsp-settings",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_aspsp_profile}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"aspsp-profile",
+										"for-debug",
+										"aspsp-settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3. Initiate new consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "76db77f9-3b47-4335-8bb7-cce2207d13a7",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Consent Id exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"",
+											"pm.globals.set(\"consent_id_2\", jsonData.consentId);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9c42a0e1-30c6-49d3-ac82-9417a4decf0c",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{x_request_id}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "psu-ip-address",
+										"type": "text",
+										"value": "{{ip_address}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"access\": {\n    \"accounts\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"balances\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ],\n    \"transactions\": [\n      {\n        \"currency\": \"EUR\",\n\t\t\"iban\": \"{{iban_single}}\"\n      }\n    ]\n  },\n  \"combinedServiceIndicator\": false,\n  \"frequencyPerDay\": 15,\n  \"recurringIndicator\": true,\n  \"validUntil\": \"2021-10-10\"\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. Initiate new PIIS Consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "46bd53d6-ca62-4635-8545-3ec50bc6a0cc",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"PIIS consent ID exists\", () => {",
+											"   pm.expect(jsonData).to.have.property('consentId');",
+											"});",
+											"",
+											"pm.test(\"PIIS consent links exists\", () => {",
+											"   pm.expect(jsonData._links).to.have.property('startAuthorisation');",
+											"   pm.expect(jsonData._links).to.have.property('status');",
+											"});",
+											"",
+											"pm.globals.set(\"piis_consent_id\", jsonData.consentId);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "psu-id",
+										"type": "text",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"account\": {\n    \"iban\": \"{{iban_single}}\",\n    \"currency\": \"EUR\"\n  },\n  \"cardNumber\": \"cardNumber\",\n  \"cardExpiryDate\": \"2030-10-10\",\n  \"cardInformation\": \"cardInformation\",\n  \"registrationInformation\": \"registrationInformation\"\n\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v2",
+										"consents",
+										"confirmation-of-funds"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. Initiate new payment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "41c9ae0c-ae3f-4a5d-834a-848ad07516dd",
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transcation status is RCVD\", () => {",
+											"    pm.expect(jsonData.transactionStatus).to.eql('RCVD');",
+											"});",
+											"",
+											"pm.test(\"Links exist\", () => {",
+											"    pm.expect(jsonData).to.have.property('_links');",
+											"    const _links = jsonData._links;",
+											"    ",
+											"    pm.expect(_links).to.have.property('self');",
+											"    pm.expect(_links).to.have.property('status');",
+											"    pm.expect(_links).to.have.property('startAuthorisation');",
+											"});",
+											"",
+											"pm.test(\"Payment ID exists\", () => {",
+											"    pm.expect(jsonData).to.have.property('paymentId');",
+											"});",
+											"",
+											"pm.globals.set(\"payment_id_2\", jsonData.paymentId);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "29985585-e46f-4737-a213-06bbbb497ca1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "TPP-Redirect-URI",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Nok-Redirect-URI",
+										"value": "TPP-Nok-Redirect-URI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"endToEndIdentification\": \"WBG-123456789\",\n    \"debtorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"instructedAmount\": {\n      \"currency\": \"EUR\",\n      \"amount\": \"0.01\"\n    },\n    \"creditorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_single}}\"\n    },\n    \"creditorAgent\" : \"AAAADEBBXXX\",\n    \"creditorName\": \"WBG\",\n    \"creditorAddress\": {\n      \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n    },\n    \"remittanceInformationUnstructured\": \"Ref. Number WBG-1222\"\n  }"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"{{payment_service}}",
+										"{{payment_product}}"
+									]
+								},
+								"description": "This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like 'scaRedirect' or 'scaOAuth' cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the 'startAuthorisation' link. "
+							},
+							"response": []
+						},
+						{
+							"name": "6. Create signing basket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "455913a8-95a9-4429-a4b1-2597c77d752f",
+										"exec": [
+											"pm.test(\"Status code is 201\", () => {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "eee36386-4459-46b5-998c-2176e912a181",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_none}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Explicit-Authorisation-Preferred",
+										"value": "true",
+										"type": "text"
+									},
+									{
+										"key": "psu-ip-address",
+										"value": "{{ip_address}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paymentIds\": [\n        \"{{payment_id_2}}\"\n    ],\n    \"consentIds\": [\n        \"{{consent_id_2}}\",\n        \"{{piis_consent_id}}\"\n        \n    ]\n}"
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/signing-baskets/",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"signing-baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "7. Start the authorisation process for a consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "399be7e6-994f-4ccd-a296-e86b1610b3aa",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('RESOURCE_BLOCKED');",
+											"    pm.expect(error.text).to.eql('The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "de6234f0-0bda-48d2-a518-4ebb0ce93a64",
+										"exec": [
+											"pm.globals.unset(\"authorisation_id\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/consents/{{consent_id_2}}/authorisations",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"consents",
+										"{{consent_id_2}}",
+										"authorisations"
+									]
+								},
+								"description": "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication'     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. "
+							},
+							"response": []
+						},
+						{
+							"name": "8. Start the authorisation process for a PIIS consent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f8ed0c98-4da5-4c68-b6c7-cd7cc9874b83",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('RESOURCE_BLOCKED');",
+											"    pm.expect(error.text).to.eql('The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "fff26ec3-11f0-4ad3-9204-cafd2f5d9962",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v2/consents/confirmation-of-funds/{{piis_consent_id}}/authorisations",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v2",
+										"consents",
+										"confirmation-of-funds",
+										"{{piis_consent_id}}",
+										"authorisations"
+									]
+								},
+								"description": "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication'     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. "
+							},
+							"response": []
+						},
+						{
+							"name": "9. Start the authorisation process for a payment initiation",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "ea854dba-0afb-46a0-8da4-7da824d91d27",
+										"exec": [
+											"pm.globals.unset(\"authorisation_id\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "cd774bf6-596f-46bb-9842-41fb57871a41",
+										"exec": [
+											"pm.test(\"Status code is 400\", () => {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test('TppMessages and error are exist', () => {",
+											"    ",
+											"    pm.expect(jsonData).to.have.property('tppMessages');",
+											"    ",
+											"    var error = jsonData.tppMessages[0];",
+											"       ",
+											"    pm.expect(error).to.have.property('category');",
+											"    pm.expect(error).to.have.property('code');",
+											"    pm.expect(error).to.have.property('text');",
+											"       ",
+											"    pm.expect(error.category).to.eql('ERROR');",
+											"    pm.expect(error.code).to.eql('RESOURCE_BLOCKED');",
+											"    pm.expect(error.text).to.eql('The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket');",
+											"    ",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psu_id_single}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{x_request_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}/{{payment_id_2}}/authorisations",
+									"protocol": "{{protocol}}",
+									"host": [
+										"{{url_xs2a}}"
+									],
+									"path": [
+										"v1",
+										"{{payment_service}}",
+										"{{payment_product}}",
+										"{{payment_id_2}}",
+										"authorisations"
+									]
+								},
+								"description": "Create an authorisation sub-resource and start the authorisation process.  The message might in addition transmit authentication and authorisation related data.   This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication'     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. "
 							},
 							"response": []
 						}

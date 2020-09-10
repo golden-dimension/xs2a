@@ -349,7 +349,14 @@ public enum MessageErrorCode {
             return FORMAT_ERROR_NAME;
         }
     },
-    RESOURCE_BLOCKED(400), // The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
+    RESOURCE_BLOCKED(400), // Payment is finalised already and cannot be cancelled
+    // The addressed resource is not addressable by this request, since it is blocked e.g. by a grouping in a signing basket
+    RESOURCE_BLOCKED_SB(400) {
+        @Override
+        public String getName() {
+            return RESOURCE_BLOCKED.getName();
+        }
+    },
     PSU_CREDENTIALS_INVALID(401),  // The PSU-ID cannot be matched by the addressed ASPSP or is blocked, or a password resp. OTP was not correct
 
     // Couldn’t execute payment cancellation
