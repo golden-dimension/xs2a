@@ -90,6 +90,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
         if (signingBasketOptional.isPresent()) {
             SigningBasketEntity signingBasket = signingBasketOptional.get();
             signingBasket.setTransactionStatus(transactionStatus.toString());
+            unblockConsentsAndPaymentsIfNeeded(transactionStatus, signingBasket);
 
             return CmsResponse.<Boolean>builder()
                        .payload(true)
@@ -152,5 +153,12 @@ public class SigningBasketServiceInternal implements SigningBasketService {
             map.put(entity.getExternalId(), aisConsentUsageService.getUsageCounterMap(entity));
             return map;
         }, (a, b) -> a);
+    }
+
+    private void unblockConsentsAndPaymentsIfNeeded(SigningBasketTransactionStatus transactionStatus, SigningBasketEntity signingBasket) {
+        if (EnumSet.of(SigningBasketTransactionStatus.RJCT, SigningBasketTransactionStatus.CANC).contains(transactionStatus)) {
+            signingBasket.getPayments().forEach(p -> p.setSigningBasketBlocked(false));
+            signingBasket.getConsents().forEach(c -> c.setSigningBasketBlocked(false));
+        }
     }
 }
