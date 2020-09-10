@@ -33,7 +33,7 @@ import java.util.List;
 @Data
 @Entity(name = "signing_basket")
 @EqualsAndHashCode(callSuper = true)
-public class SigningBasket extends InstanceDependableEntity implements Authorisable {
+public class SigningBasketEntity extends InstanceDependableEntity implements Authorisable {
     @Id
     @Column(name = "signing_basket_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "signing_basket_generator")

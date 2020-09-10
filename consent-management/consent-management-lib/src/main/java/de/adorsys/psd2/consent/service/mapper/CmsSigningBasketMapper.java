@@ -20,7 +20,7 @@ import de.adorsys.psd2.consent.api.sb.CmsSigningBasket;
 import de.adorsys.psd2.consent.domain.AuthorisationEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
-import de.adorsys.psd2.consent.domain.sb.SigningBasket;
+import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class CmsSigningBasketMapper {
     private final CmsConsentMapper cmsConsentMapper;
     private final PisCommonPaymentMapper pisCommonPaymentMapper;
 
-    public CmsSigningBasket mapToCmsSigningBasket(SigningBasket entity, Map<String, List<AuthorisationEntity>> authorisations, Map<String, Map<String, Integer>> usages) {
+    public CmsSigningBasket mapToCmsSigningBasket(SigningBasketEntity entity, Map<String, List<AuthorisationEntity>> authorisations, Map<String, Map<String, Integer>> usages) {
         CmsSigningBasket cmsSigningBasket = new CmsSigningBasket();
         cmsSigningBasket.setId(entity.getExternalId());
         cmsSigningBasket.setConsents(cmsConsentMapper.mapToCmsConsents(entity.getConsents(), authorisations, usages));
@@ -51,8 +51,8 @@ public class CmsSigningBasketMapper {
         return cmsSigningBasket;
     }
 
-    public SigningBasket mapToNewSigningBasket(CmsSigningBasket cmsSigningBasket, List<ConsentEntity> consentEntities, List<PisCommonPaymentData> payments) {
-        SigningBasket signingBasket = new SigningBasket();
+    public SigningBasketEntity mapToNewSigningBasket(CmsSigningBasket cmsSigningBasket, List<ConsentEntity> consentEntities, List<PisCommonPaymentData> payments) {
+        SigningBasketEntity signingBasket = new SigningBasketEntity();
         signingBasket.setExternalId(UUID.randomUUID().toString());
         signingBasket.setConsents(consentEntities);
         signingBasket.setPayments(payments);

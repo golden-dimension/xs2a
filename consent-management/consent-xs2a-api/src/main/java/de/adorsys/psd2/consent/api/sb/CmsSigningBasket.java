@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import de.adorsys.psd2.consent.api.ais.CmsConsent;
 import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
-import de.adorsys.psd2.xs2a.core.consent.SigningBasketTppInformation;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.Data;

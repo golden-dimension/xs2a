@@ -10,7 +10,7 @@ import de.adorsys.psd2.consent.api.service.SigningBasketService;
 import de.adorsys.psd2.consent.domain.AuthorisationEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
-import de.adorsys.psd2.consent.domain.sb.SigningBasket;
+import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
 import de.adorsys.psd2.consent.repository.AuthorisationRepository;
 import de.adorsys.psd2.consent.repository.ConsentJpaRepository;
 import de.adorsys.psd2.consent.repository.PisCommonPaymentDataRepository;
@@ -56,8 +56,8 @@ public class SigningBasketServiceInternal implements SigningBasketService {
         List<PisCommonPaymentData> payments = consentsAndPayments.getSecond();
         payments.forEach(payment -> payment.setSigningBasketBlocked(true));
 
-        SigningBasket signingBasket = cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consents, payments);
-        SigningBasket savedEntity = signingBasketRepository.save(signingBasket);
+        SigningBasketEntity signingBasket = cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consents, payments);
+        SigningBasketEntity savedEntity = signingBasketRepository.save(signingBasket);
 
         Map<String, List<AuthorisationEntity>> authorisations = retrieveAuthorisations(consents, payments);
         Map<String, Map<String, Integer>> usages = retrieveUsages(consents);
@@ -85,10 +85,10 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     @Override
     @Transactional
     public CmsResponse<Boolean> updateTransactionStatusById(String basketId, SigningBasketTransactionStatus transactionStatus) {
-        Optional<SigningBasket> signingBasketOptional = getActualSigningBasket(basketId);
+        Optional<SigningBasketEntity> signingBasketOptional = getActualSigningBasket(basketId);
 
         if (signingBasketOptional.isPresent()) {
-            SigningBasket signingBasket = signingBasketOptional.get();
+            SigningBasketEntity signingBasket = signingBasketOptional.get();
             signingBasket.setTransactionStatus(transactionStatus.toString());
 
             return CmsResponse.<Boolean>builder()
@@ -105,7 +105,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     @Override
     @Transactional
     public CmsResponse<Boolean> updateMultilevelScaRequired(String basketId, boolean multilevelScaRequired) {
-        Optional<SigningBasket> signingBasketOptional = signingBasketRepository.findByExternalId(basketId);
+        Optional<SigningBasketEntity> signingBasketOptional = signingBasketRepository.findByExternalId(basketId);
         if (signingBasketOptional.isEmpty()) {
             log.info("Basket ID: [{}]. Get update multilevel SCA required status failed, because basket is not found",
                      basketId);
@@ -113,7 +113,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
                        .payload(false)
                        .build();
         }
-        SigningBasket basket = signingBasketOptional.get();
+        SigningBasketEntity basket = signingBasketOptional.get();
         basket.setMultilevelScaRequired(multilevelScaRequired);
 
         return CmsResponse.<Boolean>builder()
@@ -121,7 +121,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
                    .build();
     }
 
-    private Optional<SigningBasket> getActualSigningBasket(String basketId) {
+    private Optional<SigningBasketEntity> getActualSigningBasket(String basketId) {
         return signingBasketRepository.findByExternalId(basketId);
     }
 
