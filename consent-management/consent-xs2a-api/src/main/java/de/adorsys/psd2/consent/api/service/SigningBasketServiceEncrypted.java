@@ -19,8 +19,8 @@ package de.adorsys.psd2.consent.api.service;
 /**
  * SigningBasketService with enabled encryption and decryption
  *
- * @see ConsentServiceBase
- * @see ConsentService
+ * @see SigningBasketServiceBase
+ * @see SigningBasketService
  */
 public interface SigningBasketServiceEncrypted extends SigningBasketServiceBase {
 }
