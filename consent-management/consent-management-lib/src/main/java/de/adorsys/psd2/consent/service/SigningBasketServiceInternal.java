@@ -156,8 +156,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     }
 
     private void unblockConsentsAndPaymentsIfNeeded(SigningBasketTransactionStatus transactionStatus, SigningBasketEntity signingBasket) {
-        if (transactionStatus.equals(SigningBasketTransactionStatus.RJCT) ||
-                transactionStatus.equals(SigningBasketTransactionStatus.CANC)) {
+        if (EnumSet.of(SigningBasketTransactionStatus.RJCT, SigningBasketTransactionStatus.CANC).contains(transactionStatus)) {
             signingBasket.getPayments().forEach(p -> p.setSigningBasketBlocked(false));
             signingBasket.getConsents().forEach(c -> c.setSigningBasketBlocked(false));
         }
