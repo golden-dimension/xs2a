@@ -10,7 +10,7 @@ import de.adorsys.psd2.consent.domain.AuthorisationTemplateEntity;
 import de.adorsys.psd2.consent.domain.PsuData;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
-import de.adorsys.psd2.consent.domain.sb.SigningBasket;
+import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
 import de.adorsys.psd2.consent.repository.AuthorisationRepository;
 import de.adorsys.psd2.consent.repository.ConsentJpaRepository;
 import de.adorsys.psd2.consent.repository.PisCommonPaymentDataRepository;
@@ -117,7 +117,7 @@ public class SigningBasketServiceInternalTest {
         when(paymentRepository.findAllByPaymentIdIn(any())).thenReturn(Collections.emptyList());
 
         CmsSigningBasket cmsSigningBasket = buildEmptyCmsSigningBasket();
-        SigningBasket expected = buildSigningBasket(true);
+        SigningBasketEntity expected = buildSigningBasket(true);
         when(cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, Collections.emptyList(), Collections.emptyList()))
             .thenReturn(expected);
         when(signingBasketRepository.save(expected)).thenReturn(expected);
@@ -154,7 +154,7 @@ public class SigningBasketServiceInternalTest {
         when(aisConsentUsageService.getUsageCounterMap(any())).thenReturn(Collections.emptyMap());
 
 
-        SigningBasket expected = buildSigningBasket(false);
+        SigningBasketEntity expected = buildSigningBasket(false);
         CmsSigningBasket cmsSigningBasket = buildCmsSigningBasket();
         when(cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consents, payments))
             .thenReturn(expected);
@@ -213,7 +213,7 @@ public class SigningBasketServiceInternalTest {
 
     @Test
     public void updateTransactionStatusById_successful() {
-        SigningBasket signingBasket = buildSigningBasket(false);
+        SigningBasketEntity signingBasket = buildSigningBasket(false);
         when(signingBasketRepository.findByExternalId(EXTERNAL_ID)).thenReturn(Optional.of(signingBasket));
 
         CmsResponse<Boolean> cmsResponse = signingBasketService.updateTransactionStatusById(EXTERNAL_ID, SigningBasketTransactionStatus.ACTC);
@@ -236,8 +236,8 @@ public class SigningBasketServiceInternalTest {
     }
 
     @Test
-    public void updateMultilevelScaRequired_success(){
-        SigningBasket signingBasket = buildSigningBasket(false);
+    public void updateMultilevelScaRequired_success() {
+        SigningBasketEntity signingBasket = buildSigningBasket(false);
         when(signingBasketRepository.findByExternalId(EXTERNAL_ID)).thenReturn(Optional.of(signingBasket));
 
         CmsResponse<Boolean> cmsResponse = signingBasketService.updateMultilevelScaRequired(EXTERNAL_ID, true);
@@ -248,7 +248,7 @@ public class SigningBasketServiceInternalTest {
     }
 
     @Test
-    public void updateMultilevelScaRequired_failure(){
+    public void updateMultilevelScaRequired_failure() {
         when(signingBasketRepository.findByExternalId(EXTERNAL_ID)).thenReturn(Optional.empty());
 
         CmsResponse<Boolean> cmsResponse = signingBasketService.updateMultilevelScaRequired(EXTERNAL_ID, true);
@@ -276,8 +276,8 @@ public class SigningBasketServiceInternalTest {
                        buildPisCommonPaymentData(PAYMENT_ID_2, TransactionStatus.RCVD));
     }
 
-    private SigningBasket buildSigningBasket(boolean empty) {
-        SigningBasket basket = new SigningBasket();
+    private SigningBasketEntity buildSigningBasket(boolean empty) {
+        SigningBasketEntity basket = new SigningBasketEntity();
         basket.setId(1L);
         basket.setExternalId(EXTERNAL_ID);
         if (!empty) {

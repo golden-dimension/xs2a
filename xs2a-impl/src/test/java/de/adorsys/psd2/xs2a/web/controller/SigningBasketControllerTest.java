@@ -35,6 +35,7 @@ import de.adorsys.psd2.xs2a.service.NotificationSupportedModeService;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.mapper.ResponseMapper;
 import de.adorsys.psd2.xs2a.service.mapper.psd2.ResponseErrorMapper;
+import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.sb.SigningBasketService;
 import de.adorsys.psd2.xs2a.web.header.ResponseHeaders;
 import de.adorsys.psd2.xs2a.web.header.SigningBasketHeadersBuilder;
@@ -80,8 +81,6 @@ class SigningBasketControllerTest {
     private TppRedirectUriMapper tppRedirectUriMapper;
     @Mock
     private NotificationSupportedModeService notificationSupportedModeService;
-    @Mock
-    private AspspProfileServiceWrapper profileService;
     @Mock
     private SigningBasketModelMapper signingBasketModelMapper;
     @Mock
