@@ -103,7 +103,7 @@ public class PaymentInitiationLinks extends AbstractLinks {
         } else {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
 
-            String paymentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
+            String paymentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH_PRE_STEP
                                           ? redirectLinkBuilder.buildPaymentScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
                                           : redirectLinkBuilder.buildPaymentScaRedirectLink(paymentId, redirectId, internalRequestId, instanceId);
 

@@ -55,7 +55,7 @@ public class CreatePiisConsentLinks extends AbstractLinks {
                 setStartAuthorisation(buildPath(UrlHolder.CREATE_PIIS_AUTHORISATION_URL, consentId));
             } else {
                 String redirectId = redirectIdService.generateRedirectId(authorisationId);
-                String consentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
+                String consentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH_PRE_STEP
                                               ? redirectLinkBuilder.buildConsentScaOauthRedirectLink(consentId, redirectId, response.getInternalRequestId())
                                               : redirectLinkBuilder.buildConsentScaRedirectLink(consentId, redirectId, response.getInternalRequestId(), instanceId, ConsentType.PIIS_TPP);
 

@@ -239,6 +239,22 @@ class CreatePiisConsentLinksTest {
     }
 
     @Test
+    void scaApproachRedirectAndExplicitMethod_authoronIdIsNull() {
+        // Given
+        response.setAuthorizationId(null);
+        when(scaApproachResolver.resolveScaApproach()).thenReturn(ScaApproach.REDIRECT);
+
+        // When
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, ScaRedirectFlow.REDIRECT, false, "");
+
+        // Then
+        expectedLinks.setSelf(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi"));
+        expectedLinks.setStatus(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi/status"));
+        expectedLinks.setStartAuthorisation(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi/authorisations"));
+        assertEquals(expectedLinks, links);
+    }
+
+    @Test
     void scaApproachRedirectAndImplicitMethod() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.REDIRECT);
         when(redirectIdService.generateRedirectId(eq(AUTHORISATION_ID))).thenReturn(AUTHORISATION_ID);
@@ -250,6 +266,24 @@ class CreatePiisConsentLinksTest {
         expectedLinks.setStatus(STATUS);
         expectedLinks.setScaRedirect(new HrefType(REDIRECT_LINK));
         expectedLinks.setScaStatus(SCA_STATUS);
+        assertEquals(expectedLinks, links);
+    }
+
+    @Test
+    void scaApproachRedirect_OauthPreStep_AndImplicitMethod() {
+        // Given
+        when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.REDIRECT);
+        when(redirectIdService.generateRedirectId(eq(AUTHORISATION_ID))).thenReturn(AUTHORISATION_ID);
+        when(redirectLinkBuilder.buildConsentScaOauthRedirectLink(eq(CONSENT_ID), eq(AUTHORISATION_ID), eq(INTERNAL_REQUEST_ID))).thenReturn(REDIRECT_LINK);
+
+        // When
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, ScaRedirectFlow.OAUTH_PRE_STEP, false, "");
+
+        // Then
+        expectedLinks.setSelf(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi"));
+        expectedLinks.setStatus(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi/status"));
+        expectedLinks.setScaRedirect(new HrefType(REDIRECT_LINK));
+        expectedLinks.setScaStatus(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi/authorisations/463318a0-1e33-45d8-8209-e16444b18dda"));
         assertEquals(expectedLinks, links);
     }
 

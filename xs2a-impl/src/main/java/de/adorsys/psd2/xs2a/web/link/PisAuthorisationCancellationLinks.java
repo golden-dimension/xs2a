@@ -58,7 +58,7 @@ public class PisAuthorisationCancellationLinks extends AbstractLinks {
     private void addRedirectRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorizationId, String internalRequestId) {
         String redirectId = redirectIdService.generateRedirectId(authorizationId);
 
-        String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
+        String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH_PRE_STEP
                                       ? redirectLinkBuilder.buildPaymentCancellationScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
                                       : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId, internalRequestId, instanceId);
 

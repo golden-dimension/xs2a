@@ -93,7 +93,7 @@ public class PaymentCancellationLinks extends AbstractLinks {
         } else {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
 
-            String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
+            String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH_PRE_STEP
                                           ? redirectLinkBuilder.buildPaymentCancellationScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
                                           : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId, internalRequestId, instanceId);
 

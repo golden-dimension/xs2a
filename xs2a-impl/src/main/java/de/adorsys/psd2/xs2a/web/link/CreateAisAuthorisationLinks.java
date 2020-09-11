@@ -43,7 +43,7 @@ public class CreateAisAuthorisationLinks extends AbstractLinks {
         if (scaApproachResolver.getScaApproach(authorisationId) == REDIRECT) {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
 
-            String consentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
+            String consentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH_PRE_STEP
                                           ? redirectLinkBuilder.buildConsentScaOauthRedirectLink(consentId, redirectId, response.getInternalRequestId())
                                           : redirectLinkBuilder.buildConsentScaRedirectLink(consentId, redirectId, response.getInternalRequestId(), instanceId, ConsentType.AIS);
 
