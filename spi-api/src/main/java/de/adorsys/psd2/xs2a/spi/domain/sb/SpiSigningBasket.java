@@ -16,8 +16,9 @@
 
 package de.adorsys.psd2.xs2a.spi.domain.sb;
 
-import de.adorsys.psd2.xs2a.spi.domain.SpiConsent;
+import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiSigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.spi.domain.piis.SpiPiisConsent;
 import de.adorsys.psd2.xs2a.spi.domain.psu.SpiPsuData;
 import de.adorsys.psd2.xs2a.spi.service.SpiPayment;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,8 @@ public class SpiSigningBasket {
     private String instanceId;
 
     private List<SpiPayment> payments;
-    private List<SpiConsent> consents;
+    private List<SpiAccountConsent> spiAccountConsentList;
+    private List<SpiPiisConsent> spiPiisConsentList;
     private SpiSigningBasketTransactionStatus transactionStatus;
 
     private String internalRequestId;

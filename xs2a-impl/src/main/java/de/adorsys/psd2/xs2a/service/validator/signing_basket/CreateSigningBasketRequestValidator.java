@@ -24,6 +24,7 @@ import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.sb.CreateSigningBasketRequest;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
@@ -72,10 +73,12 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return explicitAuthorisationPreferredValidationResult;
         }
 
-        ValidationResult psuDataValidationResult = psuDataInInitialRequestValidator.validate(requestObject.getPsuIdData());
+        PsuIdData psuIdData = requestObject.getPsuIdData();
+        ValidationResult psuDataValidationResult = psuDataInInitialRequestValidator.validate(psuIdData);
         if (psuDataValidationResult.isNotValid()) {
             return psuDataValidationResult;
         }
+
 
         CreateSigningBasketRequest createSigningBasketRequest = requestObject.getCreateSigningBasketRequest();
 
@@ -91,7 +94,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
 
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = requestObject.getCmsSigningBasketConsentsAndPaymentsResponse();
 
-        ValidationResult cmsSBResponseValidationResult = validateWithCmsSBResponse(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse);
+        ValidationResult cmsSBResponseValidationResult = validateWithCmsSBResponse(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, psuIdData);
         if (cmsSBResponseValidationResult.isNotValid()) {
             return cmsSBResponseValidationResult;
         }
@@ -108,10 +111,15 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         return ValidationResult.valid();
     }
 
-    private ValidationResult validateWithCmsSBResponse(CreateSigningBasketRequest createSigningBasketRequest, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
+    private ValidationResult validateWithCmsSBResponse(CreateSigningBasketRequest createSigningBasketRequest, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse, PsuIdData psuIdData) {
         ValidationResult wrongIdsValidationResult = validateSigningBasketOnWrongIds(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse);
         if (wrongIdsValidationResult.isNotValid()) {
             return wrongIdsValidationResult;
+        }
+
+        ValidationResult psuDataInclusionValidationResult = validatePsuDataInclusion(psuIdData, cmsSigningBasketConsentsAndPaymentsResponse);
+        if (psuDataInclusionValidationResult.isNotValid()) {
+            return psuDataInclusionValidationResult;
         }
 
         ValidationResult bankOfferedConsentValidationResult = validateSigningBasketOnBankOfferedConsent(cmsSigningBasketConsentsAndPaymentsResponse);
@@ -134,6 +142,21 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return partlyAuthorisedValidationResult;
         }
 
+
+        return ValidationResult.valid();
+    }
+
+    private ValidationResult validatePsuDataInclusion(PsuIdData psuIdData, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
+        boolean isPsuIncludedInSBObjects = getSigningBasketObjectStream(cmsSigningBasketConsentsAndPaymentsResponse)
+                                               .map(SigningBasketObject::getPsuIdDataList)
+                                               .filter(Objects::nonNull)
+                                               .flatMap(Collection::stream)
+                                               .anyMatch(psu -> psu.contentEquals(psuIdData));
+
+        if (!isPsuIncludedInSBObjects) {
+            log.error("SB objects don't include such PSU " + psuIdData);
+            return ValidationResult.invalid(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR));
+        }
 
         return ValidationResult.valid();
     }
@@ -270,6 +293,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
         private final boolean multilevelScaRequired;
         private final boolean isPartlyAuthorised;
         private final boolean isBlocked;
+        private final List<PsuIdData> psuIdDataList;
     }
 
     private enum SBObjectType {
@@ -277,7 +301,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     }
 
     private SigningBasketObject mapToSigningBasketObject(CmsConsent consent) {
-        return new SigningBasketObject(SBObjectType.CONSENT, consent.getId(), consent.isMultilevelScaRequired(), isAuthorised(consent), consent.isSigningBasketBlocked());
+        return new SigningBasketObject(SBObjectType.CONSENT, consent.getId(), consent.isMultilevelScaRequired(), isAuthorised(consent), consent.isSigningBasketBlocked(), consent.getPsuIdDataList());
     }
 
     private boolean isAuthorised(CmsConsent consent) {
@@ -289,7 +313,7 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     }
 
     private SigningBasketObject mapToSigningBasketObject(PisCommonPaymentResponse payment) {
-        return new SigningBasketObject(SBObjectType.PAYMENT, payment.getExternalId(), payment.isMultilevelScaRequired(), isAuthorised(payment), payment.isSigningBasketBlocked());
+        return new SigningBasketObject(SBObjectType.PAYMENT, payment.getExternalId(), payment.isMultilevelScaRequired(), isAuthorised(payment), payment.isSigningBasketBlocked(), payment.getPsuData());
     }
 
     private boolean isAuthorised(PisCommonPaymentResponse payment) {
