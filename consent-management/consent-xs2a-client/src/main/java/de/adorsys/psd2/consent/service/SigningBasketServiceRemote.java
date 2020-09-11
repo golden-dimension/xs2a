@@ -68,7 +68,7 @@ public class SigningBasketServiceRemote implements SigningBasketServiceEncrypted
     @Override
     public CmsResponse<Boolean> updateTransactionStatusById(String basketId, SigningBasketTransactionStatus transactionStatus) {
         try {
-            consentRestTemplate.put(signingBasketRemoteUrls.updateTransactionStatus(), null, basketId, transactionStatus.getTransactionStatus());
+            consentRestTemplate.put(signingBasketRemoteUrls.updateTransactionStatus(), null, basketId, transactionStatus.toString());
             return CmsResponse.<Boolean>builder()
                        .payload(true)
                        .build();
