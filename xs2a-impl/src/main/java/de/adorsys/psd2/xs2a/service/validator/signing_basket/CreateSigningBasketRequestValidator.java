@@ -117,6 +117,11 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return wrongIdsValidationResult;
         }
 
+        ValidationResult multilevelVariationsValidationResult = validateSigningBasketOnMultilevelVariations(cmsSigningBasketConsentsAndPaymentsResponse);
+        if (multilevelVariationsValidationResult.isNotValid()) {
+            return multilevelVariationsValidationResult;
+        }
+
         ValidationResult psuDataInclusionValidationResult = validatePsuDataInclusion(psuIdData, cmsSigningBasketConsentsAndPaymentsResponse);
         if (psuDataInclusionValidationResult.isNotValid()) {
             return psuDataInclusionValidationResult;
@@ -127,10 +132,6 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
             return bankOfferedConsentValidationResult;
         }
 
-        ValidationResult multilevelVariationsValidationResult = validateSigningBasketOnMultilevelVariations(cmsSigningBasketConsentsAndPaymentsResponse);
-        if (multilevelVariationsValidationResult.isNotValid()) {
-            return multilevelVariationsValidationResult;
-        }
 
         ValidationResult signingBasketObjectsBlockedValidationResult = validateSigningBasketOnSigningBasketObjectsBlocked(cmsSigningBasketConsentsAndPaymentsResponse);
         if (signingBasketObjectsBlockedValidationResult.isNotValid()) {
@@ -147,11 +148,15 @@ public class CreateSigningBasketRequestValidator implements BusinessValidator<Cr
     }
 
     private ValidationResult validatePsuDataInclusion(PsuIdData psuIdData, CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse) {
+        if (psuIdData.isEmpty()) {
+            return ValidationResult.valid();
+        }
+
         boolean isPsuIncludedInSBObjects = getSigningBasketObjectStream(cmsSigningBasketConsentsAndPaymentsResponse)
                                                .map(SigningBasketObject::getPsuIdDataList)
                                                .filter(Objects::nonNull)
                                                .flatMap(Collection::stream)
-                                               .anyMatch(psu -> psu.contentEquals(psuIdData));
+                                               .allMatch(psu -> psu.contentEquals(psuIdData));
 
         if (!isPsuIncludedInSBObjects) {
             log.error("SB objects don't include such PSU " + psuIdData);
