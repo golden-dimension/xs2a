@@ -51,8 +51,9 @@
                                  referencedTableName="signing_basket_tpp_information"
                                  referencedColumnNames="signing_basket_tpp_information_id"/>
         <addForeignKeyConstraint baseTableName="signing_basket_tpp_information"
-                                 baseColumnNames="signing_basket_tpp_information_id"
-                                 constraintName="fk_signing_basket_tpp_information_tpp_info"
+                                 baseColumnNames="tpp_info_id"
+                                 constraintName="fk_tpp_info_id" deferrable="false"
+                                 initiallyDeferred="false"
                                  referencedTableName="tpp_info"
                                  referencedColumnNames="tpp_info_id"/>
     </changeSet>
