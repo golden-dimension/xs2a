@@ -173,7 +173,7 @@ class SigningBasketServiceTest {
         when(spiContextDataProvider.provide(psuIdData, tppInfo)).thenReturn(contextData);
         when(aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider()).thenReturn(aspspConsentDataProvider);
 
-        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(),
+        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
                                                                  SpiSigningBasketTransactionStatus.RCVD, INTERNAL_REQUEST_ID,
                                                                  Collections.singletonList(spiPsuData), false);
 
@@ -216,7 +216,7 @@ class SigningBasketServiceTest {
         when(spiContextDataProvider.provide(psuIdData, tppInfo)).thenReturn(contextData);
         when(aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider()).thenReturn(aspspConsentDataProvider);
 
-        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(),
+        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
                                                                  SpiSigningBasketTransactionStatus.RCVD, INTERNAL_REQUEST_ID,
                                                                  Collections.singletonList(spiPsuData), false);
 
@@ -262,7 +262,7 @@ class SigningBasketServiceTest {
         when(spiContextDataProvider.provide(psuIdData, tppInfo)).thenReturn(contextData);
         when(aspspConsentDataProviderFactory.getInitialAspspConsentDataProvider()).thenReturn(aspspConsentDataProvider);
 
-        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(),
+        SpiSigningBasket spiSigningBasket = new SpiSigningBasket(BASKET_ID, INSTANCE_ID, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),
                                                                  SpiSigningBasketTransactionStatus.RCVD, INTERNAL_REQUEST_ID,
                                                                  Collections.singletonList(spiPsuData), true);
 

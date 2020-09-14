@@ -25,16 +25,20 @@ import de.adorsys.psd2.xs2a.core.pis.CoreCommonPayment;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aAisConsentMapper;
-import de.adorsys.psd2.xs2a.spi.domain.SpiConsent;
+import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountConsent;
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiSigningBasketTransactionStatus;
+import de.adorsys.psd2.xs2a.spi.domain.piis.SpiPiisConsent;
 import de.adorsys.psd2.xs2a.spi.domain.sb.SpiSigningBasket;
 import de.adorsys.psd2.xs2a.spi.service.SpiPayment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -43,6 +47,7 @@ public class Xs2aToSpiSigningBasketMapper {
     private final Xs2aAisConsentMapper xs2aAisConsentMapper;
     private final Xs2aToSpiPiisConsentMapper xs2aToSpiPiisConsentMapper;
     private final Xs2aToSpiPaymentInfoMapper xs2aToSpiPaymentInfoMapper;
+    private final Predicate<? super Consent> isAisConsentType = consent -> consent.getConsentType().equals(ConsentType.AIS);
 
     public SpiSigningBasket mapToSpiSigningBasket(CoreSigningBasket signingBasket) {
         return Optional.ofNullable(signingBasket)
@@ -50,7 +55,8 @@ public class Xs2aToSpiSigningBasketMapper {
                             s.getBasketId(),
                             s.getInstanceId(),
                             mapToSpiPaymentList(s.getPayments()),
-                            mapToSpiConsentList(s.getConsents()),
+                            mapToSpiAccountConsent(s.getConsents()),
+                            mapToSpiPiisConsent(s.getConsents()),
                             mapToSpiSigningBasketTransactionStatus(s.getTransactionStatus()),
                             s.getInternalRequestId(),
                             xs2aToSpiPsuDataMapper.mapToSpiPsuDataList(s.getPsuIdDatas()),
@@ -60,19 +66,22 @@ public class Xs2aToSpiSigningBasketMapper {
                    .orElse(null);
     }
 
-    private List<SpiConsent> mapToSpiConsentList(List<Consent> consents) {
-        if (consents == null) {
-            return null;
-        }
-        return consents.stream().map(this::mapToSpiConsent).collect(Collectors.toList());
+    private List<SpiAccountConsent> mapToSpiAccountConsent(List<Consent> consents) {
+        return Stream.ofNullable(consents)
+                   .flatMap(Collection::stream)
+                   .filter(isAisConsentType)
+                   .map(consent -> (AisConsent) consent)
+                   .map(xs2aAisConsentMapper::mapToSpiAccountConsent)
+                   .collect(Collectors.toList());
     }
 
-    private SpiConsent mapToSpiConsent(Consent consent) {
-        if (consent.getConsentType().equals(ConsentType.AIS)) {
-            return xs2aAisConsentMapper.mapToSpiAccountConsent((AisConsent) consent);
-        } else {
-            return xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent((PiisConsent) consent);
-        }
+    private List<SpiPiisConsent> mapToSpiPiisConsent(List<Consent> consents) {
+        return Stream.ofNullable(consents)
+                   .flatMap(Collection::stream)
+                   .filter(Predicate.not(isAisConsentType))
+                   .map(consent -> (PiisConsent) consent)
+                   .map(xs2aToSpiPiisConsentMapper::mapToSpiPiisConsent)
+                   .collect(Collectors.toList());
     }
 
     private List<SpiPayment> mapToSpiPaymentList(List<CoreCommonPayment> payments) {

@@ -37,12 +37,6 @@ public class SigningBasketHeadersBuilder extends AbstractHeadersBuilder {
         return responseHeadersBuilder.build();
     }
 
-    public ResponseHeaders buildCreateSigningBasketHeaders(@NotNull String selfLink) {
-        ResponseHeaders.ResponseHeadersBuilder responseHeadersBuilder = ResponseHeaders.builder();
-        buildCreateSigningBasketHeaders(responseHeadersBuilder, selfLink);
-        return responseHeadersBuilder.build();
-    }
-
     private void buildNotificationHeaders(ResponseHeaders.ResponseHeadersBuilder builder, @NotNull NotificationModeResponseHeaders notificationHeaders) {
         builder.notificationSupport(notificationHeaders.getAspspNotificationSupport());
         builder.notificationContent(notificationHeaders.getAspspNotificationContent());
