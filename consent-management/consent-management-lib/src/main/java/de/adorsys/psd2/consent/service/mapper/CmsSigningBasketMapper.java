@@ -21,6 +21,8 @@ import de.adorsys.psd2.consent.domain.AuthorisationEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
 import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
+import de.adorsys.psd2.consent.domain.sb.SigningBasketTppInformationEntity;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,6 +39,7 @@ public class CmsSigningBasketMapper {
     private final PsuDataMapper psuDataMapper;
     private final CmsConsentMapper cmsConsentMapper;
     private final PisCommonPaymentMapper pisCommonPaymentMapper;
+    private final SigningBasketTppInformationMapper signingBasketTppInformationMapper;
 
     public CmsSigningBasket mapToCmsSigningBasket(SigningBasketEntity entity, Map<String, List<AuthorisationEntity>> authorisations, Map<String, Map<String, Integer>> usages) {
         CmsSigningBasket cmsSigningBasket = new CmsSigningBasket();
@@ -48,6 +51,7 @@ public class CmsSigningBasketMapper {
         cmsSigningBasket.setInternalRequestId(entity.getInternalRequestId());
         cmsSigningBasket.setPsuIdDatas(psuDataMapper.mapToPsuIdDataList(entity.getPsuDataList()));
         cmsSigningBasket.setMultilevelScaRequired(entity.isMultilevelScaRequired());
+        cmsSigningBasket.setTppInformation(signingBasketTppInformationMapper.mapToSigningBasketTppInformation(entity.getTppInformation()));
         cmsSigningBasket.setInstanceId(entity.getInstanceId());
         return cmsSigningBasket;
     }
@@ -63,6 +67,7 @@ public class CmsSigningBasketMapper {
         signingBasket.setPsuDataList(psuDataMapper.mapToPsuDataList(cmsSigningBasket.getPsuIdDatas(), cmsSigningBasket.getInstanceId()));
         signingBasket.setMultilevelScaRequired(cmsSigningBasket.isMultilevelScaRequired());
         signingBasket.setInstanceId(cmsSigningBasket.getInstanceId());
+        signingBasket.setTppInformation(signingBasketTppInformationMapper.mapToSigningBasketTppInformationEntity(cmsSigningBasket.getTppInformation()));
         return signingBasket;
     }
 }

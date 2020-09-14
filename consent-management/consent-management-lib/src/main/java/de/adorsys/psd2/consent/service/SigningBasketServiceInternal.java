@@ -11,10 +11,7 @@ import de.adorsys.psd2.consent.domain.AuthorisationEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
 import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
-import de.adorsys.psd2.consent.repository.AuthorisationRepository;
-import de.adorsys.psd2.consent.repository.ConsentJpaRepository;
-import de.adorsys.psd2.consent.repository.PisCommonPaymentDataRepository;
-import de.adorsys.psd2.consent.repository.SigningBasketRepository;
+import de.adorsys.psd2.consent.repository.*;
 import de.adorsys.psd2.consent.service.mapper.CmsConsentMapper;
 import de.adorsys.psd2.consent.service.mapper.CmsSigningBasketMapper;
 import de.adorsys.psd2.consent.service.mapper.PisCommonPaymentMapper;
@@ -45,6 +42,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     private final SigningBasketRepository signingBasketRepository;
     private final AuthorisationRepository authorisationRepository;
     private final AisConsentUsageService aisConsentUsageService;
+    private final TppInfoRepository tppInfoRepository;
 
     @Override
     @Transactional
@@ -57,6 +55,8 @@ public class SigningBasketServiceInternal implements SigningBasketService {
         payments.forEach(payment -> payment.setSigningBasketBlocked(true));
 
         SigningBasketEntity signingBasket = cmsSigningBasketMapper.mapToNewSigningBasket(cmsSigningBasket, consents, payments);
+        tppInfoRepository.findByAuthorisationNumber(cmsSigningBasket.getTppInformation().getTppInfo().getAuthorisationNumber())
+            .ifPresent(tppInfo -> signingBasket.getTppInformation().setTppInfo(tppInfo));
         SigningBasketEntity savedEntity = signingBasketRepository.save(signingBasket);
 
         Map<String, List<AuthorisationEntity>> authorisations = retrieveAuthorisations(consents, payments);

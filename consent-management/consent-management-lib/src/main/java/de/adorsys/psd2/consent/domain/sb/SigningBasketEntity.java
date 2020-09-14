@@ -78,6 +78,10 @@ public class SigningBasketEntity extends InstanceDependableEntity implements Aut
     @Column(name = "instance_id")
     private String instanceId;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "signing_basket_tpp_information_id", nullable = false)
+    private SigningBasketTppInformationEntity tppInformation = new SigningBasketTppInformationEntity();
+
     @Override
     public String getInternalRequestId(AuthorisationType authorisationType) {
         if (authorisationType == AuthorisationType.SIGNING_BASKET) {
