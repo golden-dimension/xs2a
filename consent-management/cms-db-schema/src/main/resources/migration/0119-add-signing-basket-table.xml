@@ -118,7 +118,9 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="tpp_ntfc_uri" type="VARCHAR(100)"/>
-            <column name="tpp_redirect_preferred" type="BOOLEAN"/>
+            <column name="tpp_redirect_preferred" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
             <column name="tpp_info_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
