@@ -31,7 +31,7 @@ public enum SigningBasketTransactionStatus {
 
     static {
         Arrays.stream(values())
-            .forEach(status -> container.put(status.getTransactionStatus(), status));
+            .forEach(status -> container.put(status.name(), status));
     }
 
     private String transactionStatus;
@@ -50,7 +50,7 @@ public enum SigningBasketTransactionStatus {
         this.finalisedStatus = finalisedStatus;
     }
 
-    public static SigningBasketTransactionStatus getByValue(String transactionStatus) {
+    public static SigningBasketTransactionStatus getByName(String transactionStatus) {
         return container.get(transactionStatus);
     }
 

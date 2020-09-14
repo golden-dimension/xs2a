@@ -44,7 +44,7 @@ public class CmsSigningBasketMapper {
         cmsSigningBasket.setConsents(cmsConsentMapper.mapToCmsConsents(entity.getConsents(), authorisations, usages));
         cmsSigningBasket.setPayments(pisCommonPaymentMapper.mapToPisCommonPaymentResponses(entity.getPayments(), authorisations));
         cmsSigningBasket.setAuthorisationTemplate(authorisationTemplateMapper.mapToAuthorisationTemplate(entity.getAuthorisationTemplate()));
-        cmsSigningBasket.setTransactionStatus(SigningBasketTransactionStatus.getByValue(entity.getTransactionStatus()));
+        cmsSigningBasket.setTransactionStatus(SigningBasketTransactionStatus.getByName(entity.getTransactionStatus()));
         cmsSigningBasket.setInternalRequestId(entity.getInternalRequestId());
         cmsSigningBasket.setPsuIdDatas(psuDataMapper.mapToPsuIdDataList(entity.getPsuDataList()));
         cmsSigningBasket.setMultilevelScaRequired(entity.isMultilevelScaRequired());
