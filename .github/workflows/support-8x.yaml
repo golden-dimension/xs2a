@@ -18,6 +18,13 @@ jobs:
   build_and_test_support_8x_java11:
     name: Build and test XS2A (openjdk 1.11)
     runs-on: ubuntu-latest
+    services:
+        - docker:dind
+    variables:
+        # Instruct Testcontainers to use the daemon of DinD.
+        DOCKER_HOST: "tcp://docker:2375"
+        # Improve performance with overlayfs.
+        DOCKER_DRIVER: overlay2
     steps:
       - name: Clone XS2A develop repository
         uses: actions/checkout@v2
@@ -46,7 +53,7 @@ jobs:
 
       - name: Run UI tests
         run: mvn -ntp -DskipITs --fail-at-end clean install
-#Blocked temporary 
+#Blocked temporary
       # - name: Run IT tests
       #   run: mvn -ntp failsafe:integration-test failsafe:verify
 
