@@ -58,7 +58,7 @@
     </changeSet>
 
     <changeSet author="ske@adorsys.de" id="2020-09-11-4">
-        <comment>Create table ais_consent_tpp_ntfc</comment>
+        <comment>Create table signing_basket_consent_tpp_ntfc</comment>
 
         <createTable tableName="signing_basket_tpp_ntfc">
             <column name="id" type="BIGINT">

@@ -21,8 +21,6 @@ import de.adorsys.psd2.consent.domain.AuthorisationEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.domain.payment.PisCommonPaymentData;
 import de.adorsys.psd2.consent.domain.sb.SigningBasketEntity;
-import de.adorsys.psd2.consent.domain.sb.SigningBasketTppInformationEntity;
-import de.adorsys.psd2.xs2a.core.sb.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
