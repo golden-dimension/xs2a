@@ -48,6 +48,7 @@ public class CmsSigningBasketMapper {
         cmsSigningBasket.setInternalRequestId(entity.getInternalRequestId());
         cmsSigningBasket.setPsuIdDatas(psuDataMapper.mapToPsuIdDataList(entity.getPsuDataList()));
         cmsSigningBasket.setMultilevelScaRequired(entity.isMultilevelScaRequired());
+        cmsSigningBasket.setInstanceId(entity.getInstanceId());
         return cmsSigningBasket;
     }
 
@@ -61,6 +62,7 @@ public class CmsSigningBasketMapper {
         signingBasket.setAuthorisationTemplate(authorisationTemplateMapper.mapToAuthorisationTemplateEntity(cmsSigningBasket.getAuthorisationTemplate()));
         signingBasket.setPsuDataList(psuDataMapper.mapToPsuDataList(cmsSigningBasket.getPsuIdDatas(), cmsSigningBasket.getInstanceId()));
         signingBasket.setMultilevelScaRequired(cmsSigningBasket.isMultilevelScaRequired());
+        signingBasket.setInstanceId(cmsSigningBasket.getInstanceId());
         return signingBasket;
     }
 }
