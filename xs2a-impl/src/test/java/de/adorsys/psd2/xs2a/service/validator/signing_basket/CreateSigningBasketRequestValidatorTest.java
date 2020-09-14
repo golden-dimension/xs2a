@@ -67,6 +67,8 @@ class CreateSigningBasketRequestValidatorTest {
         new MessageError(ErrorType.SB_400, TppMessageInformation.of(REFERENCE_MIX_INVALID));
     private static final MessageError REFERENCE_STATUS_INVALID_VALIDATION_ERROR =
         new MessageError(ErrorType.SB_409, TppMessageInformation.of(REFERENCE_STATUS_INVALID));
+    private static final MessageError GENERAL_FORMAT_ERROR_VALIDATION_ERROR =
+        new MessageError(ErrorType.SB_400, TppMessageInformation.of(FORMAT_ERROR));
 
     @InjectMocks
     private CreateSigningBasketRequestValidator createSigningBasketRequestValidator;
@@ -240,14 +242,6 @@ class CreateSigningBasketRequestValidatorTest {
         CmsConsent cmsConsent2 = buildCmsConsent("2");
         cmsConsent2.setMultilevelScaRequired(true);
 
-        AisConsent aisConsent1 = buildAisConsent();
-        AisConsent aisConsent2 = buildAisConsent();
-
-        when(aisConsentMapper.mapToAisConsent(cmsConsent1))
-            .thenReturn(aisConsent1);
-        when(aisConsentMapper.mapToAisConsent(cmsConsent2))
-            .thenReturn(aisConsent2);
-
         PisCommonPaymentResponse payment = new PisCommonPaymentResponse();
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACSP);
@@ -262,6 +256,66 @@ class CreateSigningBasketRequestValidatorTest {
         //Then
         assertThat(validationResult.isNotValid()).isTrue();
         assertThat(validationResult.getMessageError()).isEqualTo(REFERENCE_MIX_INVALID_VALIDATION_ERROR);
+    }
+
+    @Test
+    void validate_withWrongPsuData_shouldReturnErrorFromValidator() {
+        //Given
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(true);
+        when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
+            .thenReturn(ValidationResult.valid());
+        when(aspspProfileService.getSigningBasketMaxEntries())
+            .thenReturn(5);
+
+        CmsConsent cmsConsent1 = buildCmsConsent("1");
+        cmsConsent1.setPsuIdDataList(Collections.singletonList(new PsuIdData("1", null, null, null, null)));
+        CmsConsent cmsConsent2 = buildCmsConsent("2");
+        cmsConsent2.setPsuIdDataList(Collections.singletonList(new PsuIdData("2", null, null, null, null)));
+
+        PisCommonPaymentResponse payment = new PisCommonPaymentResponse();
+        payment.setExternalId("2");
+        payment.setTransactionStatus(TransactionStatus.ACSP);
+
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null);
+        CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
+
+        //When
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
+
+        //Then
+        assertThat(validationResult.isNotValid()).isTrue();
+        assertThat(validationResult.getMessageError()).isEqualTo(GENERAL_FORMAT_ERROR_VALIDATION_ERROR);
+    }
+
+    @Test
+    void validate_withDifferentPsuData_shouldReturnErrorFromValidator() {
+        //Given
+        when(aspspProfileService.isSigningBasketSupported())
+            .thenReturn(true);
+        when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
+            .thenReturn(ValidationResult.valid());
+        when(aspspProfileService.getSigningBasketMaxEntries())
+            .thenReturn(5);
+
+        CmsConsent cmsConsent1 = buildCmsConsent("1");
+        cmsConsent1.setPsuIdDataList(Collections.singletonList(new PsuIdData("1", null, null, null, null)));
+        CmsConsent cmsConsent2 = buildCmsConsent("2");
+        cmsConsent2.setPsuIdDataList(Collections.singletonList(PSU_DATA));
+
+        PisCommonPaymentResponse payment = new PisCommonPaymentResponse();
+        payment.setExternalId("2");
+        payment.setTransactionStatus(TransactionStatus.ACSP);
+
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null);
+        CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
+
+        //When
+        ValidationResult validationResult = createSigningBasketRequestValidator.validate(new CreateSigningBasketRequestObject(createSigningBasketRequest, cmsSigningBasketConsentsAndPaymentsResponse, PSU_DATA, true));
+
+        //Then
+        assertThat(validationResult.isNotValid()).isTrue();
+        assertThat(validationResult.getMessageError()).isEqualTo(GENERAL_FORMAT_ERROR_VALIDATION_ERROR);
     }
 
     @Test
@@ -317,6 +371,7 @@ class CreateSigningBasketRequestValidatorTest {
         PisCommonPaymentResponse payment = new PisCommonPaymentResponse();
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACCC);
+        payment.setPsuData(Collections.singletonList(PSU_DATA));
 
         CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
@@ -355,6 +410,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setAuthorisations(Collections.singletonList(authorisation));
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACCP);
+        payment.setPsuData(Collections.singletonList(PSU_DATA));
 
         CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
@@ -380,6 +436,7 @@ class CreateSigningBasketRequestValidatorTest {
         cmsConsent.setConsentType(ConsentType.AIS);
         cmsConsent.setConsentStatus(ConsentStatus.VALID);
         cmsConsent.setId("1");
+        cmsConsent.setPsuIdDataList(Collections.singletonList(PSU_DATA));
         AisConsent aisConsent = new AisConsent();
         AisConsentData consentData = new AisConsentData(AccountAccessType.ALL_ACCOUNTS, null, null, false);
         aisConsent.setConsentData(consentData);
@@ -415,6 +472,7 @@ class CreateSigningBasketRequestValidatorTest {
         cmsConsent.setConsentStatus(ConsentStatus.RECEIVED);
         cmsConsent.setId(id);
         cmsConsent.setConsentType(ConsentType.AIS);
+        cmsConsent.setPsuIdDataList(Collections.singletonList(PSU_DATA));
         return cmsConsent;
     }
 }

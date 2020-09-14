@@ -106,7 +106,7 @@ public class SigningBasketServiceInternal implements SigningBasketService {
     @Override
     @Transactional
     public CmsResponse<Boolean> updateMultilevelScaRequired(String basketId, boolean multilevelScaRequired) {
-        Optional<SigningBasketEntity> signingBasketOptional = signingBasketRepository.findByExternalId(basketId);
+        Optional<SigningBasketEntity> signingBasketOptional = getActualSigningBasket(basketId);
         if (signingBasketOptional.isEmpty()) {
             log.info("Basket ID: [{}]. Get update multilevel SCA required status failed, because basket is not found",
                      basketId);
