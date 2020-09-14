@@ -25,5 +25,7 @@ import java.util.List;
 @Data
 public class SigningBasketTppInformation {
     private TppInfo tppInfo;
+    private String tppNotificationUri;
+    private Boolean tppRedirectPreferred;
     private List<NotificationSupportedMode> tppNotificationSupportedModes;
 }

@@ -87,7 +87,7 @@ class CreateSigningBasketRequestValidatorTest {
         when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
             .thenReturn(ValidationResult.invalid(FORMAT_ERROR_VALIDATION_ERROR));
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
@@ -109,7 +109,7 @@ class CreateSigningBasketRequestValidatorTest {
         when(aspspProfileService.getSigningBasketMaxEntries())
             .thenReturn(5);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(List.of("1", "2", "3"), List.of("4", "5", "6"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(List.of("1", "2", "3"), List.of("4", "5", "6"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
@@ -126,7 +126,7 @@ class CreateSigningBasketRequestValidatorTest {
         when(aspspProfileService.isSigningBasketSupported())
             .thenReturn(false);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
@@ -144,7 +144,7 @@ class CreateSigningBasketRequestValidatorTest {
             .thenReturn(true);
 
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
@@ -163,7 +163,7 @@ class CreateSigningBasketRequestValidatorTest {
         when(psuDataInInitialRequestValidator.validate(any(PsuIdData.class)))
             .thenReturn(ValidationResult.valid());
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         //When
@@ -185,7 +185,7 @@ class CreateSigningBasketRequestValidatorTest {
             .thenReturn(5);
 
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(List.of("2"), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(List.of("2"), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(buildCmsConsent("1")), Collections.emptyList());
 
         //When
@@ -216,7 +216,7 @@ class CreateSigningBasketRequestValidatorTest {
             .thenReturn(aisConsent);
 
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.emptyList(), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.emptyList());
 
         //When
@@ -247,7 +247,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setTransactionStatus(TransactionStatus.ACSP);
         payment.setMultilevelScaRequired(true);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
 
         //When
@@ -277,7 +277,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACSP);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
 
         //When
@@ -307,7 +307,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACSP);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("3"), List.of("1", "2"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Arrays.asList(cmsConsent1, cmsConsent2), Collections.singletonList(payment));
 
         //When
@@ -337,7 +337,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setSigningBasketBlocked(true);
         payment.setTransactionStatus(TransactionStatus.ACSP);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
@@ -373,7 +373,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setTransactionStatus(TransactionStatus.ACCC);
         payment.setPsuData(Collections.singletonList(PSU_DATA));
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
@@ -412,7 +412,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setTransactionStatus(TransactionStatus.ACCP);
         payment.setPsuData(Collections.singletonList(PSU_DATA));
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When
@@ -448,7 +448,7 @@ class CreateSigningBasketRequestValidatorTest {
         payment.setExternalId("2");
         payment.setTransactionStatus(TransactionStatus.ACCP);
 
-        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null);
+        CreateSigningBasketRequest createSigningBasketRequest = new CreateSigningBasketRequest(Collections.singletonList("2"), List.of("1"), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsSigningBasketConsentsAndPaymentsResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.singletonList(cmsConsent), Collections.singletonList(payment));
 
         //When

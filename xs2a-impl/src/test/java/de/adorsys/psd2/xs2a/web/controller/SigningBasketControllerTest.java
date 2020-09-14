@@ -104,7 +104,7 @@ class SigningBasketControllerTest {
 
         CreateSigningBasketRequest createSigningBasketRequest = jsonReader.getObjectFromFile("json/sb/create-signing-basket-request.json", CreateSigningBasketRequest.class);
 
-        when(signingBasketModelMapper.mapToCreateSigningBasketRequest(signingBasket, tppRedirectUri, tppNotificationData, INSTANCE_ID)).thenReturn(createSigningBasketRequest);
+        when(signingBasketModelMapper.mapToCreateSigningBasketRequest(signingBasket, tppRedirectUri, tppNotificationData, INSTANCE_ID, null)).thenReturn(createSigningBasketRequest);
 
         MessageError messageError = new MessageError(ErrorType.SB_405, of(MessageErrorCode.SERVICE_INVALID_405_SB));
         PsuIdData psuIdData = new PsuIdData(PSU_ID, null, null, null, null,
@@ -146,7 +146,7 @@ class SigningBasketControllerTest {
 
         CreateSigningBasketRequest createSigningBasketRequest = jsonReader.getObjectFromFile("json/sb/create-signing-basket-request.json", CreateSigningBasketRequest.class);
 
-        when(signingBasketModelMapper.mapToCreateSigningBasketRequest(signingBasket, tppRedirectUri, tppNotificationData, INSTANCE_ID)).thenReturn(createSigningBasketRequest);
+        when(signingBasketModelMapper.mapToCreateSigningBasketRequest(signingBasket, tppRedirectUri, tppNotificationData, INSTANCE_ID, null)).thenReturn(createSigningBasketRequest);
 
         PsuIdData psuIdData = new PsuIdData(PSU_ID, null, null, null, null,
                                             new AdditionalPsuIdData(null, null, null, null, null, null, null, null, null));

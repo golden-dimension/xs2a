@@ -24,9 +24,9 @@ import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.core.data.CoreSigningBasket;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationTemplate;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
-import de.adorsys.psd2.xs2a.core.sb.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.pis.CoreCommonPayment;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sb.SigningBasketTppInformation;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.core.tpp.TppNotificationData;
@@ -69,6 +69,11 @@ public class CmsXs2aSigningBasketMapper {
 
         SigningBasketTppInformation tppInformation = new SigningBasketTppInformation();
         tppInformation.setTppInfo(tppInfo);
+        tppInformation.setTppNotificationUri(Optional.ofNullable(request.getTppNotificationData())
+                                                 .map(TppNotificationData::getTppNotificationUri)
+                                                 .orElse(null));
+        tppInformation.setTppRedirectPreferred(Optional.ofNullable(request.getTppRedirectPreferred())
+                                                   .orElse(false));
         tppInformation.setTppNotificationSupportedModes(Optional.ofNullable(request.getTppNotificationData())
                                                             .map(TppNotificationData::getNotificationModes)
                                                             .orElse(Collections.emptyList()));

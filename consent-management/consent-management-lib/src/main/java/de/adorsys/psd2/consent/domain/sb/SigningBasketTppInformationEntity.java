@@ -24,6 +24,13 @@ public class SigningBasketTppInformationEntity {
     @ApiModelProperty(value = "Information about TPP", required = true)
     private TppInfoEntity tppInfo;
 
+    @Column(name = "tpp_ntfc_uri")
+    private String tppNotificationUri;
+
+    @Column(name = "tpp_redirect_preferred", nullable = false)
+    @ApiModelProperty(name = "tppRedirectPreferred", value = "If it equals “true”, the TPP prefers a redirect over an embedded SCA approach.", required = true, example = "false")
+    private boolean tppRedirectPreferred;
+
     @ElementCollection
     @CollectionTable(name = "signing_basket_tpp_ntfc", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "notification_mode", nullable = false)

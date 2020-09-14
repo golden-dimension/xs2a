@@ -37,14 +37,15 @@ public abstract class SigningBasketModelMapper {
     @Autowired
     protected ScaMethodsMapper scaMethodsMapper;
 
-    public CreateSigningBasketRequest mapToCreateSigningBasketRequest(SigningBasket signingBasket, TppRedirectUri tppRedirectUri, TppNotificationData tppNotificationData, String instanceId) {
+    public CreateSigningBasketRequest mapToCreateSigningBasketRequest(SigningBasket signingBasket, TppRedirectUri tppRedirectUri, TppNotificationData tppNotificationData, String instanceId, Boolean tppRedirectPreferred) {
         return Optional.ofNullable(signingBasket)
                    .map(s -> new CreateSigningBasketRequest(
                        s.getPaymentIds(),
                        s.getConsentIds(),
                        tppRedirectUri,
                        tppNotificationData,
-                       instanceId
+                       instanceId,
+                       tppRedirectPreferred
                    ))
                    .orElse(null);
     }

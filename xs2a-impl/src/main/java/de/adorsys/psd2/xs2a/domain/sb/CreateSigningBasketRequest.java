@@ -29,4 +29,5 @@ public class CreateSigningBasketRequest {
     private final TppRedirectUri tppRedirectUri;
     private final TppNotificationData tppNotificationData;
     private final String instanceId;
+    private final Boolean tppRedirectPreferred;
 }

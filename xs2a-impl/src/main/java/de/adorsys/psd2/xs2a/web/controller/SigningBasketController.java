@@ -66,7 +66,7 @@ public class SigningBasketController implements SigningBasketApi {
         TppRedirectUri xs2aTppRedirectUri = tppRedirectUriMapper.mapToTppRedirectUri(tpPRedirectURI, tpPNokRedirectURI);
         TppNotificationData tppNotificationData = notificationSupportedModeService.getTppNotificationData(tpPNotificationContentPreferred, tpPNotificationURI);
 
-        CreateSigningBasketRequest createSigningBasketRequest = signingBasketModelMapper.mapToCreateSigningBasketRequest(body, xs2aTppRedirectUri, tppNotificationData, requestProviderService.getInstanceId());
+        CreateSigningBasketRequest createSigningBasketRequest = signingBasketModelMapper.mapToCreateSigningBasketRequest(body, xs2aTppRedirectUri, tppNotificationData, requestProviderService.getInstanceId(), tpPRedirectPreferred);
 
         PsuIdData psuData = new PsuIdData(psuId, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress,
                                           new AdditionalPsuIdData(psUIPPort, psUUserAgent, psUGeoLocation, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUHttpMethod, psUDeviceID));

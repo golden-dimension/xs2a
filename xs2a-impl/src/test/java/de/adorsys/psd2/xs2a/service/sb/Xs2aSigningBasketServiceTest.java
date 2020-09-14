@@ -75,7 +75,7 @@ class Xs2aSigningBasketServiceTest {
     @Test
     void createSigningBasket_failure() {
         // Given
-        CreateSigningBasketRequest request = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest request = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsPisAndAisResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         CmsSigningBasket cmsSigningBasket = new CmsSigningBasket();
@@ -97,7 +97,7 @@ class Xs2aSigningBasketServiceTest {
     @Test
     void createSigningBasket_success() {
         // Given
-        CreateSigningBasketRequest request = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null);
+        CreateSigningBasketRequest request = new CreateSigningBasketRequest(Collections.emptyList(), Collections.emptyList(), null, null, null, null);
         CmsSigningBasketConsentsAndPaymentsResponse cmsPisAndAisResponse = new CmsSigningBasketConsentsAndPaymentsResponse(Collections.emptyList(), Collections.emptyList());
 
         CmsSigningBasket cmsSigningBasket = new CmsSigningBasket();
