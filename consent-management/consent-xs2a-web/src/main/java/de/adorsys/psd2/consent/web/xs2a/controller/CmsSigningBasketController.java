@@ -44,7 +44,7 @@ public class CmsSigningBasketController implements CmsSigningBasketApi {
 
     @Override
     public ResponseEntity<Object> updateTransactionStatus(String encryptedBasketId, String transactionStatus) {
-        CmsResponse<Boolean> cmsResponse = signingBasketServiceEncrypted.updateTransactionStatusById(encryptedBasketId, SigningBasketTransactionStatus.getByValue(transactionStatus));
+        CmsResponse<Boolean> cmsResponse = signingBasketServiceEncrypted.updateTransactionStatusById(encryptedBasketId, SigningBasketTransactionStatus.getByName(transactionStatus));
 
         if(cmsResponse.hasError() || BooleanUtils.isFalse(cmsResponse.getPayload())){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
