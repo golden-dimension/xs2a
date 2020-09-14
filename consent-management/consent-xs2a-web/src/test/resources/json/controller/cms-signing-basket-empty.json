@@ -1,0 +1,18 @@
+{
+  "consents": [],
+  "payments": [],
+  "transactionStatus": "RCVD",
+  "authorisationTemplate": {
+    "tppRedirectUri": {
+      "uri": "http://test.com",
+      "nokUri": "http://test.nok.com"
+    }
+  },
+  "internalRequestId": "49d59c7d-2217-4981-be16-39a7fbe2df6b",
+  "psuIdDatas": [
+    {
+      "psuId": "marion.mueller"
+    }
+  ],
+  "multilevelScaRequired": false
+}

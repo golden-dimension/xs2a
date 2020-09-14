@@ -24,6 +24,7 @@ import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.sb.SigningBasketTransactionStatus;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.xs2a.reader.JsonReader;
+import org.apache.commons.lang3.BooleanUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -221,6 +222,20 @@ public class SigningBasketServiceInternalTest {
         assertTrue(cmsResponse.isSuccessful());
         assertTrue(cmsResponse.getPayload());
         assertEquals(signingBasket.getTransactionStatus(), SigningBasketTransactionStatus.ACTC.toString());
+    }
+
+    @Test
+    public void updateTransactionStatusById_succesful_unblock() {
+        SigningBasketEntity signingBasket = buildSigningBasket(false);
+        when(signingBasketRepository.findByExternalId(EXTERNAL_ID)).thenReturn(Optional.of(signingBasket));
+
+        CmsResponse<Boolean> cmsResponse = signingBasketService.updateTransactionStatusById(EXTERNAL_ID, SigningBasketTransactionStatus.RJCT);
+
+        assertTrue(cmsResponse.isSuccessful());
+        assertTrue(cmsResponse.getPayload());
+        assertEquals(signingBasket.getTransactionStatus(), SigningBasketTransactionStatus.RJCT.toString());
+        assertTrue(signingBasket.getPayments().stream().map(PisCommonPaymentData::isSigningBasketBlocked).allMatch(BooleanUtils::isFalse));
+        assertTrue(signingBasket.getConsents().stream().map(ConsentEntity::isSigningBasketBlocked).allMatch(BooleanUtils::isFalse));
     }
 
     @Test
