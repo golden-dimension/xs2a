@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.web.link;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
-import de.adorsys.psd2.xs2a.core.profile.ScaRedirectFlow;
 import de.adorsys.psd2.xs2a.domain.HrefType;
 import de.adorsys.psd2.xs2a.domain.Links;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aConfirmationOfFundsResponse;
@@ -74,7 +73,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndExplicitMethodAndPsuDataIsEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -86,7 +85,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndExplicitMethodAndPsuDataIsNotEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -100,7 +99,7 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -114,7 +113,7 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, true, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, true, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -126,7 +125,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndImplicitMethodAndPsuDataIsEmpty() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -139,7 +138,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndImplicitMethodAndPsuDataIsNotEmpty() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.EMBEDDED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -152,7 +151,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndExplicitMethodAndPsuDataIsEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -164,7 +163,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndExplicitMethodAndPsuDataIsNotEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -178,7 +177,7 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -192,7 +191,7 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, true, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, true, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -204,7 +203,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndImplicitMethodAndPsuDataIsEmpty() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -217,7 +216,7 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndImplicitMethodAndPsuDataIsNotEmpty() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.DECOUPLED);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, null, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -230,7 +229,7 @@ class CreatePiisConsentLinksTest {
     void scaApproachRedirectAndExplicitMethod() {
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.REDIRECT);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, ScaRedirectFlow.REDIRECT, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -245,7 +244,7 @@ class CreatePiisConsentLinksTest {
         when(scaApproachResolver.resolveScaApproach()).thenReturn(ScaApproach.REDIRECT);
 
         // When
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, ScaRedirectFlow.REDIRECT, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, true, false, false, "");
 
         // Then
         expectedLinks.setSelf(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi"));
@@ -260,7 +259,7 @@ class CreatePiisConsentLinksTest {
         when(redirectIdService.generateRedirectId(eq(AUTHORISATION_ID))).thenReturn(AUTHORISATION_ID);
         when(redirectLinkBuilder.buildConsentScaRedirectLink(eq(CONSENT_ID), eq(AUTHORISATION_ID), eq(INTERNAL_REQUEST_ID), eq(""), eq(ConsentType.PIIS_TPP))).thenReturn(REDIRECT_LINK);
 
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, ScaRedirectFlow.REDIRECT, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -274,10 +273,10 @@ class CreatePiisConsentLinksTest {
         // Given
         when(scaApproachResolver.getScaApproach(eq(AUTHORISATION_ID))).thenReturn(ScaApproach.REDIRECT);
         when(redirectIdService.generateRedirectId(eq(AUTHORISATION_ID))).thenReturn(AUTHORISATION_ID);
-        when(redirectLinkBuilder.buildConsentScaOauthRedirectLink(eq(CONSENT_ID), eq(AUTHORISATION_ID), eq(INTERNAL_REQUEST_ID))).thenReturn(REDIRECT_LINK);
+        when(redirectLinkBuilder.buildConsentScaRedirectLink(eq(CONSENT_ID), eq(AUTHORISATION_ID), eq(INTERNAL_REQUEST_ID), eq(""), eq(ConsentType.PIIS_TPP))).thenReturn(REDIRECT_LINK);
 
         // When
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, ScaRedirectFlow.OAUTH_PRE_STEP, false, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, false, "");
 
         // Then
         expectedLinks.setSelf(new HrefType("http://url/v2/consents/confirmation-of-funds/9mp1PaotpXSToNCi"));
@@ -296,7 +295,7 @@ class CreatePiisConsentLinksTest {
         when(redirectLinkBuilder.buildConfirmationLink(eq(CONSENT_ID), eq(AUTHORISATION_ID), eq(ConsentType.PIIS_TPP))).thenReturn(CONFIRMATION_LINK);
 
         // When
-        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, ScaRedirectFlow.REDIRECT, true, "");
+        links = new CreatePiisConsentLinks(HTTP_URL, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, false, false, true, "");
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
