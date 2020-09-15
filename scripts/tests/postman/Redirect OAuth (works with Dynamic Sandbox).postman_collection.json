@@ -1073,7 +1073,7 @@
 					"response": []
 				},
 				{
-					"name": "6. Get consent response object by redirect ID",
+					"name": "4. Get consent response object by redirect ID",
 					"event": [
 						{
 							"listen": "test",
@@ -1143,7 +1143,7 @@
 					"response": []
 				},
 				{
-					"name": "7. Update PSU Data in consent",
+					"name": "5. Update PSU Data in consent",
 					"event": [
 						{
 							"listen": "test",
@@ -1193,7 +1193,7 @@
 					"response": []
 				},
 				{
-					"name": "8. Authorise in ledgers",
+					"name": "6. Authorise in ledgers",
 					"event": [
 						{
 							"listen": "test",
@@ -1248,7 +1248,7 @@
 					"response": []
 				},
 				{
-					"name": "9. Update ASPSP consent data for the given AIS consent in CMS-PSU-API",
+					"name": "7. Update ASPSP consent data for the given AIS consent in CMS-PSU-API",
 					"event": [
 						{
 							"listen": "test",
@@ -1309,7 +1309,7 @@
 					"response": []
 				},
 				{
-					"name": "10. Update a status of AIS consent authorisation",
+					"name": "8. Update a status of AIS consent authorisation",
 					"event": [
 						{
 							"listen": "test",
@@ -1359,7 +1359,7 @@
 					"response": []
 				},
 				{
-					"name": "11. Confirm AIS consent",
+					"name": "9. Confirm AIS consent",
 					"event": [
 						{
 							"listen": "test",
@@ -1406,7 +1406,7 @@
 					"response": []
 				},
 				{
-					"name": "4. Get redirect URL and auth code from online-banking",
+					"name": "10. Get redirect URL and auth code from online-banking",
 					"event": [
 						{
 							"listen": "test",
@@ -1475,7 +1475,7 @@
 					"response": []
 				},
 				{
-					"name": "5. Exchange code for token",
+					"name": "11. Exchange code for token",
 					"event": [
 						{
 							"listen": "test",
