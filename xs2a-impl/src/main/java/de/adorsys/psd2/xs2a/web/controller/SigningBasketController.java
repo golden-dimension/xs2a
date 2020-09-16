@@ -17,5 +17,9 @@
 package de.adorsys.psd2.xs2a.web.controller;
 
 import de.adorsys.psd2.api.SigningBasketApi;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@AllArgsConstructor
 public class SigningBasketController implements SigningBasketApi {}
