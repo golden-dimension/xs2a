@@ -41,7 +41,6 @@
         <module>xs2a-logger</module>
         <module>xs2a-core-consents</module>
         <module>certificate-generator</module>
-        <module>xs2a-core-signing-basket</module>
     </modules>
     <packaging>pom</packaging>
 
