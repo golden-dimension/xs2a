@@ -1,7 +1,7 @@
 // toc-title definition MUST follow document title without blank line!
 === Events
 
-All TPP request are recorded and by default saved in CMS database. Requests are recorder and stored as events,
+All TPP request are recorded and by default saved in CMS database. Requests are recorded and stored as events,
 with event type that corresponds to specific request.
 
 Recorded event contains:
