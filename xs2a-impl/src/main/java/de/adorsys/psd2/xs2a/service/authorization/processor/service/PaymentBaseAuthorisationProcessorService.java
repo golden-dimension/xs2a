@@ -200,7 +200,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
                                                                               SpiContextData spiContextData,
                                                                               SpiAspspConsentDataProvider spiAspspConsentDataProvider);
 
-    abstract SpiResponse verifyScaAuthorisationAndExecutePayment(Authorisation authorisation,
+    abstract SpiResponse<SpiPaymentExecutionResponse> verifyScaAuthorisationAndExecutePayment(Authorisation authorisation,
                                                                  SpiPayment payment,
                                                                  SpiScaConfirmation spiScaConfirmation,
                                                                  SpiContextData contextData,

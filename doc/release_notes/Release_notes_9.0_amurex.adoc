@@ -4,7 +4,7 @@
 
 * Adjusted OAuth flow
 * Remove obsolete property `xs2a.application.ais.transaction.max-length`
-* Changed PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type
+* Changed (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type
 
 == Adjusted OAuth flow
 
@@ -22,5 +22,5 @@ The configuration property `xs2a.application.ais.transaction.max-length` was rem
 
 == Changed PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type
 
-From now on, PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse responses `SpiResponse<SpiPaymentExecutionResponse>`.
+From now on, (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse responses `SpiResponse<SpiPaymentExecutionResponse>`.
 This response includes transaction status and spi authorisation status simultaneously.
