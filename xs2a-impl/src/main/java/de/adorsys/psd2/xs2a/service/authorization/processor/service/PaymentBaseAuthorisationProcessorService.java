@@ -222,7 +222,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
                                                                                 SpiPayment payment, String authenticationMethodId);
 
 
-    abstract boolean needProcessExemptedSca(PaymentType paymentType, boolean isScaExempted);
+    abstract boolean needProcessExemptedSca(boolean isScaExempted);
 
     PisScaAuthorisationService getService(ScaApproach scaApproach) {
         return services.stream().filter(s -> s.getScaApproachServiceType() == scaApproach).findFirst()
@@ -265,7 +265,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
         }
 
         PaymentType paymentType = request.getPaymentService();
-        if (needProcessExemptedSca(paymentType, psuAuthorisationResponse.isScaExempted())) {
+        if (needProcessExemptedSca(psuAuthorisationResponse.isScaExempted())) {
             writeInfoLog(authorisationProcessorRequest, psuData, "SCA was exempted for the payment after AuthorisationSpi#authorisePsu.");
             return executePaymentWithoutSca(authorisationProcessorRequest, psuData, paymentType, payment, contextData, EXEMPTED);
         }
@@ -284,7 +284,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
 
         SpiAvailableScaMethodsResponse availableScaMethods = availableScaMethodsResponse.getPayload();
 
-        if (needProcessExemptedSca(paymentType, availableScaMethods.isScaExempted())) {
+        if (needProcessExemptedSca(availableScaMethods.isScaExempted())) {
             writeInfoLog(authorisationProcessorRequest, psuData, "SCA was exempted for the payment after AuthorisationSpi#requestAvailableScaMethods.");
             return executePaymentWithoutSca(authorisationProcessorRequest, psuData, paymentType, payment, contextData, EXEMPTED);
         }
@@ -392,7 +392,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
         }
 
         SpiAuthorizationCodeResult authorizationCodeResult = authCodeResponse.getPayload();
-        if (needProcessExemptedSca(payment.getPaymentType(), authorizationCodeResult.isScaExempted())) {
+        if (needProcessExemptedSca(authorizationCodeResult.isScaExempted())) {
             writeInfoLog(authorisationProcessorRequest, psuData, "SCA was exempted for the payment after AuthorisationSpi#requestAuthorisationCode.");
             return executePaymentWithoutSca(authorisationProcessorRequest, psuData, payment.getPaymentType(), payment, contextData, EXEMPTED);
         }
@@ -437,7 +437,7 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
         }
 
         SpiAuthorizationCodeResult authorizationCodeResult = spiResponse.getPayload();
-        if (needProcessExemptedSca(payment.getPaymentType(), authorizationCodeResult.isScaExempted())) {
+        if (needProcessExemptedSca(authorizationCodeResult.isScaExempted())) {
             writeInfoLog(authorisationProcessorRequest, psuData, "SCA was exempted for the payment after AuthorisationSpi#requestAuthorisationCode.");
             return executePaymentWithoutSca(authorisationProcessorRequest, psuData, payment.getPaymentType(), payment, contextData, EXEMPTED);
         }

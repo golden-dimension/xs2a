@@ -164,8 +164,8 @@ public class PisAuthorisationProcessorServiceImpl extends PaymentBaseAuthorisati
     }
 
     @Override
-    boolean needProcessExemptedSca(PaymentType paymentType, boolean isScaExempted) {
-        return isScaExempted && paymentType != PaymentType.PERIODIC;
+    boolean needProcessExemptedSca(boolean isScaExempted) {
+        return isScaExempted;
     }
 
     @Override

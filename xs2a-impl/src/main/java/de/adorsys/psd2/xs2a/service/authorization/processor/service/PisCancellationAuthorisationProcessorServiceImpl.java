@@ -160,7 +160,7 @@ public class PisCancellationAuthorisationProcessorServiceImpl extends PaymentBas
     }
 
     @Override
-    boolean needProcessExemptedSca(PaymentType paymentType, boolean isScaExempted) {
+    boolean needProcessExemptedSca(boolean isScaExempted) {
         return false;
     }
 
