@@ -158,6 +158,15 @@ public class AspspProfileServiceWrapper {
     }
 
     /**
+     * Reads get signign baseket redirect url to aspsp from ASPSP profile service
+     *
+     * @return Url in order to redirect SCA approach
+     */
+    public String getSbRedirectUrlToAspsp() {
+        return readAspspSettings().getSb().getSbRedirectUrlToAspsp();
+    }
+
+    /**
      * Reads if is payment cancellation authorisation mandated from ASPSP profile service
      *
      * @return true if payment cancellation authorisation is mandated, false if doesn't
