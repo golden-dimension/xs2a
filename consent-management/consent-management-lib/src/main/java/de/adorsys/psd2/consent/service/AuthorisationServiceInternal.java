@@ -40,6 +40,7 @@ import de.adorsys.psd2.xs2a.core.sca.AuthorisationScaApproachResponse;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,7 +156,6 @@ public class AuthorisationServiceInternal implements AuthorisationService {
 
         AuthorisationEntity authorisationEntity = authorisationOptional.get();
         authorisationEntity.setScaStatus(scaStatus);
-        authorisationRepository.save(authorisationEntity);
 
         return CmsResponse.<Boolean>builder()
                    .payload(true)
@@ -258,9 +258,10 @@ public class AuthorisationServiceInternal implements AuthorisationService {
         }
 
         AuthorisationEntity authorisation = authorisationOptional.get();
-
-        authorisation.setAvailableScaMethods(scaMethodMapper.mapToScaMethods(methods));
-        authorisationRepository.save(authorisation);
+        List<ScaMethod> scaMethods = scaMethodMapper.mapToScaMethods(methods);
+        if (!CollectionUtils.isEqualCollection(scaMethods, authorisation.getAvailableScaMethods())) {
+            authorisation.setAvailableScaMethods(scaMethods);
+        }
         return CmsResponse.<Boolean>builder()
                    .payload(true)
                    .build();
@@ -282,7 +283,6 @@ public class AuthorisationServiceInternal implements AuthorisationService {
         AuthorisationEntity authorisation = authorisationOptional.get();
 
         authorisation.setScaApproach(scaApproach);
-        authorisationRepository.save(authorisation);
         return CmsResponse.<Boolean>builder()
                    .payload(true)
                    .build();
