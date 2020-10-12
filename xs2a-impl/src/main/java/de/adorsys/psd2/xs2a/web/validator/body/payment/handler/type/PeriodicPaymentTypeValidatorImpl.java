@@ -25,6 +25,7 @@ import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.body.AmountValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.IbanValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.config.PaymentValidationConfig;
+import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service.CustomSinglePaymentValidationService;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.mapper.PaymentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,8 +41,8 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
     @Autowired
     public PeriodicPaymentTypeValidatorImpl(ErrorBuildingService errorBuildingService, Xs2aObjectMapper xs2aObjectMappe,
                                             PaymentMapper paymentMapper, AmountValidator amountValidator,
-                                            IbanValidator ibanValidator) {
-        super(errorBuildingService, xs2aObjectMappe, paymentMapper, amountValidator, ibanValidator);
+                                            IbanValidator ibanValidator, CustomSinglePaymentValidationService customSinglePaymentValidationService) {
+        super(errorBuildingService, xs2aObjectMappe, paymentMapper, amountValidator, ibanValidator, customSinglePaymentValidationService);
     }
 
     @Override
