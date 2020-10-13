@@ -25,7 +25,7 @@ import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.body.AmountValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.IbanValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.config.PaymentValidationConfig;
-import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service.CustomSinglePaymentValidationService;
+import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service.CustomPaymentValidationService;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.mapper.PaymentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,12 +37,14 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 
 @Component
 public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidatorImpl {
+    private CustomPaymentValidationService customPaymentValidationService;
 
     @Autowired
     public PeriodicPaymentTypeValidatorImpl(ErrorBuildingService errorBuildingService, Xs2aObjectMapper xs2aObjectMappe,
                                             PaymentMapper paymentMapper, AmountValidator amountValidator,
-                                            IbanValidator ibanValidator, CustomSinglePaymentValidationService customSinglePaymentValidationService) {
-        super(errorBuildingService, xs2aObjectMappe, paymentMapper, amountValidator, ibanValidator, customSinglePaymentValidationService);
+                                            IbanValidator ibanValidator, CustomPaymentValidationService customPaymentValidationService) {
+        super(errorBuildingService, xs2aObjectMappe, paymentMapper, amountValidator, ibanValidator, customPaymentValidationService);
+        this.customPaymentValidationService = customPaymentValidationService;
     }
 
     @Override
@@ -87,6 +89,7 @@ public class PeriodicPaymentTypeValidatorImpl extends SinglePaymentTypeValidator
         if (validationConfig.getDayOfExecution().isRequired() && periodicPayment.getDayOfExecution() == null) {
             errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_NULL_VALUE, "dayOfExecution"));
         }
+        customPaymentValidationService.performCustomPeriodicValidation(periodicPayment, messageError, validationConfig);
     }
 
     private void validateStartDate(LocalDate startDate, MessageError messageError) {

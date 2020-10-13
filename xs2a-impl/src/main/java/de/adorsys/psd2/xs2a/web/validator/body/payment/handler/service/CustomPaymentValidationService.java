@@ -17,13 +17,23 @@
 package de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service;
 
 import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.domain.pis.BulkPayment;
+import de.adorsys.psd2.xs2a.domain.pis.PeriodicPayment;
 import de.adorsys.psd2.xs2a.domain.pis.SinglePayment;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.config.PaymentValidationConfig;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomSinglePaymentValidationService {
-    public void performCustomValidation(SinglePayment singlePayment, MessageError messageError, PaymentValidationConfig validationConfig) {
+public class CustomPaymentValidationService {
+    public void performCustomSingleValidation(SinglePayment payment, MessageError messageError, PaymentValidationConfig validationConfig) {
+        // could be extended on connector side for custom validation
+    }
+
+    public void performCustomPeriodicValidation(PeriodicPayment payment, MessageError messageError, PaymentValidationConfig validationConfig) {
+        // could be extended on connector side for custom validation
+    }
+
+    public void performCustomBulkValidation(BulkPayment payment, MessageError messageError, PaymentValidationConfig validationConfig) {
         // could be extended on connector side for custom validation
     }
 }

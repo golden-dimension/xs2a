@@ -21,7 +21,6 @@ import de.adorsys.psd2.xs2a.core.domain.address.Xs2aAddress;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
-import de.adorsys.psd2.xs2a.core.pis.Remittance;
 import de.adorsys.psd2.xs2a.core.pis.Xs2aAmount;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -33,7 +32,7 @@ import de.adorsys.psd2.xs2a.web.validator.body.AmountValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.IbanValidator;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.config.DefaultPaymentValidationConfigImpl;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.config.PaymentValidationConfig;
-import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service.CustomSinglePaymentValidationService;
+import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.service.CustomPaymentValidationService;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.mapper.PaymentMapper;
 import de.adorsys.psd2.xs2a.web.validator.header.ErrorBuildingServiceMock;
 import de.adorsys.xs2a.reader.JsonReader;
@@ -80,7 +79,7 @@ class SinglePaymentTypeValidatorImplTest {
                                                        new PaymentMapper(xs2aObjectMapper, purposeCodeMapper),
                                                        new AmountValidator(errorBuildingServiceMock),
                                                        new IbanValidator(errorBuildingServiceMock),
-                                                       new CustomSinglePaymentValidationService());
+                                                       new CustomPaymentValidationService());
     }
 
     @Test
