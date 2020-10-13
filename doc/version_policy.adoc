@@ -40,7 +40,7 @@ If you need extended support, please contact https://adorsys.de/kontakt/[adorsys
 Stable versions are recommended for production usage. Normally they have support period of time at least 6 months plus 3 more versions after development version is released as new Stable version.
 Here is an example of releases at timeline:
 
-= image:xs2a-version-policy.png[version policy] 
+image::xs2a-version-policy.png[version policy] 
 
 If you need additional support, please contact https://adorsys.de/kontakt/[adorsys Team].
 
