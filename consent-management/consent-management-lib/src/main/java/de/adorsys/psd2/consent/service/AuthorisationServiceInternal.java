@@ -262,6 +262,7 @@ public class AuthorisationServiceInternal implements AuthorisationService {
         List<ScaMethod> scaMethods = scaMethodMapper.mapToScaMethods(methods);
         if (!CollectionUtils.isEqualCollection(scaMethods, authorisation.getAvailableScaMethods())) {
             authorisation.setAvailableScaMethods(scaMethods);
+            authorisationRepository.save(authorisation);
         }
         return CmsResponse.<Boolean>builder()
                    .payload(true)
