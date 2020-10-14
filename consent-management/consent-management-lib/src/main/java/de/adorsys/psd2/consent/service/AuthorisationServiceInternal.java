@@ -156,6 +156,7 @@ public class AuthorisationServiceInternal implements AuthorisationService {
 
         AuthorisationEntity authorisationEntity = authorisationOptional.get();
         authorisationEntity.setScaStatus(scaStatus);
+        authorisationRepository.save(authorisationEntity);
 
         return CmsResponse.<Boolean>builder()
                    .payload(true)
@@ -281,6 +282,7 @@ public class AuthorisationServiceInternal implements AuthorisationService {
         }
 
         AuthorisationEntity authorisation = authorisationOptional.get();
+        authorisationRepository.save(authorisation);
 
         authorisation.setScaApproach(scaApproach);
         return CmsResponse.<Boolean>builder()
