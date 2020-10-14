@@ -282,9 +282,9 @@ public class AuthorisationServiceInternal implements AuthorisationService {
         }
 
         AuthorisationEntity authorisation = authorisationOptional.get();
+        authorisation.setScaApproach(scaApproach);
         authorisationRepository.save(authorisation);
 
-        authorisation.setScaApproach(scaApproach);
         return CmsResponse.<Boolean>builder()
                    .payload(true)
                    .build();
