@@ -12828,7 +12828,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "dcf601e1-1f47-4bc1-8644-f2503a2af1bf",
+												"id": "6c7c31e8-ea8c-4535-9d5c-c7a3af390c49",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -12881,7 +12881,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3ec37baa-6cdd-4a6d-93ab-5f19c8ef3b86",
+												"id": "0dc61dbc-44dc-47bf-af09-4e3f7174cfc9",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -12929,7 +12929,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "6e636a1c-1d0d-4664-bfac-61fa8bcee90f",
+												"id": "7e8fa7f5-5809-4dd8-93d9-615e82d04269",
 												"exec": [
 													"const jsonData = pm.response.json();",
 													"",
@@ -12963,7 +12963,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "5cf156cf-179d-4d29-8c8b-14138d2280b9",
+												"id": "a3678c92-7fec-4bcf-acac-2074f097967d",
 												"exec": [
 													"pm.globals.unset(\"payment_id\");"
 												],
@@ -13041,7 +13041,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "f93ed276-33f4-46fb-a1a1-abe7b19984c6",
+												"id": "da17d3ef-1d56-4b13-9172-9945944d1d73",
 												"exec": [
 													"pm.globals.unset(\"authorisation_id\");"
 												],
@@ -13051,7 +13051,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "30b32eaa-13d3-45fc-ac99-99f18e92bdf1",
+												"id": "f8e49e4b-7e3c-4c4c-bada-b5914d96d431",
 												"exec": [
 													"const jsonData = pm.response.json();",
 													"",
@@ -13129,7 +13129,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "3877d3f8-291e-4a61-909b-122e4ab1a1fd",
+												"id": "0af08b24-5356-4e05-9808-74b0dd1263d6",
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
@@ -13203,7 +13203,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "552fa697-ff14-49ec-b4ce-ecc715c063ea",
+												"id": "2eb377ed-255e-452a-a6ae-ae213f3a551a",
 												"exec": [
 													"pm.test('Status code is 200', () => {",
 													"   pm.response.to.have.status(200);",
@@ -13274,7 +13274,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2113c26e-4347-4920-866b-4d7a073d5567",
+												"id": "5eee919f-80cb-4c2a-b08c-27533cdb6a7d",
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
@@ -13320,7 +13320,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c43deeed-c248-4cdb-8de8-dee2ea186898",
+												"id": "74caeeb4-706d-44b2-9025-87f87da73fe2",
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
@@ -13367,7 +13367,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "0b037d04-e32d-4271-ab05-e586819d45f4",
+												"id": "4b360756-f0c1-4eea-a843-eacfb08e5fb4",
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
@@ -13380,7 +13380,6 @@
 													"    pm.expect(jsonData).to.have.property('instructedAmount');",
 													"    pm.expect(jsonData).to.have.property('creditorAccount');",
 													"    pm.expect(jsonData).to.have.property('creditorName');",
-													"",
 													"});"
 												],
 												"type": "text/javascript"
@@ -13422,7 +13421,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d23479fb-ce39-42d9-a1e4-99d2ed833bba",
+												"id": "e94fea67-2702-43ae-8cf2-6a3a3e469e98",
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
@@ -13475,7 +13474,7 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "6c4e8da3-2226-4ec6-a3c7-ea4208fbbef1",
+										"id": "45584849-c677-491f-ba66-fe5ced77828a",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -13485,7 +13484,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "054cdeb4-189c-4c97-a4b3-c1a212280f22",
+										"id": "f16098f7-72fb-4e5b-b6b4-5c3cc5450eac",
 										"type": "text/javascript",
 										"exec": [
 											""
@@ -13505,7 +13504,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "66c95b7a-de51-4a51-b6e8-3d0eac4c2d24",
+												"id": "88c14d34-36e7-4ab0-a0f7-12830a93aece",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13553,7 +13552,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "ac62cd6a-f02b-43c0-a20d-54005b2e82b8",
+												"id": "3d33d7cc-0d80-480f-a65d-35e8c85528c6",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13606,7 +13605,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "407fe107-dcdc-450c-8edf-0efd319f7903",
+												"id": "b3162081-74ac-480b-a166-afd23503aadc",
 												"exec": [
 													"pm.globals.unset(\"payment_id\");",
 													"pm.globals.unset(\"redirect_id\");"
@@ -13617,7 +13616,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d7fd0a82-9de8-4cc7-8f62-b5e4b70a10b0",
+												"id": "75b261dc-86a6-462b-9927-d24a46640fa0",
 												"exec": [
 													"pm.test(\"Status code is 201\", () => {",
 													"    pm.response.to.have.status(201);",
@@ -13689,7 +13688,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"endToEndIdentification\": \"WBG-123456789\",\n    \"debtorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_none}}\"\n    },\n    \"instructedAmount\": {\n      \"currency\": \"EUR\",\n      \"amount\": \"0.01\"\n    },\n    \"creditorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_none}}\"\n    },\n    \"creditorAgent\" : \"AAAADEBBXXX\",\n    \"creditorName\": \"WBG\",\n    \"creditorAddress\": {\n      \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n    },\n    \"remittanceInformationUnstructured\": \"Ref. Number WBG-1222\",\n      \"chargeBearer\": \"DEBT\"\n  }"
+											"raw": "{\n    \"endToEndIdentification\": \"WBG-123456789\",\n    \"debtorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_none}}\"\n    },\n    \"instructedAmount\": {\n      \"currency\": \"EUR\",\n      \"amount\": \"0.01\"\n    },\n    \"creditorAccount\": {\n      \"currency\": \"EUR\",\n      \"iban\": \"{{iban_none}}\"\n    },\n    \"creditorAgent\" : \"AAAADEBBXXX\",\n    \"creditorName\": \"WBG\",\n    \"creditorAddress\": {\n      \"buildingNumber\": \"56\",\n      \"townName\": \"Nürnberg\",\n      \"country\": \"DE\",\n      \"postCode\": \"90543\",\n      \"streetName\": \"WBG Straße\"\n    },\n    \"remittanceInformationUnstructured\": \"Ref. Number WBG-1222\",\n    \"chargeBearer\": \"DEBT\"\n  }"
 										},
 										"url": {
 											"raw": "{{protocol}}://{{url_xs2a}}/v1/{{payment_service}}/{{payment_product}}",
@@ -13712,7 +13711,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "446af46e-48ab-4e3d-8912-8c5a52f80f9c",
+												"id": "6514dac4-c648-4ded-9954-77da944f33bd",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13736,6 +13735,7 @@
 													"",
 													"pm.test(\"Payment id is present\", () => {",
 													"    pm.expect(jsonData.payment).to.have.property(\"paymentId\");",
+													"    pm.expect(jsonData.payment).to.have.property(\"chargeBearer\");",
 													"});",
 													"",
 													"pm.globals.set(\"internal_payment_id\", jsonData.payment.paymentId);",
@@ -13747,7 +13747,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "497ffb91-ac7d-4030-9247-f5c502bedb68",
+												"id": "3261eeb2-7ff9-473c-a99c-207bc14cad1e",
 												"exec": [
 													"pm.globals.unset(\"internal_payment_id\");",
 													"pm.globals.unset(\"authorisation_id\");"
@@ -13782,7 +13782,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "e5cb58aa-1362-4e48-8eb6-278eb6a08869",
+												"id": "34ab3423-ce8d-4b93-8b96-da0b5da8fdf2",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13830,7 +13830,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "a9c779f8-9e5b-4c36-94a4-ccb879e5108b",
+												"id": "3a2ec1e6-1ebf-48db-88c3-28aaf78744a8",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13885,7 +13885,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "981f967e-8816-493e-b252-18f498d1fc6b",
+												"id": "15e757a7-b113-4b1e-98f2-1c74c01b7f51",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -13898,7 +13898,7 @@
 										{
 											"listen": "prerequest",
 											"script": {
-												"id": "b20a55fa-3a69-49a8-9851-047726a8f8cf",
+												"id": "639e5b7d-5649-4004-a985-bf3a7688414d",
 												"exec": [
 													"var ledgersBearerToken = pm.globals.get(\"ledgersBearerToken\");",
 													"var utf8string = CryptoJS.enc.Utf8.parse(ledgersBearerToken);",
@@ -13946,7 +13946,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "2f981266-8d71-4ed1-b887-729537d1e1f6",
+												"id": "1fd01a88-b9a4-4ff8-8231-ee076564737a",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -14006,7 +14006,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "7e65a1e9-0e9c-4a4b-987c-3aa90de503a0",
+												"id": "a33e362b-88c0-4174-9a28-e47f1db29f5d",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
@@ -14053,7 +14053,7 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "c46bab7e-99d3-4559-aff6-c4b0cb4975f2",
+												"id": "0a8f7ef5-d3a7-4126-a76c-d8bd61db057a",
 												"exec": [
 													"pm.test(\"Status code is 200\", () => {",
 													"    pm.response.to.have.status(200);",
