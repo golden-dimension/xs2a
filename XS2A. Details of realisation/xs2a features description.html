@@ -472,10 +472,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_consent_statuses">Consent statuses</a></li>
 <li><a href="#_revoke_all_consents_when_account_is_closed">Revoke all consents when account is closed</a></li>
 <li><a href="#_get_consent_status_request">Get consent Status Request</a></li>
-<li><a href="#_card_accounts_service">Card Accounts Service</a></li>
-<li><a href="#_single_card_account_service">Single Card Account Service</a></li>
 <li><a href="#_account_owner_name_service">Account Owner Name Service</a></li>
-<li><a href="#_trusted_beneficiaries_service">Trusted Beneficiaries Service</a></li>
 <li><a href="#_account_identifier">Account Identifier</a></li>
 </ul>
 </li>
@@ -492,8 +489,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_multicurrency_accounts">Multicurrency Accounts</a></li>
 <li><a href="#_funds_confirmation_service">Funds Confirmation Service</a>
 <ul class="sectlevel2">
-<li><a href="#_piis_consent_created_by_aspsp">PIIS Consent created by ASPSP</a></li>
-<li><a href="#_piis_consent_created_by_tpp">PIIS Consent created by TPP</a></li>
+<li><a href="#_piis_consent_statuses">PIIS Consent Statuses:</a></li>
 </ul>
 </li>
 <li><a href="#_resource_status_notification_service">Resource Status Notification Service</a></li>
@@ -504,8 +500,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_tpps_role_validation">TPP&#8217;s role validation</a></li>
 <li><a href="#_signature_and_digest_verifier">Signature and digest verifier</a></li>
 <li><a href="#_validation_of_tpps_uris">Validation of TPPs URIs</a></li>
-<li><a href="#_tpp_certificate_generation">TPP Certificate generation</a></li>
-<li><a href="#_events">Events</a></li>
 </ul>
 </li>
 </ul>
@@ -903,11 +897,6 @@ The ASPSP will reject the transaction if the TPP cannot be identified correctly 
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><strong>Multipart periodic payment</strong> uses boundary from request header Content-Type: multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p
-or default --AaaBbbCcc otherwise when it is stored to CMS database.
-Resource get payment information returns such payment with boundary delemiters.</p>
-</div>
 <div class="sect2">
 <h3 id="_country_validation">Country validation</h3>
 <div class="paragraph">
@@ -1203,34 +1192,7 @@ that a "transactions" or "balances" access right also gives access to the generi
 <p>Read transaction list;</p>
 </li>
 <li>
-<p>Read transaction details;</p>
-</li>
-<li>
-<p>Read card accounts list;</p>
-</li>
-<li>
-<p>Read card account details;</p>
-</li>
-<li>
-<p>Read card account balance;</p>
-</li>
-<li>
-<p>Read card account transaction list;</p>
-</li>
-<li>
-<p>Read list of trusted benefeciaries;</p>
-</li>
-<li>
-<p>Read all identifiers of single card;</p>
-</li>
-<li>
-<p>Read detailed information of single card;</p>
-</li>
-<li>
-<p>Read balance of single card;</p>
-</li>
-<li>
-<p>Read transaction list of single card.</p>
+<p>Read transaction details.</p>
 </li>
 </ul>
 </div>
@@ -1617,43 +1579,9 @@ Global consent can be recurring and one-off.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_card_accounts_service">Card Accounts Service</h3>
-<div class="paragraph">
-<p>XS2A supports card accounts service with endpoints described below:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Read list of card accounts (<code>GET /v1/card-accounts</code>)</p>
-</li>
-<li>
-<p>Read card account balances (<code>GET /v1/card-accounts/{account-id}/balances</code>)</p>
-</li>
-<li>
-<p>Read card account&#8217;s transaction list (<code>GET /v1/card-accounts/{account-id}/transactions</code>)</p>
-</li>
-<li>
-<p>Read details of a card account (<code>GET /v1/card-accounts/{account-id}</code>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>To use card account interface, one should add parameter to ASPSP profile in <code>supportedAccountReferenceFields</code> field (<code>MASKED_PAN</code> or/and <code>PAN</code>).
-For providing access to card accounts standard AIS consent should be used.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_single_card_account_service">Single Card Account Service</h3>
-<div class="paragraph">
-<p>To use Single Card Account interface, ASPSP profile should contain parameter <code>supportedAccountReferenceFields</code> = <code>MASKED_PAN</code> or/and <code>PAN</code>.
-For providing access to single card account standard AIS consent should be used.</p>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_account_owner_name_service">Account Owner Name Service</h3>
 <div class="paragraph">
-<p>Account Owner Name Service
-The following rules and requirements for the support of this service apply:</p>
+<p>The following rules and requirements for the support of this service apply:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1684,8 +1612,8 @@ The following rules and requirements for the support of this service apply:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>is asking for additional information as added within this structured object. In case of ASPSP does not support Account Owner Name Service (<strong>accountOwnerInformationSupported = FALSE</strong>)
-the ASPSP ignores the corresponding entries. Consent will be created. In this case it will not be part of the consent model which is generated through the call where this object is contained.</p>
+<p>is asking for additional information as added within this structured object. In case of ASPSP does not support Account Owner Name Service (accountOwnerInformationSupported = FALSE)
+then the Message Code <strong>CONSENT_INVALID</strong> is in response with text <strong>"An explicit consent of ownerName is not supported"</strong>.</p>
 </li>
 <li>
 <p>value of this parameter can be array or empty:</p>
@@ -1715,43 +1643,6 @@ to retrieve additional information (<strong>ownerName</strong>) about PSU by it&
 </div>
 <div class="paragraph">
 <p>Get Consent Request returns created Consent.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_trusted_beneficiaries_service">Trusted Beneficiaries Service</h3>
-<div class="paragraph">
-<p>ASPSP may decide whether to support additional account information (Trusted Beneficiaries) or not, by setting the corresponding value for parameter in the ASPSP-Profile:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>trustedBeneficiariesSupported</strong> (boolean, default value is FALSE).</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>If the ASPSP is not supporting the related consent extension (<strong>trustedBeneficiariesSupported=FALSE</strong>), then the ASPSP ignores the corresponding entries in consent body.
-In this case it will not be part of the consent model which is generated through the call where this object is contained. And attribute "trustedBeneficiaries" won&#8217;t be stored and won&#8217;t be present in Get Consent Response.</p>
-</div>
-<div class="paragraph">
-<p>Permission for receiving List of Trusted Beneficiaries can be covered through:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Detailed Consent Model</strong> with an additionalInformation access attribute with "<strong>trustedBeneficiaries</strong>" entry. If detailed accounts are referenced, it is required in addition that any account
-addressed within the additionalInformation attribute is also addressed by at least one of the attributes "accounts", "transactions" or "balances".</p>
-</li>
-<li>
-<p><strong>Global Consent Model</strong> always covers the consent on trusted beneficiary lists, with <strong>allPSD2</strong> access attribute with entries "<strong>allAccounts/allAccountsWithOwnerName"</strong>.</p>
-</li>
-<li>
-<p>Consent on <strong>Account List of Available Accounts</strong> will <strong>NOT</strong> give access to an overview of the list of beneficiaries.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For Bank-offered consent there is a possibility to update consent from Online-banking (In cms-psu-api) with additionalInformation with <strong>trustedBeneficiaries</strong>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2140,7 +2031,7 @@ If ASPSP doesn&#8217;t support such type of account reference, then XS2A respond
 <p>Establish PIIS consent (Optional);</p>
 </li>
 <li>
-<p>Perform the actual Confirmation of Funds request through XS2A.</p>
+<p>Perform the actual Confirmation of Funds through xs2a.</p>
 </li>
 </ul>
 </div>
@@ -2148,7 +2039,7 @@ If ASPSP doesn&#8217;t support such type of account reference, then XS2A respond
 <p>The first part is not mandated to be offered by the XS2A interface, since this could also be an online banking function or even a paper based consent process.</p>
 </div>
 <div class="paragraph">
-<p>Parameter <strong>"piisConsentSupported"</strong> in the ASPSP-Profile defines which model of PIIS Consent ASPSP supports:</p>
+<p>Parameter <strong>"piisConsentSupported"</strong> in the ASPSP-Profile, defines which model of PIIS Consent ASPSP supports:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2161,6 +2052,13 @@ If ASPSP doesn&#8217;t support such type of account reference, then XS2A respond
 <li>
 <p><strong>ASPSP_CONSENT_SUPPORTED</strong> (ASPSP stores PIIS consent in CMS and Funds Confirmation request is validated according to this consent);</p>
 </li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There is no information about expiration of Funds Confirmation Consent created by TPP, so it will stay <strong>VALID</strong> until TPP or ASPSP revokes it.</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>If TPP has no Valid PIIS Consent and tries to request Funds Confirmation, then response contains <strong>HTTP code  400 "NO_PIIS_ACTIVATION"</strong>;</p>
 </li>
@@ -2177,24 +2075,13 @@ this PIIS consent can be used by any TPP. If TPP-Authorisation-Number is set in 
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_piis_consent_created_by_aspsp">PIIS Consent created by ASPSP</h3>
+<h3 id="_piis_consent_statuses">PIIS Consent Statuses:</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>While creating PIIS consent by ASPSP, in case of existing old valid consent for TPP, one PSU and one account (Mandatory)-its consent status becomes <strong>"RevokedByPSU"</strong> as soon as new one for the same TPP, the same PSU and the same account is created with status Valid.</p>
 </li>
 </ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_piis_consent_created_by_tpp">PIIS Consent created by TPP</h3>
-<div class="paragraph">
-<p>TPP is able to establish PIIS consent through XS2A by sending request <code>POST /v2/consents/confirmation-of-funds</code>. Create funds confirmation consent request is validated according to specification.
-There is no information about expiration of Funds Confirmation Consent created by TPP, so it will stay <strong>VALID</strong> until TPP or ASPSP revokes it.</p>
-</div>
-<div class="paragraph">
-<p>Also TPP can receive content of previously created PIIS consent (<code>GET v2/consents/confirmation-of-funds/{consent_id}</code>)
-and retrieve PIIS consent status (<code>GET v2/consents/confirmation-of-funds/{consent_id}/status</code>).</p>
 </div>
 </div>
 </div>
@@ -2395,399 +2282,12 @@ If it is needed to receive extra parameters in payment (for example, bank sort c
 And request is not rejected.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_tpp_certificate_generation">TPP Certificate generation</h3>
-<div class="paragraph">
-<p><strong>Generating certificate with validity less than 365 days</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Clone <a href="https://github.com/adorsys/xs2a" class="bare">https://github.com/adorsys/xs2a</a>, build and execute certificate-generator. Alternatively use the TPP certificate generator mentioned in 01 Links to the environments.</p>
-</li>
-<li>
-<p>Launch application and open swagger-ui.html, fill in certificate data and execute the request.</p>
-</li>
-<li>
-<p>Mocked certificate in xs2a-impl uses the data provided as example in Swagger UI for the request with the following changes:  commonName attribute contains empty value and roles attribute contains PISP, AISP and PIISP roles.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Certificate generation with validity exceeding 365 days is restricted by server-side validation</strong></p>
-</div>
-<div class="paragraph">
-<p>There are several ways to bypass this restriction:</p>
-</div>
-<div class="paragraph">
-<p><strong>a. Using debug mode:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Launch up certificate generator in debug mode;</p>
-</li>
-<li>
-<p>Send the request for certificate generation with validity  &#8656; 365;</p>
-</li>
-<li>
-<p>Intercept the request on controller or service layer and set validity to the desired value using debug tools.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>b. Adjusting xs2a-certificate-generator:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Clone <a href="https://github.com/adorsys/xs2a" class="bare">https://github.com/adorsys/xs2a</a> and find certificate-generator service;</p>
-</li>
-<li>
-<p>Remove<em> @Max(365)</em> from <em>validity</em> field in the
-<code><code>de.adorsys.psd2.certificate.generator.model.CertificateRequest.class </code></code>;</p>
-</li>
-<li>
-<p>Rebuild the service and launch;</p>
-</li>
-<li>
-<p>Send the request with desired validity.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_events">Events</h3>
-<div class="paragraph">
-<p>All TPP request are recorded and by default saved in CMS database. Requests are recorded and stored as events,
-with event type that corresponds to specific request.</p>
-</div>
-<div class="paragraph">
-<p>Recorded event contains:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>event timestamp, indicating when the event has occurred</p>
-</li>
-<li>
-<p>consent id or payment id if it they were contained in the request</p>
-</li>
-<li>
-<p>origin and type of the event</p>
-</li>
-<li>
-<p>payload with: information about the TPP, TPP&#8217;s ip address, unique identifier of the request, request URI,
-request headers and body</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In the following table you can find event types depending on process and XS2A object (AIS, PIS, PIS Cancellation, PIIS, Signing Basket).</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Process</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">XS2A Object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Event type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="5"><p class="tableblock">Create XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CREATE_AIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CREATE_PIIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PAYMENT_INITIATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PAYMENT_CANCELLATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Signing Basket</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CREATE_SIGNING_BASKET_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Delete XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE_AIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE_PIIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">Get XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_AIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PIIS_CONSENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PAYMENT_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">Get status of XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_AIS_CONSENT_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PIIS_CONSENT_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_TRANSACTION_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Start authorisation of XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">START_AIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">START_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">START_PAYMENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">START_PAYMENT_CANCELLATION_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Get authorisation of XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_CONSENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PIIS_CONSENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PAYMENT_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PAYMENT_CANCELLATION_AUTHORISATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Get authorisation SCA status of XS2A object</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_CONSENT_SCA_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PIIS_CONSENT_SCA_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PAYMENT_SCA_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET_PAYMENT_CANCELLATION_SCA_STATUS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data: Identification</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_AIS_CONSENT_PSU_DATA_IDENTIFICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PIIS_CONSENT_PSU_DATA_IDENTIFICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_IDENTIFICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_IDENTIFICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data: Authentication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_AIS_CONSENT_PSU_DATA_AUTHENTICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PIIS_CONSENT_PSU_DATA_AUTHENTICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_AUTHENTICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_AUTHENTICATION_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data: Select authentication method</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_AIS_CONSENT_PSU_DATA_SELECT_AUTHENTICATION_METHOD_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PIIS_CONSENT_PSU_DATA_SELECT_AUTHENTICATION_METHOD_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_SELECT_AUTHENTICATION_METHOD_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_SELECT_AUTHENTICATION_METHOD_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data: TAN</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_AIS_CONSENT_PSU_DATA_TAN_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PIIS_CONSENT_PSU_DATA_TAN_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_TAN_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_TAN_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data: Confirmation Code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_AIS_CONSENT_PSU_DATA_CONFIRMATION_CODE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PIIS_CONSENT_PSU_DATA_CONFIRMATION_CODE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_CONFIRMATION_CODE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_CONFIRMATION_CODE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Update PSU data (<mark><strong>Deprecated</strong></mark>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">UPDATE_AIS_CONSENT_PSU_DATA_REQUEST_RECEIVED</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">UPDATE_PIIS_CONSENT_PSU_DATA_REQUEST_RECEIVED</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">UPDATE_PAYMENT_AUTHORISATION_PSU_DATA_REQUEST_RECEIVED</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIS Cancellation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="line-through">UPDATE_PAYMENT_CANCELLATION_PSU_DATA_REQUEST_RECEIVED</span></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Funds Confirmation request</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIIS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FUNDS_CONFIRMATION_REQUEST_RECEIVED</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>In the following table you can find event types depending on AIS process and type of account</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Process</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account / Card Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Event type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Read account list</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_ACCOUNT_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_CARD_ACCOUNT_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Read account details</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_ACCOUNT_DETAILS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_CARD_ACCOUNT_DETAILS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Read balance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_BALANCE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_CARD_BALANCE_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Read transaction list</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_TRANSACTION_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Card Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_CARD_TRANSACTION_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Read transaction details</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_TRANSACTION_DETAILS_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Download transaction list</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DOWNLOAD_TRANSACTION_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Read trusted beneficiaries list</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">READ_TRUSTED_BENEFICIARIES_LIST_REQUEST_RECEIVED</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-11 13:11:25 UTC
+Last updated 2020-10-16 15:32:28 UTC
 </div>
 </div>
 </body>
