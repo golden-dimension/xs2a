@@ -554,7 +554,34 @@ that a "transactions" or "balances" access right also gives access to the generi
 <p>Read transaction list;</p>
 </li>
 <li>
-<p>Read transaction details.</p>
+<p>Read transaction details;</p>
+</li>
+<li>
+<p>Read card accounts list;</p>
+</li>
+<li>
+<p>Read card account details;</p>
+</li>
+<li>
+<p>Read card account balance;</p>
+</li>
+<li>
+<p>Read card account transaction list;</p>
+</li>
+<li>
+<p>Read list of trusted benefeciaries;</p>
+</li>
+<li>
+<p>Read all identifiers of single card;</p>
+</li>
+<li>
+<p>Read detailed information of single card;</p>
+</li>
+<li>
+<p>Read balance of single card;</p>
+</li>
+<li>
+<p>Read transaction list of single card.</p>
 </li>
 </ul>
 </div>
@@ -941,9 +968,43 @@ Global consent can be recurring and one-off.</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_card_accounts_service">Card Accounts Service</h3>
+<div class="paragraph">
+<p>XS2A supports card accounts service with endpoints described below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Read list of card accounts (<code>GET /v1/card-accounts</code>)</p>
+</li>
+<li>
+<p>Read card account balances (<code>GET /v1/card-accounts/{account-id}/balances</code>)</p>
+</li>
+<li>
+<p>Read card account&#8217;s transaction list (<code>GET /v1/card-accounts/{account-id}/transactions</code>)</p>
+</li>
+<li>
+<p>Read details of a card account (<code>GET /v1/card-accounts/{account-id}</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To use card account interface, one should add parameter to ASPSP profile in <code>supportedAccountReferenceFields</code> field (<code>MASKED_PAN</code> or/and <code>PAN</code>).
+For providing access to card accounts standard AIS consent should be used.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_single_card_account_service">Single Card Account Service</h3>
+<div class="paragraph">
+<p>To use Single Card Account interface, ASPSP profile should contain parameter <code>supportedAccountReferenceFields</code> = <code>MASKED_PAN</code> or/and <code>PAN</code>.
+For providing access to single card account standard AIS consent should be used.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_account_owner_name_service">Account Owner Name Service</h3>
 <div class="paragraph">
-<p>The following rules and requirements for the support of this service apply:</p>
+<p>Account Owner Name Service
+The following rules and requirements for the support of this service apply:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -974,8 +1035,8 @@ Global consent can be recurring and one-off.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>is asking for additional information as added within this structured object. In case of ASPSP does not support Account Owner Name Service (accountOwnerInformationSupported = FALSE)
-then the Message Code <strong>CONSENT_INVALID</strong> is in response with text <strong>"An explicit consent of ownerName is not supported"</strong>.</p>
+<p>is asking for additional information as added within this structured object. In case of ASPSP does not support Account Owner Name Service (<strong>accountOwnerInformationSupported = FALSE</strong>)
+the ASPSP ignores the corresponding entries. Consent will be created. In this case it will not be part of the consent model which is generated through the call where this object is contained.</p>
 </li>
 <li>
 <p>value of this parameter can be array or empty:</p>
@@ -1005,6 +1066,43 @@ to retrieve additional information (<strong>ownerName</strong>) about PSU by it&
 </div>
 <div class="paragraph">
 <p>Get Consent Request returns created Consent.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_trusted_beneficiaries_service">Trusted Beneficiaries Service</h3>
+<div class="paragraph">
+<p>ASPSP may decide whether to support additional account information (Trusted Beneficiaries) or not, by setting the corresponding value for parameter in the ASPSP-Profile:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>trustedBeneficiariesSupported</strong> (boolean, default value is FALSE).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the ASPSP is not supporting the related consent extension (<strong>trustedBeneficiariesSupported=FALSE</strong>), then the ASPSP ignores the corresponding entries in consent body.
+In this case it will not be part of the consent model which is generated through the call where this object is contained. And attribute "trustedBeneficiaries" won&#8217;t be stored and won&#8217;t be present in Get Consent Response.</p>
+</div>
+<div class="paragraph">
+<p>Permission for receiving List of Trusted Beneficiaries can be covered through:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Detailed Consent Model</strong> with an additionalInformation access attribute with "<strong>trustedBeneficiaries</strong>" entry. If detailed accounts are referenced, it is required in addition that any account
+addressed within the additionalInformation attribute is also addressed by at least one of the attributes "accounts", "transactions" or "balances".</p>
+</li>
+<li>
+<p><strong>Global Consent Model</strong> always covers the consent on trusted beneficiary lists, with <strong>allPSD2</strong> access attribute with entries "<strong>allAccounts/allAccountsWithOwnerName"</strong>.</p>
+</li>
+<li>
+<p>Consent on <strong>Account List of Available Accounts</strong> will <strong>NOT</strong> give access to an overview of the list of beneficiaries.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For Bank-offered consent there is a possibility to update consent from Online-banking (In cms-psu-api) with additionalInformation with <strong>trustedBeneficiaries</strong>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1050,7 +1148,7 @@ to retrieve additional information (<strong>ownerName</strong>) about PSU by it&
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-19 06:57:22 UTC
+Last updated 2020-10-19 08:08:55 UTC
 </div>
 </div>
 </body>

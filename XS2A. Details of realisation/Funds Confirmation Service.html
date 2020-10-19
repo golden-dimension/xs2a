@@ -453,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Establish PIIS consent (Optional);</p>
 </li>
 <li>
-<p>Perform the actual Confirmation of Funds through xs2a.</p>
+<p>Perform the actual Confirmation of Funds request through XS2A.</p>
 </li>
 </ul>
 </div>
@@ -461,7 +461,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The first part is not mandated to be offered by the XS2A interface, since this could also be an online banking function or even a paper based consent process.</p>
 </div>
 <div class="paragraph">
-<p>Parameter <strong>"piisConsentSupported"</strong> in the ASPSP-Profile, defines which model of PIIS Consent ASPSP supports:</p>
+<p>Parameter <strong>"piisConsentSupported"</strong> in the ASPSP-Profile defines which model of PIIS Consent ASPSP supports:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -474,13 +474,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p><strong>ASPSP_CONSENT_SUPPORTED</strong> (ASPSP stores PIIS consent in CMS and Funds Confirmation request is validated according to this consent);</p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p>There is no information about expiration of Funds Confirmation Consent created by TPP, so it will stay <strong>VALID</strong> until TPP or ASPSP revokes it.</p>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p>If TPP has no Valid PIIS Consent and tries to request Funds Confirmation, then response contains <strong>HTTP code  400 "NO_PIIS_ACTIVATION"</strong>;</p>
 </li>
@@ -497,7 +490,7 @@ this PIIS consent can be used by any TPP. If TPP-Authorisation-Number is set in 
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_piis_consent_statuses">PIIS Consent Statuses:</h3>
+<h3 id="_piis_consent_created_by_aspsp">PIIS Consent created by ASPSP</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -506,12 +499,23 @@ this PIIS consent can be used by any TPP. If TPP-Authorisation-Number is set in 
 </ul>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_piis_consent_created_by_tpp">PIIS Consent created by TPP</h3>
+<div class="paragraph">
+<p>TPP is able to establish PIIS consent through XS2A by sending request <code>POST /v2/consents/confirmation-of-funds</code>. Create funds confirmation consent request is validated according to specification.
+There is no information about expiration of Funds Confirmation Consent created by TPP, so it will stay <strong>VALID</strong> until TPP or ASPSP revokes it.</p>
+</div>
+<div class="paragraph">
+<p>Also TPP can receive content of previously created PIIS consent (<code>GET v2/consents/confirmation-of-funds/{consent_id}</code>)
+and retrieve PIIS consent status (<code>GET v2/consents/confirmation-of-funds/{consent_id}/status</code>).</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-19 06:57:22 UTC
+Last updated 2020-10-19 08:08:55 UTC
 </div>
 </div>
 </body>

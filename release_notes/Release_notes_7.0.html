@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Release notes v.6.10</title>
+<title>Release notes v.7.0</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.6.10</h1>
+<h1>Release notes v.7.0</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -447,59 +447,218 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</p>
+<p>Support of Java 11</p>
 </li>
 <li>
-<p>Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></p>
+<p>Bugfix: normalize certificate before signature verifying</p>
 </li>
 <li>
-<p>Changed (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</p>
+<p>Feature: retrieve PSU message from SPI level to TPP</p>
 </li>
 <li>
-<p>Fixed deadlock while saving authentication methods for authorisation</p>
+<p>Added new field to <code>Get payment information</code> response</p>
+</li>
+<li>
+<p>Support header TPP-Brand-Logging-Information</p>
+</li>
+<li>
+<p>Adjust Xs2a and SPI BalanceType objects with current specification</p>
+</li>
+<li>
+<p>Bugfix: Validation for PIIS field cardNumber is missing</p>
+</li>
+<li>
+<p>Bugfix: DownloadTransactionsResponse ignores custom error messages</p>
+</li>
+<li>
+<p>Fixed disabled tests in <code>EventReportRepositoryImplIT</code></p>
+</li>
+<li>
+<p>Add errorful response <code>400 SCA_INVALID</code> for AIS and PIS flows concerning confirmation code</p>
+</li>
+<li>
+<p>Remove deprecated <code>CmsAccountReference</code> and replaced according usages by <code>AccountAccess</code></p>
+</li>
+<li>
+<p>Add new attributes to data types according to Specification v.1.3.6</p>
+</li>
+<li>
+<p>Fix naming inconsistency in the "Signing Baskets Service (SBS)" tag</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_internal_server_error_on_get_aspsp_apiv1aisconsentsaccountaccount_id_with_oracle_db">Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</h2>
+<h2 id="_support_of_java_11">Support of Java 11</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, endpoint <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> works correct with oracle db</p>
+<p>From now on, XS2A supports Java 11.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_remove_obsolete_property_xs2a_application_ais_transaction_max_length">Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></h2>
+<h2 id="_bugfix_normalize_certificate_before_signature_verifying">Bugfix: normalize certificate before signature verifying</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The configuration property <code>xs2a.application.ais.transaction.max-length</code> was removed.</p>
+<p>From now on, certificate will be normalized before signature verifying and looks like:</p>
+</div>
+<div class="paragraph">
+<p>-----BEGIN CERTIFICATE----- (certificate) -----END CERTIFICATE-----</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_changed_paymentspiverifyscaauthorisationandexecutepaymentwithpaymentresponse_response_type">Changed PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</h2>
+<h2 id="_feature_retrieve_psu_message_from_spi_level_to_tpp">Feature: retrieve PSU message from SPI level to TPP</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse responses <code>SpiResponse&lt;SpiPaymentExecutionResponse&gt;</code>.
-This response includes transaction status and spi authorisation status simultaneously.</p>
+<p>Added ability for retrieving text message from ASPSP through SPI to the TPP for the next requests:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>getting payment status <code>GET /v1/{payment-service}/{paymentId}/status</code>;</p>
+</li>
+<li>
+<p>getting consent status: <code>GET /v1/consents/{consentId}/status</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_deadlock_while_saving_authentication_methods_for_authorisation">Fixed deadlock while saving authentication methods for authorisation</h2>
+<h2 id="_added_new_field_to_get_payment_information_response">Added new field to <code>Get payment information</code> response</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, authentication methods for authorisation saving only in case they differ from already
-saved one for same authorisation.</p>
+<p>New field was added to <code>Get payment information</code> response (<code>GET /v1/{payment-service}/{payment-product}/{paymentId}</code>) -
+<code>debtorName</code>.
+This string field is optional, it can be added at ASPSP side to payment payload.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_support_header_tpp_brand_logging_information">Support header TPP-Brand-Logging-Information</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, header <code>TPP-Brand-Logging-Information</code> is supported by XS2A.
+This header can be passed with payment initiation or consent creation requests.
+This header is accessible in SPI level in SpiContextData object, also saved in CMS database and can be retrieved as a field of payment or consent from CMS-PSU-API.</p>
+</div>
+<div class="paragraph">
+<p>New Liquibase migration file (<code>0100-add-tpp-brand-logging-information.xml</code>) should be applied to the CMS database to properly create columns in the appropriate tables.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adjust_xs2a_and_spi_balancetype_objects_with_current_specification">Adjust Xs2a and SPI BalanceType objects with current specification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, all <code>BalanceType</code> values are adjusted according to BG Specification 1.3.6</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugfix_validation_for_piis_field_cardnumber_is_missing">Bugfix: Validation for PIIS field cardNumber is missing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, value of the <code>cardNumber</code> field in Funds Confirmation request (<code>POST /v1/funds-confirmations</code>) is being validated and can not exceed the maximum length of 35 symbols</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugfix_downloadtransactionsresponse_ignores_custom_error_messages">Bugfix: DownloadTransactionsResponse ignores custom error messages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, ASPSP is able to provide custom error message with <code>SpiResponse</code> to TPP during download transactions request.</p>
+</div>
+<div class="paragraph">
+<p>Also if <code>de.adorsys.psd2.xs2a.exception.RestException</code> is thrown, then the message that was passed to the constructor of the exception will be visible to TPP e.g. <code>throw  new RestException(MessageErrorCode.FORMAT_ERROR, "message to TPP")</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_disabled_tests_in_eventreportrepositoryimplit">Fixed disabled tests in <code>EventReportRepositoryImplIT</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now, on the tests in <code>EventReportRepositoryImplIT</code> are executable again.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_errorful_response_400_sca_invalid_for_ais_and_pis_flows_concerning_confirmation_code">Add errorful response <code>400 SCA_INVALID</code> for AIS and PIS flows concerning confirmation code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If confirmation of authorisation is mandated by the ASPSP profile and any of the following endpoints are called for the second time, assuming that the first, successful, call resulted in the authorisation switching its sca status to either <code>FINALISED</code> or <code>FAILED</code>, then this endpoint will now return with <code>400 SCA_INVALID</code>.</p>
+</div>
+<div class="paragraph">
+<p>Affected endpoints:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PUT /v1/consents/{consentId}/authorisations/{authorisationId}</code></p>
+</li>
+<li>
+<p><code>PUT /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}</code></p>
+</li>
+<li>
+<p><code>PUT /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_remove_deprecated_cmsaccountreference_and_replaced_according_usages_by_accountaccess">Remove deprecated <code>CmsAccountReference</code> and replaced according usages by <code>AccountAccess</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All usages of <code>CmsAccountReference</code> got replaced by <code>de.adorsys.psd2.xs2a.core.profile.AccountReference</code>.
+The deprecated
+<code>CmsAccountReference</code> class got deleted.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_new_attributes_to_data_types_according_to_specification_v_1_3_6">Add new attributes to data types according to Specification v.1.3.6</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, new data attributes introduced in Specification v.1.3.6 are propagated to and from SPI level.</p>
+</div>
+<div class="paragraph">
+<p>The following changes were made to SPI models:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>displayName</code> property has been added to <code>de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountDetails</code> and
+<code>de.adorsys.psd2.xs2a.spi.domain.account.SpiCardAccountDetails</code></p>
+</li>
+<li>
+<p><code>acceptorTransactionDateTime</code> and <code>cardAcceptorPhone</code> have been added to <code>de.adorsys.psd2.xs2a.spi.domain.account.SpiCardTransaction</code></p>
+</li>
+<li>
+<p><code>remittanceInformationStructuredArray</code> has been added to <code>de.adorsys.psd2.xs2a.spi.domain.payment.SpiSinglePayment</code></p>
+</li>
+<li>
+<p><code>remittanceInformationUnstructuredArray</code>, <code>remittanceInformationStructuredArray</code> and <code>additionalInformation</code> have been added to <code>de.adorsys.psd2.xs2a.spi.domain.account.SpiTransaction</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fix_naming_inconsistency_in_the_signing_baskets_service_sbs_tag">Fix naming inconsistency in the "Signing Baskets Service (SBS)" tag</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, all endpoints related to Signing Baskets use <code>Signing Baskets Service (SBS)</code> tag in the default PSD2 OpenAPI file.
+Previously used tag <code>Signing Baskets (SBS)</code> was removed from the Swagger UI.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-19 06:57:22 UTC
+Last updated 2020-10-19 08:08:55 UTC
 </div>
 </div>
 </body>
