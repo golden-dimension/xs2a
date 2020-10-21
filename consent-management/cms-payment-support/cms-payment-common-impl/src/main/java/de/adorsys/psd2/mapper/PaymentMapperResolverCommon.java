@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2020 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +18,19 @@ package de.adorsys.psd2.mapper;
 
 import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPaymentMapper;
-import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.service.PaymentMapperResolver;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
-public class CmsCommonPaymentMapperImpl implements CmsCommonPaymentMapper {
+@AllArgsConstructor
+public class PaymentMapperResolverCommon implements PaymentMapperResolver {
+    private final CmsCommonPaymentMapperImpl cmsCommonPaymentMapper;
 
     @Override
-    public CmsPayment mapToCmsSinglePayment(CmsCommonPayment cmsCommonPayment) {
-        return cmsCommonPayment;
-    }
-
-    @Override
-    public CmsPayment mapToCmsBulkPayment(CmsCommonPayment cmsCommonPayment) {
-        return cmsCommonPayment;
-    }
-
-    @Override
-    public CmsPayment mapToCmsPeriodicPayment(CmsCommonPayment cmsCommonPayment) {
-        return cmsCommonPayment;
+    public CmsCommonPaymentMapper getCmsCommonPaymentMapper(CmsCommonPayment cmsCommonPayment) {
+        return cmsCommonPaymentMapper;
     }
 }
