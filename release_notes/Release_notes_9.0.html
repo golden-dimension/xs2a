@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Release notes v.8.0.1</title>
+<title>Release notes v.9.0</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.8.0.1</h1>
+<h1>Release notes v.9.0</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -446,6 +446,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>Removed deprecated authorisation type AIS</p>
+</li>
+<li>
+<p>Refactored profile</p>
+</li>
+<li>
+<p>Added migration file for creation signing basket table</p>
+</li>
+<li>
+<p>Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</p>
+</li>
+<li>
+<p>Fixed deadlock while saving authentication methods for authorisation</p>
+</li>
 <li>
 <p>Added field charge bearer</p>
 </li>
@@ -456,6 +471,51 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Added debtorName field to get payment response</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_removed_deprecated_authorisation_type_ais">Removed deprecated authorisation type AIS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, deprecated authorisation type AIS removed, use authorisation type CONSENT instead.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_refactored_profile">Refactored profile</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, signing basket profile properties <code>signingBasketSupported</code>, <code>signingBasketMaxEntries</code>,
+<code>notConfirmedSigningBasketExpirationTimeMs</code> located in separate field of <code>SbAspspProfileSetting</code> inside
+<code>AspspSettings</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_migration_file_for_creation_signing_basket_table">Added migration file for creation signing basket table</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, signing basket table added into cms database along with all required related tables for
+storing signing basket. Also, added columns <code>signing_basket_blocked</code> into <code>consents</code> and `pis_common_payment
+tables.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_internal_server_error_on_get_aspsp_apiv1aisconsentsaccountaccount_id_with_oracle_db">Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, endpoint <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> works correct with oracle db</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_deadlock_while_saving_authentication_methods_for_authorisation">Fixed deadlock while saving authentication methods for authorisation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, authentication methods for authorisation saving only in case they differ from already
+saved one for same authorisation.</p>
 </div>
 </div>
 </div>
@@ -490,7 +550,7 @@ Instruction how to do that one can find in <code>Extending payment validation.ad
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-19 08:08:55 UTC
+Last updated 2020-10-21 13:47:52 UTC
 </div>
 </div>
 </body>
