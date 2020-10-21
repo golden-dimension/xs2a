@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.mapper;
 
-import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPaymentMapper;
 import de.adorsys.psd2.consent.service.PaymentMapperResolver;
 import lombok.AllArgsConstructor;
@@ -32,8 +31,8 @@ public class PaymentMapperResolverSupport implements PaymentMapperResolver {
     private final CmsCommonPaymentMapperSupportImpl cmsCommonPaymentMapperSupport;
 
     @Override
-    public CmsCommonPaymentMapper getCmsCommonPaymentMapper(CmsCommonPayment cmsCommonPayment) {
-        if (standardPaymentProductsResolver.isRawPaymentProduct(cmsCommonPayment.getPaymentProduct())) {
+    public CmsCommonPaymentMapper getCmsCommonPaymentMapper(String paymentProduct) {
+        if (standardPaymentProductsResolver.isRawPaymentProduct(paymentProduct)) {
             return cmsCommonPaymentMapper;
         }
         else {

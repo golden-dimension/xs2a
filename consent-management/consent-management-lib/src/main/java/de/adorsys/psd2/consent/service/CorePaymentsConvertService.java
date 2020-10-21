@@ -52,7 +52,7 @@ public class CorePaymentsConvertService {
     }
 
     public CmsPayment expandCommonPaymentWithCorePayment(CmsCommonPayment cmsCommonPayment) {
-        CmsCommonPaymentMapper cmsCommonPaymentMapper = paymentMapperResolver.getCmsCommonPaymentMapper(cmsCommonPayment);
+        CmsCommonPaymentMapper cmsCommonPaymentMapper = paymentMapperResolver.getCmsCommonPaymentMapper(cmsCommonPayment.getPaymentProduct());
         switch (cmsCommonPayment.getPaymentType()) {
             case SINGLE:
                 return cmsCommonPaymentMapper.mapToCmsSinglePayment(cmsCommonPayment);

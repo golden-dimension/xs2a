@@ -16,9 +16,8 @@
 
 package de.adorsys.psd2.consent.service;
 
-import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPaymentMapper;
 
 public interface PaymentMapperResolver {
-    CmsCommonPaymentMapper getCmsCommonPaymentMapper(CmsCommonPayment cmsCommonPayment);
+    CmsCommonPaymentMapper getCmsCommonPaymentMapper(String paymentProduct);
 }

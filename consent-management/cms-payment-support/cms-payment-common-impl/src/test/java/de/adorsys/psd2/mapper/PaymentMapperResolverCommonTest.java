@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.mapper;
 
-import de.adorsys.psd2.consent.api.pis.CmsCommonPayment;
 import de.adorsys.psd2.consent.api.pis.CmsCommonPaymentMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,11 +36,8 @@ class PaymentMapperResolverCommonTest {
 
     @Test
     void getCmsCommonPaymentMapper_Common() {
-        // Given
-        CmsCommonPayment cmsCommonPayment = new CmsCommonPayment(PAYMENT_PRODUCT);
-
         // When
-        CmsCommonPaymentMapper actual = resolver.getCmsCommonPaymentMapper(cmsCommonPayment);
+        CmsCommonPaymentMapper actual = resolver.getCmsCommonPaymentMapper(PAYMENT_PRODUCT);
 
         // Then
         assertThat(actual).isEqualTo(cmsCommonPaymentMapper);
