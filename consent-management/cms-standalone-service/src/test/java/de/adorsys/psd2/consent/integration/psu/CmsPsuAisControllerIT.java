@@ -42,6 +42,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -210,7 +212,7 @@ public class CmsPsuAisControllerIT {
     void getConsentsForPsu() throws Exception {
         PsuIdData psuIdData = jsonReader.getObjectFromFile("json/consent/integration/psu/psu-id-data.json", PsuIdData.class);
 
-        given(consentJpaRepository.findAll(any(Specification.class))).willReturn(Collections.singletonList(consentEntity));
+        given(consentJpaRepository.findAll(any(Specification.class), any(PageRequest.class))).willReturn(new PageImpl(Collections.singletonList(consentEntity)));
 
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.getConsentsForPsuUrl());
         requestBuilder.headers(httpHeaders);

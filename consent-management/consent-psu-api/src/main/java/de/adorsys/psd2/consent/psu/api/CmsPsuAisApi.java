@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.DEFAULT_SERVICE_INSTANCE_ID;
+import static de.adorsys.psd2.consent.psu.api.config.CmsPsuApiDefaultValue.*;
 
 @RequestMapping(path = "psu-api/v1/ais/consent")
 @Api(value = "psu-api/v1/ais/consent", tags = CmsPsuApiTagName.PSU_AIS_CONSENTS)
@@ -120,7 +120,9 @@ public interface CmsPsuAisApi {
         @RequestHeader(value = CmsConstant.HEADERS.PSU_ID_TYPE, required = false) String psuIdType,
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID, required = false) String psuCorporateId,
         @RequestHeader(value = CmsConstant.HEADERS.PSU_CORPORATE_ID_TYPE, required = false) String psuCorporateIdType,
-        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, required = false, defaultValue = DEFAULT_ITEMS_PER_PAGE) Integer itemsPerPage);
 
     @PutMapping(path = "/{consent-id}/revoke-consent")
     @ApiOperation(value = "Revokes AIS Consent object by its ID. Consent gets status Revoked by PSU.")

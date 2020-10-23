@@ -61,6 +61,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,6 +79,9 @@ import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CmsPsuAisServiceInternal implements CmsPsuAisService {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
+
     private final ConsentJpaRepository consentJpaRepository;
     private final AisConsentVerifyingRepository aisConsentRepository;
     private final AisConsentMapper consentMapper;
@@ -201,12 +205,14 @@ public class CmsPsuAisServiceInternal implements CmsPsuAisService {
     }
 
     @Override
-    public @NotNull List<CmsAisAccountConsent> getConsentsForPsu(@NotNull PsuIdData psuIdData, @NotNull String instanceId) {
+    public @NotNull List<CmsAisAccountConsent> getConsentsForPsu(@NotNull PsuIdData psuIdData, @NotNull String instanceId, Integer pageIndex, Integer itemsPerPage) {
         if (psuIdData.isEmpty()) {
             return Collections.emptyList();
         }
 
-        return consentJpaRepository.findAll(aisConsentSpecification.byPsuDataInListAndInstanceId(psuIdData, instanceId))
+        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(pageIndex).orElse(DEFAULT_PAGE_INDEX),
+                                                 Optional.ofNullable(itemsPerPage).orElse(DEFAULT_ITEMS_PER_PAGE));
+        return consentJpaRepository.findAll(aisConsentSpecification.byPsuDataInListAndInstanceId(psuIdData, instanceId), pageRequest)
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
                    .map(this::mapToCmsAisAccountConsentWithAuthorisations)

@@ -68,6 +68,8 @@ class CmsPsuAisControllerTest {
     private static final String METHOD_ID = "SMS";
     private static final String AUTHENTICATION_DATA = "123456";
     private static final AuthenticationDataHolder AUTHENTICATION_DATA_HOLDER = new AuthenticationDataHolder(METHOD_ID, AUTHENTICATION_DATA);
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
 
     private static final String INSTANCE_ID_HEADER_NAME = "instance-id";
     private static final String PSU_ID_HEADER_NAME = "psu-id";
@@ -355,7 +357,7 @@ class CmsPsuAisControllerTest {
         // Given
         String aisConsentListString = jsonReader.getStringFromFile("json/ais/response/ais-consent-list.json");
         List<CmsAisAccountConsent> cmsAisAccountConsentList = jsonReader.getListFromString(aisConsentListString, CmsAisAccountConsent.class);
-        when(cmsPsuAisService.getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID))
+        when(cmsPsuAisService.getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(cmsAisAccountConsentList);
 
         // When
@@ -366,13 +368,13 @@ class CmsPsuAisControllerTest {
             .andExpect(content().json(aisConsentListString));
 
         // Then
-        verify(cmsPsuAisService).getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID);
+        verify(cmsPsuAisService).getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
     }
 
     @Test
     void getConsentsForPsu_withFalseServiceResponse_shouldReturnOk() throws Exception {
         // Given
-        when(cmsPsuAisService.getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID))
+        when(cmsPsuAisService.getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Collections.emptyList());
 
         // When
@@ -383,7 +385,7 @@ class CmsPsuAisControllerTest {
             .andExpect(content().json("[]"));
 
         // Then
-        verify(cmsPsuAisService).getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID);
+        verify(cmsPsuAisService).getConsentsForPsu(PSU_ID_DATA, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
     }
 
     @Test

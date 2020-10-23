@@ -1,3 +1,10 @@
 = Release notes v.8.2
 
 == Table of Contents
+
+* Added pagination to get consents by psu
+
+== Added pagination to get consents by psu
+
+From now on, endpoint `GET /psu-api/v1/ais/consent/consents` has two new query parameters: `pageIndex` and `itemsPerPage`.
+They are optional and default values are `pageIndex=0` and `itemsPerPage=20`.
