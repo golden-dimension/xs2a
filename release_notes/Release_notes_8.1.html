@@ -461,6 +461,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Added debtorName field to get payment response</p>
 </li>
+<li>
+<p>Added cms payment mapper resolver</p>
+</li>
+<li>
+<p>Added pageIndex and itemsPerPage to SpiTransactionReportParameters</p>
+</li>
+<li>
+<p>Adjusted OAuth flow</p>
+</li>
+<li>
+<p>Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></p>
+</li>
+<li>
+<p>Changed (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</p>
+</li>
 </ul>
 </div>
 </div>
@@ -510,10 +525,68 @@ Instruction how to do that one can find in <code>Extending payment validation.ad
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_cms_payment_mapper_resolver">Added cms payment mapper resolver</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, cms payment mapper resolves through implementation of <code>PaymentMapperResolver</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_pageindex_and_itemsperpage_to_spitransactionreportparameters">Added pageIndex and itemsPerPage to SpiTransactionReportParameters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, <code>SpiTransactionReportParameters</code> has two new integer fields: <code>pageIndex</code> and <code>itemsPerPage</code>. And
+<code>AccountApi</code> has two new query parameters <code>pageIndex</code> and <code>itemsPerPage</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adjusted_oauth_flow">Adjusted OAuth flow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, OAUTH flow is a part of REDIRECT approach which configured modes (<code>common.scaRedirectFlow</code> property in ASPSP profile):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>REDIRECT - usual redirect mode</p>
+</li>
+<li>
+<p>OAUTH - integrated OAuth mode (TPP asks for token after initiation of request)</p>
+</li>
+<li>
+<p>OAUTH_PRE_STEP - pre-step OAuth mode (TPP asks for token before initiation of request)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There was a link <code>scaOAuth</code> which was replaced by <code>scaRedirect</code> in responses. SCA approach OAUTH was removed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_remove_obsolete_property_xs2a_application_ais_transaction_max_length">Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The configuration property <code>xs2a.application.ais.transaction.max-length</code> was removed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_changed_paymentspiverifyscaauthorisationandexecutepaymentwithpaymentresponse_response_type">Changed PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse responses <code>SpiResponse&lt;SpiPaymentExecutionResponse&gt;</code>.
+This response includes transaction status and spi authorisation status simultaneously.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-22 14:12:51 UTC
+Last updated 2020-10-23 09:25:38 UTC
 </div>
 </div>
 </body>
