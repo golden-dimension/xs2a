@@ -33,6 +33,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -49,6 +51,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,6 +65,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ConsentManagementStandaloneApp.class)
 @ContextConfiguration(classes = WebConfig.class)
 public class CmsPsuPiisControllerIT {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
 
     private static final String CONSENT_ID = "4b112130-6a96-4941-a220-2da8a4af2c65";
     private static final String INSTANCE_ID = "bank-instance-id";
@@ -114,7 +119,8 @@ public class CmsPsuPiisControllerIT {
 
     @Test
     void getConsentsForPsu() throws Exception {
-        given(consentJpaRepository.findAll(any(Specification.class))).willReturn(Collections.singletonList(consentEntity));
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        given(consentJpaRepository.findAll(any(Specification.class), eq(pageRequest))).willReturn(new PageImpl(Collections.singletonList(consentEntity)));
 
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.getPiisConsentsForPsuUrl());
         requestBuilder.headers(httpHeaders);

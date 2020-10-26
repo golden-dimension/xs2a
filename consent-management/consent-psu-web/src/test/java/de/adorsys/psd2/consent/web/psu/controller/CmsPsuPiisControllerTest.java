@@ -45,6 +45,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class CmsPsuPiisControllerTest {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
+
     private static final String CONSENT_ID = "someConsentId";
     private static final String PSU_ID = "psu id";
     private static final String PSU_ID_TYPE = "psu id type";
@@ -111,7 +114,7 @@ class CmsPsuPiisControllerTest {
     void getConsentsForPsu_withValidRequest_shouldReturnList() throws Exception {
         String cmsPiisConsentsJson = jsonReader.getStringFromFile("json/piis/response/cms-piis-consent-list.json");
         List<CmsPiisConsent> cmsPiisConsents = jsonReader.getListFromString(cmsPiisConsentsJson, CmsPiisConsent.class);
-        when(cmsPsuPiisService.getConsentsForPsu(psuIdData, INSTANCE_ID))
+        when(cmsPsuPiisService.getConsentsForPsu(psuIdData, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(cmsPiisConsents);
 
         mockMvc.perform(get("/psu-api/v1/piis/consents")
@@ -124,7 +127,7 @@ class CmsPsuPiisControllerTest {
     @Test
     void getConsentsForPsu_withEmptyListServiceResponse_shouldReturnList() throws Exception {
         String emptyListJson = "[]";
-        when(cmsPsuPiisService.getConsentsForPsu(psuIdData, INSTANCE_ID))
+        when(cmsPsuPiisService.getConsentsForPsu(psuIdData, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/psu-api/v1/piis/consents")

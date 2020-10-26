@@ -40,6 +40,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -70,6 +71,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ConsentManagementStandaloneApp.class)
 @ContextConfiguration(classes = WebConfig.class)
 public class CmsPsuPisControllerIT {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
 
     private static final String AUTHORISATION_ID = "9d7effac-da7f-43c7-9fcc-d66166839c62";
     private static final String REDIRECT_ID = "9d7effac-da7f-43c7-9fcc-d66166839c62";
@@ -249,7 +252,8 @@ public class CmsPsuPisControllerIT {
     @Test
     void psuAuthorisationStatuses() throws Exception {
         given(pisCommonPaymentDataRepository.findOne(any(Specification.class))).willReturn(Optional.of(pisCommonPaymentData));
-        given(authorisationRepository.findAllByParentExternalIdAndTypeIn(PAYMENT_ID, EnumSet.of(AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION)))
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        given(authorisationRepository.findAllByParentExternalIdAndTypeIn(PAYMENT_ID, EnumSet.of(AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION), pageRequest))
             .willReturn(Collections.singletonList(authorisationEntity));
 
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.psuAuthorisationStatusesUrl(PAYMENT_ID));

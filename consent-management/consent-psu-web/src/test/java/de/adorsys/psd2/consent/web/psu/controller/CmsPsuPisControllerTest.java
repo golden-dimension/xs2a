@@ -55,6 +55,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 class CmsPsuPisControllerTest {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
     private static final String PAYMENT_ID = "RLJWGWtrRDwj5fDvVlLK0k";
     private static final String AUTHORISATION_ID = "564b5851-8ec3-4199-9313-5a7be8f95929";
     private static final String PSU_ID = "psu id";
@@ -416,7 +418,7 @@ class CmsPsuPisControllerTest {
     void psuAuthorisationStatuses_withValidRequest_shouldReturnOk() throws Exception {
         String cmsPisPsuDataAuthorisationListJson = jsonReader.getStringFromFile("json/pis/response/cms-pis-psu-data-authorisation-list.json");
         CmsPisPsuDataAuthorisation cmsPisPsuDataAuthorisation = new CmsPisPsuDataAuthorisation(psuIdData, AUTHORISATION_ID, ScaStatus.RECEIVED, AuthorisationType.PIS_CREATION);
-        when(cmsPsuPisService.getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID))
+        when(cmsPsuPisService.getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Optional.of(Collections.singletonList(cmsPisPsuDataAuthorisation)));
 
         mockMvc.perform(get("/psu-api/v1/payment/{payment-id}/authorisation/psus", PAYMENT_ID)
@@ -427,7 +429,7 @@ class CmsPsuPisControllerTest {
 
     @Test
     void psuAuthorisationStatuses_withEmptyServiceResponse_shouldReturnNotFound() throws Exception {
-        when(cmsPsuPisService.getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID))
+        when(cmsPsuPisService.getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Optional.empty());
 
         mockMvc.perform(get("/psu-api/v1/payment/{payment-id}/authorisation/psus", PAYMENT_ID)
@@ -435,7 +437,7 @@ class CmsPsuPisControllerTest {
             .andExpect(status().isNotFound())
             .andExpect(content().bytes(EMPTY_BODY));
 
-        verify(cmsPsuPisService).getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID);
+        verify(cmsPsuPisService).getPsuDataAuthorisations(PAYMENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
     }
 
     private CmsPaymentResponse buildCmsPaymentResponse() {

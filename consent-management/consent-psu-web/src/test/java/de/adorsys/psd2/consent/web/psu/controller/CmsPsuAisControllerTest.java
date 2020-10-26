@@ -650,7 +650,7 @@ class CmsPsuAisControllerTest {
         // Given
         String cmsAisPsuDataAuthorisationListJson = jsonReader.getStringFromFile("json/ais/response/cms-ais-psu-data-authorisation-list.json");
         CmsAisPsuDataAuthorisation cmsAisPsuDataAuthorisation = new CmsAisPsuDataAuthorisation(PSU_ID_DATA, AUTHORISATION_ID, ScaStatus.RECEIVED);
-        when(cmsPsuAisService.getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID))
+        when(cmsPsuAisService.getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Optional.of(Collections.singletonList(cmsAisPsuDataAuthorisation)));
 
         // When
@@ -660,13 +660,13 @@ class CmsPsuAisControllerTest {
             .andExpect(content().json(cmsAisPsuDataAuthorisationListJson));
 
         // Then
-        verify(cmsPsuAisService).getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID);
+        verify(cmsPsuAisService).getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
     }
 
     @Test
     void psuDataAuthorisations_withEmptyServiceResponse_shouldReturnNotFound() throws Exception {
         // Given
-        when(cmsPsuAisService.getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID))
+        when(cmsPsuAisService.getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE))
             .thenReturn(Optional.empty());
 
         // When
@@ -676,7 +676,7 @@ class CmsPsuAisControllerTest {
             .andExpect(content().bytes(EMPTY_BODY));
 
         // Then
-        verify(cmsPsuAisService).getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID);
+        verify(cmsPsuAisService).getPsuDataAuthorisations(CONSENT_ID, INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
     }
 
     private static HttpHeaders buildInstanceIdHeaders() {

@@ -45,6 +45,7 @@ import de.adorsys.psd2.consent.service.mapper.AisConsentMapper;
 import de.adorsys.psd2.consent.service.mapper.CmsPsuAuthorisationMapper;
 import de.adorsys.psd2.consent.service.mapper.PsuDataMapper;
 import de.adorsys.psd2.consent.service.migration.AisConsentLazyMigrationService;
+import de.adorsys.psd2.consent.service.psu.util.PageRequestBuilder;
 import de.adorsys.psd2.consent.service.psu.util.PsuDataUpdater;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.ais.AisConsentData;
@@ -144,6 +145,8 @@ class CmsPsuAisServiceInternalTest {
     private CmsPsuConsentServiceInternal cmsPsuConsentServiceInternal;
     @Mock
     private PsuDataUpdater psuDataUpdater;
+    @Mock
+    private PageRequestBuilder pageRequestBuilder;
 
     private ConsentEntity consentEntity;
     private List<ConsentEntity> consentEntityList;
@@ -507,6 +510,7 @@ class CmsPsuAisServiceInternalTest {
             .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        when(pageRequestBuilder.getPageParams(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE)).thenReturn(pageRequest);
         when(consentJpaRepository.findAll(any(Specification.class), eq(pageRequest)))
             .thenReturn(consentEntityPage);
         List<AuthorisationEntity> authorisations = Collections.singletonList(new AuthorisationEntity());
@@ -530,6 +534,7 @@ class CmsPsuAisServiceInternalTest {
     void getConsentsForPsuFail() {
         // Given
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        when(pageRequestBuilder.getPageParams(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE)).thenReturn(pageRequest);
         when(consentJpaRepository.findAll(null, pageRequest)).thenReturn(Page.empty());
 
         // When
@@ -1027,13 +1032,15 @@ class CmsPsuAisServiceInternalTest {
         //noinspection unchecked
         when(consentJpaRepository.findOne(any(Specification.class)))
             .thenReturn(Optional.of(consent));
-        when(authorisationRepository.findAllByParentExternalIdAndType(EXTERNAL_CONSENT_ID, AuthorisationType.CONSENT))
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        when(pageRequestBuilder.getPageParams(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE)).thenReturn(pageRequest);
+        when(authorisationRepository.findAllByParentExternalIdAndType(EXTERNAL_CONSENT_ID, AuthorisationType.CONSENT, pageRequest))
             .thenReturn(Collections.singletonList(buildFinalisedAuthorisation()));
         when(aisConsentLazyMigrationService.migrateIfNeeded(consentEntity))
             .thenReturn(consentEntity);
 
         // When
-        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID);
+        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
 
         // Then
         assertTrue(actualResult.isPresent());
@@ -1051,7 +1058,7 @@ class CmsPsuAisServiceInternalTest {
             .thenReturn(Optional.empty());
 
         // When
-        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID);
+        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
 
         // Then
         assertFalse(actualResult.isPresent());
@@ -1069,7 +1076,7 @@ class CmsPsuAisServiceInternalTest {
             .thenReturn(consentEntity);
 
         // When
-        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID);
+        Optional<List<CmsAisPsuDataAuthorisation>> actualResult = cmsPsuAisService.getPsuDataAuthorisations(EXTERNAL_CONSENT_ID, DEFAULT_SERVICE_INSTANCE_ID, DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
 
         // Then
         assertTrue(actualResult.isPresent());

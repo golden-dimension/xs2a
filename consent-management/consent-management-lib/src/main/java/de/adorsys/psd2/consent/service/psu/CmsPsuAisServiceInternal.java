@@ -43,6 +43,7 @@ import de.adorsys.psd2.consent.service.mapper.AisConsentMapper;
 import de.adorsys.psd2.consent.service.mapper.CmsPsuAuthorisationMapper;
 import de.adorsys.psd2.consent.service.mapper.PsuDataMapper;
 import de.adorsys.psd2.consent.service.migration.AisConsentLazyMigrationService;
+import de.adorsys.psd2.consent.service.psu.util.PageRequestBuilder;
 import de.adorsys.psd2.consent.service.psu.util.PsuDataUpdater;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.ais.AisConsentData;
@@ -79,9 +80,6 @@ import static de.adorsys.psd2.xs2a.core.consent.ConsentStatus.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CmsPsuAisServiceInternal implements CmsPsuAisService {
-    public static final Integer DEFAULT_PAGE_INDEX = 0;
-    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
-
     private final ConsentJpaRepository consentJpaRepository;
     private final AisConsentVerifyingRepository aisConsentRepository;
     private final AisConsentMapper consentMapper;
@@ -100,6 +98,7 @@ public class CmsPsuAisServiceInternal implements CmsPsuAisService {
     private final PsuDataUpdater psuDataUpdater;
     private final CmsConsentAuthorisationServiceInternal consentAuthorisationService;
     private final CmsPsuConsentServiceInternal cmsPsuConsentServiceInternal;
+    private final PageRequestBuilder pageRequestBuilder;
 
     @Override
     @Transactional
@@ -210,8 +209,7 @@ public class CmsPsuAisServiceInternal implements CmsPsuAisService {
             return Collections.emptyList();
         }
 
-        PageRequest pageRequest = PageRequest.of(Optional.ofNullable(pageIndex).orElse(DEFAULT_PAGE_INDEX),
-                                                 Optional.ofNullable(itemsPerPage).orElse(DEFAULT_ITEMS_PER_PAGE));
+        PageRequest pageRequest = pageRequestBuilder.getPageParams(pageIndex, itemsPerPage);
         return consentJpaRepository.findAll(aisConsentSpecification.byPsuDataInListAndInstanceId(psuIdData, instanceId), pageRequest)
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
@@ -244,15 +242,17 @@ public class CmsPsuAisServiceInternal implements CmsPsuAisService {
     }
 
     @Override
-    public Optional<List<CmsAisPsuDataAuthorisation>> getPsuDataAuthorisations(@NotNull String consentId, @NotNull String instanceId) {
+    public Optional<List<CmsAisPsuDataAuthorisation>> getPsuDataAuthorisations(@NotNull String consentId, @NotNull String instanceId, Integer pageIndex, Integer itemsPerPage) {
         Optional<ConsentEntity> aisConsentOptional = getActualAisConsent(consentId, instanceId);
 
         if (aisConsentOptional.isEmpty()) {
             return Optional.empty();
         }
 
+        PageRequest pageRequest = pageRequestBuilder.getPageParams(pageIndex, itemsPerPage);
         List<AuthorisationEntity> consentAuthorisations = authorisationRepository.findAllByParentExternalIdAndType(aisConsentOptional.get().getExternalId(),
-                                                                                                                   AuthorisationType.CONSENT);
+                                                                                                                   AuthorisationType.CONSENT,
+                                                                                                                   pageRequest);
         return Optional.of(getPsuDataAuthorisations(consentAuthorisations));
     }
 

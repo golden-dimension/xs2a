@@ -38,6 +38,7 @@ import de.adorsys.psd2.consent.service.CorePaymentsConvertService;
 import de.adorsys.psd2.consent.service.mapper.CmsPsuAuthorisationMapper;
 import de.adorsys.psd2.consent.service.mapper.CmsPsuPisMapper;
 import de.adorsys.psd2.consent.service.mapper.PsuDataMapper;
+import de.adorsys.psd2.consent.service.psu.util.PageRequestBuilder;
 import de.adorsys.psd2.consent.service.psu.util.PsuDataUpdater;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.exception.AuthorisationIsExpiredException;
@@ -77,6 +78,7 @@ public class CmsPsuPisServiceInternal implements CmsPsuPisService {
     private final CmsPsuAuthorisationMapper cmsPsuPisAuthorisationMapper;
     private final CorePaymentsConvertService corePaymentsConvertService;
     private final PsuDataUpdater psuDataUpdater;
+    private final PageRequestBuilder pageRequestBuilder;
 
     @Override
     @Transactional
@@ -222,9 +224,11 @@ public class CmsPsuPisServiceInternal implements CmsPsuPisService {
     }
 
     @Override
-    public Optional<List<CmsPisPsuDataAuthorisation>> getPsuDataAuthorisations(@NotNull String paymentId, @NotNull String instanceId) {
+    public Optional<List<CmsPisPsuDataAuthorisation>> getPsuDataAuthorisations(@NotNull String paymentId, @NotNull String instanceId, Integer pageIndex, Integer itemsPerPage) {
         return commonPaymentDataService.getPisCommonPaymentData(paymentId, instanceId)
-                   .map(p -> authorisationRepository.findAllByParentExternalIdAndTypeIn(paymentId, EnumSet.of(AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION)))
+                   .map(p -> authorisationRepository.findAllByParentExternalIdAndTypeIn(paymentId, EnumSet.of(AuthorisationType.PIS_CREATION,
+                                                                                                              AuthorisationType.PIS_CANCELLATION),
+                                                                                        pageRequestBuilder.getPageParams(pageIndex, itemsPerPage)))
                    .map(this::getPsuDataAuthorisations);
     }
 

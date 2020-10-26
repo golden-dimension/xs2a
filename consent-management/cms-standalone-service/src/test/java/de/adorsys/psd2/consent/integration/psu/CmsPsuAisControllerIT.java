@@ -74,6 +74,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ConsentManagementStandaloneApp.class)
 @ContextConfiguration(classes = WebConfig.class)
 public class CmsPsuAisControllerIT {
+    public static final Integer DEFAULT_PAGE_INDEX = 0;
+    public static final Integer DEFAULT_ITEMS_PER_PAGE = 20;
 
     private static final String INSTANCE_ID = "bank-instance-id";
     private static final String CONSENT_ID = "4b112130-6a96-4941-a220-2da8a4af2c65";
@@ -337,7 +339,8 @@ public class CmsPsuAisControllerIT {
     @Test
     void psuDataAuthorisations() throws Exception {
         given(consentJpaRepository.findOne(any(Specification.class))).willReturn(Optional.of(consentEntity));
-        given(authorisationRepository.findAllByParentExternalIdAndType(consentEntity.getExternalId(), AuthorisationType.CONSENT))
+        PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
+        given(authorisationRepository.findAllByParentExternalIdAndType(consentEntity.getExternalId(), AuthorisationType.CONSENT, pageRequest))
             .willReturn(Collections.singletonList(authorisationEntity));
 
         MockHttpServletRequestBuilder requestBuilder = get(UrlBuilder.psuDataAuthorisationsUrl(CONSENT_ID));

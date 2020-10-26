@@ -167,8 +167,8 @@ public class CmsPsuAisController implements CmsPsuAisApi {
     }
 
     @Override
-    public ResponseEntity<List<CmsAisPsuDataAuthorisation>> psuDataAuthorisations(String consentId, String instanceId) {
-        return cmsPsuAisService.getPsuDataAuthorisations(consentId, instanceId)
+    public ResponseEntity<List<CmsAisPsuDataAuthorisation>> psuDataAuthorisations(String consentId, String instanceId, Integer pageIndex, Integer itemsPerPage) {
+        return cmsPsuAisService.getPsuDataAuthorisations(consentId, instanceId, pageIndex, itemsPerPage)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

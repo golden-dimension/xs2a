@@ -220,5 +220,7 @@ public interface CmsPsuAisApi {
             example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
             required = true)
         @PathVariable(CmsConstant.PATH.CONSENT_ID) String consentId,
-        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+        @RequestHeader(value = CmsConstant.HEADERS.INSTANCE_ID, required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, required = false, defaultValue = DEFAULT_ITEMS_PER_PAGE) Integer itemsPerPage);
 }
