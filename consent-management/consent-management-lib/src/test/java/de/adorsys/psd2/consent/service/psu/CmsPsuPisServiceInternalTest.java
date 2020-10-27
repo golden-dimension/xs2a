@@ -543,6 +543,22 @@ class CmsPsuPisServiceInternalTest {
         // Given
         when(commonPaymentDataService.getPisCommonPaymentData(PAYMENT_ID, DEFAULT_SERVICE_INSTANCE_ID))
             .thenReturn(Optional.of(buildPisCommonPaymentData()));
+        when(authorisationRepository.findAllByParentExternalIdAndTypeIn(PAYMENT_ID, EnumSet.of(AuthorisationType.PIS_CREATION, AuthorisationType.PIS_CANCELLATION)))
+            .thenReturn(Collections.singletonList(buildPisAuthorisation()));
+
+        // When
+        Optional<List<CmsPisPsuDataAuthorisation>> actualResult = cmsPsuPisServiceInternal.getPsuDataAuthorisations(PAYMENT_ID, DEFAULT_SERVICE_INSTANCE_ID, null, null);
+
+        // Then
+        assertTrue(actualResult.isPresent());
+        assertEquals(1, actualResult.get().size());
+    }
+
+    @Test
+    void getPsuDataAuthorisations_SuccessPagination() {
+        // Given
+        when(commonPaymentDataService.getPisCommonPaymentData(PAYMENT_ID, DEFAULT_SERVICE_INSTANCE_ID))
+            .thenReturn(Optional.of(buildPisCommonPaymentData()));
 
         PageRequest pageRequest = PageRequest.of(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE);
         when(pageRequestBuilder.getPageParams(DEFAULT_PAGE_INDEX, DEFAULT_ITEMS_PER_PAGE)).thenReturn(pageRequest);
