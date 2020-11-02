@@ -444,13 +444,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-
+<div class="ulist">
+<ul>
+<li>
+<p>Added pagination to CMS</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_pagination_to_cms">Added pagination to CMS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, following CMS endpoints  has two new query parameters: <code>pageIndex</code> and <code>itemsPerPage</code>.
+They are optional and default values are <code>pageIndex=0</code> and <code>itemsPerPage=50</code>. If none of the parameters passed,
+retrieving performs without pagination.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET /psu-api/v1/ais/consent/consents</code></p>
+</li>
+<li>
+<p><code>GET /psu-api/v1/ais/consent/{consent-id}/authorisation/psus</code></p>
+</li>
+<li>
+<p><code>GET /psu-api/v1/piis/consents</code></p>
+</li>
+<li>
+<p><code>GET /psu-api/v1/payment/{payment-id}/authorisation/psus</code></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-02 15:17:50 UTC
+Last updated 2020-11-02 18:20:34 UTC
 </div>
 </div>
 </body>
