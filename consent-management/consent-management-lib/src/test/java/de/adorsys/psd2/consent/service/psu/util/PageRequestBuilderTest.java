@@ -21,6 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,6 +50,14 @@ class PageRequestBuilderTest {
     void getPageParams_defaults() {
         // Given
         PageRequest expected = PageRequest.of(0, 50);
+
+        ReflectionTestUtils.setField(pageRequestBuilder,
+                                     "defaultPageIndex",
+                                     0);
+
+        ReflectionTestUtils.setField(pageRequestBuilder,
+                                     "defaultItemsPerPage",
+                                     50);
 
         // When
         PageRequest actual = pageRequestBuilder.getPageParams(null, null);

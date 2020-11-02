@@ -16,18 +16,21 @@
 
 package de.adorsys.psd2.consent.service.psu.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static de.adorsys.psd2.consent.service.psu.constant.PaginationConstants.DEFAULT_ITEMS_PER_PAGE;
-import static de.adorsys.psd2.consent.service.psu.constant.PaginationConstants.DEFAULT_PAGE_INDEX;
-
 @Service
 public class PageRequestBuilder {
+    @Value("${cms.defaultPageIndex}")
+    private int defaultPageIndex;
+    @Value("${cms.defaultItemsPerPage}")
+    private int defaultItemsPerPage;
+
     public PageRequest getPageParams(Integer pageIndex, Integer itemsPerPage) {
-        return PageRequest.of(Optional.ofNullable(pageIndex).orElse(DEFAULT_PAGE_INDEX),
-                              Optional.ofNullable(itemsPerPage).orElse(DEFAULT_ITEMS_PER_PAGE));
+        return PageRequest.of(Optional.ofNullable(pageIndex).orElse(defaultPageIndex),
+                              Optional.ofNullable(itemsPerPage).orElse(defaultItemsPerPage));
     }
 }
