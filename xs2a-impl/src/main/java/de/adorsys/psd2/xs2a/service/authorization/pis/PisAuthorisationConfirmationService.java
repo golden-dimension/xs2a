@@ -29,6 +29,7 @@ import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.mapper.ServiceType;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
+import de.adorsys.psd2.xs2a.core.profile.ScaRedirectFlow;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
@@ -109,9 +110,41 @@ public class PisAuthorisationConfirmationService {
 
     private Xs2aUpdatePisCommonPaymentPsuDataResponse processAuthorisationConfirmationInternal(Xs2aUpdatePisCommonPaymentPsuDataRequest request,
                                                                                                Authorisation authorisationResponse) {
+        if (ScaRedirectFlow.OAUTH.equals(aspspProfileServiceWrapper.getScaRedirectFlow())) {
+            return performOauthIntegratedConfirmationCodeCase(request, authorisationResponse);
+        }
         return aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a()
                    ? checkAuthorisationConfirmationXs2a(request, authorisationResponse)
                    : checkAuthorisationConfirmationOnSpi(request, authorisationResponse);
+    }
+
+    private Xs2aUpdatePisCommonPaymentPsuDataResponse performOauthIntegratedConfirmationCodeCase(Xs2aUpdatePisCommonPaymentPsuDataRequest request, Authorisation authorisationResponse) {
+        CmsResponse<PisCommonPaymentResponse> pisCommonPaymentResponseCmsResponse = pisCommonPaymentServiceEncrypted.getCommonPaymentById(request.getPaymentId());
+        SpiPayment payment = xs2aToSpiPaymentMapper.mapToSpiPayment(pisCommonPaymentResponseCmsResponse.getPayload());
+
+        SpiContextData contextData = spiContextDataProvider.provideWithPsuIdData(request.getPsuData());
+        SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(request.getPaymentId());
+
+        AuthorisationType authorisationType = authorisationResponse.getAuthorisationType();
+        boolean isCancellation = AuthorisationType.PIS_CANCELLATION == authorisationType;
+        SpiResponse<SpiPaymentConfirmationCodeValidationResponse> spiResponse = pisCheckAuthorisationConfirmationService.notifyConfirmationCodeValidation(contextData, true, payment, isCancellation, aspspConsentDataProvider);
+
+        if (spiResponse.hasError()) {
+            return buildConfirmationCodeSpiErrorResponse(spiResponse, request.getPaymentId(), request.getAuthorisationId(), request.getPsuData());
+        }
+
+        SpiPaymentConfirmationCodeValidationResponse validationResponse = spiResponse.getPayload();
+
+        authorisationServiceEncrypted.updateAuthorisationStatus(request.getAuthorisationId(), validationResponse.getScaStatus());
+        xs2aUpdatePaymentAfterSpiService.updatePaymentStatus(request.getPaymentId(), validationResponse.getTransactionStatus());
+
+        log.info("Authorisation-ID: [{}], Payment-ID: [{}]. Sca redirect flow is OAUTH INTEGRATED: payment status is: [{}], sca status is: [{}] ",
+                 request.getAuthorisationId(), request.getPaymentId(), validationResponse.getTransactionStatus(), validationResponse.getScaStatus());
+
+        return new Xs2aUpdatePisCommonPaymentPsuDataResponse(validationResponse.getScaStatus(),
+                                                             request.getPaymentId(),
+                                                             request.getAuthorisationId(),
+                                                             request.getPsuData());
     }
 
     private Xs2aUpdatePisCommonPaymentPsuDataResponse checkAuthorisationConfirmationXs2a(Xs2aUpdatePisCommonPaymentPsuDataRequest request, Authorisation authorisation) {

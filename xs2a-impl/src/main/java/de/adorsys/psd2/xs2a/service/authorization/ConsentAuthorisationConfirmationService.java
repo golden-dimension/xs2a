@@ -24,6 +24,7 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.mapper.ServiceType;
+import de.adorsys.psd2.xs2a.core.profile.ScaRedirectFlow;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
@@ -97,9 +98,43 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
     }
 
     private UpdateConsentPsuDataResponse processAuthorisationConfirmationInternal(UpdateConsentPsuDataReq request, String confirmationCodeFromDb) {
+        if (ScaRedirectFlow.OAUTH.equals(aspspProfileServiceWrapper.getScaRedirectFlow())) {
+            return performOauthIntegratedConfirmationCodeCase(request);
+        }
+
         return aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a()
                    ? checkAuthorisationConfirmationXs2a(request, confirmationCodeFromDb)
                    : checkAuthorisationConfirmationOnSpi(request);
+    }
+
+    private UpdateConsentPsuDataResponse performOauthIntegratedConfirmationCodeCase(UpdateConsentPsuDataReq request) {
+        String consentId = request.getConsentId();
+        String authorisationId = request.getAuthorisationId();
+        Optional<T> consentOptional = getConsentById(consentId);
+        PsuIdData psuData = request.getPsuData();
+        if (consentOptional.isEmpty()) {
+            return buildConsentNotFoundErrorResponse(consentId, authorisationId, psuData);
+        }
+
+        SpiResponse<SpiConsentConfirmationCodeValidationResponse> spiResponse =
+            notifyConfirmationCodeValidation(spiContextDataProvider.provideWithPsuIdData(psuData),
+                                             true, consentOptional.get(),
+                                             aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId));
+
+        if (spiResponse.hasError()) {
+            return buildConfirmationCodeSpiErrorResponse(spiResponse, consentId, authorisationId, psuData);
+        }
+
+        SpiConsentConfirmationCodeValidationResponse confirmationCodeValidationResponse = spiResponse.getPayload();
+
+        authorisationService.updateAuthorisationStatus(request.getAuthorisationId(), confirmationCodeValidationResponse.getScaStatus());
+        updateConsentStatus(request.getConsentId(), confirmationCodeValidationResponse.getConsentStatus());
+        log.info("Authorisation-ID: [{}], Consent-ID: [{}]. Sca redirect flow is OAUTH INTEGRATED: consent status is: [{}], sca status is [{}]",
+                 request.getAuthorizationId(), request.getConsentId(), confirmationCodeValidationResponse.getConsentStatus(), confirmationCodeValidationResponse.getScaStatus());
+        return new UpdateConsentPsuDataResponse(confirmationCodeValidationResponse.getScaStatus(),
+                                                consentId,
+                                                authorisationId,
+                                                psuData);
     }
 
     private UpdateConsentPsuDataResponse checkAuthorisationConfirmationXs2a(UpdateConsentPsuDataReq request, String confirmationCodeFromDb) {

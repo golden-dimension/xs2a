@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.xs2a.service.validator;
 
+import de.adorsys.psd2.xs2a.core.profile.ScaRedirectFlow;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,10 @@ public class ConsentEndpointAccessCheckerService extends EndpointAccessChecker {
      * @return <code>true</code> if accessible. <code>false</code> otherwise.
      */
     public boolean isEndpointAccessible(String authorisationId, boolean confirmationCodeReceived) {
+        if (ScaRedirectFlow.OAUTH.equals(aspspProfileService.getScaRedirectFlow())
+                && aspspProfileService.isAuthorisationConfirmationRequestMandated()) {
+            return true;
+        }
         boolean confirmationCodeCase = confirmationCodeReceived
                                            && aspspProfileService.isAuthorisationConfirmationRequestMandated();
 

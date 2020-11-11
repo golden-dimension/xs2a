@@ -22,7 +22,9 @@ import de.adorsys.psd2.consent.api.CmsResponse;
 import de.adorsys.psd2.consent.api.service.AuthorisationServiceEncrypted;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
+import de.adorsys.psd2.xs2a.core.profile.ScaRedirectFlow;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
+import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.PisEndpointAccessCheckerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,27 +34,30 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PisEndpointAccessCheckerServiceTest {
     private static final boolean CONFIRMATION_CODE_RECEIVED_FALSE = false;
+    private static final String AUTHORISATION_ID = "authorisationId";
 
     @InjectMocks
     private PisEndpointAccessCheckerService pisEndpointAccessCheckerService;
     @Mock
     private AuthorisationServiceEncrypted authorisationServiceEncrypted;
+    @Mock
+    private AspspProfileServiceWrapper aspspProfileService;
 
     @Test
     void isEndpointAccessible_InitiationAuthorisation_ShouldAccessible_EmptyResponse_True() {
         //When
-        when(authorisationServiceEncrypted.getAuthorisationById(anyString()))
+        when(aspspProfileService.getScaRedirectFlow()).thenReturn(ScaRedirectFlow.REDIRECT);
+        when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))
             .thenReturn(CmsResponse.<Authorisation>builder()
                             .error(CmsError.TECHNICAL_ERROR)
                             .build());
 
-        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(anyString(), CONFIRMATION_CODE_RECEIVED_FALSE);
+        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(AUTHORISATION_ID, CONFIRMATION_CODE_RECEIVED_FALSE);
 
         //Then
         assertTrue(endpointAccessible);
@@ -61,22 +66,36 @@ class PisEndpointAccessCheckerServiceTest {
     @Test
     void isEndpointAccessible_InitiationAuthorisation_ShouldAccessible__Redirect_False() {
         //When
-        when(authorisationServiceEncrypted.getAuthorisationById(anyString()))
+        when(aspspProfileService.getScaRedirectFlow()).thenReturn(ScaRedirectFlow.REDIRECT);
+        when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))
             .thenReturn(buildGetPisAuthorisationResponse(ScaApproach.REDIRECT));
 
-        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(anyString(), CONFIRMATION_CODE_RECEIVED_FALSE);
+        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(AUTHORISATION_ID, CONFIRMATION_CODE_RECEIVED_FALSE);
 
         //Then
         assertFalse(endpointAccessible);
     }
 
     @Test
+    void isEndpointAccessible_InitiationAuthorisation_ShouldAccessible__Redirect_Oauth_True() {
+        //When
+        when(aspspProfileService.getScaRedirectFlow()).thenReturn(ScaRedirectFlow.OAUTH);
+        when(aspspProfileService.isAuthorisationConfirmationRequestMandated()).thenReturn(true);
+
+        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(AUTHORISATION_ID, CONFIRMATION_CODE_RECEIVED_FALSE);
+
+        //Then
+        assertTrue(endpointAccessible);
+    }
+
+    @Test
     void isEndpointAccessible_InitiationAuthorisation_ShouldAccessible_Decoupled_True() {
         //When
-        when(authorisationServiceEncrypted.getAuthorisationById(anyString()))
+        when(aspspProfileService.getScaRedirectFlow()).thenReturn(ScaRedirectFlow.REDIRECT);
+        when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))
             .thenReturn(buildGetPisAuthorisationResponse(ScaApproach.DECOUPLED));
 
-        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(anyString(), CONFIRMATION_CODE_RECEIVED_FALSE);
+        boolean endpointAccessible = pisEndpointAccessCheckerService.isEndpointAccessible(AUTHORISATION_ID, CONFIRMATION_CODE_RECEIVED_FALSE);
 
         //Then
         assertTrue(endpointAccessible);
