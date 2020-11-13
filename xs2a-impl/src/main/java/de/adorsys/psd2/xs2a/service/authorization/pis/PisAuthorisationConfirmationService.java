@@ -115,7 +115,10 @@ public class PisAuthorisationConfirmationService {
 
     private Xs2aUpdatePisCommonPaymentPsuDataResponse checkAuthorisationConfirmationXs2a(Xs2aUpdatePisCommonPaymentPsuDataRequest request, Authorisation authorisation) {
         SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(request.getPaymentId());
-        boolean codeCorrect = pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(request.getConfirmationCode(), authorisation.getScaAuthenticationData(), aspspConsentDataProvider);
+        boolean codeCorrect = pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(request.getAuthorisationId(),
+                                                                                                       request.getConfirmationCode(),
+                                                                                                       authorisation.getScaAuthenticationData(),
+                                                                                                       aspspConsentDataProvider);
 
         CmsResponse<PisCommonPaymentResponse> pisCommonPaymentResponseCmsResponse = pisCommonPaymentServiceEncrypted.getCommonPaymentById(request.getPaymentId());
         SpiPayment payment = xs2aToSpiPaymentMapper.mapToSpiPayment(pisCommonPaymentResponseCmsResponse.getPayload());

@@ -166,7 +166,7 @@ class PisAuthorisationConfirmationServiceTest {
         Authorisation authorisationResponse = buildGetPisAuthorisationResponse();
 
         when(aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a()).thenReturn(true);
-        when(pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
+        when(pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
         when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID)).thenReturn(CmsResponse.<Authorisation>builder()
                                                                                                   .payload(authorisationResponse)
                                                                                                   .build());
@@ -198,7 +198,7 @@ class PisAuthorisationConfirmationServiceTest {
         assertThat(actualResult).isEqualTo(expectedResult);
 
         verify(xs2aUpdatePaymentAfterSpiService, times(1)).updatePaymentStatus(PAYMENT_ID, response.getTransactionStatus());
-        verify(pisCheckAuthorisationConfirmationService, times(1)).checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
+        verify(pisCheckAuthorisationConfirmationService, times(1)).checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
     }
 
     @Test
@@ -312,7 +312,7 @@ class PisAuthorisationConfirmationServiceTest {
         Authorisation authorisationResponse = buildGetPisAuthorisationResponse();
 
         when(aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a()).thenReturn(true);
-        when(pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
+        when(pisCheckAuthorisationConfirmationService.checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
         when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID)).thenReturn(CmsResponse.<Authorisation>builder()
                                                                                                   .payload(authorisationResponse)
                                                                                                   .build());
@@ -339,7 +339,7 @@ class PisAuthorisationConfirmationServiceTest {
         assertThat(actualResult.hasError()).isTrue();
         assertThat(actualResult.getErrorHolder()).isEqualToComparingFieldByField(expectedResult.getErrorHolder());
         verify(xs2aUpdatePaymentAfterSpiService, never()).updatePaymentStatus(any(), any());
-        verify(pisCheckAuthorisationConfirmationService, times(1)).checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
+        verify(pisCheckAuthorisationConfirmationService, times(1)).checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
     }
 
     @Test

@@ -170,8 +170,8 @@ class PisCheckAuthorisationConfirmationServiceSupportImplTest {
 
     @Test
     void checkConfirmationCodeInternally() {
-        pisCheckAuthorisationConfirmationServiceSupport.checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, mockSpiAspspConsentDataProvider);
-        verify(commonPaymentSpi, times(1)).checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, mockSpiAspspConsentDataProvider);
+        pisCheckAuthorisationConfirmationServiceSupport.checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, mockSpiAspspConsentDataProvider);
+        verify(commonPaymentSpi, times(1)).checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, mockSpiAspspConsentDataProvider);
     }
 
     @NotNull

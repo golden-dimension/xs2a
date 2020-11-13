@@ -111,7 +111,7 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
         }
 
         SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId);
-        boolean codeCorrect = checkConfirmationCodeInternally(request.getConfirmationCode(), confirmationCodeFromDb, aspspConsentDataProvider);
+        boolean codeCorrect = checkConfirmationCodeInternally(authorisationId, request.getConfirmationCode(), confirmationCodeFromDb, aspspConsentDataProvider);
 
         SpiResponse<SpiConsentConfirmationCodeValidationResponse> spiResponse =
             notifyConfirmationCodeValidation(spiContextDataProvider.provideWithPsuIdData(psuData),
@@ -208,7 +208,7 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
 
     protected abstract SpiResponse<SpiConsentConfirmationCodeValidationResponse> checkConfirmationCode(SpiContextData spiContextData, SpiCheckConfirmationCodeRequest spiCheckConfirmationCodeRequest, SpiAspspConsentDataProvider spiAspspConsentDataProvider);
 
-    protected abstract boolean checkConfirmationCodeInternally(String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider);
+    protected abstract boolean checkConfirmationCodeInternally(String authorisationId, String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider);
 
     protected abstract ServiceType getServiceType();
 

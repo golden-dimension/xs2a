@@ -88,7 +88,7 @@ public class PisCheckAuthorisationConfirmationServiceSupportImpl implements PisC
     }
 
     @Override
-    public boolean checkConfirmationCodeInternally(String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider) {
-        return commonPaymentSpi.checkConfirmationCodeInternally(confirmationCode, scaAuthenticationData, aspspConsentDataProvider);
+    public boolean checkConfirmationCodeInternally(String authorisationId, String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider) {
+        return commonPaymentSpi.checkConfirmationCodeInternally(authorisationId, confirmationCode, scaAuthenticationData, aspspConsentDataProvider);
     }
 }

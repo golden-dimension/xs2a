@@ -86,8 +86,8 @@ public class AisAuthorisationConfirmationService extends ConsentAuthorisationCon
     }
 
     @Override
-    protected boolean checkConfirmationCodeInternally(String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider) {
-        return aisConsentSpi.checkConfirmationCodeInternally(confirmationCode, scaAuthenticationData, aspspConsentDataProvider);
+    protected boolean checkConfirmationCodeInternally(String authorisationId, String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider) {
+        return aisConsentSpi.checkConfirmationCodeInternally(authorisationId, confirmationCode, scaAuthenticationData, aspspConsentDataProvider);
     }
 
     @Override

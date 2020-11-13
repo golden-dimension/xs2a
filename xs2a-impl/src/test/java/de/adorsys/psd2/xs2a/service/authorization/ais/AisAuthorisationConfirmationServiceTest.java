@@ -142,7 +142,7 @@ class AisAuthorisationConfirmationServiceTest {
         aisConsentAuthorizationResponse.setScaAuthenticationData(SCA_AUTHENTICATION_DATA);
 
         when(aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a()).thenReturn(true);
-        when(aisConsentSpi.checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
+        when(aisConsentSpi.checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider)).thenReturn(true);
         when(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))
             .thenReturn(CmsResponse.<Authorisation>builder()
                             .payload(aisConsentAuthorizationResponse)
@@ -159,7 +159,7 @@ class AisAuthorisationConfirmationServiceTest {
         assertThat(actualResult).isEqualToComparingFieldByField(expectedResult);
         verify(authorisationService, times(1)).updateAuthorisationStatus(AUTHORISATION_ID, spiConsentConfirmationCodeValidationResponse.getScaStatus());
         verify(aisConsentService, times(1)).updateConsentStatus(CONSENT_ID, spiConsentConfirmationCodeValidationResponse.getConsentStatus());
-        verify(aisConsentSpi, times(1)).checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
+        verify(aisConsentSpi, times(1)).checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
     }
 
     @Test
@@ -377,8 +377,8 @@ class AisAuthorisationConfirmationServiceTest {
 
     @Test
     void checkConfirmationCodeInternally() {
-        aisAuthorisationConfirmationService.checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
-        verify(aisConsentSpi, times(1)).checkConfirmationCodeInternally(CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
+        aisAuthorisationConfirmationService.checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
+        verify(aisConsentSpi, times(1)).checkConfirmationCodeInternally(AUTHORISATION_ID, CONFIRMATION_CODE, SCA_AUTHENTICATION_DATA, aspspConsentDataProvider);
     }
 
     private UpdateConsentPsuDataReq buildUpdateConsentPsuDataReq() {
