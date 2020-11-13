@@ -105,13 +105,13 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
         String authorisationId = request.getAuthorisationId();
         PsuIdData psuData = request.getPsuData();
 
-        SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId);
-        boolean codeCorrect = checkConfirmationCodeInternally(request.getConfirmationCode(), confirmationCodeFromDb, aspspConsentDataProvider);
-
         Optional<T> consentOptional = getConsentById(consentId);
         if (consentOptional.isEmpty()) {
             return buildConsentNotFoundErrorResponse(consentId, authorisationId, psuData);
         }
+
+        SpiAspspConsentDataProvider aspspConsentDataProvider = aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(consentId);
+        boolean codeCorrect = checkConfirmationCodeInternally(request.getConfirmationCode(), confirmationCodeFromDb, aspspConsentDataProvider);
 
         SpiResponse<SpiConsentConfirmationCodeValidationResponse> spiResponse =
             notifyConfirmationCodeValidation(spiContextDataProvider.provideWithPsuIdData(psuData),
