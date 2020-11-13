@@ -34,4 +34,6 @@ public interface PisCheckAuthorisationConfirmationService {
                                                                                                SpiPayment payment,
                                                                                                boolean isCancellation,
                                                                                                SpiAspspConsentDataProvider aspspConsentDataProvider);
+
+    boolean checkConfirmationCodeInternally(String confirmationCode, String scaAuthenticationData, SpiAspspConsentDataProvider aspspConsentDataProvider);
 }
