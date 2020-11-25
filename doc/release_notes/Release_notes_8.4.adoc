@@ -17,4 +17,4 @@ will be handled with bad request response.
 
 == Fixed XS2A security Hot Spot
 
-From now on, security Hot Spot in certificate generator module is fixed.
+Use SecureRandom generator instead of insecure Random
