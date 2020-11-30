@@ -80,7 +80,7 @@ public class AuthorisationController implements AuthorisationApi {
     @Override
     public ResponseEntity<Void> updateAuthorisationStatus(String authorisationId, String scaStatus) {
         try {
-            CmsResponse<Boolean> response = authorisationServiceEncrypted.updateAuthorisationStatus(authorisationId, ScaStatus.fromValue(scaStatus));
+            CmsResponse<Boolean> response = authorisationServiceEncrypted.updateAuthorisationStatus(authorisationId, ScaStatus.valueOf(scaStatus));
             if (response.isSuccessful() && BooleanUtils.isTrue(response.getPayload())) {
                 return new ResponseEntity<>(HttpStatus.OK);
             }
