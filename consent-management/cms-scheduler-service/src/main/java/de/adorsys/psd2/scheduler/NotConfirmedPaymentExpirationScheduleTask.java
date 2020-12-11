@@ -42,6 +42,7 @@ public class NotConfirmedPaymentExpirationScheduleTask extends PageableScheduler
     @Scheduled(cron = "${xs2a.cms.not-confirmed-payment-expiration.cron.expression}")
     @Transactional
     public void obsoleteNotConfirmedPaymentIfExpired() {
+        long start = System.currentTimeMillis();
         log.info("Not confirmed payment expiration schedule task is run!");
 
         Long totalItems = paymentDataRepository.countByTransactionStatusIn(EnumSet.of(TransactionStatus.RCVD, TransactionStatus.PATC));

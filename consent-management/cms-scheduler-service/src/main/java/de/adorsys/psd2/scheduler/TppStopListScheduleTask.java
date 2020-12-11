@@ -32,6 +32,7 @@ public class TppStopListScheduleTask {
     @Scheduled(cron = "${xs2a.cms.stoplist.cron.expression}")
     @Transactional
     public void unblockTppIfBlockingExpired() {
+        long start = System.currentTimeMillis();
         log.info("Tpp Stop List schedule task is run!");
         tppStopListRepository.unblockExpiredBlockedTpp();
         log.info("Tpp Stop List schedule task completed in {}ms!", (System.currentTimeMillis() - start));

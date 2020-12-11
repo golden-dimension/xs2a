@@ -38,6 +38,7 @@ public class ConsentScheduleTask {
     @Scheduled(cron = "${xs2a.cms.consent.cron.expression}")
     @Transactional
     public void checkConsentStatus() {
+        long start = System.currentTimeMillis();
         log.info("Consent schedule task is run!");
         consentJpaRepository.expireByConsentStatusIn(EnumSet.of(RECEIVED, VALID));
         log.info("Consent schedule task completed in {}ms!", (System.currentTimeMillis() - start));

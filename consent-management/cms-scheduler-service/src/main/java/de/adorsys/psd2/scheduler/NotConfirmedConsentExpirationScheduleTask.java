@@ -42,6 +42,7 @@ public class NotConfirmedConsentExpirationScheduleTask extends PageableScheduler
     @Scheduled(cron = "${xs2a.cms.not-confirmed-consent-expiration.cron.expression}")
     @Transactional
     public void obsoleteNotConfirmedConsentIfExpired() {
+        long start = System.currentTimeMillis();
         log.info("Not confirmed consent expiration schedule task is run!");
 
         Long totalItems = consentJpaRepository.countByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED));
