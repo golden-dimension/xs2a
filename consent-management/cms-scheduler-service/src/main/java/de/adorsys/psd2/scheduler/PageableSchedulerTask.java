@@ -30,14 +30,14 @@ public abstract class PageableSchedulerTask {
      *
      * @param totalItems total items
      */
-    protected void run(long totalItems) {
+    protected void execute(long totalItems) {
         int totalPages = (int) ((totalItems + pageSize - 1) / pageSize);
-        for (int i = 0; i < totalPages; i++) {
-            Pageable pageable = PageRequest.of(i, pageSize);
+        for (int page = 0; page < totalPages; page++) {
+            Pageable pageable = PageRequest.of(page, pageSize);
 
-            runPageable(pageable);
+            executePageable(pageable);
         }
     }
 
-    protected abstract void runPageable(Pageable pageable);
+    protected abstract void executePageable(Pageable pageable);
 }

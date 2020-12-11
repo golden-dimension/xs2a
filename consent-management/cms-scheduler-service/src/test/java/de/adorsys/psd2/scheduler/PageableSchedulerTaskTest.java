@@ -34,7 +34,7 @@ class PageableSchedulerTaskTest {
     void setUp() {
         pageableSchedulerTask = new PageableSchedulerTask() {
             @Override
-            protected void runPageable(Pageable pageable) {
+            protected void executePageable(Pageable pageable) {
                 COUNT++;
             }
         };
@@ -50,7 +50,7 @@ class PageableSchedulerTaskTest {
     }
 
     private void validateRunPageableMethodCountExecution(int expectedCount, int totalItems) {
-        pageableSchedulerTask.run(totalItems);
+        pageableSchedulerTask.execute(totalItems);
         assertEquals(expectedCount, COUNT);
         resetCount();
     }

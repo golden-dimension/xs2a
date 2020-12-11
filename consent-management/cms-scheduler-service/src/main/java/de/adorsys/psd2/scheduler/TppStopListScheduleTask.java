@@ -35,6 +35,6 @@ public class TppStopListScheduleTask {
         long start = System.currentTimeMillis();
         log.info("Tpp Stop List schedule task is run!");
         tppStopListRepository.unblockExpiredBlockedTpp();
-        log.info("Tpp Stop List schedule task completed in {}ms!", (System.currentTimeMillis() - start));
+        log.info("Tpp Stop List schedule task completed in {}ms!", System.currentTimeMillis() - start);
     }
 }

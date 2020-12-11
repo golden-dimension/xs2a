@@ -41,6 +41,6 @@ public class ConsentScheduleTask {
         long start = System.currentTimeMillis();
         log.info("Consent schedule task is run!");
         consentJpaRepository.expireByConsentStatusIn(EnumSet.of(RECEIVED, VALID));
-        log.info("Consent schedule task completed in {}ms!", (System.currentTimeMillis() - start));
+        log.info("Consent schedule task completed in {}ms!", System.currentTimeMillis() - start);
     }
 }

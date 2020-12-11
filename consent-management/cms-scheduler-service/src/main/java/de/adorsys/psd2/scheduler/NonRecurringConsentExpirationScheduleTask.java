@@ -40,6 +40,6 @@ public class NonRecurringConsentExpirationScheduleTask {
         long start = System.currentTimeMillis();
         log.info("Non-recurring consent expiration task has started!");
         consentJpaRepository.expireUsedNonRecurringConsents(EnumSet.of(RECEIVED, VALID));
-        log.info("Non-recurring consent expiration task completed in {}ms!", (System.currentTimeMillis() - start));
+        log.info("Non-recurring consent expiration task completed in {}ms!", System.currentTimeMillis() - start);
     }
 }

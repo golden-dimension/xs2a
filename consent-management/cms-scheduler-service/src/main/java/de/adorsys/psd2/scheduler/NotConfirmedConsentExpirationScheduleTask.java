@@ -48,12 +48,12 @@ public class NotConfirmedConsentExpirationScheduleTask extends PageableScheduler
         Long totalItems = consentJpaRepository.countByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED));
         log.debug("Found {} non confirmed consent items for expiration checking", totalItems);
 
-        run(totalItems);
-        log.info("Not confirmed consent expiration schedule task completed in {}ms!", (System.currentTimeMillis() - start));
+        execute(totalItems);
+        log.info("Not confirmed consent expiration schedule task completed in {}ms!", System.currentTimeMillis() - start);
     }
 
     @Override
-    protected void runPageable(Pageable pageable) {
+    protected void executePageable(Pageable pageable) {
         List<ConsentEntity> expiredNotConfirmedConsents = consentJpaRepository.findByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED), pageable)
                                                               .stream()
                                                               .filter(aisConsentConfirmationExpirationService::isConfirmationExpired)
