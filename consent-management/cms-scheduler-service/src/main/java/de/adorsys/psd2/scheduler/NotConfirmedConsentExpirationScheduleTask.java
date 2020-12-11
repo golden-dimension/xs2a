@@ -23,6 +23,7 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class NotConfirmedConsentExpirationScheduleTask {
+public class NotConfirmedConsentExpirationScheduleTask extends PageableSchedulerTask {
     private final AisConsentConfirmationExpirationService aisConsentConfirmationExpirationService;
     private final ConsentJpaRepository consentJpaRepository;
 
@@ -43,7 +44,16 @@ public class NotConfirmedConsentExpirationScheduleTask {
     public void obsoleteNotConfirmedConsentIfExpired() {
         log.info("Not confirmed consent expiration schedule task is run!");
 
-        List<ConsentEntity> expiredNotConfirmedConsents = consentJpaRepository.findByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED))
+        Long totalItems = consentJpaRepository.countByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED));
+        log.debug("Found {} non confirmed consent items for expiration checking", totalItems);
+
+        run(totalItems);
+        log.info("Not confirmed consent expiration schedule task completed in {}ms!", (System.currentTimeMillis() - start));
+    }
+
+    @Override
+    protected void runPageable(Pageable pageable) {
+        List<ConsentEntity> expiredNotConfirmedConsents = consentJpaRepository.findByConsentStatusIn(EnumSet.of(ConsentStatus.RECEIVED, ConsentStatus.PARTIALLY_AUTHORISED), pageable)
                                                               .stream()
                                                               .filter(aisConsentConfirmationExpirationService::isConfirmationExpired)
                                                               .collect(Collectors.toList());
