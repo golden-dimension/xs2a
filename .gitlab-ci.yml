@@ -222,8 +222,7 @@ Test:IT_Java11:
   except:
     - schedules
   script:
-#    - jabba use ${JAVA_VERSION}
-    - docker info
+#    - jabba use ${JAVA_VERSION
     - echo "DOCKER_HOST=$DOCKER_HOST"
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
@@ -231,6 +230,7 @@ Test:IT_Java11:
   variables:
     JAVA_VERSION: "system@1.11"
     JAVA_TOOL_OPTIONS: "-Djavax.net.ssl.trustStorePassword=changeit -XX:MaxRAM=3G"
+    TESTCONTAINERS_RYUK_DISABLED: true
 
 Test:DOCKER_test_image_build:
   stage: "Test"
