@@ -218,7 +218,7 @@ Build:XS2A_Java11:
 
 Test:IT_Java11:
   stage: "Test"
-#  image: maven:3.6.3-jdk-11
+  image: maven:3.6.3-jdk-11
   except:
     - schedules
   script:
