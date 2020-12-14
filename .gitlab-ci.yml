@@ -223,6 +223,7 @@ Test:IT_Java11:
     - schedules
   script:
 #    - jabba use ${JAVA_VERSION}
+    - docker info
     - echo "DOCKER_HOST=$DOCKER_HOST"
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
