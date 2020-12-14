@@ -276,8 +276,8 @@ Test:Sonarcube:
     - jabba use system@1.11
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
-    - mvn -ntp --fail-at-end clean install | grep -v "[INFO]"
-    - mvn -ntp sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} | grep -v "[INFO]"
+    - mvn -ntp -e --fail-at-end clean install
+    - mvn -ntp -e sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
 
 Test:AsciiDoc:
   stage: "Test"
