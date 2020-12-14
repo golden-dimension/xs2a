@@ -278,6 +278,8 @@ Test:Sonarcube:
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp -e --fail-at-end clean install
     - mvn -ntp -e sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN}
+  variables:
+    TESTCONTAINERS_RYUK_DISABLED: "true"
 
 Test:AsciiDoc:
   stage: "Test"
