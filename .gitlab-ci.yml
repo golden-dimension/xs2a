@@ -217,10 +217,11 @@ Build:XS2A_Java11:
 
 Test:IT_Java11:
   stage: "Test"
+  image: maven:3.6.3-jdk-11
   except:
     - schedules
   script:
-    - jabba use ${JAVA_VERSION}
+#    - jabba use ${JAVA_VERSION}
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp failsafe:integration-test failsafe:verify
