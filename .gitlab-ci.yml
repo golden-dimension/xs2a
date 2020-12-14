@@ -163,6 +163,7 @@ Lint:XS2A_PMD_CPD_Report:
   script:
     - apt update && apt install make -yq
     - echo "Test java code for PMD and CPD"
+    - echo "DOCKER_HOST=$DOCKER_HOST"
     - mvn -ntp -Dmaven.test.skip=true package pmd:check # commented cause many duplications pmd:cpd-check
   cache: {}
   artifacts:
@@ -222,6 +223,7 @@ Test:IT_Java11:
     - schedules
   script:
 #    - jabba use ${JAVA_VERSION}
+    - echo "DOCKER_HOST=$DOCKER_HOST"
     - cat /sys/fs/cgroup/memory/memory.limit_in_bytes
     - java -XX:+PrintFlagsFinal -version | grep -Ei "maxheapsize|maxram"
     - mvn -ntp failsafe:integration-test failsafe:verify
