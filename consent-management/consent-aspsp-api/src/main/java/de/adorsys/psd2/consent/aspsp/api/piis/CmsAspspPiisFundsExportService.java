@@ -40,8 +40,8 @@ public interface CmsAspspPiisFundsExportService {
      * @param instanceId             Optional id of particular service instance.
      *                               If it's not provided, default value will be used instead.
      *
-     * @param pageIndex index of current page
-     * @param itemsPerPage quantity of consents on one page
+     * @param pageIndex              index of current page
+     * @param itemsPerPage           quantity of consents on one page
      * @return Collection of consents for TPP by given criteria.
      * By inconsistent criteria an empty list will be returned
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
