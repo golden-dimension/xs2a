@@ -449,9 +449,134 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
+<p>Fixed pagination for getting consents by account id</p>
+</li>
+<li>
+<p>Fixed - Optional "instance-id" in "scaRedirect"</p>
+</li>
+<li>
+<p>Added field <code>otherAccountIdentification</code> to AccountReference</p>
+</li>
+<li>
+<p>Fixed TPP stop list saving data into DB</p>
+</li>
+<li>
+<p>Fixed sonar alerts</p>
+</li>
+<li>
+<p>Extracted methods for field max length check from AbstractBodyValidatorImpl into separate class</p>
+</li>
+<li>
 <p>Fixed performance issue with CMS scheduler tasks</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_pagination_for_getting_consents_by_account_id">Fixed pagination for getting consents by account id</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, pagination on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> works correctly
+with expected items on page.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_optional_instance_id_in_scaredirect">Fixed - Optional "instance-id" in "scaRedirect"</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, <code>{instance-id}</code> placeholder in redirect link will be replaced with <code>instance-id</code> in REDIRECT approach.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_field_otheraccountidentification_to_accountreference">Added field <code>otherAccountIdentification</code> to AccountReference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, AccountReference contains field <code>otherAccountIdentification</code> for other account identifier.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_tpp_stop_list_saving_data_into_db">Fixed TPP stop list saving data into DB</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, tpp stop list saved into database as expected.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_sonar_alerts">Fixed sonar alerts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sonar alerts were fixed for classes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CmsAspspStopListControllerIT</p>
+</li>
+<li>
+<p>CmsAspspTppInfoControllerIT</p>
+</li>
+<li>
+<p>PiisConsentIT</p>
+</li>
+<li>
+<p>CmsAspspEventControllerIT</p>
+</li>
+<li>
+<p>CmsAspspPiisControllerIT</p>
+</li>
+<li>
+<p>CmsAspspPiisExportControllerIT</p>
+</li>
+<li>
+<p>CmsAspspPisExportControllerIT</p>
+</li>
+<li>
+<p>CmsAspspPisTransactionControllerIT</p>
+</li>
+<li>
+<p>CmsAspspPsuConsentManagementControllerIT</p>
+</li>
+<li>
+<p>CommonAspspProfileSetting</p>
+</li>
+<li>
+<p>AspspProfileUpdateControllerTest</p>
+</li>
+<li>
+<p>BankProfileReadingService</p>
+</li>
+<li>
+<p>AspspProfileUpdateServiceImplTest</p>
+</li>
+<li>
+<p>OldBankProfileSetting</p>
+</li>
+<li>
+<p>WebConfig</p>
+</li>
+<li>
+<p>AspspProfileController</p>
+</li>
+<li>
+<p>CertificateControllerTest</p>
+</li>
+<li>
+<p>ExportUtil</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extracted_methods_for_field_max_length_check_from_abstractbodyvalidatorimpl_into_separate_class">Extracted methods for field max length check from AbstractBodyValidatorImpl into separate class</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, there is separate FieldLengthValidator for max length checks.</p>
 </div>
 </div>
 </div>
@@ -468,7 +593,7 @@ The rest database requests (get/update) were combined into one (update).</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-15 18:04:49 UTC
+Last updated 2020-12-15 21:25:47 UTC
 </div>
 </div>
 </body>
