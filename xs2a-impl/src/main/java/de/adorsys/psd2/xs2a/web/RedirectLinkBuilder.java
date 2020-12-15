@@ -20,7 +20,6 @@ import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.link.UrlHolder;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
