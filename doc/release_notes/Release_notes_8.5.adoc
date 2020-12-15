@@ -29,7 +29,7 @@ From now on, tpp stop list saved into database as expected.
 
 Sonar alerts were fixed for classes:
 
- - CmsAspspStopListControllerIT
+- CmsAspspStopListControllerIT
 - CmsAspspTppInfoControllerIT
 - PiisConsentIT
 - CmsAspspEventControllerIT
