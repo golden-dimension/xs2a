@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.4.0</title>
+<title>Release notes v.9.3</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.4.0</h1>
+<h1>Release notes v.9.3</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -449,214 +449,87 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Bugfix: TPP domain validator ignores non-domain <code>tppName</code> field</p>
+<p>Fixed NPE on POST cancellation-authorisations immediately after payment-initiation</p>
 </li>
 <li>
-<p>Remove deprecated frequencyPerDay for PiisConsent</p>
+<p>Added check for not valid payment status in PisPaymentController</p>
 </li>
 <li>
-<p>Bugfix: statuses of obsoleted AIS consents</p>
+<p>Fixed XS2A security Hot Spot</p>
 </li>
 <li>
-<p>Remove column <code>tpp_info_id</code> from <code>authorisation_template</code> table</p>
+<p>Added check for not valid payment status in PisCommonPaymentController</p>
 </li>
 <li>
-<p>Bugfix: changed link for update PSU data without password</p>
+<p>Fixed XS2A alerts on Sonar Cloud</p>
 </li>
 <li>
-<p>Remove deprecated TppInfo from PiisConsent</p>
+<p>Added check for not valid payment status in AuthorisationController</p>
 </li>
 <li>
-<p>Bugfix: changed link for update PSU data without password for payment cancellation</p>
-</li>
-<li>
-<p>Add indexes to the CMS database</p>
-</li>
-<li>
-<p>Bugfix: Providing incorrect request body on PIIS consent creation in CMS-ASPSP-API results in Internal Server Error</p>
-</li>
-<li>
-<p>SupportedTransactionApplicationTypes in profile should be String</p>
-</li>
-<li>
-<p>Extend XS2A with Austria requirements to payment products</p>
-</li>
-<li>
-<p>Bugfix: Incorrect error code in response for ReadAccountList for consent which was revoked by PSU</p>
-</li>
-<li>
-<p>Bugfix: Incorrect TransactionId in read transaction details leads to internal server error</p>
-</li>
-<li>
-<p>Only Pending transactions should be available in getTransactionList response when query param set to "pending"</p>
+<p>Added check for not valid payment status in CmsConsentController</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_tpp_domain_validator_ignores_non_domain_tppname_field">Bugfix: TPP domain validator ignores non-domain <code>tppName</code> field</h2>
+<h2 id="_fixed_npe_on_post_cancellation_authorisations_immediately_after_payment_initiation">Fixed NPE on POST cancellation-authorisations immediately after payment-initiation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, if <code>tppName</code> is not a proper domain name, it will be ignored by XS2A in TPP domain validation.
-Before, java <code>IllegalArgumentException</code> was thrown by the validator.</p>
+<p>From now on, NPE on POST cancellation-authorisations immediately after payment-initiation is fixed and error SERVICE_BLOCKED_INVALID_FLOW returned instead.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_remove_deprecated_frequencyperday_for_piisconsent">Remove deprecated frequencyPerDay for PiisConsent</h2>
+<h2 id="_added_check_for_not_valid_payment_status_in_pispaymentcontroller">Added check for not valid payment status in PisPaymentController</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, the deprecated field <code>frequencyPerDay</code> has been removed from <code>CreatePiisConsentRequest</code>,
-<code>PiisConsentEntity</code>, and <code>PiisConsent</code>.
-The field has also been removed from the <code>piis_consent</code> table.</p>
+<p>From now on, transaction status incorrect value in <code>PisPaymentController#updatePaymentStatusAfterSpiService</code>
+will be handled with bad request response.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_statuses_of_obsoleted_ais_consents">Bugfix: statuses of obsoleted AIS consents</h2>
+<h2 id="_fixed_xs2a_security_hot_spot">Fixed XS2A security Hot Spot</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Some changes were made in AIS consents statuses switching: obsoleted consents that were not confirmed with authorisation now get status <code>REJECTED</code> (before it was <code>EXPIRED</code>).
-When new AIS consent for account for one TPP and one PSU is created with reccuringIndicator=true, old authorised consents get status <code>TERMINATED_BY_TPP</code>, but old unauthorised consents get status <code>REJECTED</code>.
-The same works for consents with <code>multilevelSca</code>
-set to <code>true</code>: if old consents have <code>PARTIALLY_AUTHORISED</code> status - they obtain <code>REJECTED</code> status.</p>
+<p>Use SecureRandom generator instead of insecure Random</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_remove_column_tpp_info_id_from_authorisation_template_table">Remove column <code>tpp_info_id</code> from <code>authorisation_template</code> table</h2>
+<h2 id="_added_check_for_not_valid_payment_status_in_piscommonpaymentcontroller">Added check for not valid payment status in PisCommonPaymentController</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, <code>tpp_info_id</code> column has been removed from <code>authorisation_template</code> table.</p>
+<p>From now on, transaction status incorrect value in <code>PisCommonPaymentController#updateCommonPaymentStatus</code>
+will be handled with bad request response.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_changed_link_for_update_psu_data_without_password">Bugfix: changed link for update PSU data without password</h2>
+<h2 id="_fixed_xs2a_alerts_on_sonar_cloud">Fixed XS2A alerts on Sonar Cloud</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, after sending the update PSU data request (PUT <code>/v1/consents/{consentId}/authorisations/{authorisationId}</code>)
-with <code>PSU-ID</code> header but with no body, the response contains <code>updatePsuAuthentication</code> link. This works if you start the
-authorisation in EMBEDDED approach explicitly.</p>
+<p>From now on, Specification methods are wrapped with Optional.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_remove_deprecated_tppinfo_from_piisconsent">Remove deprecated TppInfo from PiisConsent</h2>
+<h2 id="_added_check_for_not_valid_payment_status_in_authorisationcontroller">Added check for not valid payment status in AuthorisationController</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, the deprecated field <code>tppInfo</code> is removed from <code>PiisConsentEntity</code>, <code>PiisConsent</code>, and
-<code>CreatePiisConsentRequest</code>.
-Also, all data has been migrated from <code>tppInfo</code> column to <code>tppAuthorisationNumber</code> column in
-<code>piis_consent</code> table.</p>
+<p>From now on, transaction status incorrect value in <code>AuthorisationController#updateAuthorisationStatus</code>
+will be handled with bad request response.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_changed_link_for_update_psu_data_without_password_for_payment_cancellation">Bugfix: changed link for update PSU data without password for payment cancellation</h2>
+<h2 id="_added_check_for_not_valid_payment_status_in_cmsconsentcontroller">Added check for not valid payment status in CmsConsentController</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, after sending the update PSU data request for payment cancellation (PUT <code>/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}</code>)
-with <code>PSU-ID</code> header but with no body, the response contains <code>updatePsuAuthentication</code> link. This works if you start the
-authorisation for payment cancellation in EMBEDDED approach.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_add_indexes_to_the_cms_database">Add indexes to the CMS database</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Several indexes were added to the CMS database to increase performance:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>index on <code>external_id</code> in <code>ais_consent</code> table</p>
-</li>
-<li>
-<p>index on <code>payment_id</code> in <code>pis_common_payment</code> table</p>
-</li>
-<li>
-<p>index on <code>payment_id</code> in <code>pis_payment_data</code> table</p>
-</li>
-<li>
-<p>index on <code>tpp_info_id</code> in <code>tpp_info_role</code> table</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_providing_incorrect_request_body_on_piis_consent_creation_in_cms_aspsp_api_results_in_internal_server_error">Bugfix: Providing incorrect request body on PIIS consent creation in CMS-ASPSP-API results in Internal Server Error</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, when you try to create PIIS consent <code>POST /aspsp-api/v1/piis/consents</code> with incorrect
-request body, you&#8217;ll get status <code>400 Bad request</code> and message <code>Http message is not readable</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supportedtransactionapplicationtypes_in_profile_should_be_string">SupportedTransactionApplicationTypes in profile should be String</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, the field <code>supportedTransactionApplicationTypes</code> is a String. Also, the endpoint
-<code>GET /v1/accounts/{account-id}/balances</code> now responds with <code>401 Unauthorized - CONSENT_INVALID</code>, if providing an empty
-<code>account-id</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_extend_xs2a_with_austria_requirements_to_payment_products">Extend XS2A with Austria requirements to payment products</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Payment validation was extended for supporting different countries. Technically all rules for payment have been transferred to <code>application.properties</code> in the format <code>validation.payment.&lt;field&gt;.&lt;rule&gt;</code>.
-Available rules for field:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>use</code> - required, optional &lt;default&gt;, skip, none.</p>
-</li>
-<li>
-<p><code>maxLength</code> - max fields length (0 by default)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>From now on, new configuration properties for payment validation should be added in <code>application.properties</code> and provided bean realization into spring context (<code>PaymentValidationConfig</code>).
-To extend configuration for another country create new <code>application-&lt;country&gt;.properties</code> and override proper properties.
-To apply new file add <code>&lt;country&gt;</code> to active profiles for application.</p>
-</div>
-<div class="paragraph">
-<p>By default, configuration is for Germany and configuration for Austria was added as well.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_incorrect_error_code_in_response_for_readaccountlist_for_consent_which_was_revoked_by_psu">Bugfix: Incorrect error code in response for ReadAccountList for consent which was revoked by PSU</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, when you try to get Account List for consent which was revoked by PSU with request <code>GET /v1/accounts</code>
-you will get response code <code>401 'CONSENT_INVALID'</code> with text <code>Consent was revoked by PSU</code></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_incorrect_transactionid_in_read_transaction_details_leads_to_internal_server_error">Incorrect TransactionId in read transaction details leads to internal server error</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, if TPP provides incorrect transaction ID in read transaction details <code>GET /v1/accounts/{account-id}/transactions/{resourceId}</code> it will receive 403 response code with <code>RESOURCE_UNKNOWN</code> message.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_only_pending_transactions_should_be_available_in_gettransactionlist_response_when_query_param_set_to_pending">Only Pending transactions should be available in getTransactionList response when query param set to "pending"</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, the query parameter <code>bookingStatus</code> in <code>GET /v1/accounts/{account-id}/transactions</code>
-is capable of filtering. The endpoint returns only those types of transactions, whose <code>bookingStatus</code> equals
-the parameters value.</p>
+<p>From now on, transaction status incorrect value in <code>CmsConsentController#updateConsentStatus</code>
+will be handled with bad request response.</p>
 </div>
 </div>
 </div>

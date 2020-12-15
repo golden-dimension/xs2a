@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.9.2</title>
+<title>Release notes v.9.4</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.9.2</h1>
+<h1>Release notes v.9.4</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -449,32 +449,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Added Confirmation Code step to OAuth Integrated flow</p>
+<p>Fixed performance issue with CMS scheduler tasks</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_sca_redirect_approach_with_authorisation_confirmation_request_fails_if_no_psu_id_http_header_is_available_in_request">Fixed SCA redirect approach with authorisation confirmation request fails if no PSU-ID http header is available in request</h2>
+<h2 id="_fixed_performance_issue_with_cms_scheduler_tasks">Fixed performance issue with CMS scheduler tasks</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, SCA redirect approach with authorisation confirmation request works correctly (authorisation is updated) with no PSU-ID http header is available in request</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_confirmation_code_step_to_oauth_integrated_flow">Added Confirmation Code step to OAuth Integrated flow</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, Confirmation Code step is supported in OAuth Integrated flow.</p>
+<p>From now on, database requests which need data from ASPSP profile perform page by page.
+Configuration property that defines page size  is <code>xs2a.cms.scheduler.processing.page-size</code> (default value - 100).
+The rest database requests (get/update) were combined into one (update).</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-16 15:35:08 UTC
+Last updated 2020-12-15 18:04:49 UTC
 </div>
 </div>
 </body>
