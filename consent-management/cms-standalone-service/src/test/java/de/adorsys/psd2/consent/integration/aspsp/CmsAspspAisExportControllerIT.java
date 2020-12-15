@@ -35,6 +35,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -103,7 +106,8 @@ public class CmsAspspAisExportControllerIT {
         ConsentEntity consentEntity = jsonReader.getObjectFromFile("json/consent/integration/aspsp/consent-entity.json", ConsentEntity.class);
         consentEntity.setData(jsonReader.getBytesFromFile("json/consent/integration/ais/ais-consent-data.json"));
 
-        given(consentJpaRepository.findAll(any(Specification.class))).willReturn(Collections.singletonList(consentEntity));
+        given(consentJpaRepository.findAll(any(Specification.class), any(Pageable.class)))
+            .willReturn(new PageImpl<>(Collections.singletonList(consentEntity), PageRequest.of(0, 20), 1));
         given(authorisationRepository.findAllByParentExternalIdAndType(consentEntity.getExternalId(), AuthorisationType.CONSENT))
             .willReturn(Collections.emptyList());
         given(aisConsentUsageRepository.findReadByConsentAndUsageDate(eq(consentEntity), any(LocalDate.class)))

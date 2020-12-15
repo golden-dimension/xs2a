@@ -18,6 +18,7 @@ package de.adorsys.psd2.consent.aspsp.api.piis;
 
 
 import de.adorsys.psd2.consent.api.piis.v1.CmsPiisConsent;
+import de.adorsys.psd2.consent.aspsp.api.PageData;
 import de.adorsys.psd2.consent.aspsp.api.TooManyResultsException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +47,7 @@ public interface CmsAspspPiisFundsExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPiisConsent> exportConsentsByTpp(String tppAuthorisationNumber,
+    PageData<Collection<CmsPiisConsent>> exportConsentsByTpp(String tppAuthorisationNumber,
                                                    @Nullable LocalDate createDateFrom,
                                                    @Nullable LocalDate createDateTo,
                                                    @Nullable PsuIdData psuIdData, @Nullable String instanceId,
@@ -69,7 +70,7 @@ public interface CmsAspspPiisFundsExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPiisConsent> exportConsentsByPsu(PsuIdData psuIdData,
+    PageData<Collection<CmsPiisConsent>> exportConsentsByPsu(PsuIdData psuIdData,
                                                    @Nullable LocalDate createDateFrom,
                                                    @Nullable LocalDate createDateTo,
                                                    @Nullable String instanceId,
@@ -92,10 +93,10 @@ public interface CmsAspspPiisFundsExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPiisConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
-                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @Nullable String instanceId,
-                                                         Integer pageIndex, Integer itemsPerPage
+    PageData<Collection<CmsPiisConsent>> exportConsentsByAccountId(@NotNull String aspspAccountId,
+                                                                   @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                   @Nullable String instanceId,
+                                                                   Integer pageIndex, Integer itemsPerPage
     );
 
 }

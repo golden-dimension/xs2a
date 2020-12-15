@@ -18,6 +18,7 @@ package de.adorsys.psd2.consent.aspsp.api.ais;
 
 
 import de.adorsys.psd2.consent.api.ais.CmsAisAccountConsent;
+import de.adorsys.psd2.consent.aspsp.api.PageData;
 import de.adorsys.psd2.consent.aspsp.api.TooManyResultsException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +45,7 @@ public interface CmsAspspAisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsAisAccountConsent> exportConsentsByTpp(String tppAuthorisationNumber,
+    PageData<Collection<CmsAisAccountConsent>> exportConsentsByTpp(String tppAuthorisationNumber,
                                                          @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
                                                          @Nullable PsuIdData psuIdData, @NotNull String instanceId,
                                                          Integer pageIndex, Integer itemsPerPage);
@@ -63,10 +64,10 @@ public interface CmsAspspAisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsAisAccountConsent> exportConsentsByPsu(PsuIdData psuIdData,
-                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @NotNull String instanceId,
-                                                         Integer pageIndex, Integer itemsPerPage);
+    PageData<Collection<CmsAisAccountConsent>> exportConsentsByPsu(PsuIdData psuIdData,
+                                                                   @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                   @NotNull String instanceId,
+                                                                   Integer pageIndex, Integer itemsPerPage);
 
     /**
      * Returns list of consents by given criteria.
@@ -82,7 +83,7 @@ public interface CmsAspspAisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsAisAccountConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
+    PageData<Collection<CmsAisAccountConsent>> exportConsentsByAccountId(@NotNull String aspspAccountId,
                                                                @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
                                                                @NotNull String instanceId,
                                                                Integer pageIndex, Integer itemsPerPage);

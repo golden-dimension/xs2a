@@ -18,6 +18,7 @@ package de.adorsys.psd2.consent.aspsp.api.pis;
 
 
 import de.adorsys.psd2.consent.api.pis.CmsPayment;
+import de.adorsys.psd2.consent.aspsp.api.PageData;
 import de.adorsys.psd2.consent.aspsp.api.TooManyResultsException;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.jetbrains.annotations.NotNull;
@@ -44,10 +45,10 @@ public interface CmsAspspPisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPayment> exportPaymentsByTpp(String tppAuthorisationNumber,
-                                               @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                               @Nullable PsuIdData psuIdData, @NotNull String instanceId,
-                                               Integer pageIndex, Integer itemsPerPage);
+    PageData<Collection<CmsPayment>> exportPaymentsByTpp(String tppAuthorisationNumber,
+                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                         @Nullable PsuIdData psuIdData, @NotNull String instanceId,
+                                                         Integer pageIndex, Integer itemsPerPage);
 
     /**
      * Returns list of payments by given criteria.
@@ -63,7 +64,7 @@ public interface CmsAspspPisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPayment> exportPaymentsByPsu(PsuIdData psuIdData,
+    PageData<Collection<CmsPayment>> exportPaymentsByPsu(PsuIdData psuIdData,
                                                @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
                                                @NotNull String instanceId,
                                                Integer pageIndex, Integer itemsPerPage);
@@ -82,7 +83,7 @@ public interface CmsAspspPisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsPayment> exportPaymentsByAccountId(@NotNull String aspspAccountId,
+    PageData<Collection<CmsPayment>> exportPaymentsByAccountId(@NotNull String aspspAccountId,
                                                      @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
                                                      @NotNull String instanceId,
                                                      Integer pageIndex, Integer itemsPerPage);
