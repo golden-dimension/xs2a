@@ -55,7 +55,9 @@ public interface CmsAspspPiisExportApi {
         @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
         @ApiParam(value = "ID of the particular service instance")
         @RequestHeader(value = "instance-id", required = false) String instanceId,
+        @ApiParam(value = "Index of current page", example = "0")
         @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, defaultValue = "0") Integer pageIndex,
+        @ApiParam(value = "Quantity of consents on one page", example = "20")
         @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, defaultValue = "20") Integer itemsPerPage);
 
     @GetMapping(path = "/psu")
@@ -79,9 +81,9 @@ public interface CmsAspspPiisExportApi {
         @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
         @ApiParam(value = "ID of the particular service instance")
         @RequestHeader(value = "instance-id", required = false) String instanceId,
-        @ApiParam(value = "Index of current page")
+        @ApiParam(value = "Index of current page", example = "0")
         @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, defaultValue = "0") Integer pageIndex,
-        @ApiParam(value = "Quantity of consents on one page")
+        @ApiParam(value = "Quantity of consents on one page", example = "20")
         @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, defaultValue = "20") Integer itemsPerPage);
 
     @GetMapping(path = "/account/{account-id}")
@@ -99,8 +101,8 @@ public interface CmsAspspPiisExportApi {
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
         @ApiParam(value = "ID of the particular service instance")
         @RequestHeader(value = "instance-id", required = false) String instanceId,
-        @ApiParam(value = "Index of current page")
+        @ApiParam(value = "Index of current page", example = "0")
         @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, defaultValue = "0") Integer pageIndex,
-        @ApiParam(value = "Quantity of consents on one page")
+        @ApiParam(value = "Quantity of consents on one page", example = "20")
         @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, defaultValue = "20") Integer itemsPerPage);
 }

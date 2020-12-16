@@ -27,6 +27,7 @@ import de.adorsys.psd2.consent.service.mapper.AisConsentMapper;
 import de.adorsys.psd2.consent.service.migration.AisConsentLazyMigrationService;
 import de.adorsys.psd2.consent.service.psu.util.PageRequestBuilder;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
+import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -334,12 +337,12 @@ class CmsAspspAisExportServiceInternalTest {
     @Test
     void exportConsentsByAccountId_success() {
         // Given
-        when(aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID, CREATION_DATE_FROM,
-                                                                                    CREATION_DATE_TO,
-                                                                                    DEFAULT_SERVICE_INSTANCE_ID
-        )).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+        ZoneOffset currentOffset = OffsetDateTime.now().getOffset();
         ConsentEntity consentEntity = buildConsentEntity();
-        when(consentJpaRepository.findAll(any(Specification.class), eq(Pageable.unpaged())))
+        when(consentJpaRepository.findAllWithPagination(Collections.singleton(ConsentType.AIS.getName()), ASPSP_ACCOUNT_ID,
+                                                        OffsetDateTime.of(CREATION_DATE_FROM, LocalTime.MIN, currentOffset),
+                                                        OffsetDateTime.of(CREATION_DATE_TO, LocalTime.MAX, currentOffset),
+                                                        DEFAULT_SERVICE_INSTANCE_ID, Pageable.unpaged()))
             .thenReturn(new PageImpl<>(Collections.singletonList(consentEntity), PageRequest.of(PAGE_INDEX, ITEMS_PER_PAGE), 1));
         List<AuthorisationEntity> authorisations = Collections.singletonList(new AuthorisationEntity());
         when(authorisationRepository.findAllByParentExternalIdAndType(EXTERNAL_CONSENT_ID, AuthorisationType.CONSENT))
@@ -359,8 +362,6 @@ class CmsAspspAisExportServiceInternalTest {
         // Then
         assertFalse(aisConsents.getData().isEmpty());
         assertTrue(aisConsents.getData().contains(expectedConsent));
-        verify(aisConsentSpecification, times(1))
-            .byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID, CREATION_DATE_FROM, CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID);
     }
 
     @Test
@@ -372,11 +373,11 @@ class CmsAspspAisExportServiceInternalTest {
 
     @Test
     void exportConsentsByAccountId_failure_wrongAspspAccountId() {
-        when(aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(WRONG_ASPSP_ACCOUNT_ID, CREATION_DATE_FROM,
-                                                                                    CREATION_DATE_TO,
-                                                                                    DEFAULT_SERVICE_INSTANCE_ID
-        )).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
-        when(consentJpaRepository.findAll(any(Specification.class), eq(Pageable.unpaged())))
+        ZoneOffset currentOffset = OffsetDateTime.now().getOffset();
+        when(consentJpaRepository.findAllWithPagination(Collections.singleton(ConsentType.AIS.getName()), WRONG_ASPSP_ACCOUNT_ID,
+                                                        OffsetDateTime.of(CREATION_DATE_FROM, LocalTime.MIN, currentOffset),
+                                                        OffsetDateTime.of(CREATION_DATE_TO, LocalTime.MAX, currentOffset),
+                                                        DEFAULT_SERVICE_INSTANCE_ID, Pageable.unpaged()))
             .thenReturn(new PageImpl<>(Collections.emptyList(), PageRequest.of(PAGE_INDEX, ITEMS_PER_PAGE), 0));
 
         // When
@@ -386,8 +387,6 @@ class CmsAspspAisExportServiceInternalTest {
 
         // Then
         assertTrue(aisConsents.getData().isEmpty());
-        verify(aisConsentSpecification, times(1))
-            .byAspspAccountIdAndCreationPeriodAndInstanceId(WRONG_ASPSP_ACCOUNT_ID, CREATION_DATE_FROM, CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID);
     }
 
     private PsuIdData buildPsuIdData(String psuId) {

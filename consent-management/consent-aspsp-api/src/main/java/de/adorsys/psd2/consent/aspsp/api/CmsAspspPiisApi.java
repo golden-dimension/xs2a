@@ -68,9 +68,9 @@ public interface CmsAspspPiisApi {
         @RequestHeader(value = "psu-corporate-id-type", required = false) String psuCorporateIdType,
         @ApiParam(value = "ID of the particular service instance")
         @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
-        @ApiParam(value = "Index of current page")
+        @ApiParam(value = "Index of current page", example = "0")
         @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, defaultValue = "0") Integer pageIndex,
-        @ApiParam(value = "Quantity of consents on one page")
+        @ApiParam(value = "Quantity of consents on one page", example = "20")
         @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, defaultValue = "20") Integer itemsPerPage);
 
     @DeleteMapping(path = "/{consent-id}")

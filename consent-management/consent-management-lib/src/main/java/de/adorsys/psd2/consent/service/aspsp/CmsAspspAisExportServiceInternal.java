@@ -28,6 +28,7 @@ import de.adorsys.psd2.consent.service.mapper.AisConsentMapper;
 import de.adorsys.psd2.consent.service.migration.AisConsentLazyMigrationService;
 import de.adorsys.psd2.consent.service.psu.util.PageRequestBuilder;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
+import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +36,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -104,9 +110,18 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
             return new PageData<>(Collections.emptyList(), 0, itemsPerPage, 0);
         }
 
-        return mapToPageData(consentJpaRepository.findAll(
-            aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(aspspAccountId, createDateFrom, createDateTo, instanceId),
-            pageRequestBuilder.getPageable(pageIndex, itemsPerPage)));
+        ZoneOffset currentOffset = OffsetDateTime.now().getOffset();
+        OffsetDateTime startOffsetDateTime = Optional.ofNullable(createDateFrom)
+                                                 .map(odt -> OffsetDateTime.of(odt, LocalTime.MIN, currentOffset))
+                                                 .orElse(OffsetDateTime.now().minusYears(10));
+        OffsetDateTime endOffsetDateTime = Optional.ofNullable(createDateTo)
+                                               .map(odt -> OffsetDateTime.of(odt, LocalTime.MAX, currentOffset))
+                                               .orElse(OffsetDateTime.now().plusYears(10));
+
+        Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
+        return mapToPageData(consentJpaRepository
+                                 .findAllWithPagination(Collections.singleton(ConsentType.AIS.getName()), aspspAccountId, startOffsetDateTime,
+                                                        endOffsetDateTime, instanceId, pageable));
     }
 
     private PageData<Collection<CmsAisAccountConsent>> mapToPageData(Page<ConsentEntity> entities) {

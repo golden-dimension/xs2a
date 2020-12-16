@@ -46,9 +46,9 @@ public interface CmsAspspAisExportService {
      *                                 developer shall limit his/her request, making pagination by dates.
      */
     PageData<Collection<CmsAisAccountConsent>> exportConsentsByTpp(String tppAuthorisationNumber,
-                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @Nullable PsuIdData psuIdData, @NotNull String instanceId,
-                                                         Integer pageIndex, Integer itemsPerPage);
+                                                                   @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                   @Nullable PsuIdData psuIdData, @NotNull String instanceId,
+                                                                   Integer pageIndex, Integer itemsPerPage);
 
     /**
      * Returns list of consents by given criteria.
@@ -84,7 +84,7 @@ public interface CmsAspspAisExportService {
      *                                 developer shall limit his/her request, making pagination by dates.
      */
     PageData<Collection<CmsAisAccountConsent>> exportConsentsByAccountId(@NotNull String aspspAccountId,
-                                                               @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                               @NotNull String instanceId,
-                                                               Integer pageIndex, Integer itemsPerPage);
+                                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                         @NotNull String instanceId,
+                                                                         Integer pageIndex, Integer itemsPerPage);
 }
