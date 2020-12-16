@@ -21,8 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class PageRequestBuilder {
     @Value("${cms.defaultPageIndex:0}")
@@ -34,7 +32,14 @@ public class PageRequestBuilder {
         if (pageIndex == null && itemsPerPage == null) {
             return Pageable.unpaged();
         }
-        return PageRequest.of(Optional.ofNullable(pageIndex).orElse(defaultPageIndex),
-                              Optional.ofNullable(itemsPerPage).orElse(defaultItemsPerPage));
+        return PageRequest.of(getValueOrDefault(pageIndex, defaultPageIndex),
+                              getValueOrDefault(itemsPerPage, defaultItemsPerPage));
+    }
+
+    private int getValueOrDefault(Integer value, int defaultValue) {
+        if (value == null || value < 0) {
+            return defaultValue;
+        }
+        return value;
     }
 }
