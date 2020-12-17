@@ -463,6 +463,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Fixed sonar alerts</p>
 </li>
+<li>
+<p>Fixed performance issue with CMS scheduler tasks</p>
+</li>
+<li>
+<p>Added page information to <code>CMS-ASPSP-API</code> export responses</p>
+</li>
 </ul>
 </div>
 </div>
@@ -566,10 +572,44 @@ with expected items on page.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_fixed_performance_issue_with_cms_scheduler_tasks">Fixed performance issue with CMS scheduler tasks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, database requests which need data from ASPSP profile perform page by page.
+Configuration property that defines page size  is <code>xs2a.cms.scheduler.processing.page-size</code> (default value - 100).
+The rest database requests (get/update) were combined into one (update).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_page_information_to_cms_aspsp_api_export_responses">Added page information to <code>CMS-ASPSP-API</code> export responses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, all <code>CMS-ASPSP-API</code> exporting responses will contain page information:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
+"data": [requested data],
+"pageInfo": {
+   "pageIndex": 1,
+   "itemsPerPage": 20,
+   "totalItems": 1234
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>data</code> it is a list of requested objects and <code>pageInfo</code> - page information.
+Default values for request parameters are <code>pageIndex</code> - 0, <code>itemsPerPage</code> - 20.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-16 11:07:00 UTC
+Last updated 2020-12-17 10:12:39 UTC
 </div>
 </div>
 </body>

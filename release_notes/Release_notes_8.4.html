@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.9.4</title>
+<title>Release notes v.8.4</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.9.4</h1>
+<h1>Release notes v.8.4</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -449,26 +449,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Fixed performance issue with CMS scheduler tasks</p>
+<p>Fixed NPE on POST cancellation-authorisations immediately after payment-initiation</p>
+</li>
+<li>
+<p>Added check for not valid payment status in PisPaymentController</p>
+</li>
+<li>
+<p>Fixed XS2A security Hot Spot</p>
+</li>
+<li>
+<p>Added check for not valid payment status in PisCommonPaymentController</p>
+</li>
+<li>
+<p>Fixed XS2A alerts on Sonar Cloud</p>
+</li>
+<li>
+<p>Added check for not valid payment status in AuthorisationController</p>
+</li>
+<li>
+<p>Added check for not valid payment status in CmsConsentController</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_performance_issue_with_cms_scheduler_tasks">Fixed performance issue with CMS scheduler tasks</h2>
+<h2 id="_fixed_npe_on_post_cancellation_authorisations_immediately_after_payment_initiation">Fixed NPE on POST cancellation-authorisations immediately after payment-initiation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, database requests which need data from ASPSP profile perform page by page.
-Configuration property that defines page size  is <code>xs2a.cms.scheduler.processing.page-size</code> (default value - 100).
-The rest database requests (get/update) were combined into one (update).</p>
+<p>From now on, NPE on POST cancellation-authorisations immediately after payment-initiation is fixed and error SERVICE_BLOCKED_INVALID_FLOW returned instead.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_check_for_not_valid_payment_status_in_pispaymentcontroller">Added check for not valid payment status in PisPaymentController</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, transaction status incorrect value in <code>PisPaymentController#updatePaymentStatusAfterSpiService</code>
+will be handled with bad request response.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_xs2a_security_hot_spot">Fixed XS2A security Hot Spot</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use SecureRandom generator instead of insecure Random</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_check_for_not_valid_payment_status_in_piscommonpaymentcontroller">Added check for not valid payment status in PisCommonPaymentController</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, transaction status incorrect value in <code>PisCommonPaymentController#updateCommonPaymentStatus</code>
+will be handled with bad request response.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_xs2a_alerts_on_sonar_cloud">Fixed XS2A alerts on Sonar Cloud</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, Specification methods are wrapped with Optional.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_check_for_not_valid_payment_status_in_authorisationcontroller">Added check for not valid payment status in AuthorisationController</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, transaction status incorrect value in <code>AuthorisationController#updateAuthorisationStatus</code>
+will be handled with bad request response.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_check_for_not_valid_payment_status_in_cmsconsentcontroller">Added check for not valid payment status in CmsConsentController</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, transaction status incorrect value in <code>CmsConsentController#updateConsentStatus</code>
+will be handled with bad request response.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-16 11:07:00 UTC
+Last updated 2020-12-17 10:12:39 UTC
 </div>
 </div>
 </body>
