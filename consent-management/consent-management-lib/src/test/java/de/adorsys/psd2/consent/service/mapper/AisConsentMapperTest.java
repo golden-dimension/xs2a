@@ -25,6 +25,7 @@ import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.core.mapper.ConsentDataMapper;
 import de.adorsys.xs2a.reader.JsonReader;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -83,8 +84,20 @@ class AisConsentMapperTest {
     private static ConsentEntity consent;
     private static CmsAisAccountConsent aisConsent;
 
-    static {
-        initParameters();
+    @BeforeAll
+    static void beforeAll() {
+        consentGlobal = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity-global-account-access.json",
+                                                     ConsentEntity.class);
+        aisConsentGlobal = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent-global-account.json",
+                                                        CmsAisAccountConsent.class);
+        consentAvailableAccount = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity-all-available-account-with-balance.json",
+                                                               ConsentEntity.class);
+        aisConsentAvailableAccount = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent-available-account-with-balance.json",
+                                                                  CmsAisAccountConsent.class);
+        consent = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity.json",
+                                               ConsentEntity.class);
+        aisConsent = jsonReader.getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent.json",
+                                                  CmsAisAccountConsent.class);
     }
 
     @BeforeEach
@@ -188,27 +201,5 @@ class AisConsentMapperTest {
         return jsonReader
                    .getObjectFromFile("json/service/mapper/ais-consent-mapper/authorisation-entity.json",
                                       AuthorisationEntity.class);
-    }
-
-
-    private static void initParameters() {
-        consentGlobal = jsonReader
-                            .getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity-global-account-access.json",
-                                               ConsentEntity.class);
-        aisConsentGlobal = jsonReader
-                               .getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent-global-account.json",
-                                                  CmsAisAccountConsent.class);
-        consentAvailableAccount = jsonReader
-                                      .getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity-all-available-account-with-balance.json",
-                                                         ConsentEntity.class);
-        aisConsentAvailableAccount = jsonReader
-                                         .getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent-available-account-with-balance.json",
-                                                            CmsAisAccountConsent.class);
-        consent = jsonReader
-                      .getObjectFromFile("json/service/mapper/ais-consent-mapper/consent-entity.json",
-                                         ConsentEntity.class);
-        aisConsent = jsonReader
-                         .getObjectFromFile("json/service/mapper/ais-consent-mapper/cms-ais-account-consent.json",
-                                            CmsAisAccountConsent.class);
     }
 }

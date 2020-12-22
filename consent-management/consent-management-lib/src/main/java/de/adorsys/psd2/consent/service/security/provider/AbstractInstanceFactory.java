@@ -16,6 +16,9 @@
 
 package de.adorsys.psd2.consent.service.security.provider;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public abstract class AbstractInstanceFactory {
     protected String getStringValueByIndex(String[] paramsArr, int index, String defaultValue) {
         if (paramsArr == null) {
@@ -34,7 +37,11 @@ public abstract class AbstractInstanceFactory {
         }
 
         if (paramsArr.length > index) {
-            return Integer.valueOf(paramsArr[index]);
+            try {
+                return Integer.valueOf(paramsArr[index]);
+            } catch (NumberFormatException e) {
+                log.error(paramsArr[index] + " is not a number");
+            }
         }
         return defaultValue;
     }
