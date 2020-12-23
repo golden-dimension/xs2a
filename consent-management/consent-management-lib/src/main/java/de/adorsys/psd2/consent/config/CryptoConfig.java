@@ -65,12 +65,11 @@ public class CryptoConfig {
 
     private CryptoProvider getCryptoProviderInstance(String factoryClassName, String cryptoProviderId, String params) {
         try {
-            Class factoryClass = Class.forName(factoryClassName);
-            Object factoryImpl = factoryClass.newInstance();
+            CryptoInstanceFactory factoryImpl = (CryptoInstanceFactory) Class.forName(factoryClassName)
+                                                                            .getConstructor()
+                                                                            .newInstance();
 
-            if (factoryImpl instanceof CryptoInstanceFactory) {
-                return ((CryptoInstanceFactory) factoryImpl).initProvider(cryptoProviderId, params);
-            }
+            return factoryImpl.initProvider(cryptoProviderId, params);
         } catch (Exception ex) {
             log.info("Error creation {} factory: ", factoryClassName, ex);
         }
