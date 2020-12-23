@@ -36,6 +36,7 @@ public abstract class PisAbstractAuthService extends CmsAuthorisationService<Pis
         this.commonPaymentService = commonPaymentService;
     }
 
+    @Override
     protected PisCommonPaymentData castToParent(Authorisable authorisable) {
         return (PisCommonPaymentData) authorisable;
     }

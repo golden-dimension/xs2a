@@ -71,7 +71,7 @@ public class CryptoConfig {
 
             return factoryImpl.initProvider(cryptoProviderId, params);
         } catch (Exception ex) {
-            log.info("Error creation {} factory: ", factoryClassName, ex);
+            log.info("Error creation factory class from name: {}", factoryClassName, ex);
         }
         return null;
     }
