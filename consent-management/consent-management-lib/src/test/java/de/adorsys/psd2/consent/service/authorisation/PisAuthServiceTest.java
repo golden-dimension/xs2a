@@ -49,16 +49,6 @@ class PisAuthServiceTest {
     @InjectMocks
     private PisAuthService service;
 
-    //    @Mock
-//    private PisPaymentDataRepository pisPaymentDataRepository;
-//    @Mock
-//    private PisCommonPaymentDataRepository pisCommonPaymentDataRepository;
-//    @Mock
-//    private PisCommonPaymentConfirmationExpirationService pisCommonPaymentConfirmationExpirationService;
-//    @Mock
-//    private PisCommonPaymentMapper pisCommonPaymentMapper;
-//    @Mock
-//    private CorePaymentsConvertService corePaymentsConvertService;
     @Mock
     private PsuService psuService;
     @Mock
