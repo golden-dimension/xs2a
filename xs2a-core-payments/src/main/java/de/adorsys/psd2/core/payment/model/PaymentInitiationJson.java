@@ -3,7 +3,7 @@ package de.adorsys.psd2.core.payment.model;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class PaymentInitiationJson {
@@ -24,7 +24,7 @@ public class PaymentInitiationJson {
     private ChargeBearer chargeBearer;
     private String remittanceInformationUnstructured;
     private RemittanceInformationStructured remittanceInformationStructured;
-    private ArrayList<RemittanceInformationStructured> remittanceInformationStructuredArray;
+    private List<RemittanceInformationStructured> remittanceInformationStructuredArray;
     private LocalDate requestedExecutionDate;
 }
 

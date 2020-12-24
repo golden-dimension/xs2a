@@ -28,7 +28,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -171,7 +174,7 @@ public class CmsCommonPaymentMapperSupportImpl implements CmsCommonPaymentMapper
         return cmsRemittance;
     }
 
-    private List<CmsRemittance> mapToCmsRemittanceList(ArrayList<RemittanceInformationStructured> remittanceInformationStructuredArray) {
+    private List<CmsRemittance> mapToCmsRemittanceList(List<RemittanceInformationStructured> remittanceInformationStructuredArray) {
         if (CollectionUtils.isEmpty(remittanceInformationStructuredArray)) {
             return Collections.emptyList();
         }
