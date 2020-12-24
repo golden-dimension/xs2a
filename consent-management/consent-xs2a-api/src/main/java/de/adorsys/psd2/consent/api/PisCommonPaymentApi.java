@@ -16,23 +16,14 @@
 
 package de.adorsys.psd2.consent.api;
 
-import de.adorsys.psd2.consent.api.authorisation.CreateAuthorisationRequest;
-import de.adorsys.psd2.consent.api.authorisation.CreateAuthorisationResponse;
-import de.adorsys.psd2.consent.api.authorisation.UpdateAuthorisationRequest;
 import de.adorsys.psd2.consent.api.config.InternalCmsXs2aApiTagName;
 import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.PisCommonPaymentDataStatusResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisCommonPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
-import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
-import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
-import de.adorsys.psd2.xs2a.core.sca.AuthorisationScaApproachResponse;
-import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping(path = "api/v1/pis/common-payments")
 @Api(value = "api/v1/pis/common-payments", tags = InternalCmsXs2aApiTagName.PIS_COMMON_PAYMENT)
@@ -83,144 +74,6 @@ public interface PisCommonPaymentApi {
             allowableValues = "AcceptedSettlementCompletedCreditor, AcceptedCustomerProfile, AcceptedSettlementCompleted, AcceptedSettlementInProcess, AcceptedTechnicalValidation, AcceptedWithChange, AcceptedWithoutPosting, Received, Pending, Rejected, Canceled, AcceptedFundsChecked, PartiallyAcceptedTechnicalCorrect",
             required = true)
         @PathVariable("status") String status);
-
-    @PostMapping(path = "/{payment-id}/authorisations")
-    @ApiOperation(value = "Create authorisation for given id.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<CreateAuthorisationResponse> createAuthorisation(
-        @ApiParam(name = "payment-id",
-            value = "The payment identification assigned to the created authorisation.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("payment-id") String paymentId,
-        @RequestBody CreateAuthorisationRequest request);
-
-    @PostMapping(path = "/{payment-id}/cancellation-authorisations")
-    @ApiOperation(value = "Create payment authorisation cancellation for given payment id.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<CreateAuthorisationResponse> createAuthorisationCancellation(
-        @ApiParam(name = "payment-id",
-            value = "The payment identification of the related payment.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("payment-id") String paymentId,
-        @RequestBody CreateAuthorisationRequest request);
-
-    @PutMapping(path = "/authorisations/{authorisation-id}")
-    @ApiOperation(value = "Update pis authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<Authorisation> updateAuthorisation(
-        @ApiParam(name = "authorisation-id",
-            value = "The authorisation identification assigned to the created authorisation.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId,
-        @RequestBody UpdateAuthorisationRequest request);
-
-    @PutMapping(path = "authorisations/{authorisation-id}/status/{status}")
-    @ApiOperation(value = "Update status for PIS authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<Void> updateAuthorisationStatus(
-        @ApiParam(name = "authorisation-id",
-            value = "The authorisation identification assigned to the created authorisation.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId,
-        @ApiParam(name = "status",
-            value = "The authorisation status.",
-            example = "ScaStatus.FAILED",
-            required = true)
-        @PathVariable("status") String authorisationStatus);
-
-    @GetMapping(path = "/authorisations/{authorisation-id}")
-    @ApiOperation(value = "Getting pis authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<Authorisation> getAuthorisation(
-        @ApiParam(name = "authorisation-id",
-            value = "The authorisation identification assigned to the created authorisation.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId);
-
-    @GetMapping(path = "/{payment-id}/authorisations/{authorisation-id}/status")
-    @ApiOperation(value = "Gets SCA status of pis consent authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<ScaStatus> getAuthorisationScaStatus(
-        @ApiParam(name = "payment-id",
-            value = "Identification of the payment.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("payment-id") String paymentId,
-        @ApiParam(name = "authorisation-id",
-            value = "The consent authorisation identification",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId);
-
-    @GetMapping(path = "/cancellation-authorisations/{authorisation-id}")
-    @ApiOperation(value = "Getting pis cancellation authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<List<String>> getAuthorisationCancellation(
-        @ApiParam(name = "cancellation-id",
-            value = "The cancellation authorisation identification assigned to the created cancellation authorisation.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId);
-
-    @GetMapping(path = "/{payment-id}/cancellation-authorisations")
-    @ApiOperation(value = "Gets list of payment cancellation authorisation IDs by payment ID")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<List<String>> getAuthorisationsCancellation(
-        @ApiParam(name = "payment-id",
-            value = "The payment identification of the related payment.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("payment-id") String paymentId);
-
-    @GetMapping(path = "/{payment-id}/cancellation-authorisations/{authorisation-id}/status")
-    @ApiOperation(value = "Gets SCA status of pis consent cancellation authorisation.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<ScaStatus> getCancellationAuthorisationScaStatus(
-        @ApiParam(name = "payment-id",
-            value = "Identification of the payment.",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("payment-id") String paymentId,
-        @ApiParam(name = "cancellation-id",
-            value = "Identification of the consent cancellation authorisation",
-            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
-            required = true)
-        @PathVariable("authorisation-id") String authorisationId);
-
-    @GetMapping(path = "/{payment-id}/authorisations")
-    @ApiOperation(value = "Gets list of payment authorisation IDs by payment ID")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 404, message = "Not Found")})
-    ResponseEntity<List<String>> getAuthorisations(
-        @ApiParam(name = "payment-id",
-            value = "The payment identification of the related payment.",
-            example = "vOHy6fj2f5IgxHk-kTlhw6sZdTXbRE3bWsu2obq54beYOChP5NvRmfh06nrwumc2R01HygQenchEcdGOlU-U0A==_=_iR74m2PdNyE",
-            required = true)
-        @PathVariable("payment-id") String paymentId);
 
     @PutMapping(path = "/{payment-id}/multilevel-sca")
     @ApiOperation(value = "Updates multilevel sca required by payment ID")

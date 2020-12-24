@@ -61,49 +61,6 @@ public class PisCommonPaymentRemoteUrls {
     }
 
     /**
-     * @return String paymentId
-     * Method: POST
-     * PathVariables: String paymentId
-     */
-    public String createPisAuthorisation() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/authorisations";
-    }
-
-    /**
-     * @return Returns URL-string to CMS endpoint that create pis authorisation cancellation
-     * Method: POST
-     * PathVariables: String paymentId
-     */
-    public String createPisAuthorisationCancellation() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/cancellation-authorisations";
-    }
-
-    /**
-     * @return String authorisation ID
-     * Method: GET
-     * PathVariables: String paymentId
-     */
-    public String getCancellationAuthorisationSubResources() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/cancellation-authorisations";
-    }
-
-    public String updatePisAuthorisation() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/authorisations/{authorisation-id}";
-    }
-
-    public String updatePisAuthorisationStatus() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/authorisations/{authorisation-id}/status/{status}";
-    }
-
-    public String getPisAuthorisationById() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/authorisations/{authorisation-id}";
-    }
-
-    public String getPisCancellationAuthorisationById() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/cancellation-authorisations/{authorisation-id}";
-    }
-
-    /**
      * Returns URL-string to CMS endpoint that gets decrypted payment id from encrypted string
      *
      * @return String
@@ -137,35 +94,6 @@ public class PisCommonPaymentRemoteUrls {
      */
     public String getPsuDataByPaymentId() {
         return commonPaymentServiceBaseUrl + "/pis/payment/{payment-id}/psu-data";
-    }
-
-    /**
-     * @return String authorisation ID
-     * Method: GET
-     * PathVariables: String paymentId
-     */
-    public String getAuthorisationSubResources() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/authorisations";
-    }
-
-    /**
-     * @return ScaStatus authorisation status
-     * Method: GET
-     * PathVariables: String paymentId
-     * PathVariables: String authorisationId
-     */
-    public String getAuthorisationScaStatus() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/authorisations/{authorisation-id}/status";
-    }
-
-    /**
-     * @return ScaStatus cancellation authorisation status
-     * Method: GET
-     * PathVariables: String paymentId
-     * PathVariables: String authorisationId
-     */
-    public String getCancellationAuthorisationScaStatus() {
-        return commonPaymentServiceBaseUrl + "/pis/common-payments/{payment-id}/cancellation-authorisations/{authorisation-id}/status";
     }
 
     /**

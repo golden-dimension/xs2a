@@ -58,42 +58,6 @@ class PisCommonPaymentRemoteUrlsTest {
     }
 
     @Test
-    void createPisAuthorisation() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/authorisations",
-                     pisCommonPaymentRemoteUrls.createPisAuthorisation());
-    }
-
-    @Test
-    void createPisAuthorisationCancellation() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/cancellation-authorisations",
-                     pisCommonPaymentRemoteUrls.createPisAuthorisationCancellation());
-    }
-
-    @Test
-    void getCancellationAuthorisationSubResources() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/cancellation-authorisations",
-                     pisCommonPaymentRemoteUrls.getCancellationAuthorisationSubResources());
-    }
-
-    @Test
-    void updatePisAuthorisation() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}",
-                     pisCommonPaymentRemoteUrls.updatePisAuthorisation());
-    }
-
-    @Test
-    void getPisAuthorisationById() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}",
-                     pisCommonPaymentRemoteUrls.getPisAuthorisationById());
-    }
-
-    @Test
-    void getPisCancellationAuthorisationById() {
-        assertEquals("http://base.url/pis/common-payments/cancellation-authorisations/{authorisation-id}",
-                     pisCommonPaymentRemoteUrls.getPisCancellationAuthorisationById());
-    }
-
-    @Test
     void getPaymentIdByEncryptedString() {
         assertEquals("http://base.url/pis/payment/{payment-id}",
                      pisCommonPaymentRemoteUrls.getPaymentIdByEncryptedString());
@@ -115,24 +79,6 @@ class PisCommonPaymentRemoteUrlsTest {
     void getPsuDataByPaymentId() {
         assertEquals("http://base.url/pis/payment/{payment-id}/psu-data",
                      pisCommonPaymentRemoteUrls.getPsuDataByPaymentId());
-    }
-
-    @Test
-    void getAuthorisationSubResources() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/authorisations",
-                     pisCommonPaymentRemoteUrls.getAuthorisationSubResources());
-    }
-
-    @Test
-    void getAuthorisationScaStatus() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/authorisations/{authorisation-id}/status",
-                     pisCommonPaymentRemoteUrls.getAuthorisationScaStatus());
-    }
-
-    @Test
-    void getCancellationAuthorisationScaStatus() {
-        assertEquals("http://base.url/pis/common-payments/{payment-id}/cancellation-authorisations/{authorisation-id}/status",
-                     pisCommonPaymentRemoteUrls.getCancellationAuthorisationScaStatus());
     }
 
     @Test
