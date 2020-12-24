@@ -37,7 +37,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
@@ -274,7 +273,7 @@ class CmsCommonPaymentMapperSupportImplTest {
         return payment;
     }
 
-    private List<CmsRemittance> getRemittanceInformationStructuredArray(ArrayList<RemittanceInformationStructured> informationStructuredArray) {
+    private List<CmsRemittance> getRemittanceInformationStructuredArray(List<RemittanceInformationStructured> informationStructuredArray) {
         if (informationStructuredArray == null) {
             return Collections.emptyList();
         }
