@@ -82,12 +82,6 @@ class PisCommonPaymentRemoteUrlsTest {
     }
 
     @Test
-    void updatePisCancellationAuthorisation() {
-        assertEquals("http://base.url/pis/common-payments/cancellation-authorisations/{authorisation-id}",
-                     pisCommonPaymentRemoteUrls.updatePisCancellationAuthorisation());
-    }
-
-    @Test
     void getPisAuthorisationById() {
         assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}",
                      pisCommonPaymentRemoteUrls.getPisAuthorisationById());
@@ -139,36 +133,6 @@ class PisCommonPaymentRemoteUrlsTest {
     void getCancellationAuthorisationScaStatus() {
         assertEquals("http://base.url/pis/common-payments/{payment-id}/cancellation-authorisations/{authorisation-id}/status",
                      pisCommonPaymentRemoteUrls.getCancellationAuthorisationScaStatus());
-    }
-
-    @Test
-    void isAuthenticationMethodDecoupled() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/authentication-methods/{authentication-method-id}",
-                     pisCommonPaymentRemoteUrls.isAuthenticationMethodDecoupled());
-    }
-
-    @Test
-    void saveAuthenticationMethods() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/authentication-methods",
-                     pisCommonPaymentRemoteUrls.saveAuthenticationMethods());
-    }
-
-    @Test
-    void updateScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/sca-approach/{sca-approach}",
-                     pisCommonPaymentRemoteUrls.updateScaApproach());
-    }
-
-    @Test
-    void getAuthorisationScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/sca-approach",
-                     pisCommonPaymentRemoteUrls.getAuthorisationScaApproach());
-    }
-
-    @Test
-    void getCancellationAuthorisationScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/cancellation-authorisations/{authorisation-id}/sca-approach",
-                     pisCommonPaymentRemoteUrls.getCancellationAuthorisationScaApproach());
     }
 
     @Test
