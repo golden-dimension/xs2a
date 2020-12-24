@@ -37,6 +37,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
@@ -56,7 +57,7 @@ class CmsCommonPaymentMapperSupportImplTest {
     @Autowired
     private Xs2aObjectMapper xs2aObjectMapper;
 
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
     private CmsCommonPayment cmsCommonPayment;
 
     @BeforeEach
@@ -195,7 +196,7 @@ class CmsCommonPaymentMapperSupportImplTest {
         return payment;
     }
 
-    private List<CmsSinglePayment> getBulkPayments(PaymentInitiationBulkElementJson paymentInitiationJson, CmsPayment parent) {
+    private List<CmsSinglePayment> getBulkPayments(PaymentInitiationJson paymentInitiationJson, CmsPayment parent) {
         CmsSinglePayment singlePayment = new CmsSinglePayment(PAYMENT_PRODUCT);
         Amount instructedAmount = paymentInitiationJson.getInstructedAmount();
         singlePayment.setEndToEndIdentification(paymentInitiationJson.getEndToEndIdentification());
@@ -217,6 +218,7 @@ class CmsCommonPaymentMapperSupportImplTest {
         singlePayment.setTppInfo(parent.getTppInfo());
         singlePayment.setStatusChangeTimestamp(parent.getStatusChangeTimestamp());
         singlePayment.setCreationTimestamp(parent.getCreationTimestamp());
+        singlePayment.setTppBrandLoggingInformation(TPP_BRAND_LOGGING_INFORMATION);
         return Collections.singletonList(singlePayment);
     }
 
@@ -272,7 +274,7 @@ class CmsCommonPaymentMapperSupportImplTest {
         return payment;
     }
 
-    private List<CmsRemittance> getRemittanceInformationStructuredArray(RemittanceInformationStructuredArray informationStructuredArray) {
+    private List<CmsRemittance> getRemittanceInformationStructuredArray(ArrayList<RemittanceInformationStructured> informationStructuredArray) {
         if (informationStructuredArray == null) {
             return Collections.emptyList();
         }
