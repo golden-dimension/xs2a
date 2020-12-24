@@ -142,36 +142,6 @@ class PisCommonPaymentRemoteUrlsTest {
     }
 
     @Test
-    void isAuthenticationMethodDecoupled() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/authentication-methods/{authentication-method-id}",
-                     pisCommonPaymentRemoteUrls.isAuthenticationMethodDecoupled());
-    }
-
-    @Test
-    void saveAuthenticationMethods() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/authentication-methods",
-                     pisCommonPaymentRemoteUrls.saveAuthenticationMethods());
-    }
-
-    @Test
-    void updateScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/sca-approach/{sca-approach}",
-                     pisCommonPaymentRemoteUrls.updateScaApproach());
-    }
-
-    @Test
-    void getAuthorisationScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/authorisations/{authorisation-id}/sca-approach",
-                     pisCommonPaymentRemoteUrls.getAuthorisationScaApproach());
-    }
-
-    @Test
-    void getCancellationAuthorisationScaApproach() {
-        assertEquals("http://base.url/pis/common-payments/cancellation-authorisations/{authorisation-id}/sca-approach",
-                     pisCommonPaymentRemoteUrls.getCancellationAuthorisationScaApproach());
-    }
-
-    @Test
     void updateMultilevelScaRequired() {
         assertEquals("http://base.url/pis/common-payments/{payment-id}/multilevel-sca?multilevel-sca={multilevel-sca}",
                      pisCommonPaymentRemoteUrls.updateMultilevelScaRequired());
