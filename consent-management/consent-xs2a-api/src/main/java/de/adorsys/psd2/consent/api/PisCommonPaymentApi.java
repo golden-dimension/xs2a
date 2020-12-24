@@ -235,6 +235,75 @@ public interface PisCommonPaymentApi {
             required = true)
         @PathVariable("payment-id") String paymentId);
 
+    @GetMapping(path = "/authorisations/{authorisation-id}/authentication-methods/{authentication-method-id}")
+    @ApiOperation(value = "Checks if requested authentication method is decoupled")
+    @ApiResponse(code = 200, message = "OK")
+    ResponseEntity<Boolean> isAuthenticationMethodDecoupled(
+        @ApiParam(name = "authorisation-id",
+            value = "Common payment authorisation identification",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("authorisation-id") String authorisationId,
+        @ApiParam(name = "authentication-method-id",
+            value = "Authentication method identification",
+            example = "sms",
+            required = true)
+        @PathVariable("authentication-method-id") String authenticationMethodId);
+
+    @PostMapping(path = "/authorisations/{authorisation-id}/authentication-methods")
+    @ApiOperation(value = "Saves authentication methods in authorisation")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<Void> saveAuthenticationMethods(
+        @ApiParam(name = "authorisation-id",
+            value = "The common payment authorisation identification.",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("authorisation-id") String authorisationId,
+        @RequestBody List<CmsScaMethod> methods);
+
+    @PutMapping(path = "/authorisations/{authorisation-id}/sca-approach/{sca-approach}")
+    @ApiOperation(value = "Updates pis sca approach.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<Boolean> updateScaApproach(
+        @ApiParam(name = "authorisation-id",
+            value = "The authorisation identification assigned to the created authorisation.",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("authorisation-id") String authorisationId,
+        @ApiParam(name = "sca-approach",
+            value = "Chosen SCA approach.",
+            example = "REDIRECT",
+            required = true)
+        @PathVariable("sca-approach") ScaApproach scaApproach);
+
+    @GetMapping(path = "/authorisations/{authorisation-id}/sca-approach")
+    @ApiOperation(value = "Gets SCA approach of the payment initiation authorisation by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<AuthorisationScaApproachResponse> getAuthorisationScaApproach(
+        @ApiParam(name = "authorisation-id",
+            value = "Identification of the payment initiation authorisation.",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("authorisation-id") String authorisationId);
+
+    @GetMapping(path = "/cancellation-authorisations/{authorisation-id}/sca-approach")
+    @ApiOperation(value = "Gets SCA approach of the payment cancellation authorisation by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 404, message = "Not Found")})
+    ResponseEntity<AuthorisationScaApproachResponse> getCancellationAuthorisationScaApproach(
+        @ApiParam(name = "authorisation-id",
+            value = "Identification of the payment cancellation authorisation.",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("authorisation-id") String authorisationId);
+
     @PutMapping(path = "/{payment-id}/multilevel-sca")
     @ApiOperation(value = "Updates multilevel sca required by payment ID")
     @ApiResponses(value = {

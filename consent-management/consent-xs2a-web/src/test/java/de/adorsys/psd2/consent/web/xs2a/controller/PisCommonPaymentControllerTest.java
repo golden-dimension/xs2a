@@ -30,6 +30,7 @@ import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.AuthorisationScaApproachResponse;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
 import org.junit.jupiter.api.Test;
@@ -41,8 +42,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PisCommonPaymentControllerTest {
@@ -332,6 +332,58 @@ class PisCommonPaymentControllerTest {
     }
 
     @Test
+    void getAuthorisationScaApproach_success() {
+        when(authorisationServiceEncrypted.getAuthorisationScaApproach(AUTHORISATION_ID))
+            .thenReturn(CmsResponse.<AuthorisationScaApproachResponse>builder().payload(new AuthorisationScaApproachResponse(ScaApproach.EMBEDDED)).build());
+
+        ResponseEntity<AuthorisationScaApproachResponse> response = pisCommonPaymentController.getAuthorisationScaApproach(AUTHORISATION_ID);
+
+        verify(authorisationServiceEncrypted, times(1)).getAuthorisationScaApproach(eq(AUTHORISATION_ID));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ScaApproach.EMBEDDED, response.getBody().getScaApproach());
+    }
+
+    @Test
+    void getAuthorisationScaApproach_error() {
+        when(authorisationServiceEncrypted.getAuthorisationScaApproach(AUTHORISATION_ID))
+            .thenReturn(CmsResponse.<AuthorisationScaApproachResponse>builder().error(CmsError.TECHNICAL_ERROR).build());
+
+        ResponseEntity<AuthorisationScaApproachResponse> response = pisCommonPaymentController.getAuthorisationScaApproach(AUTHORISATION_ID);
+
+        verify(authorisationServiceEncrypted, times(1)).getAuthorisationScaApproach(eq(AUTHORISATION_ID));
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void getCancellationAuthorisationScaApproach_success() {
+        when(authorisationServiceEncrypted.getAuthorisationScaApproach(AUTHORISATION_ID))
+            .thenReturn(CmsResponse.<AuthorisationScaApproachResponse>builder().payload(new AuthorisationScaApproachResponse(ScaApproach.EMBEDDED)).build());
+
+        ResponseEntity<AuthorisationScaApproachResponse> response = pisCommonPaymentController.getCancellationAuthorisationScaApproach(AUTHORISATION_ID);
+
+        verify(authorisationServiceEncrypted, times(1)).getAuthorisationScaApproach(eq(AUTHORISATION_ID));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ScaApproach.EMBEDDED, response.getBody().getScaApproach());
+    }
+
+    @Test
+    void getCancellationAuthorisationScaApproach_error() {
+        when(authorisationServiceEncrypted.getAuthorisationScaApproach(AUTHORISATION_ID))
+            .thenReturn(CmsResponse.<AuthorisationScaApproachResponse>builder().error(CmsError.TECHNICAL_ERROR).build());
+
+        ResponseEntity<AuthorisationScaApproachResponse> response = pisCommonPaymentController.getCancellationAuthorisationScaApproach(AUTHORISATION_ID);
+
+        verify(authorisationServiceEncrypted, times(1)).getAuthorisationScaApproach(eq(AUTHORISATION_ID));
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
     void updateMultilevelScaRequired_Ok() {
         when(pisCommonPaymentService.updateMultilevelSca(PAYMENT_ID, true))
             .thenReturn(CmsResponse.<Boolean>builder().payload(true).build());
@@ -339,7 +391,6 @@ class PisCommonPaymentControllerTest {
         ResponseEntity<Boolean> actualResponse = pisCommonPaymentController.updateMultilevelScaRequired(PAYMENT_ID, true);
 
         assertEquals(HttpStatus.OK, actualResponse.getStatusCode());
-        assertNotNull(actualResponse.getBody());
         assertTrue(actualResponse.getBody());
     }
 

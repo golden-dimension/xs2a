@@ -40,18 +40,6 @@ Sonar alerts were fixed for classes:
 - AbstractContainerDatabaseTest
 - BaseTest
 - ServiceInstanceIdEventListener
-- PisAbstractAuthService
-- CmsPsuPisMapperTest
-- PisCommonPaymentMapperTest
-- CmsPsuApiDefaultValue
-- AspspConsentDataApi
-- AuthorisationApi
-- PisCommonPaymentApi
-- CmsRestException
-- ConsentRestErrorHandler
-- AuthorisationController
-- PisCommonPaymentController
-- CmsConsentControllerTest
 
 == Bugfix: added missing PART transaction status
 
