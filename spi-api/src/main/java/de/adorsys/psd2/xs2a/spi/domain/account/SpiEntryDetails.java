@@ -18,12 +18,10 @@ package de.adorsys.psd2.xs2a.spi.domain.account;
 
 import de.adorsys.psd2.xs2a.spi.domain.common.SpiAmount;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
 public class SpiEntryDetails {
     private final String endToEndId;
     private final String mandateId;
