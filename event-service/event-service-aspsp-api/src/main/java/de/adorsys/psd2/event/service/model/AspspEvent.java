@@ -19,7 +19,10 @@ package de.adorsys.psd2.event.service.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.psd2.event.core.model.EventOrigin;
 import de.adorsys.psd2.event.core.model.EventType;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -31,7 +34,6 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@AllArgsConstructor
 @EqualsAndHashCode
 public class AspspEvent {
     /**
