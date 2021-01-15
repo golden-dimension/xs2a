@@ -43,9 +43,7 @@ public class OneOffConsentExpirationService {
 
     public static final int READ_ONLY_ACCOUNT_DETAILS_COUNT = 1;
     public static final int READ_ACCOUNT_DETAILS_AND_BALANCES_COUNT = 2;
-    public static final int READ_ACCOUNT_DETAILS_COUNT = 1;
-    public static final int READ_ALL_DETAILS_COUNT = 2;
-    public static final int READ_ALL_DETAILS_WITH_BENEFICIARIES_COUNT = 3;
+    public static final int READ_ACCOUNT_DETAILS_AND_BALANCES_AND_BENEFICIARIES = 3;
 
     private final AisConsentUsageRepository aisConsentUsageRepository;
     private final AisConsentTransactionRepository aisConsentTransactionRepository;
@@ -92,7 +90,7 @@ public class OneOffConsentExpirationService {
                 CollectionUtils.isNotEmpty(consentTransactions) ? consentTransactions.get(0).getNumberOfTransactions() : 0;
             boolean isConsentGlobal = consentRequestType == AisConsentRequestType.GLOBAL;
             int bookingStatusesAvailable = aspspProfileService.getAspspSettings(cmsConsent.getInstanceId())
-                .getAis().getTransactionParameters().getAvailableBookingStatuses().size();
+                                               .getAis().getTransactionParameters().getAvailableBookingStatuses().size();
             int maximumNumberOfGetRequestsForConsent =
                 getMaximumNumberOfGetRequestsForConsentsAccount(aspspAccountAccesses, resourceId, numberOfTransactions,
                                                                 isConsentGlobal, cmsConsent.getInstanceId(), bookingStatusesAvailable);
@@ -151,16 +149,16 @@ public class OneOffConsentExpirationService {
             // Value 1 corresponds to the readAccountDetails.
             // Plus quantity of transaction lists which is equal to the number ob available booking statuses.
             // Plus each account's transactions.
-            return READ_ACCOUNT_DETAILS_COUNT + bookingStatusesAvailable + numberOfTransactions;
+            return READ_ONLY_ACCOUNT_DETAILS_COUNT + bookingStatusesAvailable + numberOfTransactions;
         }
 
         // Consent was given for accounts, balances, transactions lists for each booking status and beneficiaries.
         if (isBeneficiariesEndpointAllowed(isConsentGlobal, aspspAccountAccesses, instanceId)) {
-            return READ_ALL_DETAILS_WITH_BENEFICIARIES_COUNT + bookingStatusesAvailable + numberOfTransactions;
+            return READ_ACCOUNT_DETAILS_AND_BALANCES_AND_BENEFICIARIES + bookingStatusesAvailable + numberOfTransactions;
         }
 
         // Consent was given for accounts, balances and transactions lists for each booking status.
-        return READ_ALL_DETAILS_COUNT + bookingStatusesAvailable + numberOfTransactions;
+        return READ_ACCOUNT_DETAILS_AND_BALANCES_COUNT + bookingStatusesAvailable + numberOfTransactions;
     }
 
     private boolean isBeneficiariesEndpointAllowed(boolean isConsentGlobal, AccountAccess aspspAccountAccesses, String instanceId) {
