@@ -43,7 +43,7 @@ public class OneOffConsentExpirationService {
 
     public static final int READ_ONLY_ACCOUNT_DETAILS_COUNT = 1;
     public static final int READ_ACCOUNT_DETAILS_AND_BALANCES_COUNT = 2;
-    public static final int READ_ACCOUNT_DETAILS_AND_BALANCES_AND_BENEFICIARIES = 3;
+    public static final int READ_ALL_DETAILS_AND_BENEFICIARIES = 3;
 
     private final AisConsentUsageRepository aisConsentUsageRepository;
     private final AisConsentTransactionRepository aisConsentTransactionRepository;
@@ -154,7 +154,7 @@ public class OneOffConsentExpirationService {
 
         // Consent was given for accounts, balances, transactions lists for each booking status and beneficiaries.
         if (isBeneficiariesEndpointAllowed(isConsentGlobal, aspspAccountAccesses, instanceId)) {
-            return READ_ACCOUNT_DETAILS_AND_BALANCES_AND_BENEFICIARIES + bookingStatusesAvailable + numberOfTransactions;
+            return READ_ALL_DETAILS_AND_BENEFICIARIES + bookingStatusesAvailable + numberOfTransactions;
         }
 
         // Consent was given for accounts, balances and transactions lists for each booking status.
