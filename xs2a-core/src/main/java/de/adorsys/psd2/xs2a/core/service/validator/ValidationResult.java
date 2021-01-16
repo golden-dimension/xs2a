@@ -50,7 +50,7 @@ public class ValidationResult {
         return new ValidationResult(false, new MessageError(errorType, tppMessageInformation));
     }
 
-    public static ValidationResult invalid(@NotNull ErrorType errorType, TppMessageInformation... tppMessageInformations) {
+    public static ValidationResult invalid(@NotNull ErrorType errorType, TppMessageInformation... tppMessageInformations) { //NOSONAR
         return new ValidationResult(false, new MessageError(errorType, tppMessageInformations));
     }
 
