@@ -24,7 +24,6 @@ import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationServiceType;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
 import de.adorsys.psd2.xs2a.service.validator.PisEndpointAccessCheckerService;
 import de.adorsys.psd2.xs2a.service.validator.PisPsuDataUpdateAuthorisationCheckerValidator;
-//import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.service.validator.authorisation.AuthorisationStageCheckValidator;
 import de.adorsys.psd2.xs2a.service.validator.pis.AbstractPisValidator;
 import lombok.extern.slf4j.Slf4j;
