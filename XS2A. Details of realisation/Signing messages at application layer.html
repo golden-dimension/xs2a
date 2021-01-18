@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.8.1</title>
+<title>Signing messages ar application layer (Digest + Signature)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,148 +440,209 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.8.1</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_table_of_contents">Table of Contents</h2>
+<h2 id="_signing_messages_ar_application_layer_digest_signature">Signing messages ar application layer (Digest + Signature)</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The ASPSP may require the TPP to sign request messages. This requirement shall be stated
+in the ASPSP documentation.</p>
+</div>
+<div class="paragraph">
+<p>The signature shall be included in the HTTP header.</p>
+</div>
+<div class="paragraph">
+<p>The electronic signature of the TPP has to be based on a qualified certificate for electronic
+seals. This qualified certificate has to be issued by a qualified trust service provider according
+to the eIDAS regulation [eIDAS]. The content of the certificate has to be compliant with the
+requirements of [EBA-RTS]. The certificate of the TPP has to indicate all roles the TPP is
+authorised to use.</p>
+</div>
+<div class="sect2">
+<h3 id="_aspsp_profile">ASPSP Profile</h3>
+<div class="paragraph">
+<p>The electronic signature will be enabled if ASPSP supports it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
+...
+ "common": {
+        "tppSignatureRequired": true,
+        ...
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_header">Request Header</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Digest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conditional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is contained if and only if the "Signature"
+element is contained in the header of the request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conditional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A signature of the request by the TPP on
+application level. This might be mandated by ASPSP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TPPSignatureCertificate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conditional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The certificate used for signing the request, in
+base64 encoding. Must be contained if a signature is contained, see above.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Remark:</strong> An ASPSP will ignore signatures on application level used by the TPP if signatures
+are not supported by the ASPSP.</p>
+</div>
+<div class="sect3">
+<h4 id="_digest_header">Digest header</h4>
+<div class="paragraph">
+<p>The "Digest" Header is mandatory and  contains a Hash of the
+message body, if the message does not contain a body, the "Digest" header must contain the
+hash of an empty bytelist. The only hash algorithms that may be used to calculate the Digest
+within the context of this specification are SHA-256 and SHA-512 as defined in [RFC5843].</p>
+</div>
+<div class="paragraph">
+<p><strong>Remark:</strong> In case of a multipart message the same method is used to calculate the digest. I.e.
+a hash of the (whole) message body is calculated including all parts of the multipart message
+as well as the separators.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_signature_header">Signature header</h4>
+<div class="paragraph">
+<p>"Signature" header must be present. The structure of a "Signature" header is defined in the following table lists.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Additional Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">keyId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The keyId field is a string that the server can use to look up
+the component they need to validate the signature.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serial Number of the TPP&#8217;s certificate included in the "TPPSignature-Certificate" header
+of this request.
+It shall be formatted as follows:
+keyId="SN=XXX,CA=YYYYYY
+YYYYYYYYYY"
+where “XXX" is the serial
+number of the certificate in
+hexadecimal coding given in
+the TPP-Signature-CertificateHeader and
+"YYYYYYYYYYYYYYYY" is
+the full Distinguished Name of the Certification Authority having produced this certificate.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Algorithm</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The "Algorithm " parameter is
+used to specify the digital signature algorithm to use when generating the signature. Valid values for this
+parameter can be found in the Signature Algorithms registry located at <a href="http://www.iana.org/assignments/signature-algorithms" class="bare">http://www.iana.org/assignments/signature-algorithms</a>
+and MUST NOT be marked "deprecated". It is preferred that the algorithm used by an implementation be derived
+from the key metadata identified by the 'keyId' rather than from this field. The 'algorithm' parameter will most likely
+be deprecated in the future.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p>
+<p class="tableblock">The algorithm must identify the same algorithm for the signature as described for the TPP&#8217;s public key (Subject
+Public Key Info) in the certificate (Element "TPP-SignatureCertificate") of this Request.
+It must identify SHA-256 or SHA-512 as Hash algorithm.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Headers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The "Headers" parameter is
+used to specify the list of HTTP headers included when generating the signature for
+the message. If specified, it should be a lowercased, quoted list of HTTP header fields, separated by a single
+space character. If not specified, implementations MUST operate as if the field were specified with a single
+value, the <code>Date</code> header, in the list of HTTP headers. Note that the list order is important, and MUST be
+specified in the order the HTTP header field-value pairs are concatenated together during signing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory.</p>
+<p class="tableblock">Must include</p>
+<p class="tableblock">* "digest",
+* "x-request-id",</p>
+<p class="tableblock">Must conditionally include</p>
+<p class="tableblock">* "psu-id", if and only if "PSU-ID" is included as a header of the HTTP-Request.
+* "psu-corporate-id", if and only if "PSUCorporate-ID" is included as a header of the HTTP-Request.
+* "tpp-redirect-uri", if and nly if "TPP-RedirectURI" is included as a header of the HTTPRequest.</p>
+<p class="tableblock"><strong>No other entries may be included.</strong></p>
+<p class="tableblock"><strong>Remark:</strong> It is intended to introduce a new http header in a coming version. This new header shall indicate the
+creation date of a request on the side of the TPP. This new header and will also have to be included in this "Headers"
+element.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The "signature" parameter is
+a base 64 encoded digital signature, as described in RFC 4648 [RFC4648]. The client uses the <code>algorithm</code> and <code>headers</code>
+signature parameters to form a canonicalised <code>signing string</code>. This <code>signing string</code> is then signed with the key
+associated with <code>keyId</code> and the algorithm corresponding to <code>algorithm</code>. The <code>signature</code> parameter is then set to the
+base 64 encoding of the signature.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[No additional Requirements]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_data_generation">Test data generation</h3>
+<div class="paragraph">
+<p>For test data generation use <code>DigestSignatureHelper</code> class:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</p>
+<p>put response data from certificate generator (encodedCert and privateKey)  to <code>"helper/key-pair.json"</code></p>
 </li>
 <li>
-<p>Fixed deadlock while saving authentication methods for authorisation</p>
-</li>
-<li>
-<p>Added field charge bearer</p>
-</li>
-<li>
-<p>Added pagination for transactions</p>
-</li>
-<li>
-<p>Added debtorName field to get payment response</p>
-</li>
-<li>
-<p>Added cms payment mapper resolver</p>
-</li>
-<li>
-<p>Added pageIndex and itemsPerPage to SpiTransactionReportParameters</p>
-</li>
-<li>
-<p>Adjusted OAuth flow</p>
-</li>
-<li>
-<p>Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></p>
-</li>
-<li>
-<p>Changed (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</p>
+<p>example how to use <code>DigestSignatureHelperTest</code>.</p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fixed_internal_server_error_on_get_aspsp_apiv1aisconsentsaccountaccount_id_with_oracle_db">Fixed internal server error on <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> with oracle db</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, endpoint <code>GET aspsp-api/v1/ais/consents/account/{account-id}</code> works correct with oracle db</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fixed_deadlock_while_saving_authentication_methods_for_authorisation">Fixed deadlock while saving authentication methods for authorisation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, authentication methods for authorisation saving only in case they differ from already
-saved one for same authorisation.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_field_charge_bearer">Added field charge bearer</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Added field charge bearer to <code>PaymentInitiationJson</code>, <code>PaymentInitiationWithStatusResponse</code>, <code>PaymentInitiationBulkElementJson</code>
-and passed this field to spi level. From now on, <code>SpiSinglePayment</code> contains String field <code>chargeBearer</code>.
-For validating this field according to bank requirements, extend payment validation on connector side.
-Instruction how to do that one can find in <code>Extending payment validation.adoc</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_pagination_for_transactions">Added pagination for transactions</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, pagination links passed from spi to get transaction list response.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_debtorname_field_to_get_payment_response">Added debtorName field to get payment response</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Field <code>debtorName</code> was added to get payment response. Cms store original payment, and updated payment with
-<code>debtorName</code> will be extracted from bank via spi call and passed to get payment response.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_cms_payment_mapper_resolver">Added cms payment mapper resolver</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, cms payment mapper resolves through implementation of <code>PaymentMapperResolver</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_added_pageindex_and_itemsperpage_to_spitransactionreportparameters">Added pageIndex and itemsPerPage to SpiTransactionReportParameters</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, <code>SpiTransactionReportParameters</code> has two new integer fields: <code>pageIndex</code> and <code>itemsPerPage</code>. And
-<code>AccountApi</code> has two new query parameters <code>pageIndex</code> and <code>itemsPerPage</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_adjusted_oauth_flow">Adjusted OAuth flow</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, OAUTH flow is a part of REDIRECT approach which configured modes (<code>common.scaRedirectFlow</code> property in ASPSP profile):</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>REDIRECT - usual redirect mode</p>
-</li>
-<li>
-<p>OAUTH - integrated OAuth mode (TPP asks for token after initiation of request)</p>
-</li>
-<li>
-<p>OAUTH_PRE_STEP - pre-step OAuth mode (TPP asks for token before initiation of request)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>There was a link <code>scaOAuth</code> which was replaced by <code>scaRedirect</code> in responses. SCA approach OAUTH was removed.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remove_obsolete_property_xs2a_application_ais_transaction_max_length">Remove obsolete property <code>xs2a.application.ais.transaction.max-length</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The configuration property <code>xs2a.application.ais.transaction.max-length</code> was removed.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_changed_paymentspiverifyscaauthorisationandexecutepaymentwithpaymentresponse_response_type">Changed PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, (PaymentSpi | PaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse responses <code>SpiResponse&lt;SpiPaymentExecutionResponse&gt;</code>.
-This response includes transaction status and spi authorisation status simultaneously.</p>
 </div>
 </div>
 </div>
