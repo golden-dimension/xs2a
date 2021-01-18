@@ -32,7 +32,6 @@ import org.mapstruct.MappingTarget;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring",
     uses = {Xs2aAddressMapper.class, RemittanceMapper.class, PurposeCodeMapper.class},
@@ -65,10 +64,11 @@ public interface PaymentModelMapper {
     }
 
     default PisDayOfExecution mapDayOfExecution(DayOfExecution dayOfExecution) {
-        if (dayOfExecution != null) {
-            Optional<PisDayOfExecution> pisDayOfExecutionOptional = PisDayOfExecution.getByValue(dayOfExecution.toString());
-            return pisDayOfExecutionOptional.orElse(null);
+        if (dayOfExecution == null) {
+            return null;
         }
-        return null;
+
+        return PisDayOfExecution.getByValue(dayOfExecution.toString())
+                   .orElse(null);
     }
 }
