@@ -28,19 +28,16 @@ The electronic signature will be enabled if ASPSP supports it:
 === Request Header
 
 |===
-|Attribute Type |Condition |Description
+|Attribute |Type |Condition |Description
 
-|Digest |String |Conditional Is contained if and only if the "Signature"
-element is contained in the header of the
-request.
+|Digest |String |Conditional |Is contained if and only if the "Signature"
+element is contained in the header of the request.
 
-|Signature |String |Conditional A signature of the request by the TPP on
-application level. This might be mandated by
-ASPSP.
+|Signature |String |Conditional |A signature of the request by the TPP on
+application level. This might be mandated by ASPSP.
 
-|TPPSignatureCertificate |String |Conditional The certificate used for signing the request, in
-base64 encoding. Must be contained if a
-signature is contained, see above.
+|TPPSignatureCertificate |String |Conditional |The certificate used for signing the request, in
+base64 encoding. Must be contained if a signature is contained, see above.
 
 |===
 
