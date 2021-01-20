@@ -1275,7 +1275,7 @@ class ConsentServiceTest {
     void getConsentAuthorisationScaStatus() {
         // Given
         ResponseObject<Xs2aScaStatusResponse> expected = ResponseObject.<Xs2aScaStatusResponse>builder()
-                                                             .body(new Xs2aScaStatusResponse(ScaStatus.RECEIVED, null))
+                                                             .body(new Xs2aScaStatusResponse(ScaStatus.RECEIVED, null, "psu message"))
                                                              .build();
 
         ConsentScaStatus consentScaStatus = new ConsentScaStatus(null, aisConsent, ScaStatus.RECEIVED);
@@ -1300,7 +1300,7 @@ class ConsentServiceTest {
     void getConsentAuthorisationScaStatus_withBeneficiariesFlag() {
         // Given
         ResponseObject<Xs2aScaStatusResponse> expected = ResponseObject.<Xs2aScaStatusResponse>builder()
-                                                             .body(new Xs2aScaStatusResponse(ScaStatus.FINALISED, true))
+                                                             .body(new Xs2aScaStatusResponse(ScaStatus.FINALISED, true, "psu message"))
                                                              .build();
 
         ConsentScaStatus consentScaStatus = new ConsentScaStatus(null, aisConsent, ScaStatus.FINALISED);
