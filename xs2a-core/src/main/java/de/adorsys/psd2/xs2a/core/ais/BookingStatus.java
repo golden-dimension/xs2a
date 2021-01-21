@@ -26,10 +26,9 @@ public enum BookingStatus {
     INFORMATION("information"),
     PENDING("pending"),
     BOOKED("booked"),
-    BOTH("both"),
-    UNDEFINED("undefined");
+    BOTH("both");
 
-    private String value;
+    private final String value;
 
     BookingStatus(String value) {
         this.value = value;

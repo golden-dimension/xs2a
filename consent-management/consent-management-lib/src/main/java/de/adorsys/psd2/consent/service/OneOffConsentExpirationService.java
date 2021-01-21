@@ -28,13 +28,10 @@ import de.adorsys.psd2.xs2a.core.consent.AisConsentRequestType;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.core.profile.AdditionalInformationAccess;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -88,7 +85,7 @@ public class OneOffConsentExpirationService {
                                                       .getAis().getTransactionParameters().getAvailableBookingStatuses();
             List<AisConsentTransaction> consentTransactions = aisConsentTransactionRepository.findByConsentIdAndResourceId(consentId,
                                                                                                                            resourceId,
-                                                                                                                           PageRequest.of(0, Integer.MAX_VALUE))
+                                                                                                                           Pageable.unpaged())
                                                                   .stream()
                                                                   .filter(t -> bookingStatuses.contains(t.getBookingStatus()))
                                                                   .collect(Collectors.toList());
@@ -115,18 +112,14 @@ public class OneOffConsentExpirationService {
     }
 
     private int getNumberOfTransactions(List<AisConsentTransaction> consentTransactions) {
-        List<BookingStatus> bookingStatuses = consentTransactions.stream()
-                                                  .map(AisConsentTransaction::getBookingStatus)
-                                                  .collect(Collectors.toList());
-        if (bookingStatuses.contains(BookingStatus.BOTH)) {
-            return consentTransactions.stream()
-                       .filter(t -> BookingStatus.BOTH.equals(t.getBookingStatus()))
-                       .map(AisConsentTransaction::getNumberOfTransactions)
-                       .mapToInt(Integer::intValue)
-                       .sum();
-        }
+        Set<BookingStatus> bookingStatuses = consentTransactions.stream()
+                                                 .map(AisConsentTransaction::getBookingStatus)
+                                                 .collect(Collectors.toSet());
+        EnumSet<BookingStatus> filteredBookingStatuses = bookingStatuses.contains(BookingStatus.BOTH) ?
+                                                             EnumSet.of(BookingStatus.BOTH) :
+                                                             EnumSet.of(BookingStatus.BOOKED, BookingStatus.PENDING);
         return consentTransactions.stream()
-                   .filter(t -> EnumSet.of(BookingStatus.BOOKED, BookingStatus.PENDING).contains(t.getBookingStatus()))
+                   .filter(t -> filteredBookingStatuses.contains(t.getBookingStatus()))
                    .map(AisConsentTransaction::getNumberOfTransactions)
                    .mapToInt(Integer::intValue)
                    .sum();
@@ -137,8 +130,7 @@ public class OneOffConsentExpirationService {
         int result = 0;
 
         for (BookingStatus bs : bookingStatuses) {
-            Integer totalPages = map.get(bs);
-            result = totalPages != null ? result + totalPages : result + 1;
+            result = result + map.getOrDefault(bs, 1);
         }
 
         return result;
@@ -185,7 +177,7 @@ public class OneOffConsentExpirationService {
         // Consent was given for accounts and transactions lists for each booking status with paging.
         if (accessesForBalanceEmpty) {
             // Value 1 corresponds to the readAccountDetails.
-            // Plus quantity of transaction lists with paging which is equal to the number ob available booking statuses.
+            // Plus quantity of transaction lists with paging which is equal to the number of available booking statuses.
             // Plus each account's transaction.
             return READ_ONLY_ACCOUNT_DETAILS_COUNT + totalPages + numberOfTransactions;
         }
