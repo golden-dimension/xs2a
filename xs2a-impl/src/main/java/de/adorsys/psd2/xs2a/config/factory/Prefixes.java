@@ -16,10 +16,13 @@
 
 package de.adorsys.psd2.xs2a.config.factory;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReadPaymentStatusConstant {
-    public static final String SERVICE_PREFIX = "status-";
+@Getter
+@AllArgsConstructor
+public enum Prefixes {
+    SERVICE_PREFIX("status-");
+
+    private final String value;
 }
