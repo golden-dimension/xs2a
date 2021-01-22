@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.5.1</title>
+<title>Release notes v.9.7</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,7 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.5.1</h1>
+<h1>Release notes v.9.7</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -449,157 +449,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Changed yaml-generator to correct model Objects equals</p>
-</li>
-<li>
-<p>Implemented support of SCA exemption</p>
-</li>
-<li>
-<p>Bugfix: wrong PSU-ID can authorise endpoints</p>
-</li>
-<li>
-<p>Bugfix: don&#8217;t provide <code>creditorAddress</code> field in get payment response if it was absent in initiate payment request</p>
-</li>
-<li>
-<p>Bugfix: wrong <code>authorisation_id</code> can authorise</p>
-</li>
-<li>
-<p>Implemented support of Relative links</p>
-</li>
-<li>
-<p>Provided optional SCA for Global Consent</p>
-</li>
-<li>
-<p>Refactoring: ScaApproachResolver cleanup</p>
-</li>
-<li>
-<p>Bugfix: don&#8217;t check the authorisation result of <code>AuthorisationSpi#authorisePsu</code></p>
-</li>
-<li>
-<p>Bugfix: supported application types for getting transactions list are represented as an array</p>
+<p>Added a psuMessage into Get SCA Status Response</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_changed_yaml_generator_to_correct_model_objects_equals">Changed yaml-generator to correct model Objects equals</h2>
+<h2 id="_added_a_psumessage_into_get_sca_status_response">Added a psuMessage into Get SCA Status Response</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, instances of generated models in <code>xs2a-server-api</code> module will correctly compare superclass properties in <code>equals</code> method.</p>
+<p>From now on, getting SCA status response include <code>psuMessage</code> (optional) from ASPSP.
+Moreover, obtaining the SCA status remained from the CMS and obtaining <code>psuMessage</code> and <code>trustedBeneficiaryFlag</code>
+was combined and moved to SPI level.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_implemented_support_of_sca_exemption">Implemented support of SCA exemption</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>From now on, SCA exemption is possible for bulk and single payment initiation in embedded approach. To support this, return type of
-<code>AuthorisationSpi#authorisePsu</code> method was changed from <code>SpiAuthorisationStatus</code> to <code>SpiPsuAuthorisationResponse</code>.
-<code>SpiPsuAuthorisationResponse</code> is a new domain class, which contains authorisation status as well as boolean <code>scaExempted</code>
-field, which is taken into account by XS2A for performing SCA exemption. If the psu authorisation spi response for
-bulk or single will be successful and <code>scaExempted</code> is <code>true</code> - SCA will not be performed, 'PaymentSpi#executePaymentWithoutSca'
-will be invoked and authorisation status will be set to <code>EXEMPTED</code>. SCA exemption is supported for multilevel SCA too.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_wrong_psu_id_can_authorise_endpoints">Bugfix: wrong PSU-ID can authorise endpoints</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, PSU that is different from the PSU in authorisation can not update data on the authorisation resource.
-This applies to the following endpoints:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>consent <code>PUT /v1/consents/{consentId}/authorisations/{authorisationId}</code>,</p>
-</li>
-<li>
-<p>payment <code>PUT /v1/{payment-service}/{payment-product}/{payment-id}/authorisations/{authorisation-id}</code>,</p>
-</li>
-<li>
-<p>payment cancellation <code>PUT /v1/{payment-service}/{payment-product}/{payment-id}/cancellation-authorisations/{cancellation-id}</code>.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_dont_provide_creditoraddress_field_in_get_payment_response_if_it_was_absent_in_initiate_payment_request">Bugfix: don&#8217;t provide <code>creditorAddress</code> field in get payment response if it was absent in initiate payment request</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, <code>creditorAddress</code> field is absent in get payment response <code>GET /v1/{payment-service}/{payment-product}/{paymentId}</code>
-if it was not provided in initiate payment request <code>POST /v1/{payment-service}/{payment-product}</code></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_wrong_authorisationid_can_authorise">Bugfix: wrong <code>authorisationId</code> can authorise</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Fixed bug with updating authorisation by wrong <code>authorization_id</code>. From now on, endpoints below return <code>403 RESOURCE_UNKNOWN</code>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>PUT /v1/consents/{{consent_id}}/authorisations/{{authorisation_id}}</code></p>
-</li>
-<li>
-<p><code>PUT /v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/authorisations/{{authorisation_id}}</code></p>
-</li>
-<li>
-<p><code>PUT /v1/{{payment_service}}/{{payment_product}}/{{payment_id}}/cancellation-authorisations/{{cancellation_id}}</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_implemented_support_of_relative_links">Implemented support of Relative links</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Before, ASPSP could set up in ASPSP profile the way, how the links are built by the XS2A (all links except <code>scaRedirect</code>).
-This mechanism allowed the usage of only absolute links (<code>xs2aBaseLinksUrl</code> property in ASPSP profile). From now on, the
-relative links are supported as well. To have result links as relative ones, set in ASPSP profile <code>forceXs2aBaseLinksUrl</code>
-as <code>true</code> and <code>xs2aBaseLinksUrl</code> with a value, starting with <code>/</code> (for example <code>/</code>, <code>/myhost</code>, etc.).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_provided_optional_sca_for_global_consent">Provided optional SCA for Global Consent</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>New option <code>scaByOneTimeGlobalConsentRequired</code> has been added to the profile, indicating whether SCA has be performed to validate one-time global consent.
-If <code>scaByOneTimeGlobalConsentRequired</code> is set to <code>false</code>, then SCA for one-time global consent is not needed, meaning that authorisation resource for such consent will become finalised after providing PSU password in Update PSU Data request.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_refactoring_scaapproachresolver_cleanup">Refactoring: ScaApproachResolver cleanup</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, <code>ScaApproachResolver</code> fetches, if possible, information out of an authorisation object instead of resolving it directly.
-Furthermore, the header <code>Aspsp-Sca-Approach</code> isn&#8217;t returned, if consent creation fails.
-Appropriate changes have been made to remove <code>ScaApproachResolver</code> 's reliance to an existing authorisation by a given id.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_dont_check_the_authorisation_result_of_authorisationspiauthorisepsu">Bugfix: don&#8217;t check the authorisation result of <code>AuthorisationSpi#authorisePsu</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, XS2A will check the authorisation result of <code>AuthorisationSpi#authorisePsu</code> and respond with 401
-<code>PSU_CREDENTIALS_INVALID</code> error code.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_supported_application_types_for_getting_transactions_list_are_represented_as_an_array">Bugfix: supported application types for getting transactions list are represented as an array</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, the ASPSP profile supports list of strings as supported application media types for <code>GET /v1/accounts/{account-id}/transactions</code>
-request. E.g. <code>application/json</code>, <code>application/xml</code>.</p>
+<p>New method <code>AuthorisationSpi#getScaStatus</code> was added to SPI interface.
+Existing method <code>AuthorisationSpi#requestTrustedBeneficiaryFlag</code> was marked as deprecated and will be removed soon.</p>
 </div>
 </div>
 </div>
