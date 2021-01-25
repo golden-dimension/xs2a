@@ -18,6 +18,7 @@ package de.adorsys.psd2.xs2a.web.validator.header;
 
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.header.account.TransactionListHeaderValidator;
 import org.apache.commons.lang3.StringUtils;
@@ -56,5 +57,10 @@ public class AcceptHeaderValidatorImpl extends AbstractHeaderValidatorImpl
         }
 
         return messageError;
+    }
+
+    @Override
+    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
+        return ValidationResult.valid();
     }
 }

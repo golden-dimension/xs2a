@@ -18,6 +18,7 @@ package de.adorsys.psd2.xs2a.web.validator.header;
 
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -73,6 +74,11 @@ public class HeadersLengthValidatorImpl extends AbstractHeaderValidatorImpl
         }
 
         return messageError;
+    }
+
+    @Override
+    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
+        return ValidationResult.valid();
     }
 
     private boolean isHeaderExceedsLength(Map.Entry<String, String> header) {

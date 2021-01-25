@@ -50,4 +50,9 @@ public class ConsentIdHeaderCofValidatorImpl extends AbstractHeaderValidatorImpl
         }
         return ValidationResult.valid();
     }
+
+    @Override
+    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
+        return ValidationResult.valid();
+    }
 }

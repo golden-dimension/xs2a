@@ -17,6 +17,7 @@
 package de.adorsys.psd2.xs2a.web.validator.header;
 
 import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,5 +43,10 @@ public class TppRedirectPreferredHeaderValidatorImpl extends AbstractHeaderValid
     @Override
     public MessageError validate(Map<String, String> headers, MessageError messageError) {
         return checkBooleanFormat(headers, messageError);
+    }
+
+    @Override
+    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
+        return ValidationResult.valid();
     }
 }

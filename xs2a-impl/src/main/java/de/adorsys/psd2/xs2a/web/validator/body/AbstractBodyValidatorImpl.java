@@ -27,11 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Class with common functionality (AIS and PIS) for bodies validating.
  */
-public class AbstractBodyValidatorImpl implements BodyValidator {
+public abstract class AbstractBodyValidatorImpl implements BodyValidator {
 
     protected ErrorBuildingService errorBuildingService;
     protected Xs2aObjectMapper xs2aObjectMapper;
-    private FieldLengthValidator fieldLengthValidator;
+    private final FieldLengthValidator fieldLengthValidator;
 
     protected AbstractBodyValidatorImpl(ErrorBuildingService errorBuildingService, Xs2aObjectMapper xs2aObjectMapper,
                                         FieldLengthValidator fieldLengthValidator) {
@@ -40,13 +40,9 @@ public class AbstractBodyValidatorImpl implements BodyValidator {
         this.fieldLengthValidator = fieldLengthValidator;
     }
 
-    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
+    protected abstract MessageError validateBodyFields(HttpServletRequest request, MessageError messageError);
 
-    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
+    protected abstract MessageError validateRawData(HttpServletRequest request, MessageError messageError);
 
     @Override
     public MessageError validate(HttpServletRequest request, MessageError messageError) {

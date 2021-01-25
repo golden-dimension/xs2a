@@ -56,7 +56,7 @@ public class XRequestIdHeaderValidatorImpl extends AbstractHeaderValidatorImpl
                 errorBuildingService.buildErrorType(), TppMessageInformation.of(FORMAT_ERROR_WRONG_HEADER, getHeaderName()));
         }
 
-        return super.checkHeaderContent(headers);
+        return ValidationResult.valid();
     }
 
     private boolean isNonValid(String xRequestId) {

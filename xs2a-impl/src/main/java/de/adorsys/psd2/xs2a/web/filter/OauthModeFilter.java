@@ -49,10 +49,12 @@ public class OauthModeFilter extends AbstractXs2aFilter {
     // List which defines XS2A endpoints for receiving any information with OAuth2 authorisation.
     private static final List<String> OAUTH2_GET_ENDPOINTS_WITH_METHODS = new ArrayList<>();
 
+    public static final String DELETE = "DELETE";
+
     static {
-        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/payments", Arrays.asList("POST", "DELETE"));
-        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/bulk-payments", Arrays.asList("POST", "DELETE"));
-        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/periodic-payments", Arrays.asList("POST", "DELETE"));
+        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/payments", Arrays.asList("POST", DELETE));
+        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/bulk-payments", Arrays.asList("POST", DELETE));
+        OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/periodic-payments", Arrays.asList("POST", DELETE));
         OAUTH2_ENDPOINTS_WITH_METHODS.put("/v1/consents", Collections.singletonList("POST"));
         OAUTH2_ENDPOINTS_WITH_METHODS.put("/v2/consents/confirmation-of-funds", Collections.singletonList("POST"));
 
@@ -121,5 +123,4 @@ public class OauthModeFilter extends AbstractXs2aFilter {
         return scaApproachResolver.resolveScaApproach() == ScaApproach.REDIRECT
                    && aspspProfileService.getScaRedirectFlow() == scaRedirectFlow;
     }
-
 }

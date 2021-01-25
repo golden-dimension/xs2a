@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -49,9 +50,9 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl implements PaymentTypeValidator {
 
     protected PaymentMapper paymentMapper;
-    private AmountValidator amountValidator;
-    private IbanValidator ibanValidator;
-    private CustomPaymentValidationService customPaymentValidationService;
+    private final AmountValidator amountValidator;
+    private final IbanValidator ibanValidator;
+    private final CustomPaymentValidationService customPaymentValidationService;
 
     @Autowired
     public SinglePaymentTypeValidatorImpl(ErrorBuildingService errorBuildingService, Xs2aObjectMapper xs2aObjectMapper,
@@ -181,5 +182,15 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         return Optional.ofNullable(dateToCheck)
                    .map(date -> date.isBefore(LocalDate.now()))
                    .orElse(false);
+    }
+
+    @Override
+    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
+        return messageError;
+    }
+
+    @Override
+    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
+        return messageError;
     }
 }
