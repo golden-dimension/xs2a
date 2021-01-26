@@ -437,7 +437,16 @@ class AisAuthorisationProcessorServiceImplTest {
                             .payload(spiPsuAuthorisationResponse)
                             .build());
 
-        when(commonDecoupledAisService.proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, PSU_ID_DATA))
+        AuthenticationObject authenticationObject = new AuthenticationObject();
+        authenticationObject.setDecoupled(true);
+        authenticationObject.setAuthenticationMethodId(AUTHENTICATION_METHOD_ID);
+        SpiAvailableScaMethodsResponse spiAvailableScaMethodsResponse = new SpiAvailableScaMethodsResponse(Collections.singletonList(authenticationObject));
+        when(aisConsentSpi.requestAvailableScaMethods(SPI_CONTEXT_DATA, spiAccountConsent, spiAspspConsentDataProvider))
+            .thenReturn(SpiResponse.<SpiAvailableScaMethodsResponse>builder()
+                            .payload(spiAvailableScaMethodsResponse)
+                            .build());
+
+        when(commonDecoupledAisService.proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, AUTHENTICATION_METHOD_ID, PSU_ID_DATA))
             .thenReturn(buildDecoupledUpdateConsentPsuDataResponse());
 
         authorisation.setChosenScaApproach(ScaApproach.DECOUPLED);
@@ -453,7 +462,9 @@ class AisAuthorisationProcessorServiceImplTest {
         assertEquals(ENCRYPTED_CONSENT_ID, processorResponse.getConsentId());
         assertEquals(AUTHORISATION_ID, processorResponse.getAuthorisationId());
 
-        verify(commonDecoupledAisService).proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, PSU_ID_DATA);
+        verify(commonDecoupledAisService).proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, AUTHENTICATION_METHOD_ID, PSU_ID_DATA);
+        verify(xs2aAuthorisationService, times(1)).saveAuthenticationMethods(AUTHORISATION_ID, Collections.singletonList(authenticationObject));
+        verify(xs2aAuthorisationService, times(1)).updateScaApproach(AUTHORISATION_ID, ScaApproach.DECOUPLED);
     }
 
     @Test
@@ -958,7 +969,16 @@ class AisAuthorisationProcessorServiceImplTest {
                             .payload(spiPsuAuthorisationResponse)
                             .build());
 
-        when(commonDecoupledAisService.proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, PSU_ID_DATA))
+        AuthenticationObject authenticationObject = new AuthenticationObject();
+        authenticationObject.setDecoupled(true);
+        authenticationObject.setAuthenticationMethodId(AUTHENTICATION_METHOD_ID);
+        SpiAvailableScaMethodsResponse spiAvailableScaMethodsResponse = new SpiAvailableScaMethodsResponse(Collections.singletonList(authenticationObject));
+        when(aisConsentSpi.requestAvailableScaMethods(SPI_CONTEXT_DATA, spiAccountConsent, spiAspspConsentDataProvider))
+            .thenReturn(SpiResponse.<SpiAvailableScaMethodsResponse>builder()
+                            .payload(spiAvailableScaMethodsResponse)
+                            .build());
+
+        when(commonDecoupledAisService.proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, AUTHENTICATION_METHOD_ID, PSU_ID_DATA))
             .thenReturn(buildDecoupledUpdateConsentPsuDataResponse());
 
         authorisation.setChosenScaApproach(ScaApproach.DECOUPLED);
@@ -974,7 +994,9 @@ class AisAuthorisationProcessorServiceImplTest {
         assertEquals(ENCRYPTED_CONSENT_ID, processorResponse.getConsentId());
         assertEquals(AUTHORISATION_ID, processorResponse.getAuthorisationId());
 
-        verify(commonDecoupledAisService).proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, PSU_ID_DATA);
+        verify(commonDecoupledAisService).proceedDecoupledApproach(ENCRYPTED_CONSENT_ID, AUTHORISATION_ID, spiAccountConsent, AUTHENTICATION_METHOD_ID, PSU_ID_DATA);
+        verify(xs2aAuthorisationService, times(1)).saveAuthenticationMethods(AUTHORISATION_ID, Collections.singletonList(authenticationObject));
+        verify(xs2aAuthorisationService, times(1)).updateScaApproach(AUTHORISATION_ID, ScaApproach.DECOUPLED);
     }
 
     @Test
