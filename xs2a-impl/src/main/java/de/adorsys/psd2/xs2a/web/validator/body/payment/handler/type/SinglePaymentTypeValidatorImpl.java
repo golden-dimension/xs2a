@@ -37,7 +37,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -182,15 +181,5 @@ public class SinglePaymentTypeValidatorImpl extends AbstractBodyValidatorImpl im
         return Optional.ofNullable(dateToCheck)
                    .map(date -> date.isBefore(LocalDate.now()))
                    .orElse(false);
-    }
-
-    @Override
-    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
-
-    @Override
-    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
-        return messageError;
     }
 }

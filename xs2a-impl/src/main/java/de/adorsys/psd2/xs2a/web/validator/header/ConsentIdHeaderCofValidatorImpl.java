@@ -17,8 +17,8 @@
 package de.adorsys.psd2.xs2a.web.validator.header;
 
 import de.adorsys.psd2.xs2a.core.profile.PiisConsentSupported;
-import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
+import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,11 +48,6 @@ public class ConsentIdHeaderCofValidatorImpl extends AbstractHeaderValidatorImpl
         if (piisConsentSupported == PiisConsentSupported.TPP_CONSENT_SUPPORTED) {
             return checkIfHeaderIsPresented(headers);
         }
-        return ValidationResult.valid();
-    }
-
-    @Override
-    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
         return ValidationResult.valid();
     }
 }

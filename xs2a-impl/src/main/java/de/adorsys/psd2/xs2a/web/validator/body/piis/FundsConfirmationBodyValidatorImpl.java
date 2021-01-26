@@ -52,16 +52,6 @@ public class FundsConfirmationBodyValidatorImpl extends AbstractBodyValidatorImp
     }
 
     @Override
-    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
-
-    @Override
-    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
-
-    @Override
     public MessageError validate(HttpServletRequest request, MessageError messageError) {
         Optional<ConfirmationOfFunds> confirmationOfFundsOptional = fieldExtractor.mapBodyToInstance(request, messageError, ConfirmationOfFunds.class);
 

@@ -45,16 +45,6 @@ public class TransactionListBodyValidatorImpl extends AbstractBodyValidatorImpl 
     }
 
     @Override
-    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
-
-    @Override
-    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
-        return messageError;
-    }
-
-    @Override
     public MessageError validate(HttpServletRequest request, MessageError messageError) {
         String acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
         if (StringUtils.isNotBlank(acceptHeader)) {

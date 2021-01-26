@@ -52,7 +52,9 @@ public abstract class AbstractHeaderValidatorImpl {
         return checkIfHeaderIsPresented(headers);
     }
 
-    protected abstract ValidationResult checkHeaderContent(Map<String, String> headers);
+    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
+        return ValidationResult.valid();
+    }
 
     protected ValidationResult checkIfHeaderIsPresented(Map<String, String> headers) {
         if (!headers.containsKey(getHeaderName())) {

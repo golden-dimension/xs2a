@@ -16,13 +16,10 @@
 
 package de.adorsys.psd2.xs2a.web.validator.header;
 
-import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.header.account.TransactionListDownloadHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 import static de.adorsys.psd2.xs2a.web.validator.constants.Xs2aHeaderConstant.CONSENT_ID;
 
@@ -37,10 +34,5 @@ public class ConsentIdHeaderValidatorImpl extends AbstractHeaderValidatorImpl im
     @Override
     protected String getHeaderName() {
         return CONSENT_ID;
-    }
-
-    @Override
-    protected ValidationResult checkHeaderContent(Map<String, String> headers) {
-        return ValidationResult.valid();
     }
 }

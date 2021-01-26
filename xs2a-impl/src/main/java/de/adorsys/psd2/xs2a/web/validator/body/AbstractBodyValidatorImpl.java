@@ -40,9 +40,13 @@ public abstract class AbstractBodyValidatorImpl implements BodyValidator {
         this.fieldLengthValidator = fieldLengthValidator;
     }
 
-    protected abstract MessageError validateBodyFields(HttpServletRequest request, MessageError messageError);
+    protected MessageError validateBodyFields(HttpServletRequest request, MessageError messageError) {
+        return messageError;
+    }
 
-    protected abstract MessageError validateRawData(HttpServletRequest request, MessageError messageError);
+    protected MessageError validateRawData(HttpServletRequest request, MessageError messageError) {
+        return messageError;
+    }
 
     @Override
     public MessageError validate(HttpServletRequest request, MessageError messageError) {
