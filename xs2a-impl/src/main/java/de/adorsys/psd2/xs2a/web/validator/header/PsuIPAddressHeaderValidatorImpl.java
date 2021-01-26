@@ -51,7 +51,7 @@ public class PsuIPAddressHeaderValidatorImpl extends AbstractHeaderValidatorImpl
                 errorBuildingService.buildErrorType(), FORMAT_ERROR_WRONG_IP_ADDRESS);
         }
 
-        return ValidationResult.valid();
+        return super.checkHeaderContent(headers);
     }
 
     private boolean isNonValid(String psuIpAddress) {

@@ -54,7 +54,7 @@ public class PsuDeviceIdHeaderValidatorImpl extends AbstractHeaderValidatorImpl
                 errorBuildingService.buildErrorType(), TppMessageInformation.of(FORMAT_ERROR_WRONG_HEADER, getHeaderName()));
         }
 
-        return ValidationResult.valid();
+        return super.checkHeaderContent(headers);
     }
 
     private boolean isNonValid(String psuDeviceId) {
