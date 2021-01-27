@@ -454,6 +454,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Fixed sonar alerts</p>
 </li>
+<li>
+<p>Added a psuMessage into Get SCA Status Response</p>
+</li>
 </ul>
 </div>
 </div>
@@ -503,10 +506,24 @@ values for the pageIndex as query parameter then this is counted as one access.<
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_a_psumessage_into_get_sca_status_response">Added a psuMessage into Get SCA Status Response</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, getting SCA status response include <code>psuMessage</code> (optional) from ASPSP.
+Moreover, obtaining the SCA status remained from the CMS and obtaining <code>psuMessage</code> and <code>trustedBeneficiaryFlag</code>
+was combined and moved to SPI level.</p>
+</div>
+<div class="paragraph">
+<p>New method <code>AuthorisationSpi#getScaStatus</code> was added to SPI interface.
+Existing method <code>AuthorisationSpi#requestTrustedBeneficiaryFlag</code> was marked as deprecated and will be removed soon.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-26 17:00:46 UTC
+Last updated 2021-01-27 11:16:49 UTC
 </div>
 </div>
 </body>
