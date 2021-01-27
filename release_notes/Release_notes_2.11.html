@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Table of Contents</title>
+<title>Release notes v.2.11</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,6 +440,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.2.11</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -448,61 +449,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Fixed wrong password sca handling</p>
+<p>Provided PSU Data from request to SPI in SpiContextData</p>
 </li>
 <li>
-<p>Increased length limit of TPP-URIs to Max500Text</p>
+<p>Include internal request ID in <code>request-log</code> and internal XS2A logs</p>
 </li>
 <li>
-<p>Added Postman tests for <code>cms-psu-api</code> controllers</p>
-</li>
-<li>
-<p>Provided interfaces for CMS web controllers in <code>consent-aspsp-web</code>, <code>consent-psu-web</code> and <code>consent-xs2a-web</code></p>
-</li>
-<li>
-<p>Created script to delete deprecated type of access <code>OWNER_ADDRESS</code> in <code>account_access</code> and <code>aspsp_account_access</code> tables</p>
+<p>Extract PSU data for payment cancellation from authorisation request</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_wrong_password_sca_handling">Fixed wrong password sca handling</h2>
+<h2 id="_provided_psu_data_from_request_to_spi_in_spicontextdata">Provided PSU Data from request to SPI in SpiContextData</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, it&#8217;s possible to enter password and tan as many times, as bank allows you to.</p>
+<p>From now on, PSU Data is extracted from the request instead of the consent or payment objects.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_increased_length_limit_of_tpp_uris_to_max500text">Increased length limit of TPP-URIs to Max500Text</h2>
+<h2 id="_include_internal_request_id_in_request_log_and_internal_xs2a_logs">Include internal request ID in <code>request-log</code> and internal XS2A logs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, maximum allowed lengths for <code>tpp-redirect-uri</code> and <code>tpp-nok-redirect-uri</code> is 500 symbols.</p>
+<p>From now on, <code>request-log</code> and internal XS2A logs will also contain internal request ID (<code>InR-Id</code>).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_added_postman_tests_for_cms_psu_api_controllers">Added Postman tests for <code>cms-psu-api</code> controllers</h2>
+<h2 id="_extract_psu_data_for_payment_cancellation_from_authorisation_request">Extract PSU data for payment cancellation from authorisation request</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Added Postman tests for <code>cms-psu-api</code> controllers: <code>AspspConsentDataPsuApiController</code>, <code>CmsPsuAisController</code>, <code>CmsPsuPiisController</code>, <code>CmsPsuPisController</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_provided_interfaces_for_cms_web_controllers_in_consent_aspsp_web_consent_psu_web_and_consent_xs2a_web">Provided interfaces for CMS web controllers in <code>consent-aspsp-web</code>, <code>consent-psu-web</code> and <code>consent-xs2a-web</code></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Provided interfaces for CMS web controllers in <code>consent-aspsp-web</code>, <code>consent-psu-web</code> and <code>consent-xs2a-web</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_created_script_to_delete_deprecated_type_of_access_owner_address_in_account_access_and_aspsp_account_access_tables">Created script to delete deprecated type of access <code>OWNER_ADDRESS</code> in <code>account_access</code> and <code>aspsp_account_access</code> tables</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Created script to delete deprecated type of access <code>OWNER_ADDRESS</code> in <code>account_access</code> and <code>aspsp_account_access</code> tables.</p>
+<p>From now on, PSU Data is extracted from authorisation request instead of payment object.
+During initiate payment cancellation PSU Data is empty when ContextData is sent to SPI.</p>
 </div>
 </div>
 </div>
