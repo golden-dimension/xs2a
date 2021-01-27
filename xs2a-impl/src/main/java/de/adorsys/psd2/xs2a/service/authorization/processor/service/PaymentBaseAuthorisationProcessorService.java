@@ -376,13 +376,10 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
             return executePaymentWithoutSca(authorisationProcessorRequest, psuData, payment.getPaymentType(), payment, contextData, EXEMPTED, xs2aCurrencyConversionInfo);
         }
 
-        AuthenticationObject authenticationObject = authorizationCodeResult.getSelectedScaMethod();
-        ChallengeData challengeData = mapToChallengeData(authorizationCodeResult);
-
         Xs2aUpdatePisCommonPaymentPsuDataResponse response = new Xs2aUpdatePisCommonPaymentPsuDataResponse(
-            SCAMETHODSELECTED, payment.getPaymentId(), authorisationId, psuData, xs2aCurrencyConversionInfo);
-        response.setChosenScaMethod(authenticationObject);
-        response.setChallengeData(challengeData);
+            authorizationCodeResult.getScaStatus(), payment.getPaymentId(), authorisationId, psuData, xs2aCurrencyConversionInfo);
+        response.setChosenScaMethod(authorizationCodeResult.getSelectedScaMethod());
+        response.setChallengeData(mapToChallengeData(authorizationCodeResult));
         return response;
     }
 

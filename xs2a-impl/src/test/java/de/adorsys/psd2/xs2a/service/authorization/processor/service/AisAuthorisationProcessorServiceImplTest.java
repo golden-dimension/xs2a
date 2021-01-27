@@ -230,15 +230,9 @@ class AisAuthorisationProcessorServiceImplTest {
                             .payload(spiAvailableScaMethodsResponse)
                             .build());
 
-        SpiAuthorizationCodeResult authorizationCodeResult = new SpiAuthorizationCodeResult();
-        AuthenticationObject spiChosenScaMethod = new AuthenticationObject();
-        authorizationCodeResult.setSelectedScaMethod(spiChosenScaMethod);
-        ChallengeData challengeData = new ChallengeData();
-        authorizationCodeResult.setChallengeData(challengeData);
-
         when(aisConsentSpi.requestAuthorisationCode(SPI_CONTEXT_DATA, AUTHENTICATION_METHOD_ID, spiAccountConsent, spiAspspConsentDataProvider))
             .thenReturn(SpiResponse.<SpiAuthorizationCodeResult>builder()
-                            .payload(authorizationCodeResult)
+                            .payload(buildSpiAuthorizationCodeResult())
                             .build());
 
         AuthenticationObject chosenScaMethod = new AuthenticationObject();
@@ -255,7 +249,6 @@ class AisAuthorisationProcessorServiceImplTest {
         assertEquals(ENCRYPTED_CONSENT_ID, processorResponse.getConsentId());
         assertEquals(AUTHORISATION_ID, processorResponse.getAuthorisationId());
         assertEquals(chosenScaMethod, processorResponse.getChosenScaMethod());
-        assertEquals(challengeData, processorResponse.getChallengeData());
 
         verify(xs2aAuthorisationService).saveAuthenticationMethods(AUTHORISATION_ID, availableScaMethods);
     }
@@ -762,15 +755,9 @@ class AisAuthorisationProcessorServiceImplTest {
                             .payload(spiAvailableScaMethodsResponse)
                             .build());
 
-        SpiAuthorizationCodeResult spiAuthorizationCodeResult = new SpiAuthorizationCodeResult();
-        AuthenticationObject spiChosenScaMethod = new AuthenticationObject();
-        spiAuthorizationCodeResult.setSelectedScaMethod(spiChosenScaMethod);
-        ChallengeData challengeData = new ChallengeData();
-        spiAuthorizationCodeResult.setChallengeData(challengeData);
-
         when(aisConsentSpi.requestAuthorisationCode(SPI_CONTEXT_DATA, AUTHENTICATION_METHOD_ID, spiAccountConsent, spiAspspConsentDataProvider))
             .thenReturn(SpiResponse.<SpiAuthorizationCodeResult>builder()
-                            .payload(spiAuthorizationCodeResult)
+                            .payload(buildSpiAuthorizationCodeResult())
                             .build());
 
         AuthenticationObject chosenScaMethod = new AuthenticationObject();
@@ -787,7 +774,6 @@ class AisAuthorisationProcessorServiceImplTest {
         assertEquals(ENCRYPTED_CONSENT_ID, processorResponse.getConsentId());
         assertEquals(AUTHORISATION_ID, processorResponse.getAuthorisationId());
         assertEquals(chosenScaMethod, processorResponse.getChosenScaMethod());
-        assertEquals(challengeData, processorResponse.getChallengeData());
 
         verify(xs2aAuthorisationService).saveAuthenticationMethods(AUTHORISATION_ID, availableScaMethods);
     }
@@ -1284,15 +1270,9 @@ class AisAuthorisationProcessorServiceImplTest {
         SpiAspspConsentDataProvider spiAspspConsentDataProvider = mock(SpiAspspConsentDataProvider.class);
         when(spiAspspConsentDataProviderFactory.getSpiAspspDataProviderFor(ENCRYPTED_CONSENT_ID)).thenReturn(spiAspspConsentDataProvider);
 
-        SpiAuthorizationCodeResult spiAuthorizationCodeResult = new SpiAuthorizationCodeResult();
-        AuthenticationObject spiChosenScaMethod = new AuthenticationObject();
-        spiAuthorizationCodeResult.setSelectedScaMethod(spiChosenScaMethod);
-        ChallengeData challengeData = new ChallengeData();
-        spiAuthorizationCodeResult.setChallengeData(challengeData);
-
         when(aisConsentSpi.requestAuthorisationCode(SPI_CONTEXT_DATA, AUTHENTICATION_METHOD_ID, spiAccountConsent, spiAspspConsentDataProvider))
             .thenReturn(SpiResponse.<SpiAuthorizationCodeResult>builder()
-                            .payload(spiAuthorizationCodeResult)
+                            .payload(buildSpiAuthorizationCodeResult())
                             .build());
 
         AuthenticationObject chosenScaMethod = new AuthenticationObject();
@@ -1309,7 +1289,6 @@ class AisAuthorisationProcessorServiceImplTest {
         assertEquals(ENCRYPTED_CONSENT_ID, processorResponse.getConsentId());
         assertEquals(AUTHORISATION_ID, processorResponse.getAuthorisationId());
         assertEquals(chosenScaMethod, processorResponse.getChosenScaMethod());
-        assertEquals(challengeData, processorResponse.getChallengeData());
     }
 
     @Test
@@ -1646,5 +1625,14 @@ class AisAuthorisationProcessorServiceImplTest {
         decoupledResponse.setPsuMessage(DECOUPLED_PSU_MESSAGE);
         decoupledResponse.setChosenScaMethod(DECOUPLED_SCA_METHOD);
         return decoupledResponse;
+    }
+
+    private SpiAuthorizationCodeResult buildSpiAuthorizationCodeResult() {
+        SpiAuthorizationCodeResult spiAuthorizationCodeResult = new SpiAuthorizationCodeResult();
+        AuthenticationObject method = new AuthenticationObject();
+        spiAuthorizationCodeResult.setSelectedScaMethod(method);
+        spiAuthorizationCodeResult.setChallengeData(new ChallengeData());
+        spiAuthorizationCodeResult.setScaStatus(ScaStatus.SCAMETHODSELECTED);
+        return spiAuthorizationCodeResult;
     }
 }

@@ -198,7 +198,8 @@ public abstract class ConsentAuthorisationProcessorService<T extends Consent> ex
 
         SpiAuthorizationCodeResult authorizationCodeResult = spiResponse.getPayload();
 
-        UpdateConsentPsuDataResponse response = new UpdateConsentPsuDataResponse(ScaStatus.SCAMETHODSELECTED, request.getBusinessObjectId(), request.getAuthorisationId(), psuData);
+        UpdateConsentPsuDataResponse response = new UpdateConsentPsuDataResponse(
+            authorizationCodeResult.getScaStatus(), request.getBusinessObjectId(), request.getAuthorisationId(), psuData);
         response.setChosenScaMethod(authorizationCodeResult.getSelectedScaMethod());
         response.setChallengeData(authorizationCodeResult.getChallengeData());
         return response;
