@@ -156,6 +156,7 @@ public class PisCancellationAuthorisationProcessorServiceImpl extends PaymentBas
         return false;
     }
 
+    @Override
     Xs2aCurrencyConversionInfo getCurrencyConversionInfo(SpiContextData contextData, SpiPayment payment,
                                                          String authorisationId, SpiAspspConsentDataProvider aspspConsentDataProvider) {
         return null;
