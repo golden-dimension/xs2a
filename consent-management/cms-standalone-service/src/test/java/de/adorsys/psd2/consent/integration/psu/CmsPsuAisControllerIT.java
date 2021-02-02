@@ -221,7 +221,7 @@ public class CmsPsuAisControllerIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().json(jsonReader.getStringFromFile("json/consent/integration/psu/expect/cms-ais-account-consent.json")));
 
-        verify(aisConsentSpecification).byPsuDataInListAndInstanceId(psuIdData, INSTANCE_ID);
+        verify(aisConsentSpecification).byPsuDataInListAndInstanceId(psuIdData, INSTANCE_ID, null);
     }
 
     @Test

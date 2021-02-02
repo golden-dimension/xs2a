@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.consent.service.mapper;
 
+import de.adorsys.psd2.consent.api.ais.AdditionalTppInfo;
 import de.adorsys.psd2.consent.api.piis.CmsPiisConsent;
 import de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest;
 import de.adorsys.psd2.consent.domain.TppInfoEntity;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -81,6 +83,7 @@ public class PiisConsentMapper {
         consent.getPsuDataList().add(psuDataMapper.mapToPsuData(psuIdData, instanceId));
         consent.getAspspAccountAccesses().add(accessMapper.mapToAspspAccountAccess(request.getAccount()));
         consent.getTppInformation().setTppInfo(tppInfoEntity);
+        consent.getTppInformation().setAdditionalInfo(AdditionalTppInfo.NONE);
 
         PiisConsentData consentData = new PiisConsentData(request.getCardNumber(), request.getCardExpiryDate(),
                                                           request.getCardInformation(), request.getRegistrationInformation());

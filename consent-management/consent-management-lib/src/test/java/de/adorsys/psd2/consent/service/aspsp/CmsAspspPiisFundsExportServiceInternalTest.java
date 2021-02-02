@@ -16,13 +16,13 @@
 
 package de.adorsys.psd2.consent.service.aspsp;
 
+import de.adorsys.psd2.consent.api.piis.CmsPiisConsent;
 import de.adorsys.psd2.consent.domain.PsuData;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.repository.ConsentJpaRepository;
 import de.adorsys.psd2.consent.repository.specification.PiisConsentEntitySpecification;
 import de.adorsys.psd2.consent.service.mapper.PiisConsentMapper;
 import de.adorsys.psd2.consent.service.migration.PiisConsentLazyMigrationService;
-import de.adorsys.psd2.consent.api.piis.CmsPiisConsent;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,7 +86,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
                                                                                               CREATION_DATE_FROM,
                                                                                               CREATION_DATE_TO,
                                                                                               psuIdData,
-                                                                                              SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                              SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -104,7 +105,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(TPP_AUTHORISATION_NUMBER, CREATION_DATE_FROM,
-                                                               CREATION_DATE_TO, psuIdData, SERVICE_INSTANCE_ID);
+                                                               CREATION_DATE_TO, psuIdData, SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -114,7 +115,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
                                                                                               CREATION_DATE_FROM,
                                                                                               CREATION_DATE_TO,
                                                                                               psuIdData,
-                                                                                              DEFAULT_SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                              DEFAULT_SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -132,7 +134,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(TPP_AUTHORISATION_NUMBER, CREATION_DATE_FROM,
-                                                               CREATION_DATE_TO, psuIdData, DEFAULT_SERVICE_INSTANCE_ID);
+                                                               CREATION_DATE_TO, psuIdData, DEFAULT_SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -147,7 +149,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, times(1))
-            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any());
+            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any(), any());
 
     }
 
@@ -161,7 +163,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, never())
-            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any());
+            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -174,7 +176,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, never())
-            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any());
+            .byTppIdAndCreationPeriodAndPsuIdDataAndInstanceId(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -183,7 +185,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         when(piisConsentEntitySpecification.byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData,
                                                                                       CREATION_DATE_FROM,
                                                                                       CREATION_DATE_TO,
-                                                                                      SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                      SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -201,7 +204,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData, CREATION_DATE_FROM,
-                                                       CREATION_DATE_TO, SERVICE_INSTANCE_ID);
+                                                       CREATION_DATE_TO, SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -210,7 +213,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         when(piisConsentEntitySpecification.byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData,
                                                                                       CREATION_DATE_FROM,
                                                                                       CREATION_DATE_TO,
-                                                                                      DEFAULT_SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                      DEFAULT_SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -228,7 +232,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData, CREATION_DATE_FROM,
-                                                       CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID);
+                                                       CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -244,7 +248,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, times(1))
             .byPsuIdDataAndCreationPeriodAndInstanceId(wrongPsuIdData, CREATION_DATE_FROM,
-                                                       CREATION_DATE_TO, SERVICE_INSTANCE_ID);
+                                                       CREATION_DATE_TO, SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -257,7 +261,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, never())
-            .byPsuIdDataAndCreationPeriodAndInstanceId(any(), any(), any(), any());
+            .byPsuIdDataAndCreationPeriodAndInstanceId(any(), any(), any(), any(), any());
     }
 
     @Test
@@ -270,7 +274,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, never())
-            .byPsuIdDataAndCreationPeriodAndInstanceId(any(), any(), any(), any());
+            .byPsuIdDataAndCreationPeriodAndInstanceId(any(), any(), any(), any(), any());
     }
 
     @Test
@@ -279,7 +283,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         when(piisConsentEntitySpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID,
                                                                                            CREATION_DATE_FROM,
                                                                                            CREATION_DATE_TO,
-                                                                                           SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                           SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -297,7 +302,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID, CREATION_DATE_FROM,
-                                                            CREATION_DATE_TO, SERVICE_INSTANCE_ID);
+                                                            CREATION_DATE_TO, SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -306,7 +311,8 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         when(piisConsentEntitySpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID,
                                                                                            CREATION_DATE_FROM,
                                                                                            CREATION_DATE_TO,
-                                                                                           DEFAULT_SERVICE_INSTANCE_ID)).thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
+                                                                                           DEFAULT_SERVICE_INSTANCE_ID, null))
+            .thenReturn((root, criteriaQuery, criteriaBuilder) -> null);
         //noinspection unchecked
         when(consentJpaRepository.findAll(any(Specification.class)))
             .thenReturn(Collections.singletonList(buildPiisConsentEntity()));
@@ -324,7 +330,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.contains(expectedConsent));
         verify(piisConsentEntitySpecification, times(1))
             .byAspspAccountIdAndCreationPeriodAndInstanceId(ASPSP_ACCOUNT_ID, CREATION_DATE_FROM,
-                                                            CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID);
+                                                            CREATION_DATE_TO, DEFAULT_SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -340,7 +346,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, times(1))
             .byAspspAccountIdAndCreationPeriodAndInstanceId(WRONG_ASPSP_ACCOUNT_ID, CREATION_DATE_FROM,
-                                                            CREATION_DATE_TO, SERVICE_INSTANCE_ID);
+                                                            CREATION_DATE_TO, SERVICE_INSTANCE_ID, null);
     }
 
     @Test
@@ -353,7 +359,7 @@ class CmsAspspPiisFundsExportServiceInternalTest {
         // Then
         assertTrue(piisConsents.isEmpty());
         verify(piisConsentEntitySpecification, never())
-            .byAspspAccountIdAndCreationPeriodAndInstanceId(any(), any(), any(), any());
+            .byAspspAccountIdAndCreationPeriodAndInstanceId(any(), any(), any(), any(), any());
     }
 
     private ConsentEntity buildPiisConsentEntity() {
@@ -381,6 +387,4 @@ class CmsAspspPiisFundsExportServiceInternalTest {
     private PsuData buildPsuData() {
         return new PsuData(PSU_ID, null, null, null, null);
     }
-
-
 }

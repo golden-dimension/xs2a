@@ -44,7 +44,8 @@ public interface CmsAspspAisExportService {
      */
     Collection<CmsAisAccountConsent> exportConsentsByTpp(String tppAuthorisationNumber,
                                                          @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @Nullable PsuIdData psuIdData, @NotNull String instanceId);
+                                                         @Nullable PsuIdData psuIdData, @NotNull String instanceId,
+                                                         @Nullable String additionalTppInfo);
 
     /**
      * Returns list of consents by given criteria.
@@ -60,7 +61,8 @@ public interface CmsAspspAisExportService {
      */
     Collection<CmsAisAccountConsent> exportConsentsByPsu(PsuIdData psuIdData,
                                                          @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @NotNull String instanceId);
+                                                         @NotNull String instanceId,
+                                                         @Nullable String additionalTppInfo);
 
     /**
      * Returns list of consents by given criteria.
@@ -76,5 +78,6 @@ public interface CmsAspspAisExportService {
      */
     Collection<CmsAisAccountConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
                                                                @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                               @NotNull String instanceId);
+                                                               @NotNull String instanceId,
+                                                               @Nullable String additionalTppInfo);
 }

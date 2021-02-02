@@ -58,7 +58,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
     public Collection<CmsAisAccountConsent> exportConsentsByTpp(String tppAuthorisationNumber,
                                                                 @Nullable LocalDate createDateFrom,
                                                                 @Nullable LocalDate createDateTo,
-                                                                @Nullable PsuIdData psuIdData, @NotNull String instanceId) {
+                                                                @Nullable PsuIdData psuIdData, @NotNull String instanceId,
+                                                                @Nullable String additionalTppInfo) {
         if (StringUtils.isBlank(tppAuthorisationNumber) || StringUtils.isBlank(instanceId)) {
             log.info("TPP ID: [{}], InstanceId: [{}]. Export Consents by TPP: Some of these two values are empty", tppAuthorisationNumber, instanceId);
             return Collections.emptyList();
@@ -69,7 +70,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
             createDateFrom,
             createDateTo,
             psuIdData,
-            instanceId
+            instanceId,
+            additionalTppInfo
         ))
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
@@ -81,7 +83,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
     @Transactional
     public Collection<CmsAisAccountConsent> exportConsentsByPsu(PsuIdData psuIdData, @Nullable LocalDate createDateFrom,
                                                                 @Nullable LocalDate createDateTo,
-                                                                @NotNull String instanceId) {
+                                                                @NotNull String instanceId,
+                                                                @Nullable String additionalTppInfo) {
         if (psuIdData == null || psuIdData.isEmpty() || StringUtils.isBlank(instanceId)) {
             log.info("InstanceId: [{}]. Export consents by Psu failed, psuIdData or instanceId is empty or null.",
                      instanceId);
@@ -91,7 +94,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
         return consentJpaRepository.findAll(aisConsentSpecification.byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData,
                                                                                                               createDateFrom,
                                                                                                               createDateTo,
-                                                                                                              instanceId
+                                                                                                              instanceId,
+                                                                                                              additionalTppInfo
         ))
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
@@ -104,7 +108,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
     public Collection<CmsAisAccountConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
                                                                       @Nullable LocalDate createDateFrom,
                                                                       @Nullable LocalDate createDateTo,
-                                                                      @NotNull String instanceId) {
+                                                                      @NotNull String instanceId,
+                                                                      @Nullable String additionalTppInfo) {
 
         if (StringUtils.isBlank(instanceId)) {
             log.info("InstanceId: [{}], aspspAccountId: [{}]. Export consents by accountId failed, instanceId is empty or null.",
@@ -115,7 +120,8 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
         Specification<ConsentEntity> specification = aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(aspspAccountId,
                                                                                                                             createDateFrom,
                                                                                                                             createDateTo,
-                                                                                                                            instanceId);
+                                                                                                                            instanceId,
+                                                                                                                            additionalTppInfo);
         List<ConsentEntity> consents = consentJpaRepository.findAll(specification)
                                            .stream()
                                            .distinct()
