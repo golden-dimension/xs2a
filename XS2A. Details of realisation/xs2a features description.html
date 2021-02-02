@@ -1528,9 +1528,16 @@ Global consent can be recurring and one-off.</p>
 <p>/accounts/account-id/balances per account-id;</p>
 </li>
 <li>
-<p>/accounts/account-id/transactions/transaction-id per account-id and transaction-id, if applicable.</p>
+<p>/accounts/account-id/transactions/transaction-id per account-id, transaction-id, per bookingStatus if applicable.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Access to the Read Transactions endpoint is addressed several times with different values for the bookingStatus as query parameter then this is counted as one access.</p>
+</div>
+<div class="paragraph">
+<p>The recognition of several booking statuses is needed since e.g. standing orders are only retrievable with a dedicated query parameter.
+This enables the TPP to retrieve e.g. the booked transactions as well as standing orders (information transactions) under the same PSU consent.</p>
 </div>
 <div class="paragraph">
 <p>If the amount of accesses for any of these endpoints is exceeded - <strong>HTTP error 429 ACCESS_EXCEEDED</strong> is returned. All other endpoints are still accessible until their amount is not exceeded.</p>
@@ -3012,7 +3019,7 @@ base 64 encoding of the signature.</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-29 09:38:01 UTC
+Last updated 2021-02-02 07:58:44 UTC
 </div>
 </div>
 </body>
