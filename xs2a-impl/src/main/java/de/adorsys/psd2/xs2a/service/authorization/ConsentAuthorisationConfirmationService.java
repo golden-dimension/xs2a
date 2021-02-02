@@ -133,7 +133,7 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
         if (spiResponse.isSuccessful()) {
             authorisationService.updateAuthorisationStatus(authorisationId, confirmationCodeValidationResponse.getScaStatus());
             updateConsentStatus(consentId, confirmationCodeValidationResponse.getConsentStatus());
-            if (ConsentStatus.VALID.equals(confirmationCodeValidationResponse.getConsentStatus())) {
+            if (ConsentStatus.VALID == confirmationCodeValidationResponse.getConsentStatus()) {
                 findAndTerminateOldConsentsByNewConsentId(consentId);
             }
         }
@@ -168,7 +168,7 @@ public abstract class ConsentAuthorisationConfirmationService<T extends Consent>
                                                                             consentId,
                                                                             authorisationId,
                                                                             request.getPsuData());
-            if (ConsentStatus.VALID.equals(confirmationCodeValidationResponse.getConsentStatus())) {
+            if (ConsentStatus.VALID == confirmationCodeValidationResponse.getConsentStatus()) {
                 findAndTerminateOldConsentsByNewConsentId(consentId);
             }
         }
