@@ -34,6 +34,7 @@ public class AisChecksumCalculatingServiceV3 extends AisAbstractChecksumCalculat
         return "003";
     }
 
+    @Override
     protected Comparator<AccountReference> getComparator() {
         return Comparator.comparing(AccountReference::getAccountReferenceType)
                    .thenComparing(acc -> Optional.ofNullable(acc.getCurrency())
