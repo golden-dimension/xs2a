@@ -17,7 +17,6 @@
 package de.adorsys.psd2.consent.service.sha;
 
 
-import de.adorsys.psd2.consent.service.sha.v3.AisChecksumCalculatingServiceV3;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,11 +43,15 @@ class ChecksumCalculatingFactoryTest {
     private AisChecksumCalculatingServiceV3 aisV3;
 
     @Mock
+    private AisChecksumCalculatingServiceV4 aisV4;
+
+    @Mock
     private NoProcessingChecksumService noProcessingChecksumService;
 
     @BeforeEach
     void init() {
         when(aisV3.getVersion()).thenReturn("003");
+        when(aisV4.getVersion()).thenReturn("004");
         factory.init();
     }
 
@@ -116,7 +119,7 @@ class ChecksumCalculatingFactoryTest {
 
         // Then
         assertTrue(actualResult.isPresent());
-        assertEquals(aisV3.getVersion(), actualResult.get().getVersion());
+        assertEquals(aisV4.getVersion(), actualResult.get().getVersion());
     }
 
     private static String getCorrectChecksum() {

@@ -17,7 +17,6 @@
 package de.adorsys.psd2.consent.service.sha;
 
 
-import de.adorsys.psd2.consent.service.sha.v3.AisChecksumCalculatingServiceV3;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.keyvalue.MultiKey;
@@ -36,6 +35,8 @@ public class ChecksumCalculatingFactory {
     @Autowired
     private AisChecksumCalculatingServiceV3 aisV3;
     @Autowired
+    private AisChecksumCalculatingServiceV4 aisV4;
+    @Autowired
     private NoProcessingChecksumService noProcessingService;
 
     @PostConstruct
@@ -45,6 +46,7 @@ public class ChecksumCalculatingFactory {
         services.put(new MultiKey<>("002", ConsentType.AIS.getName()), noProcessingService);
 
         services.put(new MultiKey<>(aisV3.getVersion(), ConsentType.AIS.getName()), aisV3);
+        services.put(new MultiKey<>(aisV4.getVersion(), ConsentType.AIS.getName()), aisV4);
     }
 
     /**
@@ -73,8 +75,12 @@ public class ChecksumCalculatingFactory {
 
     private Optional<ChecksumCalculatingService> getDefaultService(ConsentType consentType) {
         if (ConsentType.AIS == consentType) {
-            return Optional.of(aisV3);
+            return Optional.of(aisV4);
         }
         return Optional.empty();
+    }
+
+    public ChecksumCalculatingService getChecksumService() {
+        return aisV4;
     }
 }
