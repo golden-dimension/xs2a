@@ -59,10 +59,10 @@ public interface CmsAspspAisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsAisAccountConsent> exportConsentsByPsu(PsuIdData psuIdData,
-                                                         @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                         @NotNull String instanceId,
-                                                         @Nullable String additionalTppInfo);
+    Collection<CmsAisAccountConsent> exportConsentsByPsuAndAdditionalTppInfo(PsuIdData psuIdData,
+                                                                             @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                             @NotNull String instanceId,
+                                                                             @Nullable String additionalTppInfo);
 
     /**
      * Returns list of consents by given criteria.
@@ -76,8 +76,8 @@ public interface CmsAspspAisExportService {
      * @throws TooManyResultsException If CMS is not able to provide result due to overflow,
      *                                 developer shall limit his/her request, making pagination by dates.
      */
-    Collection<CmsAisAccountConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
-                                                               @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
-                                                               @NotNull String instanceId,
-                                                               @Nullable String additionalTppInfo);
+    Collection<CmsAisAccountConsent> exportConsentsByAccountIdAndAdditionalTppInfo(@NotNull String aspspAccountId,
+                                                                                   @Nullable LocalDate createDateFrom, @Nullable LocalDate createDateTo,
+                                                                                   @NotNull String instanceId,
+                                                                                   @Nullable String additionalTppInfo);
 }

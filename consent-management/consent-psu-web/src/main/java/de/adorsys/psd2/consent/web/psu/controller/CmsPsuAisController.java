@@ -95,7 +95,7 @@ public class CmsPsuAisController implements CmsPsuAisApi {
                                                                         String psuCorporateIdType, String instanceId,
                                                                         String additionalTppInfo) {
         PsuIdData psuIdData = getPsuIdData(psuId, psuIdType, psuCorporateId, psuCorporateIdType);
-        return new ResponseEntity<>(cmsPsuAisService.getConsentsForPsu(psuIdData, instanceId, additionalTppInfo), HttpStatus.OK);
+        return new ResponseEntity<>(cmsPsuAisService.getConsentsForPsuAndAdditionalTppInfo(psuIdData, instanceId, additionalTppInfo), HttpStatus.OK);
     }
 
     @Override

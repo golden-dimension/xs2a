@@ -109,7 +109,7 @@ public interface CmsPsuAisService {
      * @return List of AIS Consent objects corresponding to the given PSU
      */
     @NotNull
-    List<CmsAisAccountConsent> getConsentsForPsu(@NotNull PsuIdData psuIdData, @NotNull String instanceId, @Nullable String additionalTppInfo);
+    List<CmsAisAccountConsent> getConsentsForPsuAndAdditionalTppInfo(@NotNull PsuIdData psuIdData, @NotNull String instanceId, @Nullable String additionalTppInfo);
 
     /**
      * Revokes AIS Consent object by its ID. Consent gets status "Revoked by PSU".

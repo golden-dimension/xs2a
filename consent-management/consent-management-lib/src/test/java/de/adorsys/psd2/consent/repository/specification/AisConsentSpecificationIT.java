@@ -16,7 +16,6 @@
 
 package de.adorsys.psd2.consent.repository.specification;
 
-import de.adorsys.psd2.consent.api.ais.AdditionalTppInfo;
 import de.adorsys.psd2.consent.domain.TppInfoEntity;
 import de.adorsys.psd2.consent.domain.consent.ConsentEntity;
 import de.adorsys.psd2.consent.repository.ConsentJpaRepository;
@@ -116,7 +115,7 @@ class AisConsentSpecificationIT extends BaseTest {
     @Transactional
     void byPsuDataInListAndInstanceId() {
         List<ConsentEntity> actual = consentJpaRepository.findAll(
-            aisConsentSpecification.byPsuDataInListAndInstanceId(
+            aisConsentSpecification.byPsuDataInListAndInstanceIdAndAdditionalTppInfo(
                 PSU_ID_DATA,
                 INSTANCE_ID,
                 null
@@ -136,7 +135,7 @@ class AisConsentSpecificationIT extends BaseTest {
         OffsetDateTime from = consent.getCreationTimestamp().minusMinutes(1);
         OffsetDateTime to = consent.getCreationTimestamp().plusMinutes(1);
         List<ConsentEntity> actual = consentJpaRepository.findAll(
-            aisConsentSpecification.byPsuIdDataAndCreationPeriodAndInstanceId(
+            aisConsentSpecification.byPsuIdDataAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(
                 PSU_ID_DATA,
                 from.toLocalDate(),
                 to.toLocalDate(),
@@ -159,7 +158,7 @@ class AisConsentSpecificationIT extends BaseTest {
         OffsetDateTime from = consent.getCreationTimestamp().minusMinutes(1);
         OffsetDateTime to = consent.getCreationTimestamp().plusMinutes(1);
         List<ConsentEntity> actual = consentJpaRepository.findAll(
-            aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(
+            aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(
                 ASPSP_ACCOUNT_ID,
                 from.toLocalDate(),
                 to.toLocalDate(),

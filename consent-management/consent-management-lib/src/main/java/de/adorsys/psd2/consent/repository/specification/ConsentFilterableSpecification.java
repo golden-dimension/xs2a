@@ -76,7 +76,7 @@ public abstract class ConsentFilterableSpecification {
                    .orElse(null);
     }
 
-    public Specification<ConsentEntity> byPsuDataInListAndInstanceId(PsuIdData psuIdData, String instanceId, String additionalTppInfo) {
+    public Specification<ConsentEntity> byPsuDataInListAndInstanceIdAndAdditionalTppInfo(PsuIdData psuIdData, String instanceId, String additionalTppInfo) {
         return Optional.ofNullable(consentSpecification.byPsuDataInListAndInstanceId(psuIdData, instanceId))
                    .map(s -> s.and(byAdditionalTppInfo(additionalTppInfo)))
                    .map(s -> s.and(byConsentType()))
@@ -100,11 +100,11 @@ public abstract class ConsentFilterableSpecification {
      * @param instanceId     optional instance ID
      * @return specification for ConsentEntity entity
      */
-    public Specification<ConsentEntity> byPsuIdDataAndCreationPeriodAndInstanceId(@NotNull PsuIdData psuIdData,
-                                                                                  @Nullable LocalDate createDateFrom,
-                                                                                  @Nullable LocalDate createDateTo,
-                                                                                  @Nullable String instanceId,
-                                                                                  @Nullable String additionalTppInfo) {
+    public Specification<ConsentEntity> byPsuIdDataAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(@NotNull PsuIdData psuIdData,
+                                                                                                      @Nullable LocalDate createDateFrom,
+                                                                                                      @Nullable LocalDate createDateTo,
+                                                                                                      @Nullable String instanceId,
+                                                                                                      @Nullable String additionalTppInfo) {
         return Optional.ofNullable(commonSpecification
                                        .byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData, createDateFrom, createDateTo, instanceId))
                    .map(s -> s.and(byConsentType()))
@@ -121,11 +121,11 @@ public abstract class ConsentFilterableSpecification {
      * @param instanceId     optional instance ID
      * @return specification for AisCoConsentEntitynsent entity
      */
-    public Specification<ConsentEntity> byAspspAccountIdAndCreationPeriodAndInstanceId(@NotNull String aspspAccountId,
-                                                                                       @Nullable LocalDate createDateFrom,
-                                                                                       @Nullable LocalDate createDateTo,
-                                                                                       @Nullable String instanceId,
-                                                                                       @Nullable String additionalTppInfo) {
+    public Specification<ConsentEntity> byAspspAccountIdAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(@NotNull String aspspAccountId,
+                                                                                                           @Nullable LocalDate createDateFrom,
+                                                                                                           @Nullable LocalDate createDateTo,
+                                                                                                           @Nullable String instanceId,
+                                                                                                           @Nullable String additionalTppInfo) {
         return Optional.ofNullable(consentSpecification
                                        .byAspspAccountIdAndCreationPeriodAndInstanceId(aspspAccountId, createDateFrom, createDateTo, instanceId))
                    .map(s -> s.and(byConsentType()))

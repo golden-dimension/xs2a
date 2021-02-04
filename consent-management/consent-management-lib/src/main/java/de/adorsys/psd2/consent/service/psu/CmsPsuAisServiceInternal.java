@@ -198,13 +198,13 @@ public class CmsPsuAisServiceInternal implements CmsPsuAisService {
     }
 
     @Override
-    public @NotNull List<CmsAisAccountConsent> getConsentsForPsu(@NotNull PsuIdData psuIdData, @NotNull String instanceId,
-                                                                 @Nullable String additionalTppInfo) {
+    public @NotNull List<CmsAisAccountConsent> getConsentsForPsuAndAdditionalTppInfo(@NotNull PsuIdData psuIdData, @NotNull String instanceId,
+                                                                                     @Nullable String additionalTppInfo) {
         if (psuIdData.isEmpty()) {
             return Collections.emptyList();
         }
 
-        return consentJpaRepository.findAll(aisConsentSpecification.byPsuDataInListAndInstanceId(psuIdData, instanceId, additionalTppInfo))
+        return consentJpaRepository.findAll(aisConsentSpecification.byPsuDataInListAndInstanceIdAndAdditionalTppInfo(psuIdData, instanceId, additionalTppInfo))
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
                    .map(this::mapToCmsAisAccountConsentWithAuthorisations)

@@ -49,7 +49,7 @@ public class CmsAspspAisExportController implements CmsAspspAisExportApi {
                                                                              String psuCorporateIdType, String instanceId,
                                                                              String additionalTppInfo) {
         PsuIdData psuIdData = new PsuIdData(psuId, psuIdType, psuCorporateId, psuCorporateIdType, null);
-        Collection<CmsAisAccountConsent> consents = cmsAspspAisExportService.exportConsentsByPsu(psuIdData, start, end, instanceId, additionalTppInfo);
+        Collection<CmsAisAccountConsent> consents = cmsAspspAisExportService.exportConsentsByPsuAndAdditionalTppInfo(psuIdData, start, end, instanceId, additionalTppInfo);
         return new ResponseEntity<>(consents, HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class CmsAspspAisExportController implements CmsAspspAisExportApi {
     public ResponseEntity<Collection<CmsAisAccountConsent>> getConsentsByAccount(String aspspAccountId, LocalDate start,
                                                                                  LocalDate end, String instanceId,
                                                                                  String additionalTppInfo) {
-        Collection<CmsAisAccountConsent> consents = cmsAspspAisExportService.exportConsentsByAccountId(aspspAccountId, start, end, instanceId, additionalTppInfo);
+        Collection<CmsAisAccountConsent> consents = cmsAspspAisExportService.exportConsentsByAccountIdAndAdditionalTppInfo(aspspAccountId, start, end, instanceId, additionalTppInfo);
         return new ResponseEntity<>(consents, HttpStatus.OK);
     }
 }

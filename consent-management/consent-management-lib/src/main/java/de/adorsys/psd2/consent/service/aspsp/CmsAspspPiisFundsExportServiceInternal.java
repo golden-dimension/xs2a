@@ -79,7 +79,7 @@ public class CmsAspspPiisFundsExportServiceInternal implements CmsAspspPiisFunds
 
         String actualInstanceId = StringUtils.defaultIfEmpty(instanceId, DEFAULT_SERVICE_INSTANCE_ID);
 
-        return findAllBySpecification(piisConsentEntitySpecification.byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData, createDateFrom, createDateTo, actualInstanceId, null));
+        return findAllBySpecification(piisConsentEntitySpecification.byPsuIdDataAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(psuIdData, createDateFrom, createDateTo, actualInstanceId, null));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CmsAspspPiisFundsExportServiceInternal implements CmsAspspPiisFunds
 
         String actualInstanceId = StringUtils.defaultIfEmpty(instanceId, DEFAULT_SERVICE_INSTANCE_ID);
 
-        return findAllBySpecification(piisConsentEntitySpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(aspspAccountId, createDateFrom, createDateTo, actualInstanceId, null))
+        return findAllBySpecification(piisConsentEntitySpecification.byAspspAccountIdAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(aspspAccountId, createDateFrom, createDateTo, actualInstanceId, null))
                    .stream()
                    .distinct()
                    .collect(Collectors.toList());

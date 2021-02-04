@@ -81,21 +81,21 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
 
     @Override
     @Transactional
-    public Collection<CmsAisAccountConsent> exportConsentsByPsu(PsuIdData psuIdData, @Nullable LocalDate createDateFrom,
-                                                                @Nullable LocalDate createDateTo,
-                                                                @NotNull String instanceId,
-                                                                @Nullable String additionalTppInfo) {
+    public Collection<CmsAisAccountConsent> exportConsentsByPsuAndAdditionalTppInfo(PsuIdData psuIdData, @Nullable LocalDate createDateFrom,
+                                                                                    @Nullable LocalDate createDateTo,
+                                                                                    @NotNull String instanceId,
+                                                                                    @Nullable String additionalTppInfo) {
         if (psuIdData == null || psuIdData.isEmpty() || StringUtils.isBlank(instanceId)) {
             log.info("InstanceId: [{}]. Export consents by Psu failed, psuIdData or instanceId is empty or null.",
                      instanceId);
             return Collections.emptyList();
         }
 
-        return consentJpaRepository.findAll(aisConsentSpecification.byPsuIdDataAndCreationPeriodAndInstanceId(psuIdData,
-                                                                                                              createDateFrom,
-                                                                                                              createDateTo,
-                                                                                                              instanceId,
-                                                                                                              additionalTppInfo
+        return consentJpaRepository.findAll(aisConsentSpecification.byPsuIdDataAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(psuIdData,
+                                                                                                                                  createDateFrom,
+                                                                                                                                  createDateTo,
+                                                                                                                                  instanceId,
+                                                                                                                                  additionalTppInfo
         ))
                    .stream()
                    .map(aisConsentLazyMigrationService::migrateIfNeeded)
@@ -105,11 +105,11 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
 
     @Override
     @Transactional
-    public Collection<CmsAisAccountConsent> exportConsentsByAccountId(@NotNull String aspspAccountId,
-                                                                      @Nullable LocalDate createDateFrom,
-                                                                      @Nullable LocalDate createDateTo,
-                                                                      @NotNull String instanceId,
-                                                                      @Nullable String additionalTppInfo) {
+    public Collection<CmsAisAccountConsent> exportConsentsByAccountIdAndAdditionalTppInfo(@NotNull String aspspAccountId,
+                                                                                          @Nullable LocalDate createDateFrom,
+                                                                                          @Nullable LocalDate createDateTo,
+                                                                                          @NotNull String instanceId,
+                                                                                          @Nullable String additionalTppInfo) {
 
         if (StringUtils.isBlank(instanceId)) {
             log.info("InstanceId: [{}], aspspAccountId: [{}]. Export consents by accountId failed, instanceId is empty or null.",
@@ -117,11 +117,11 @@ public class CmsAspspAisExportServiceInternal implements CmsAspspAisExportServic
             return Collections.emptyList();
         }
 
-        Specification<ConsentEntity> specification = aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceId(aspspAccountId,
-                                                                                                                            createDateFrom,
-                                                                                                                            createDateTo,
-                                                                                                                            instanceId,
-                                                                                                                            additionalTppInfo);
+        Specification<ConsentEntity> specification = aisConsentSpecification.byAspspAccountIdAndCreationPeriodAndInstanceIdAndAdditionalTppInfo(aspspAccountId,
+                                                                                                                                                createDateFrom,
+                                                                                                                                                createDateTo,
+                                                                                                                                                instanceId,
+                                                                                                                                                additionalTppInfo);
         List<ConsentEntity> consents = consentJpaRepository.findAll(specification)
                                            .stream()
                                            .distinct()
