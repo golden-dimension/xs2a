@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.consent.service.sha.v3;
+package de.adorsys.psd2.consent.service.sha;
 
-import de.adorsys.psd2.consent.service.sha.AisChecksumCalculatingServiceV4;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.Test;
