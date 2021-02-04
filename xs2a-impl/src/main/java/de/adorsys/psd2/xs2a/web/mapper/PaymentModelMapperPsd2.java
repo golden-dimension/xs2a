@@ -108,8 +108,8 @@ public class PaymentModelMapperPsd2 {
         PaymentInitiationParameters parameters = new PaymentInitiationParameters();
         parameters.setPaymentType(PaymentType.getByValue(paymentService).orElseThrow(() -> new WrongPaymentTypeException(paymentService)));
         parameters.setPaymentProduct(Optional.ofNullable(paymentProduct).orElseThrow(() -> new IllegalArgumentException("Unsupported payment product")));
-        parameters.setQwacCertificate(new String(Optional.ofNullable(tppAttributes.getTpPSignatureCertificate()).orElse(new byte[]{}), StandardCharsets.UTF_8));
-        parameters.setTppRedirectUri(tppRedirectUriMapper.mapToTppRedirectUri(tppAttributes.getTpPRedirectURI(), tppAttributes.getTpPNokRedirectURI()));
+        parameters.setQwacCertificate(new String(Optional.ofNullable(tppAttributes.getTppSignatureCertificate()).orElse(new byte[]{}), StandardCharsets.UTF_8));
+        parameters.setTppRedirectUri(tppRedirectUriMapper.mapToTppRedirectUri(tppAttributes.getTppRedirectURI(), tppAttributes.getTppNokRedirectURI()));
         parameters.setTppExplicitAuthorisationPreferred(tppAttributes.isTppExplicitAuthorisationPreferred());
         parameters.setPsuData(psuData);
         parameters.setTppNotificationData(tppAttributes.getTppNotificationData());

@@ -20,9 +20,9 @@ import lombok.Value;
 
 @Value
 public class TppAttributes {
-    byte[] tpPSignatureCertificate;
-    String tpPRedirectURI;
-    String tpPNokRedirectURI;
+    byte[] tppSignatureCertificate;
+    String tppRedirectURI;
+    String tppNokRedirectURI;
     boolean tppExplicitAuthorisationPreferred;
     TppNotificationData tppNotificationData;
     String tppBrandLoggingInformation;
