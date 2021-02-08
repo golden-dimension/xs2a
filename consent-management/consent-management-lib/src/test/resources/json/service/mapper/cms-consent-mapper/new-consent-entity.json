@@ -32,8 +32,7 @@
     "tppNotificationContentPreferred": [
       "SCA",
       "PROCESS"
-    ],
-    "additionalInfo": "NONE"
+    ]
   },
   "authorisationTemplate": {
     "redirectUri": "http://test.com",
