@@ -451,6 +451,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Fixed AIS Consent checksum validation</p>
 </li>
+<li>
+<p>Improved decoupled approach</p>
+</li>
+<li>
+<p>Updated mapstruct version to 1.4.1.RELEASE</p>
+</li>
+<li>
+<p>Bugfix: adjusted <code>ATTEMPT_FAILURE</code> processing for consents</p>
+</li>
 </ul>
 </div>
 </div>
@@ -464,10 +473,35 @@ consent doesn&#8217;t change its checksum.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_improved_decoupled_approach">Improved decoupled approach</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, decoupled approach has the same flow (request SCA methods, select SCA method) with embedded approach until TAN code generation.
+Response SCA status will be retrieved from SPI level.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_updated_mapstruct_version_to_1_4_1_release">Updated mapstruct version to 1.4.1.RELEASE</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Mapstruct version updated to 1.4.1.RELEASE.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugfix_adjusted_attempt_failure_processing_for_consents">Bugfix: adjusted <code>ATTEMPT_FAILURE</code> processing for consents</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, status <code>ATTEMPT_FAILURE</code> processed correctly.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-10 15:36:38 UTC
+Last updated 2021-02-11 11:43:41 UTC
 </div>
 </div>
 </body>
