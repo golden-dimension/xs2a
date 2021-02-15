@@ -49,13 +49,12 @@ public class DateToQueryParameterParamsValidatorImpl extends AbstractQueryParame
     @Override
     public MessageError validate(Map<String, List<String>> queryParameterMap, MessageError messageError) {
         String dateTo = getQueryParameterValue(queryParameterMap, getQueryParameterName());
-        String dateFrom = getQueryParameterValue(queryParameterMap, DATE_FROM_PARAMETER_NAME);
-
         if (dateTo != null && !isDateParamValid(dateTo)) {
             errorBuildingService.enrichMessageError(messageError, TppMessageInformation.of(FORMAT_ERROR_INVALID_FIELD, getQueryParameterName()));
             return messageError;
         }
 
+        String dateFrom = getQueryParameterValue(queryParameterMap, DATE_FROM_PARAMETER_NAME);
         if (StringUtils.isNoneEmpty(dateTo, dateFrom)
                 && isDateParamValid(dateFrom)
                 && LocalDate.parse(dateTo).isBefore(LocalDate.parse(dateFrom))) {
