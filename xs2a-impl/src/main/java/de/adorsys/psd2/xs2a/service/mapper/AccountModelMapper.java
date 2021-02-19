@@ -20,6 +20,7 @@ import de.adorsys.psd2.aspsp.profile.domain.MulticurrencyAccountLevel;
 import de.adorsys.psd2.model.*;
 import de.adorsys.psd2.xs2a.core.pis.PisDayOfExecution;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
+import de.adorsys.psd2.xs2a.domain.EntryDetails;
 import de.adorsys.psd2.xs2a.domain.Transactions;
 import de.adorsys.psd2.xs2a.domain.Xs2aBalance;
 import de.adorsys.psd2.xs2a.domain.Xs2aExchangeRate;
@@ -107,7 +108,35 @@ public abstract class AccountModelMapper {
     @Mapping(target = "additionalInformationStructured.standingOrderDetails.dayOfExecution", expression = "java(mapDayOfExecution(xs2aStandingOrderDetails.getDayOfExecution()))")
     @Mapping(target = "links", ignore = true)
     @Mapping(target = "_links", ignore = true)
+    @Mapping(target = "creditorName", source = "transactionInfo.creditorName")
+    @Mapping(target = "creditorAccount", source = "transactionInfo.creditorAccount")
+    @Mapping(target = "creditorAgent", source = "transactionInfo.creditorAgent")
+    @Mapping(target = "ultimateCreditor", source = "transactionInfo.ultimateCreditor")
+    @Mapping(target = "debtorName", source = "transactionInfo.debtorName")
+    @Mapping(target = "debtorAccount", source = "transactionInfo.debtorAccount")
+    @Mapping(target = "debtorAgent", source = "transactionInfo.debtorAgent")
+    @Mapping(target = "ultimateDebtor", source = "transactionInfo.ultimateDebtor")
+    @Mapping(target = "remittanceInformationUnstructured", source = "transactionInfo.remittanceInformationUnstructured")
+    @Mapping(target = "remittanceInformationUnstructuredArray", source = "transactionInfo.remittanceInformationUnstructuredArray")
+    @Mapping(target = "remittanceInformationStructured", source = "transactionInfo.remittanceInformationStructured")
+    @Mapping(target = "remittanceInformationStructuredArray", source = "transactionInfo.remittanceInformationStructuredArray")
+    @Mapping(target = "purposeCode", source = "transactionInfo.purposeCode")
     public abstract de.adorsys.psd2.model.Transactions mapToTransactions(Transactions transactions);
+
+    @Mapping(target = "creditorName", source = "transactionInfo.creditorName")
+    @Mapping(target = "creditorAccount", source = "transactionInfo.creditorAccount")
+    @Mapping(target = "creditorAgent", source = "transactionInfo.creditorAgent")
+    @Mapping(target = "ultimateCreditor", source = "transactionInfo.ultimateCreditor")
+    @Mapping(target = "debtorName", source = "transactionInfo.debtorName")
+    @Mapping(target = "debtorAccount", source = "transactionInfo.debtorAccount")
+    @Mapping(target = "debtorAgent", source = "transactionInfo.debtorAgent")
+    @Mapping(target = "ultimateDebtor", source = "transactionInfo.ultimateDebtor")
+    @Mapping(target = "remittanceInformationUnstructured", source = "transactionInfo.remittanceInformationUnstructured")
+    @Mapping(target = "remittanceInformationUnstructuredArray", source = "transactionInfo.remittanceInformationUnstructuredArray")
+    @Mapping(target = "remittanceInformationStructured", source = "transactionInfo.remittanceInformationStructured")
+    @Mapping(target = "remittanceInformationStructuredArray", source = "transactionInfo.remittanceInformationStructuredArray")
+    @Mapping(target = "purposeCode", source = "transactionInfo.purposeCode")
+    public abstract de.adorsys.psd2.model.EntryDetails mapToEntryDetails(EntryDetails entryDetails);
 
     public InlineResponse2001 mapToTransactionDetails(Transactions transactions) {
         InlineResponse2001 inlineResponse2001 = new InlineResponse2001();
