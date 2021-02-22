@@ -47,7 +47,6 @@ public class AccountSpiMockImpl implements AccountSpi {
     private static final String TRUSTED_BENEFICIARIES_ID = "874aa308-78af-11ea-bc55-0242ac130003";
     private static final String IBAN = "DE52500105173911841934";
     private static final String NAME = "Müller";
-    private static final String REMITTANCE = "PMNT-ICDT-STDO";
 
     private final JsonReader jsonReader = new JsonReader();
 
