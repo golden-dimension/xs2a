@@ -16,7 +16,7 @@
 
 package de.adorsys.psd2.xs2a.web.mapper;
 
-import de.adorsys.psd2.xs2a.domain.BalanceType;
+import de.adorsys.psd2.model.BalanceType;
 import de.adorsys.psd2.xs2a.service.mapper.AmountModelMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(SpringExtension.class)
@@ -44,9 +45,15 @@ class BalanceMapperTest {
 
     @Test
     void mapToBalanceType() {
-        Stream.of(BalanceType.values()) //Given
+        Stream.of(de.adorsys.psd2.xs2a.domain.BalanceType.values()) //Given
             .map(mapper::mapToBalanceType) //When
             .forEach(Assertions::assertNotNull); //Then
+    }
+
+    @Test
+    void mapToBalanceType_null() {
+        BalanceType actual = mapper.mapToBalanceType(null);
+        assertThat(actual).isNull();
     }
 
     @Configuration

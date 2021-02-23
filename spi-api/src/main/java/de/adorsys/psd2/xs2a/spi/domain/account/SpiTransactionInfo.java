@@ -17,12 +17,10 @@
 package de.adorsys.psd2.xs2a.spi.domain.account;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
 public class SpiTransactionInfo {
     private final String creditorName;
     private final SpiAccountReference creditorAccount;

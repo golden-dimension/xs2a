@@ -17,6 +17,7 @@
 package de.adorsys.psd2.xs2a.service.mapper;
 
 import de.adorsys.psd2.model.ReportExchangeRate;
+import de.adorsys.psd2.model.ReportExchangeRateList;
 import de.adorsys.psd2.xs2a.domain.Xs2aExchangeRate;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -51,5 +54,17 @@ class ReportExchangeMapperTest {
     void mapToReportExchangeRate_nullValue() {
         ReportExchangeRate reportExchangeRate = mapper.mapToReportExchangeRate(null);
         assertNull(reportExchangeRate);
+    }
+
+    @Test
+    void mapToReportExchanges_nullValue() {
+        ReportExchangeRateList reportExchangeRateList = mapper.mapToReportExchanges(null);
+        assertNull(reportExchangeRateList);
+    }
+
+    @Test
+    void mapToReportExchanges_emptyList() {
+        ReportExchangeRateList reportExchangeRateList = mapper.mapToReportExchanges(Collections.emptyList());
+        assertNull(reportExchangeRateList);
     }
 }
