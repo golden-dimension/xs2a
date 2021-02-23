@@ -470,14 +470,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_bugfix_handled_empty_sca_status_from_spi">Bugfix: handled empty SCA status from SPI</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, SCA status is handled on XS2A side and prevented from its NULL value.</p>
+<p>SCA status is retrieved from CMS.
+Method AuthorisationSpi#getScaStatus was renamed to AuthorisationSpi#getScaInformation.
+AuthorisationSpi#getScaInformation method obtains SCA information from ASPSP like PSU message and trusted beneficiaries flag.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-23 11:19:25 UTC
+Last updated 2021-02-23 13:30:00 UTC
 </div>
 </div>
 </body>
