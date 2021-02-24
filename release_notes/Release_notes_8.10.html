@@ -446,13 +446,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-
+<div class="ulist">
+<ul>
+<li>
+<p>Bugfix: added validator for <code>dateTo</code> query parameter in get transaction list</p>
+</li>
+<li>
+<p>Fixed spi periodic payment</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugfix_added_validator_for_dateto_query_parameter_in_get_transaction_list">Bugfix: added validator for <code>dateTo</code> query parameter in get transaction list</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, query parameter <code>dateTo</code> is validated. It should be correct format (ISO_DATE, i.e. "2021-02-12") and after <code>dateFrom</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_spi_periodic_payment">Fixed spi periodic payment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>@Data</code> annotation was fixed for SpiPeriodicPayment.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-23 13:46:42 UTC
+Last updated 2021-02-24 10:39:32 UTC
 </div>
 </div>
 </body>

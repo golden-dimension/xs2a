@@ -451,6 +451,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Fixed spi periodic payment</p>
 </li>
+<li>
+<p>Bugfix: added validator for <code>dateTo</code> query parameter in get transaction list</p>
+</li>
+<li>
+<p>Bugfix: handled empty SCA status from SPI</p>
+</li>
 </ul>
 </div>
 </div>
@@ -463,10 +469,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_bugfix_added_validator_for_dateto_query_parameter_in_get_transaction_list">Bugfix: added validator for <code>dateTo</code> query parameter in get transaction list</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, query parameter <code>dateTo</code> is validated. It should be correct format (ISO_DATE, i.e. "2021-02-12") and after <code>dateFrom</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bugfix_handled_empty_sca_status_from_spi">Bugfix: handled empty SCA status from SPI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SCA status is retrieved from CMS.
+Method AuthorisationSpi#getScaStatus was renamed to AuthorisationSpi#getScaInformation.
+AuthorisationSpi#getScaInformation method obtains SCA information from ASPSP like PSU message and trusted beneficiaries flag.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-23 13:46:42 UTC
+Last updated 2021-02-24 10:39:32 UTC
 </div>
 </div>
 </body>
