@@ -53,7 +53,7 @@ public class TppDomainValidator implements BusinessValidator<String> {
     private final ScaApproachResolver scaApproachResolver;
 
     @Override
-    public ValidationResult validate(@NotNull String header) {
+    public ValidationResult validate(String header) {
         if (StringUtils.isNotBlank(header) &&
                 isRedirectScaApproach() &&
                 isCheckUriComplianceToDomainSupported() &&
@@ -74,7 +74,7 @@ public class TppDomainValidator implements BusinessValidator<String> {
     }
 
     @Override
-    public Set<TppMessageInformation> buildWarningMessages(@NotNull String urlString) {
+    public Set<TppMessageInformation> buildWarningMessages(String urlString) {
         Set<TppMessageInformation> warningMessages = new HashSet<>();
 
         if (!isCheckUriComplianceToDomainSupported()) {
