@@ -451,6 +451,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Removed @NotNull from TppDomainValidator#validate</p>
 </li>
+<li>
+<p>Added additional query parameters for <code>/psu-api/v1/ais/consent/consents</code></p>
+</li>
 </ul>
 </div>
 </div>
@@ -463,10 +466,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_additional_query_parameters_for_psu_apiv1aisconsentconsents">Added additional query parameters for <code>/psu-api/v1/ais/consent/consents</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, getting consent by PSU can be filtered by query parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>status</code> - list of consent statuses, i.e. status=VALID,EXPIRED</p>
+</li>
+<li>
+<p><code>accountNumber</code> - list of account numbers, i.e. accountNumber=CH0900784152046193205,CH0900784152046193206</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these query parameters are optional, if they are empty it will mean ALL.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-26 09:54:52 UTC
+Last updated 2021-03-01 11:33:35 UTC
 </div>
 </div>
 </body>
