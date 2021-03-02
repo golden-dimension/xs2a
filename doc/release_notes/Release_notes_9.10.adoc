@@ -23,4 +23,4 @@ All of these query parameters are optional, if they are empty it will mean ALL.
 
 From now on, certificate roles will be applied for all `/v2/consents/confirmation-of-funds/**` endpoints.
 
-To enabled certificate roles validation set flag `setting.common.checkTppRolesFromCertificateSupported: TRUE`
+To enable certificate roles validation set flag `setting.common.checkTppRolesFromCertificateSupported: TRUE`
