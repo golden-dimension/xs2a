@@ -454,6 +454,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Added additional query parameters for <code>/psu-api/v1/ais/consent/consents</code></p>
 </li>
+<li>
+<p>Added validation certificate roles for PIIS consent v2</p>
+</li>
 </ul>
 </div>
 </div>
@@ -487,10 +490,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_validation_certificate_roles_for_piis_consent_v2">Added validation certificate roles for PIIS consent v2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, certificate roles will be applied for all <code>/v2/consents/confirmation-of-funds/**</code> endpoints.</p>
+</div>
+<div class="paragraph">
+<p>To enable certificate roles validation set flag <code>setting.common.checkTppRolesFromCertificateSupported: TRUE</code></p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-01 11:33:35 UTC
+Last updated 2021-03-03 06:58:26 UTC
 </div>
 </div>
 </body>
