@@ -2804,7 +2804,7 @@ This means that the request body of any payment will be stored in CMS and presen
 </div>
 </div>
 <div class="paragraph">
-<p>To provide backward compatibility with previous versions it&#8217;s possible to use support library that will transform payments with standard payment products into type-specific implementations of <code>de.adorsys.psd2.consent.api.pis.CmsPayment</code> (<code>CmsSinglePayment</code>, <code>CmsPeriodicPayment</code> and <code>CmsBulkPayment</code>).
+<p>To provide backward compatibility with previous versions it&#8217;s possible to use support library that will transform payments with standard payment products into type-specific implementations of <code>de.adorsys.psd2.consent.api.pis.CmsBasePaymentResponse</code> (<code>CmsSinglePayment</code>, <code>CmsPeriodicPayment</code> and <code>CmsBulkPayment</code>).
 To enable such transformation, CMS application should use <code>cms-payment-support-impl</code> module instead of <code>cms-payment-common-impl</code>:</p>
 </div>
 <div class="listingblock">
@@ -3825,7 +3825,7 @@ Then different PSUs, that are involved in payment or consent authorisation proce
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-03 08:08:21 UTC
+Last updated 2021-03-05 11:16:32 UTC
 </div>
 </div>
 </body>
