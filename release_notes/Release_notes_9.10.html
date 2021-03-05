@@ -463,6 +463,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Changed response type for getting payment in CMS-PSU-API: <code>/psu-api/v1/payment/{payment-id}</code></p>
 </li>
+<li>
+<p>Removed deprecated method <code>requestTrustedBeneficiaryFlag</code> from <code>AuthorisationSpi</code> class.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -523,10 +526,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_removed_deprecated_method_requesttrustedbeneficiaryflag_from_authorisationspi_class">Removed deprecated method <code>requestTrustedBeneficiaryFlag</code> from <code>AuthorisationSpi</code> class.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The method is removed from the AuthorisationSpi class. This flag is currently available in the <code>AuthorisationSpi#getScaStatus</code> method.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-05 11:16:32 UTC
+Last updated 2021-03-05 12:15:54 UTC
 </div>
 </div>
 </body>
