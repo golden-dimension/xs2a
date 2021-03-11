@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Inquiry</title>
+<title>Release notes v.11.0</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,124 +440,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.11.0</h1>
 </div>
 <div id="content">
-<div class="sect2">
-<h3 id="_inquiry">Inquiry</h3>
-<div class="paragraph">
-<p>Migration was done within the version 3.2. This guidance is valid for all versions before (including 2.x).</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_affected_versions">Affected versions</h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Maven dependency</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Previous version</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Migrated</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Spring-boot</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.5.8.RELEASE</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.4.RELEASE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Spring</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4.3.21.RELEASE</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.1.6.RELEASE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring-data-commons</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.13.17.RELEASE</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.4.RELEASE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring-data-jpa</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.11.17.RELEASE</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.4.RELEASE</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">hibernate-core</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.3.7.Final</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.4.2.Final</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">hibernate-validator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6.0.8.Final</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6.0.16.Final</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mockito-core</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.10.19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.27.0</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">byte-buddy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.8.12, 1.8.17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.9.10</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_description">Description</h3>
-<div class="paragraph">
-<p>Migration was implemented according to Spring Boot documentation <a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide" class="bare">https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide</a></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_instruction">Instruction</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>change <em>spring-boot</em> dependency version</p>
-</li>
-<li>
-<p>change <em>spring</em> libraries dependency versions</p>
-</li>
-<li>
-<p>adjust configuration properties in <em>application.properties/application.yml</em> (many of them were renamed/removed)</p>
-</li>
-</ul>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Old property</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">New property</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">endpoints.cors.*</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">management.endpoints.web.cors.*</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">liquibase.*</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">spring.liquibase.*</p></td>
-</tr>
-</tbody>
-</table>
-<div class="ulist">
-<ul>
-<li>
-<p>change mockito-core to Mockito 2.x (now mockito tests have become more strict), fix tests</p>
-</li>
-</ul>
+<div class="sect1">
+<h2 id="_table_of_contents">Table of Contents</h2>
+<div class="sectionbody">
+
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-10 14:25:56 UTC
+Last updated 2021-03-11 12:12:00 UTC
 </div>
 </div>
 </body>
