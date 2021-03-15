@@ -36,7 +36,6 @@ import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponse;
 import de.adorsys.psd2.xs2a.spi.service.BulkPaymentSpi;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -87,8 +86,8 @@ public class BulkPaymentSpiMockImpl implements BulkPaymentSpi {
     @NotNull
     public SpiResponse<SpiBulkPayment> getPaymentById(@NotNull SpiContextData contextData, @NotNull String acceptMediaType, @NotNull SpiBulkPayment payment, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
 
-        if (CollectionUtils.isNotEmpty(payment.getPayments())) {
-            payment.getPayments().forEach(p -> p.setDebtorName(DEBTOR_NAME));
+        if (payment.getDebtorName() == null) {
+            payment.setDebtorName(DEBTOR_NAME);
         }
 
         log.info("BulkPaymentSpi#getPaymentById: contextData {}, spiBulkPayment {}, aspspConsentData {}", contextData, payment, aspspConsentDataProvider.loadAspspConsentData());
