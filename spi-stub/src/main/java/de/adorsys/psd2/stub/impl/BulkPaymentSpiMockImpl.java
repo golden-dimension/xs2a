@@ -36,6 +36,7 @@ import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponse;
 import de.adorsys.psd2.xs2a.spi.service.BulkPaymentSpi;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,7 @@ import java.util.UUID;
 public class BulkPaymentSpiMockImpl implements BulkPaymentSpi {
     private static final String TEST_ASPSP_DATA = "Test aspsp data";
     private static final String PSU_MESSAGE = "Message from ASPSP to PSU";
+    private static final String DEBTOR_NAME = "Mocked debtor name from ASPSP";
     private final PaymentServiceMock paymentService;
 
     @Override
@@ -84,6 +86,11 @@ public class BulkPaymentSpiMockImpl implements BulkPaymentSpi {
     @Override
     @NotNull
     public SpiResponse<SpiBulkPayment> getPaymentById(@NotNull SpiContextData contextData, @NotNull String acceptMediaType, @NotNull SpiBulkPayment payment, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
+
+        if (CollectionUtils.isNotEmpty(payment.getPayments())) {
+            payment.getPayments().forEach(p -> p.setDebtorName(DEBTOR_NAME));
+        }
+
         log.info("BulkPaymentSpi#getPaymentById: contextData {}, spiBulkPayment {}, aspspConsentData {}", contextData, payment, aspspConsentDataProvider.loadAspspConsentData());
 
         return SpiResponse.<SpiBulkPayment>builder()
