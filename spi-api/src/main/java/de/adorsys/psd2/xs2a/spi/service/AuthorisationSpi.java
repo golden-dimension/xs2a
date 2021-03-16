@@ -94,6 +94,7 @@ interface AuthorisationSpi<T> {
      * @return Returns response object, containing a SCA information from ASPSP
      */
     @Deprecated
+    //TODO: remove deprecated method https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1507
     SpiResponse<SpiScaInformationResponse> getScaInformation(@NotNull SpiContextData contextData,
                                                              @NotNull String authorisationId,
                                                              @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider);
@@ -107,7 +108,7 @@ interface AuthorisationSpi<T> {
      * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
      * @return Returns response object, containing a SCA information from ASPSP
      */
-    //TODO: remove getScaInformation
+    //TODO: remove default implementation with getScaInformation https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1507
     default SpiResponse<SpiScaStatusResponse> getScaStatus(@NotNull ScaStatus scaStatus,
                                                            @NotNull SpiContextData contextData,
                                                            @NotNull String authorisationId,
