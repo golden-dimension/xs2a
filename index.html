@@ -453,8 +453,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_new_features_since_xs2a_v_5_0">New features since XS2A v.5.0</a></li>
 <li><a href="#_for_future">For future</a>
 <ul class="sectlevel2">
-<li><a href="#_create_resource_notification_push_service">Create Resource Notification Push Service</a></li>
 <li><a href="#_signing_basket">Signing Basket</a></li>
+<li><a href="#_multiple_consents">Multiple Consents</a></li>
 </ul>
 </li>
 </ul>
@@ -640,16 +640,17 @@ This endpoint is not directly related to credit cards as such, but the financial
 <h2 id="_for_future">For future</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_create_resource_notification_push_service">Create Resource Notification Push Service</h3>
+<h3 id="_signing_basket">Signing Basket</h3>
 <div class="paragraph">
-<p>Service will allow TPP to be informed e.g. about status changes of the resources either by directly communicating the new status or request a callback for a dedicated resource. TPP can receive push
-notifications about every change of Transaction/Consent status, SCA statuses for all related authorisation processes</p>
+<p>This optional function (grouping several transactions for authorising it with one SCA method) might be offered by the ASPSP. PIS or AIS transactions can be added to the Signing Basket.
+Implemented as XS2A extended (Commercial) service.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_signing_basket">Signing Basket</h3>
+<h3 id="_multiple_consents">Multiple Consents</h3>
 <div class="paragraph">
-<p>This optional function (grouping several transactions for authorising it with one SCA method) might be offered by the ASPSP. PIS or AIS transactions can be added to the Signing Basket.</p>
+<p>This optional function of Multiple Consents allows TPP to submit several recurring consent requests for the same PSU.
+Implemented as XS2A extended (Commercial) service.</p>
 </div>
 </div>
 </div>
@@ -657,7 +658,7 @@ notifications about every change of Transaction/Consent status, SCA statuses for
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-11 12:12:00 UTC
+Last updated 2021-03-17 11:39:16 UTC
 </div>
 </div>
 </body>
