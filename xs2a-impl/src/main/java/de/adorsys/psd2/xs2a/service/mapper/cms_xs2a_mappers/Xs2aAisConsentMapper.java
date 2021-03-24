@@ -79,25 +79,6 @@ public class Xs2aAisConsentMapper {
                    .orElse(null);
     }
 
-    public UpdateConsentPsuDataReq mapToUpdateConsentPsuDataReq(UpdateAuthorisationRequest request,
-                                                                AuthorisationProcessorResponse response) {
-        return Optional.ofNullable(response)
-                   .map(data -> {
-                       UpdateConsentPsuDataReq req = new UpdateConsentPsuDataReq();
-                       req.setPsuData(response.getPsuData());
-                       req.setConsentId(request.getBusinessObjectId());
-                       req.setAuthorizationId(request.getAuthorisationId());
-                       req.setAuthenticationMethodId(Optional.ofNullable(data.getChosenScaMethod())
-                                                         .map(AuthenticationObject::getAuthenticationMethodId)
-                                                         .orElse(null));
-                       req.setScaAuthenticationData(request.getScaAuthenticationData());
-                       req.setScaStatus(data.getScaStatus());
-                       req.setAuthorisationType(AuthorisationType.CONSENT);
-                       return req;
-                   })
-                   .orElse(null);
-    }
-
     public SpiScaConfirmation mapToSpiScaConfirmation(UpdateAuthorisationRequest request, PsuIdData psuData) {
         SpiScaConfirmation accountConfirmation = new SpiScaConfirmation();
         accountConfirmation.setConsentId(request.getBusinessObjectId());
