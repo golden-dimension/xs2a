@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v. 1.14</title>
+<title>Release notes v.8.12</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,275 +440,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v. 1.14</h1>
+<h1>Release notes v.8.12</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_supported_payment_creation_with_pain_001_xml_message">Supported payment creation with pain.001 XML message</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Now, an endpoint POST /v1/payments/{payment-product} supports creation of a single payment in pain.001 format.
-A TPP needs to provide body in pain.001 XML format and provide a required payment-product(pain.001-sepa-credit-transfers, etc).
-GET /v1/payments/{payment-id} endpoint was updated as well to support a single payment in pain.001 format and returns the whole XML body of it.
-For this type of payment, HttpServletRequest body is read and transferred as a byte array.
-New Spi interface was added - CommonPaymentSpi. So far, it is responsible for the creation of all types of pain.001 XML payments.
-An Spi Developer should provide an implementaion of this interface to be able to operate pain.001 XML payments.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_cors_for_xs2a_library">CORS for Xs2a library</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>By default, allow credentials, all origins and all headers are disabled.
-You can override CORS settings by changing values in <code>application.properties</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre># Whether credentials are supported. When not set, credentials are not supported
-xs2a.endpoints.cors.allow-credentials=true
-# Comma-separated list of origins to allow. '*' allows all origins. When not set, CORS support is disabled
-xs2a.endpoints.cors.allowed-origins=*
-# Comma-separated list of headers to include in a response.
-xs2a.endpoints.cors.allowed-headers=Origin,Authorization,Content-Type
-# Comma-separated list of methods to allow. '*' allows all methods. When not set, defaults to GET
-xs2a.endpoints.cors.allowed-methods=GET,POST,PUT,DELETE</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_removed_spring_boot_dependencies_from_xs2a_library">Removed Spring Boot dependencies from Xs2a library</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Spring Boot dependencies were removed from Xs2a library. Now we use the following Spring dependencies (v. 4.3.21.RELEASE):</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>spring-test</p>
-</li>
-<li>
-<p>spring-hateoas</p>
-</li>
-<li>
-<p>spring-web</p>
-</li>
-<li>
-<p>spring-context</p>
+<p>Added mocked debtor name in starter</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_provided_tppinfo_as_part_of_spicontextdata_on_spi_api_level">Provided TppInfo as part of SpiContextData on SPI-API level</h2>
+<h2 id="_added_mocked_debtor_name_in_starter">Added mocked debtor name in starter</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Now for SPI developer instead of <code>SpiPsuData</code> an <code>SpiContextData</code> is provided. This object contains not only <code>SpiPsuData</code> but also <code>TppInfo</code> as well - an information about TPP extracted from its certificate.</p>
-</div>
-<div class="paragraph">
-<p>In order to update to new interfaces version SPI developer shall change places where <code>spiPsuData</code> were used with <code>spiContextData.getPsuData()</code> call.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_removed_obsolete_consent_psu_client">Removed obsolete consent-psu-client</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>consent-psu-client module is not actuall and not supported anymore, therefore removed</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_added_possibility_to_config_sca_redirect_links_in_aspsp_profile_using_redirectid_parameter">Bugfix: added possibility to config SCA Redirect links in ASPSP-profile using redirectId parameter</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now ASPSP Developer is able to config aisRedirectUrlToAspsp and pisRedirectUrlToAspsp with custom url pattern and redirectId parameter. For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">setting:
- pisRedirectUrlToAspsp: http://localhost:4200/pis/{redirect-id}
- aisRedirectUrlToAspsp: http://localhost:4200/ais/{redirect-id}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Encrypted Consent/Payment Id is still posssible to put into the URL using the <code>{encrypted-consent-id}</code> or <code>{encrypted-payment-id}</code> parameter respectively. For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">setting:
- pisRedirectUrlToAspsp: http://localhost:4200/pis?paymentId={encrypted-payment-id}&amp;redirectId={redirect-id}
- aisRedirectUrlToAspsp: http://localhost:4200/ais?consentId={encrypted-consent-id}&amp;redirectId={redirect-id}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_changes_to_cmspsuaisservice_and_cmspsupisservice">Bugfix: changes to CmsPsuAisService and CmsPsuPisService</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now methods updatePsuDataInConsent and updatePsuInPayment take redirectId as an argument instead of consentId and paymentId accordingly.
-Also ulr paths in CmsPsuAisConsentController and CmsPsuPisController were changed. Look at the table below.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Context</th>
-<th class="tableblock halign-left valign-top">Old path</th>
-<th class="tableblock halign-left valign-top">New path</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PUT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Updates PSU Data in consent</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/ais/consent/{consent-id}/update-psu-data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/ais/consent/redirects/{redirect-id}/psu-data</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gets consent by redirect id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/ais/consent/redirect/{redirect-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/ais/consent/redirects/{redirect-id}</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PUT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Updates PSU Data in payment</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/pis/consent/{payment-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/pis/consent/redirects/{redirect-id}/psu-data</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gets payment by redirect id</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/pis/consent/{payment-id}/redirect/{redirect-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">psu-api/v1/pis/consent/{payment-id}/redirects/{redirect-id}</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_removed_encryption_from_cmspsuaisservice_and_cmspsupisservice">Bugfix: removed encryption from CmsPsuAisService and CmsPsuPisService</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on all methods in CmsPsuAisService and CmsPsuPisService(and corresponding endpoints of consent management system) take unencrypted consent or payment id instead of the encrypted one.</p>
-</div>
-<div class="paragraph">
-<p>This unencrypted id can be acquired from the consent or payment object itself after receiving it by redirect id(via
-GET /psu-api/v1/ais/consent/redirects/{redirect-id} or GET /psu-api/v1/pis/consent/redirects/{redirect-id})</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_make_ais_consent_usable_only_if_its_status_is_valid">Bugfix: make AIS Consent usable only if its status is VALID</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now TPP is unable to use AIS Consent with RECEIVED status. It&#8217;s usable only if it has VALID status.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_java_interface_cmspsupiisservice_in_consent_psu_api_module_for_getting_and_revoking_piis_consents_for_online_banking">New Java Interface CmsPsuPiisService in consent-psu-api module for getting and revoking PIIS consents for online-banking</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>| Context                    | Method | Endpoint                                             | Description                                                                |
-|-------------------|------|------------------------------------|---------------------------------------------------|
-| Gets list of PIIS consents | GET    | psu-api/v1/piis/consents                             | Returns a list of PIIS Consent objects by PSU ID                           |
-| Gets PIIS consent          | GET    | psu-api/v1/piis/consents/{consent-id}                | Returns PIIS Consent object by its ID                                      |
-| Revokes PIIS consent       | PUT    | psu-api/v1/piis/consents/{consent-id}/revoke-consent | Revokes PIIS Consent object by its ID. Consent gets status Revoked by PSU. |</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tpp_stop_list">TPP Stop List</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Possibility to block TPP has been added to CMS.
-If TPP is blocked, the 401 CERTIFICATE_BLOCKED error is returned on any request to Xs2a endpoints.</p>
-</div>
-<div class="paragraph">
-<p>Now CMS contains several endpoints for TPP Stop List proceeding:</p>
-</div>
-<div class="paragraph">
-<p><strong>For ASPSP:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>GET <code>/aspsp-api/v1/tpp/stop-list</code> - returns TPP stop list record by TPP authorisation number and national authority ID</p>
-</li>
-<li>
-<p>PUT <code>/aspsp-api/v1/tpp/stop-list/block</code> - blocks TPP by TPP authorisation number, national authority ID and lock period</p>
-</li>
-<li>
-<p>DELETE <code>/aspsp-api/v1/tpp/stop-list/unblock</code> - unblocks TPP by TPP authorisation number and national authority ID</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>For Xs2a:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>GET <code>/api/v1/tpp/stop-list</code> - checks if TPP is blocked</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Scheduler service has been created: it will unblock the TPPs with blocking period expired (if TPP was blocked for the provided period of time).
-The scheduler service invocation frequency could be modified by changing <code>stoplist.cron.expression</code> value in <code>application.properties</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_integration_tests_subproject_is_frozen">Integration tests subproject is frozen</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Due to some internal reasons further development of integration tests in xs2a-Repository is frozen. <code>integration-tests</code> folder will be removed from repo soon.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_pisconsent_is_deleted_from_cms">PisConsent is deleted from cms</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>PIS Consent isn&#8217;t mentioned in specification, so it has been removed.
-Warning: All data form 'pis_consent' table will be deleted!</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_commonpayment_entity">New CommonPayment entity</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Instead of PisConsent we need to use a new entity 'CommonPayment'. It will replace all types of payments, which we use now (BULK, SINGLE, PERIODIC)</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_several_psus_in_payment">Several PSUs in payment</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Due to multilevel authorisation of payments, we can store data of several PSUs for each payment</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tpp_nok_redirect_uri_returned_when_scaredirect_uri_is_expired_for_pis">TPP-Nok-Redirect-URI returned when scaRedirect URI is expired (for PIS)</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now for PIS if scaRedirect URI is expired we deliver TPP-Nok-Redirect-URI in the response from CMS to Online-banking. This response is returned with code 408.
-If TPP-Nok-Redirect-URI was not sent from TPP and in CMS is stored null, then CMS returns empty response with code 408. If payment is not found or psu data is incorrect, CMS returns 404.</p>
+<p>From now on, mocked debtor name added to starter.</p>
 </div>
 </div>
 </div>
