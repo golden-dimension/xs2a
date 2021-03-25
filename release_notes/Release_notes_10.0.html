@@ -446,13 +446,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-
+<div class="ulist">
+<ul>
+<li>
+<p>Call SPI for scaStatus on GET SCA Status request</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_call_spi_for_scastatus_on_get_sca_status_request">Call SPI for scaStatus on GET SCA Status request</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ASPSP should have a possibility to update authorisation status from bank&#8217;s internal system related to consent/payment confirmation due to the fact that not every system is capable of updating the status in CMS.
+SCA status in CMS will be updated by status from SPI if it is not final.</p>
+</div>
+<div class="paragraph">
+<p>Method AuthorisationSpi#getScaInformation was marked as deprecated and will be removed in 10.3 releases.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-18 07:26:49 UTC
+Last updated 2021-03-25 12:24:24 UTC
 </div>
 </div>
 </body>
