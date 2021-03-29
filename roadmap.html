@@ -470,533 +470,49 @@ No backward compatibility with 10.x is guaranteed. Will be released as Stable ve
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">release date</th>
-<th class="tableblock halign-left valign-top">version 6.x (Stable)</th>
 <th class="tableblock halign-left valign-top">version 8.x (Stable)</th>
-<th class="tableblock halign-left valign-top">version 9.x (Development)</th>
+<th class="tableblock halign-left valign-top">version 10.x (Stable)</th>
+<th class="tableblock halign-left valign-top">version 11.x (Development)</th>
 <th class="tableblock halign-left valign-top">XS2A extention (commercial)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15.09.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.0</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25.03.2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8.12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11.0</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
 <ul>
 <li>
-<p>Remove deprecated authorisation type AIS</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12.10.2020</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6.10</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Provide ScaStatus EXEMTED for user without SCA method</p>
-</li>
-<li>
-<p>Set flag withBalance=true for Global Consent in CMS</p>
-</li>
-<li>
-<p>Fix usage of embedded mode of connector</p>
-</li>
-<li>
-<p>Fix cms aspsp api working with oracte db</p>
-</li>
-<li>
-<p>Remove obsolete property transaction.max-length</p>
-</li>
-<li>
-<p>Change type in PaymentSpi#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse</p>
-</li>
-<li>
-<p>Fix deadlock during SCA execution</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">23.10.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.0</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Update OAuth flow</p>
-</li>
-<li>
-<p>Set flag withBalance=true for Global Consent in CMS</p>
-</li>
-<li>
-<p>Fix internal server error on GET aspsp-api/v1/ais/consents/account/{account-id} with oracle db</p>
-</li>
-<li>
-<p>Fix deadlock while saving authentication methods for authorisation</p>
-</li>
-<li>
-<p>Add field chargeBearer for PIS</p>
-</li>
-<li>
-<p>Add pagination for transactions</p>
-</li>
-<li>
-<p>Add debtorName field to get payment response</p>
-</li>
-<li>
-<p>Add cms payment mapper resolver</p>
-</li>
-<li>
-<p>Add pageIndex and itemsPerPage to SpiTransactionReportParameters</p>
-</li>
-<li>
-<p>Remove obsolete property xs2a.application.ais.transaction.max-length</p>
-</li>
-<li>
-<p>Change (PaymentSpiPaymentCancellationSpi)#verifyScaAuthorisationAndExecutePaymentWithPaymentResponse response type</p>
+<p>Mock debtorName for get payment info</p>
 </li>
 </ul>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
 <ul>
 <li>
-<p>All fixes and updates from v.8.1</p>
+<p>All fixes and updates from v.8.0</p>
 </li>
 <li>
-<p>Update CMS tables for Signing Basket plugin usage</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">06.11.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Add pagination at call GET /psu-api/v1/ais/consent/consents</p>
+<p>Add call to Spi for scaStatus on GET SCA Status request</p>
 </li>
 </ul>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
 <ul>
 <li>
-<p>Add pagination at call GET /psu-api/v1/ais/consent/consents</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20.11.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.2</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Add Confirmation Code step to Oauth flow</p>
-</li>
-<li>
-<p>Bugfix: SCA redirect approach with authorisation confirmation request fails if no PSU-ID http header is available in request</p>
-</li>
-<li>
-<p>Bugfix: Change error when balance of account is not enough for payment execution</p>
-</li>
-<li>
-<p>Migrate to .yaml open API ver 1.3.8 2020-11-06v1</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.3</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">03.12.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.3</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Bugfix: POST on cancellation-authorisations immediately after payment-intiation brings NPE</p>
-</li>
-<li>
-<p>Bugfix: Add check for not valid payment status in PisPaymentController</p>
-</li>
-<li>
-<p>Bugfix: Add check for not valid payment status in PisCommonPaymentController</p>
-</li>
-<li>
-<p>Bugfix: Add check for not valid consent status in CmsConsentController</p>
-</li>
-<li>
-<p>Bugfix: Add check for not valid authorisation status in AuthorisationController</p>
-</li>
-<li>
-<p>Fix XS2A / Connector Security Hot Spots</p>
-</li>
-<li>
-<p>Increase code coverage for Connector</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.4</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17.12.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.4</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Fix pagination for get consents by account id</p>
-</li>
-<li>
-<p>Fix perfomance issue</p>
-</li>
-<li>
-<p>Fix XS2A Security Hot Spots</p>
-</li>
-<li>
-<p>Fix bugs with TPP stop list in DB</p>
-</li>
-<li>
-<p>Add page information to CMS export requests</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.5</p>
+<p>All fixes and updates from v.10.0</p>
 </li>
 </ul>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Signing Basket plugin for XS2A</p>
 </div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">31.12.2020</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.5</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Fix perfomance issue</p>
-</li>
-<li>
-<p>Fix XS2A Security Hot Spots</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.6</p>
-</li>
-<li>
-<p>Fix connector-examples for multilevel SCA</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14.01.2021</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.6</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Fix XS2A Security Hot Spots</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.7</p>
-</li>
-<li>
-<p>Add new data type Entry Details</p>
-</li>
-<li>
-<p>Add link of type "card" to the Card Account Report</p>
-</li>
-<li>
-<p>Add optional attributes to the Transactions data type</p>
-</li>
-<li>
-<p>Add attribute debitAccounting to the card account details type</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">27.01.2021</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.7</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Fix XS2A Security Hot Spots</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.8</p>
-</li>
-<li>
-<p>Adjust counting Consent usage for several booking statuses</p>
-</li>
-<li>
-<p>Added a psuMessage into Get SCA Status Response</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11.02.2021</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.8</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Move to the latest version of Mapstruct</p>
-</li>
-<li>
-<p>Improve decoupled approach</p>
-</li>
-<li>
-<p>Bugfix: Update authorisation status after ATTEMPT_FAILURE</p>
-</li>
-<li>
-<p>Bugfix: expiration of old consnets for confirmation code cases</p>
-</li>
-<li>
-<p>Connector: Use get transaction list with pagination</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.9</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Signing Basket plugin for XS2A</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">25.02.2021</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.9</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Bugfix: SpiPeriodicPayment error on @Data annotation</p>
-</li>
-<li>
-<p>Bugfix: Validate format <code>dateFrom</code> and <code>dateTo</code> in getTransactionList</p>
-</li>
-<li>
-<p>Fix sonar alerts</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.10</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>Signing Basket plugin for XS2A</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10.03.2021</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8.11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9.10</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>Bugfix: Remove @NotNull from TppDomainValidator#validate</p>
-</li>
-<li>
-<p>Bugfix: Validate certificate roles for PIIS consent v2</p>
-</li>
-<li>
-<p>Bugfix: Faulty definition CmsPayment in REST API</p>
-</li>
-<li>
-<p>Fix sonar alerts</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>All fixes and updates from v.8.10</p>
-</li>
-<li>
-<p>Update Ledgers to 4.7 in Connector</p>
-</li>
-<li>
-<p>Remove deprecated requestTrustedBeneficiaryFlag method in 9.10</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
@@ -1008,9 +524,9 @@ No backward compatibility with 10.x is guaranteed. Will be released as Stable ve
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>For future development</strong></p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11.x</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>10.x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>11.x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>XS2A extention (commercial)</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
@@ -1031,7 +547,7 @@ No backward compatibility with 10.x is guaranteed. Will be released as Stable ve
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-26 10:22:07 UTC
+Last updated 2021-03-29 08:22:09 UTC
 </div>
 </div>
 </body>
