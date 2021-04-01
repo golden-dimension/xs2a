@@ -37,7 +37,7 @@ class EventReportDBMapperTest {
     @Autowired
     private EventReportDBMapper mapper;
 
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
 
     @Test
     void mapToReportEvent_PsuIdIsPresent() {

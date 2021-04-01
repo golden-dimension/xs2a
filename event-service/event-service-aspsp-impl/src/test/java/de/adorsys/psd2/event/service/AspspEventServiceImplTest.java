@@ -51,11 +51,11 @@ class AspspEventServiceImplTest {
 
     @Test
     void getEventsForPeriod() {
-        when(eventReportRepository.getEventsForPeriod(START, END, INSTANCE_ID)).thenReturn(Collections.emptyList());
+        when(eventReportRepository.getEventsForPeriod(START, END, INSTANCE_ID, null, null)).thenReturn(Collections.emptyList());
 
-        aspspEventService.getEventsForPeriod(START, END, INSTANCE_ID);
+        aspspEventService.getEventsForPeriod(START, END, INSTANCE_ID, null, null);
 
-        verify(eventReportRepository, times(1)).getEventsForPeriod(START, END, INSTANCE_ID);
+        verify(eventReportRepository, times(1)).getEventsForPeriod(START, END, INSTANCE_ID, null, null);
     }
 
     @Test

@@ -16,12 +16,17 @@
 
 package de.adorsys.psd2.report.mapper;
 
+import de.adorsys.psd2.consent.domain.PsuDataEmbeddable;
 import de.adorsys.psd2.event.persist.model.PsuIdDataPO;
 import de.adorsys.psd2.event.persist.model.ReportEvent;
+import de.adorsys.psd2.report.entity.AspspEventEntity;
+import de.adorsys.psd2.report.entity.EventConsentEntity;
 import de.adorsys.psd2.report.entity.EventEntityForReport;
+import de.adorsys.psd2.report.entity.EventPaymentEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.*;
@@ -32,6 +37,16 @@ import java.util.stream.Collectors;
 public interface EventReportDBMapper {
 
     ReportEvent mapToReportEvent(EventEntityForReport event);
+
+    @Mapping(target = "consentId", source = "event.consent.externalId")
+    @Mapping(target = "paymentId", source = "event.payment.paymentId")
+    ReportEvent mapToReportEventFromEventEntity(AspspEventEntity event);
+
+    @AfterMapping
+    default void mapToReportEventAfterMappingFromEventEntity(AspspEventEntity event,
+                                                             @MappingTarget ReportEvent reportEvent) {
+        reportEvent.setPsuIdData(getPsuIdDataPOSetForEventEntity(event));
+    }
 
     @AfterMapping
     default void mapToReportEventAfterMapping(EventEntityForReport event,
@@ -49,6 +64,34 @@ public interface EventReportDBMapper {
         return psus;
     }
 
+    default Set<PsuIdDataPO> getPsuIdDataPOSetForEventEntity(AspspEventEntity event) {
+        Set<PsuIdDataPO> psus = new HashSet<>();
+        PsuDataEmbeddable psuDataEmbeddable = event.getPsuData();
+        if (psuDataEmbeddable != null && psuDataEmbeddable.getPsuId() != null) {
+            psus.add(mapToPsuIdDataPO(psuDataEmbeddable.getPsuId(), psuDataEmbeddable.getPsuIdType(),
+                                      psuDataEmbeddable.getPsuCorporateId(), psuDataEmbeddable.getPsuCorporateIdType()));
+        }
+        EventConsentEntity eventConsentEntity = event.getConsent();
+        if (eventConsentEntity != null
+                && eventConsentEntity.getPsuDataList() != null
+                && !eventConsentEntity.getPsuDataList().isEmpty()) {
+            psus.addAll(eventConsentEntity.getPsuDataList().stream()
+                            .map(p -> mapToPsuIdDataPO(p.getPsuId(), p.getPsuIdType(),
+                                                       p.getPsuCorporateId(), p.getPsuCorporateIdType()))
+                            .collect(Collectors.toList()));
+        }
+        EventPaymentEntity eventPaymentEntity = event.getPayment();
+        if (eventPaymentEntity != null
+                && eventPaymentEntity.getPsuDataList() != null
+                && !eventPaymentEntity.getPsuDataList().isEmpty()) {
+            psus.addAll(eventPaymentEntity.getPsuDataList().stream()
+                            .map(p -> mapToPsuIdDataPO(p.getPsuId(), p.getPsuIdType(),
+                                                       p.getPsuCorporateId(), p.getPsuCorporateIdType()))
+                            .collect(Collectors.toList()));
+        }
+        return psus;
+    }
+
     default PsuIdDataPO mapToPsuIdDataPO(String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType) {
         PsuIdDataPO psuIdDataPO = new PsuIdDataPO();
         psuIdDataPO.setPsuId(psuId);
@@ -61,6 +104,16 @@ public interface EventReportDBMapper {
     default List<ReportEvent> mapToAspspReportEvents(List<EventEntityForReport> events) {
         Collection<ReportEvent> eventCollection = events.stream()
                                                       .map(this::mapToReportEvent)
+                                                      .collect(Collectors.toMap(ReportEvent::getId,
+                                                                                Function.identity(),
+                                                                                ReportEvent::merge))
+                                                      .values();
+        return new ArrayList<>(eventCollection);
+    }
+
+    default List<ReportEvent> mapToAspspReportEventsFromEventEntities(List<AspspEventEntity> events) {
+        Collection<ReportEvent> eventCollection = events.stream()
+                                                      .map(this::mapToReportEventFromEventEntity)
                                                       .collect(Collectors.toMap(ReportEvent::getId,
                                                                                 Function.identity(),
                                                                                 ReportEvent::merge))

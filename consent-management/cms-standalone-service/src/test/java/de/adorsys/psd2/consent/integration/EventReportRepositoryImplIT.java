@@ -61,7 +61,7 @@ class EventReportRepositoryImplIT {
     private EventRepository eventRepository;
 
     private ReportEvent expectedEvent;
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
 
     @BeforeAll
     void setUp() {
@@ -72,7 +72,7 @@ class EventReportRepositoryImplIT {
 
     @Test
     void getEventsForPeriod() {
-        List<ReportEvent> eventsForPeriod = repository.getEventsForPeriod(START, END, INSTANCE_ID);
+        List<ReportEvent> eventsForPeriod = repository.getEventsForPeriod(START, END, INSTANCE_ID, 0, 20);
 
         assertNotNull(eventsForPeriod);
         assertEquals(1, eventsForPeriod.size());

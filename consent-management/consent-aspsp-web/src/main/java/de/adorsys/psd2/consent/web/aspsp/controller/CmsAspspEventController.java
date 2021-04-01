@@ -33,8 +33,9 @@ public class CmsAspspEventController implements CmsAspspEventApi {
     private final AspspEventService aspspEventService;
 
     @Override
-    public ResponseEntity<List<AspspEvent>> getEventsForDates(OffsetDateTime start, OffsetDateTime end, String instanceId) {
-        List<AspspEvent> events = aspspEventService.getEventsForPeriod(start, end, instanceId);
+    public ResponseEntity<List<AspspEvent>> getEventsForDates(OffsetDateTime start, OffsetDateTime end, String instanceId,
+                                                              Integer pageIndex, Integer itemsPerPage) {
+        List<AspspEvent> events = aspspEventService.getEventsForPeriod(start, end, instanceId, pageIndex, itemsPerPage);
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 }

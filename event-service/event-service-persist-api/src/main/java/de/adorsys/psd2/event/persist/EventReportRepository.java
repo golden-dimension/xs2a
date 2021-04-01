@@ -35,7 +35,8 @@ public interface EventReportRepository {
      * @param instanceId The id of particular service instance
      * @return List of Event objects, recorded in given time period
      */
-    List<ReportEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId);
+    List<ReportEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId,
+                                         @Nullable Integer pageIndex, @Nullable Integer itemsPerPage);
 
     /**
      * Returns a list of Event objects, recorded in given time period and with the given consentId

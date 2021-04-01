@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.consent.aspsp.api;
 
+import de.adorsys.psd2.consent.api.CmsConstant;
 import de.adorsys.psd2.consent.aspsp.api.config.CmsAspspApiTagName;
 import de.adorsys.psd2.event.service.model.AspspEvent;
 import io.swagger.annotations.*;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -46,5 +48,9 @@ public interface CmsAspspEventApi {
         @RequestHeader(value = "end-date")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime end,
         @ApiParam(value = "Bank instance ID")
-        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId);
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @ApiParam(value = "Index of current page", example = "0")
+        @RequestParam(value = CmsConstant.QUERY.PAGE_INDEX, defaultValue = "0") Integer pageIndex,
+        @ApiParam(value = "Quantity of consents on one page", example = "20")
+        @RequestParam(value = CmsConstant.QUERY.ITEMS_PER_PAGE, defaultValue = "20") Integer itemsPerPage);
 }

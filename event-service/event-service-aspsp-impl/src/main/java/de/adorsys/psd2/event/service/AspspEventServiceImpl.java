@@ -37,8 +37,9 @@ public class AspspEventServiceImpl implements AspspEventService {
     private final AspspEventMapper eventBOMapper;
 
     @Override
-    public List<AspspEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId) {
-        List<ReportEvent> events = eventReportRepository.getEventsForPeriod(start, end, instanceId);
+    public List<AspspEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId,
+                                               @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
+        List<ReportEvent> events = eventReportRepository.getEventsForPeriod(start, end, instanceId, pageIndex, itemsPerPage);
         return eventBOMapper.toAspspEventList(events);
     }
 

@@ -75,7 +75,7 @@ class CmsAspspEventControllerTest {
 
     @Test
     void getEventsForDates_success() throws Exception {
-        when(aspspEventService.getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID))
+        when(aspspEventService.getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID, 0, 20))
             .thenReturn(events);
 
         mockMvc.perform(get(GET_ASPSP_EVENT_LIST_URL)
@@ -86,12 +86,12 @@ class CmsAspspEventControllerTest {
             .andExpect(content().json(jsonReader.getStringFromFile(EVENT_LIST_PATH)))
             .andReturn();
 
-        verify(aspspEventService, times(1)).getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID);
+        verify(aspspEventService, times(1)).getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID, 0, 20);
     }
 
     @Test
     void getEventsForDates_withoutInstanceId() throws Exception {
-        when(aspspEventService.getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID))
+        when(aspspEventService.getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID, 0, 20))
             .thenReturn(events);
 
         mockMvc.perform(get(GET_ASPSP_EVENT_LIST_URL)
@@ -101,6 +101,6 @@ class CmsAspspEventControllerTest {
             .andExpect(content().json(jsonReader.getStringFromFile(EVENT_LIST_PATH)))
             .andReturn();
 
-        verify(aspspEventService, times(1)).getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID);
+        verify(aspspEventService, times(1)).getEventsForPeriod(OffsetDateTime.parse(START), OffsetDateTime.parse(END), INSTANCE_ID, 0, 20);
     }
 }

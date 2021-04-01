@@ -39,7 +39,8 @@ public interface AspspEventService {
      * @param instanceId The id of particular service instance
      * @return List of Event objects, recorded in given time period
      */
-    List<AspspEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId);
+    List<AspspEvent> getEventsForPeriod(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @Nullable String instanceId,
+                                        @Nullable Integer pageIndex, @Nullable Integer itemsPerPage);
 
     /**
      * Returns a list of Event objects, recorded in given time period and with the given consentId
