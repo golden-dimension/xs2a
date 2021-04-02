@@ -50,7 +50,7 @@ public abstract class RedirectConsentAuthorizationService implements ConsentAuth
      */
     @Override
     public Optional<CreateConsentAuthorizationResponse> createConsentAuthorization(PsuIdData psuData, String consentId) {
-        if (isConsentNotPresent(consentId)) {
+        if (isConsentAbsent(consentId)) {
             return Optional.empty();
         }
 
@@ -68,7 +68,7 @@ public abstract class RedirectConsentAuthorizationService implements ConsentAuth
     }
 
 
-    protected abstract boolean isConsentNotPresent(String consentId);
+    protected abstract boolean isConsentAbsent(String consentId);
 
     @Override
     public abstract AuthorisationProcessorResponse updateConsentPsuData(UpdateAuthorisationRequest request, AuthorisationProcessorResponse response);

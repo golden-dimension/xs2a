@@ -41,7 +41,7 @@ public class RedirectPiisAuthorizationService extends RedirectConsentAuthorizati
     }
 
     @Override
-    protected boolean isConsentNotPresent(String consentId) {
+    protected boolean isConsentAbsent(String consentId) {
         Optional<PiisConsent> piisConsentOptional = xs2aPiisConsentService.getPiisConsentById(consentId);
         if (piisConsentOptional.isEmpty()) {
             log.info("Consent-ID [{}]. Create consent authorisation has failed. Consent not found by id.", consentId);

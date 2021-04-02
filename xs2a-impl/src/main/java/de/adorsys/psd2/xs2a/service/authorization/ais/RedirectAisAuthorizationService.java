@@ -33,7 +33,7 @@ public class RedirectAisAuthorizationService extends RedirectConsentAuthorizatio
     }
 
     @Override
-    protected boolean isConsentNotPresent(String consentId) {
+    protected boolean isConsentAbsent(String consentId) {
         return false;
     }
 
