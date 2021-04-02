@@ -49,6 +49,7 @@ public abstract class AbstractConsentAuthorizationService<T> implements ConsentA
      * @param consentId String identification of consent
      * @return Optional of CreateConsentAuthorizationResponse with consent creating data
      */
+    @Override
     public Optional<CreateConsentAuthorizationResponse> createConsentAuthorization(PsuIdData psuData, String consentId) {
         Optional<T> consentOptional = getConsentById(consentId);
         if (consentOptional.isEmpty()) {
@@ -68,6 +69,7 @@ public abstract class AbstractConsentAuthorizationService<T> implements ConsentA
                    });
     }
 
+    @Override
     public AuthorisationProcessorResponse updateConsentPsuData(UpdateAuthorisationRequest request, AuthorisationProcessorResponse response) {
         if (response.hasError()) {
             log.info("Consent-ID [{}], Authentication-ID [{}], PSU-ID [{}]. Update consent authorisation has failed. Error msg: {}.",
@@ -85,6 +87,7 @@ public abstract class AbstractConsentAuthorizationService<T> implements ConsentA
      * @param authorisationId String identification of ConsentAuthorization
      * @return ConsentAuthorization instance
      */
+    @Override
     public Optional<Authorisation> getConsentAuthorizationById(String authorisationId) {
         return authorisationService.getAuthorisationById(authorisationId);
     }
@@ -96,6 +99,7 @@ public abstract class AbstractConsentAuthorizationService<T> implements ConsentA
      * @param authorisationId String representation of authorisation identifier
      * @return SCA status of the authorisation
      */
+    @Override
     public Optional<ScaStatus> getAuthorisationScaStatus(String consentId, String authorisationId){
         return consentService.getAuthorisationScaStatus(consentId, authorisationId);
     }
