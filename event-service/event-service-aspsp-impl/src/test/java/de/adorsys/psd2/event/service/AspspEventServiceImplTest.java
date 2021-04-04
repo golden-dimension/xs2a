@@ -60,37 +60,37 @@ class AspspEventServiceImplTest {
 
     @Test
     void getEventsForPeriodAndConsentId() {
-        when(eventReportRepository.getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID)).thenReturn(Collections.emptyList());
+        when(eventReportRepository.getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID, null, null)).thenReturn(Collections.emptyList());
 
-        aspspEventService.getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID);
+        aspspEventService.getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID, null, null);
 
-        verify(eventReportRepository, times(1)).getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID);
+        verify(eventReportRepository, times(1)).getEventsForPeriodAndConsentId(START, END, CONSENT_ID, INSTANCE_ID, null, null);
     }
 
     @Test
     void getEventsForPeriodAndPaymentId() {
-        when(eventReportRepository.getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID)).thenReturn(Collections.emptyList());
+        when(eventReportRepository.getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID, null, null)).thenReturn(Collections.emptyList());
 
-        aspspEventService.getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID);
+        aspspEventService.getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID, null, null);
 
-        verify(eventReportRepository, times(1)).getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID);
+        verify(eventReportRepository, times(1)).getEventsForPeriodAndPaymentId(START, END, PAYMENT_ID, INSTANCE_ID, null, null);
     }
 
     @Test
     void getEventsForPeriodAndEventOrigin() {
-        when(eventReportRepository.getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID)).thenReturn(Collections.emptyList());
+        when(eventReportRepository.getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID, null, null)).thenReturn(Collections.emptyList());
 
-        aspspEventService.getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID);
+        aspspEventService.getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID, null, null);
 
-        verify(eventReportRepository, times(1)).getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID);
+        verify(eventReportRepository, times(1)).getEventsForPeriodAndEventOrigin(START, END, EventOrigin.ASPSP, INSTANCE_ID, null, null);
     }
 
     @Test
     void getEventsForPeriodAndEventType() {
-        when(eventReportRepository.getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID)).thenReturn(Collections.emptyList());
+        when(eventReportRepository.getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID, null, null)).thenReturn(Collections.emptyList());
 
-        aspspEventService.getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID);
+        aspspEventService.getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID, null, null);
 
-        verify(eventReportRepository, times(1)).getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID);
+        verify(eventReportRepository, times(1)).getEventsForPeriodAndEventType(START, END, EventType.CREATE_AIS_CONSENT_REQUEST_RECEIVED, INSTANCE_ID, null, null);
     }
 }

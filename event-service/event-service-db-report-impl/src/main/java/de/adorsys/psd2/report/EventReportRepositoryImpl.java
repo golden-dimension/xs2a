@@ -21,9 +21,7 @@ import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.event.persist.EventReportRepository;
 import de.adorsys.psd2.event.persist.model.ReportEvent;
 import de.adorsys.psd2.report.entity.AspspEventEntity;
-import de.adorsys.psd2.report.entity.EventEntityForReport;
 import de.adorsys.psd2.report.jpa.AspspEventJPARepository;
-import de.adorsys.psd2.report.jpa.EventReportJPARepository;
 import de.adorsys.psd2.report.mapper.EventReportDBMapper;
 import de.adorsys.psd2.report.specification.EventSpecification;
 import de.adorsys.psd2.report.util.EventPageRequestBuilder;
@@ -42,7 +40,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EventReportRepositoryImpl implements EventReportRepository {
-    private final EventReportJPARepository eventReportJPARepository;
     private final EventReportDBMapper eventReportDBMapper;
     private final AspspEventJPARepository eventJpaRepository;
     private final EventSpecification eventSpecification;
@@ -53,32 +50,48 @@ public class EventReportRepositoryImpl implements EventReportRepository {
                                                 @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
         Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
         List<AspspEventEntity> events = eventJpaRepository.findAll(eventSpecification.byPeriodAndInstanceId(start, end, instanceId), pageable)
-                                       .stream()
-                                       .collect(Collectors.toList());
+                                            .stream()
+                                            .collect(Collectors.toList());
         return eventReportDBMapper.mapToAspspReportEventsFromEventEntities(events);
     }
 
     @Override
-    public List<ReportEvent> getEventsForPeriodAndConsentId(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull String consentId, @Nullable String instanceId) {
-        List<EventEntityForReport> events = eventReportJPARepository.findByTimestampBetweenAndConsentIdAndInstanceIdOrderByTimestampAsc(start, end, consentId, instanceId);
-        return eventReportDBMapper.mapToAspspReportEvents(events);
+    public List<ReportEvent> getEventsForPeriodAndConsentId(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull String consentId, @Nullable String instanceId,
+                                                            @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
+        Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
+        List<AspspEventEntity> events = eventJpaRepository.findAll(eventSpecification.byPeriodAndInstanceIdAndConsentId(start, end, instanceId, consentId), pageable)
+                                            .stream()
+                                            .collect(Collectors.toList());
+        return eventReportDBMapper.mapToAspspReportEventsFromEventEntities(events);
     }
 
     @Override
-    public List<ReportEvent> getEventsForPeriodAndPaymentId(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull String paymentId, @Nullable String instanceId) {
-        List<EventEntityForReport> events = eventReportJPARepository.findByTimestampBetweenAndPaymentIdAndInstanceIdOrderByTimestampAsc(start, end, paymentId, instanceId);
-        return eventReportDBMapper.mapToAspspReportEvents(events);
+    public List<ReportEvent> getEventsForPeriodAndPaymentId(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull String paymentId, @Nullable String instanceId,
+                                                            @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
+        Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
+        List<AspspEventEntity> events = eventJpaRepository.findAll(eventSpecification.byPeriodAndInstanceIdAndPaymentId(start, end, instanceId, paymentId), pageable)
+                                            .stream()
+                                            .collect(Collectors.toList());
+        return eventReportDBMapper.mapToAspspReportEventsFromEventEntities(events);
     }
 
     @Override
-    public List<ReportEvent> getEventsForPeriodAndEventType(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull EventType eventType, @Nullable String instanceId) {
-        List<EventEntityForReport> events = eventReportJPARepository.findByTimestampBetweenAndEventTypeAndInstanceIdOrderByTimestampAsc(start, end, eventType, instanceId);
-        return eventReportDBMapper.mapToAspspReportEvents(events);
+    public List<ReportEvent> getEventsForPeriodAndEventType(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull EventType eventType, @Nullable String instanceId,
+                                                            @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
+        Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
+        List<AspspEventEntity> events = eventJpaRepository.findAll(eventSpecification.byPeriodAndInstanceIdAndEventType(start, end, instanceId, eventType), pageable)
+                                            .stream()
+                                            .collect(Collectors.toList());
+        return eventReportDBMapper.mapToAspspReportEventsFromEventEntities(events);
     }
 
     @Override
-    public List<ReportEvent> getEventsForPeriodAndEventOrigin(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull EventOrigin eventOrigin, @Nullable String instanceId) {
-        List<EventEntityForReport> events = eventReportJPARepository.findByTimestampBetweenAndEventOriginAndInstanceIdOrderByTimestampAsc(start, end, eventOrigin, instanceId);
-        return eventReportDBMapper.mapToAspspReportEvents(events);
+    public List<ReportEvent> getEventsForPeriodAndEventOrigin(@NotNull OffsetDateTime start, @NotNull OffsetDateTime end, @NotNull EventOrigin eventOrigin, @Nullable String instanceId,
+                                                              @Nullable Integer pageIndex, @Nullable Integer itemsPerPage) {
+        Pageable pageable = pageRequestBuilder.getPageable(pageIndex, itemsPerPage);
+        List<AspspEventEntity> events = eventJpaRepository.findAll(eventSpecification.byPeriodAndInstanceIdAndEventOrigin(start, end, instanceId, eventOrigin), pageable)
+                                            .stream()
+                                            .collect(Collectors.toList());
+        return eventReportDBMapper.mapToAspspReportEventsFromEventEntities(events);
     }
 }

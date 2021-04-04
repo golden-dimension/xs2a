@@ -33,6 +33,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Deprecated(since = "11.1")
 public class EventReportJPARepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SqlEventReportBuilder sqlEventReportBuilder;

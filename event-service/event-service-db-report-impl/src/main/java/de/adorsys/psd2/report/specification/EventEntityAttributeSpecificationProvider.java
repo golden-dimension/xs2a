@@ -116,4 +116,16 @@ public class EventEntityAttributeSpecificationProvider {
                                                              ? criteriaBuilder.and(criteriaBuilder.isNull(join.get(attribute)))
                                                              : criteriaBuilder.and(criteriaBuilder.equal(join.get(attribute), value));
     }
+
+    /**
+     * Provides specification for the attribute in some entity.
+     *
+     * @param attribute name of the attribute in entity
+     * @param value     optional value of the attribute
+     * @param <T>       type of the entity, for which this specification will be created
+     * @return resulting specification, or <code>null</code> if the attribute's value was omitted
+     */
+    public static <T> Specification<T> provideSpecificationForEntityObjectAttribute(String attribute, @NotNull Object value) {
+        return (root, criteriaQuery, criteriaBuilder) ->  criteriaBuilder.and(criteriaBuilder.equal(root.get(attribute), value));
+    }
 }
