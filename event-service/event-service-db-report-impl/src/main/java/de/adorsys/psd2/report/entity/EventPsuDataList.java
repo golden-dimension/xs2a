@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.report.jpa;
+package de.adorsys.psd2.report.entity;
 
-import de.adorsys.psd2.report.entity.AspspEventEntity;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
-public interface AspspEventJPARepository extends CrudRepository<AspspEventEntity, Long>, JpaSpecificationExecutor<AspspEventEntity> {
+public interface EventPsuDataList {
+
+    List<EventPsuData>  getPsuDataList();
 }

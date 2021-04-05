@@ -26,7 +26,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "consent")
-public class EventConsentEntity implements Serializable {
+public class EventConsentEntity implements EventPsuDataList, Serializable {
     @Id
     @Column(name = "consent_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consent_generator")

@@ -16,4 +16,9 @@ The method AuthorisationSpi#getScaStatus was extended by adding business object.
 
 == Added pagination to event-service
 
-From now on, pagination works for `GET aspsp-api/v1/events` endpoint.
+From now on, pagination works for the next endpoints:
+- `GET aspsp-api/v1/events`
+- `GET aspsp-api/v1/events/consent/{consent-id}`
+- `GET aspsp-api/v1/events/payment/{payment-id}`
+- `GET aspsp-api/v1/events/type/{event-type}`
+- `GET aspsp-api/v1/events/origin/{event-origin}`

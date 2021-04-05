@@ -27,7 +27,7 @@ import java.time.OffsetDateTime;
 @Data
 @Entity
 @Table(name = "event")
-public class AspspEventEntity {
+public class EventReportEntity {
     static final String DEFAULT_SERVICE_INSTANCE_ID = "UNDEFINED";
 
     @Id

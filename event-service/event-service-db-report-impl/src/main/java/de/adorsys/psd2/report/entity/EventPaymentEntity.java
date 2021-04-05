@@ -26,7 +26,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "pis_common_payment")
-public class EventPaymentEntity implements Serializable {
+public class EventPaymentEntity implements EventPsuDataList, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pis_common_payment_generator")
     @SequenceGenerator(name = "pis_common_payment_generator", sequenceName = "pis_common_payment_id_seq", allocationSize = 1)
