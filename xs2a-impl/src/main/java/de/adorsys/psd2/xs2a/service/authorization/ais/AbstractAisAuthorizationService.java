@@ -31,7 +31,7 @@ public abstract class AbstractAisAuthorizationService extends AbstractConsentAut
     private final Xs2aAisConsentService aisConsentService;
 
 
-    public AbstractAisAuthorizationService(Xs2aConsentService consentService, Xs2aAuthorisationService authorisationService, ConsentPsuDataMapper consentPsuDataMapper, Xs2aAisConsentService aisConsentService) {
+    protected AbstractAisAuthorizationService(Xs2aConsentService consentService, Xs2aAuthorisationService authorisationService, ConsentPsuDataMapper consentPsuDataMapper, Xs2aAisConsentService aisConsentService) {
         super(consentService, authorisationService, consentPsuDataMapper);
         this.aisConsentService = aisConsentService;
     }

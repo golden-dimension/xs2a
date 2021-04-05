@@ -29,7 +29,7 @@ import java.util.Optional;
 public abstract class AbstractPiisAuthorizationService extends AbstractConsentAuthorizationService<PiisConsent> implements PiisAuthorizationService {
     private final Xs2aPiisConsentService piisConsentService;
 
-    public AbstractPiisAuthorizationService(Xs2aConsentService consentService, Xs2aAuthorisationService authorisationService, ConsentPsuDataMapper consentPsuDataMapper, Xs2aPiisConsentService piisConsentService) {
+    protected AbstractPiisAuthorizationService(Xs2aConsentService consentService, Xs2aAuthorisationService authorisationService, ConsentPsuDataMapper consentPsuDataMapper, Xs2aPiisConsentService piisConsentService) {
         super(consentService, authorisationService, consentPsuDataMapper);
         this.piisConsentService = piisConsentService;
     }
