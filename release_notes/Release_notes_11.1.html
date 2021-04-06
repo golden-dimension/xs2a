@@ -454,6 +454,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Added business object to AuthorisationSpi#getScaStatus</p>
 </li>
+<li>
+<p>Added pagination to event-service</p>
+</li>
 </ul>
 </div>
 </div>
@@ -474,10 +477,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_pagination_to_event_service">Added pagination to event-service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, pagination works for the next endpoints:
+- <code>GET aspsp-api/v1/events</code>
+- <code>GET aspsp-api/v1/events/consent/{consent-id}</code>
+- <code>GET aspsp-api/v1/events/payment/{payment-id}</code>
+- <code>GET aspsp-api/v1/events/type/{event-type}</code>
+- <code>GET aspsp-api/v1/events/origin/{event-origin}</code></p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-05 17:06:26 UTC
+Last updated 2021-04-06 09:25:51 UTC
 </div>
 </div>
 </body>
