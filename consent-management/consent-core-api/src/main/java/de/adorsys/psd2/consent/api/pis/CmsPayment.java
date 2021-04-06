@@ -24,10 +24,10 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
- * @deprecated since 11.0, will be removed in 11.3
+ * @deprecated since 10.0, will be removed in 10.3
  */
 // TODO: https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1501
-@Deprecated(since = "11.0") // Use CmsBasePaymentResponse instead.
+@Deprecated(since = "10.0") // Use CmsBasePaymentResponse instead.
 public interface CmsPayment {
     String getPaymentId();
 

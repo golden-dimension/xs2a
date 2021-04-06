@@ -92,9 +92,9 @@ interface AuthorisationSpi<T> {
      *
      * @param authorisationId a unique identifier of authorisation process
      * @return Returns response object, containing a SCA information from ASPSP
-     * @deprecated since 11.0,  will be removed in 11.3
+     * @deprecated since 10.0,  will be removed in 10.3
      */
-    @Deprecated(since = "11.0")
+    @Deprecated(since = "10.0")
     //TODO: remove deprecated method https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1507
     SpiResponse<SpiScaInformationResponse> getScaInformation(@NotNull SpiContextData contextData,
                                                              @NotNull String authorisationId,
