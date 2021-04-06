@@ -174,21 +174,21 @@ Lint:XS2A_PMD_CPD_Report:
     name: "${CI_PROJECT_NAME}-${CI_BUILD_REF_NAME#*v}-pmd"
     expire_in: "10 day"
 
-Lint:XS2A_core_dockerfiles:
-  image: debian:stretch-slim
-  stage: "Lint"
-  except:
-    - schedules
-    - support-10.x
-    - master
-  script:
-    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
-    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
-    - echo "Run Xs2a core dockerfile check"
-    - docker run --rm -i hadolint/hadolint < ./consent-management/cms-standalone-service/Dockerfile
-    - docker run --rm -i hadolint/hadolint < ./aspsp-profile/aspsp-profile-server/Dockerfile
-    - docker run --rm -i hadolint/hadolint < ./xs2a-standalone-starter/Dockerfile
-    - docker run --rm -i hadolint/hadolint < ./certificate-generator/Dockerfile
+#Lint:XS2A_core_dockerfiles:
+#  image: debian:stretch-slim
+#  stage: "Lint"
+#  except:
+#    - schedules
+#    - support-10.x
+#    - master
+#  script:
+#    - apt-get update && apt-get install jsonlint yamllint libxml2-utils make curl -yq && ln -s /usr/bin/jsonlint-php /usr/bin/jsonlint
+#    - curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+#    - echo "Run Xs2a core dockerfile check"
+#    - docker run --rm -i hadolint/hadolint < ./consent-management/cms-standalone-service/Dockerfile
+#    - docker run --rm -i hadolint/hadolint < ./aspsp-profile/aspsp-profile-server/Dockerfile
+#    - docker run --rm -i hadolint/hadolint < ./xs2a-standalone-starter/Dockerfile
+#    - docker run --rm -i hadolint/hadolint < ./certificate-generator/Dockerfile
 
 #-------------------------------------------------------------------
 # Compile
