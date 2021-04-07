@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.consent.service.sha;
 
+import de.adorsys.psd2.consent.service.sha.impl.AisChecksumCalculatingServiceV3;
 import de.adorsys.psd2.core.data.Consent;
 import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
