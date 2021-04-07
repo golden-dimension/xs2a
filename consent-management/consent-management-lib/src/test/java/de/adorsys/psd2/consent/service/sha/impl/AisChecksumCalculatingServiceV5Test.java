@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AisChecksumCalculatingServiceV5Test {
-    private static final byte[] C0RECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS = getCorrectChecksumForMultipleAccounts().getBytes();
+    private static final byte[] CORRECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS = getCorrectChecksumForMultipleAccounts().getBytes();
     private final AisChecksumCalculatingServiceV5 aisChecksumCalculatingServiceV5 = new AisChecksumCalculatingServiceV5();
 
     private final JsonReader jsonReader = new JsonReader();
@@ -34,7 +34,7 @@ class AisChecksumCalculatingServiceV5Test {
         AisConsent aisConsent = buildConsentTppIbanMultiple();
 
         // when
-        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, C0RECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
+        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, CORRECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
 
         // then
         assertTrue(actualResult);
@@ -46,7 +46,7 @@ class AisChecksumCalculatingServiceV5Test {
         AisConsent aisConsent = buildConsentTppIbanMultipleNoAspspAccountId();
 
         // when
-        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, C0RECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
+        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, CORRECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
 
         // then
         assertTrue(actualResult);
@@ -58,7 +58,7 @@ class AisChecksumCalculatingServiceV5Test {
         AisConsent aisConsent = buildConsentTppIbanMultipleMixed();
 
         // when
-        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, C0RECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
+        boolean actualResult = aisChecksumCalculatingServiceV5.verifyConsentWithChecksum(aisConsent, CORRECT_CHECKSUM_FOR_MULTIPLE_ACCOUNTS);
 
         // then
         assertTrue(actualResult);
