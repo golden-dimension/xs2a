@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>Release notes v.2.6</title>
+<title>Release notes v.8.13</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,124 +440,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.2.6</h1>
+<h1>Release notes v.8.13</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_bugfix_transactionfeeindicator_tag_is_provided_in_payment_initiation_request_even_if_it_is_not_supported_by_bank">Bugfix: <code>transactionFeeIndicator</code> tag is provided in payment initiation request even if it is not supported by Bank</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The tag will not be returned in payment initiation response if it is not supported by Bank.
-From now field SpiPaymentInitiationResponse.spiTransactionFeeIndicator has type Boolean (previous type was boolean).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_incorrect_property_name_in_the_response_to_the_ais_consent_creation_request">Bugfix: Incorrect property name in the response to the AIS consent creation request</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, the endpoint for consent creation (POST <code>/v1/consents</code>) returns correct response with field <code>psuMessage</code> instead of <code>message</code>.
-<code>SpiInitiateAisConsentResponse</code> was extended to contain <code>psuMessage</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_update_version_of_spring_data_jpa_to_1_11_22_release">Update version of spring-data-jpa to 1.11.22.RELEASE</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Fixed potential security vulnerability in a repository that have been granted security alert access.
-<a href="https://nvd.nist.gov/vuln/detail/CVE-2019-3797">Additional information exposure with Spring Data JPA derived queries</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_periodic_payment_requestedexecutiontime_and_requestedexecutiondate_properties_are_set_to_the_default_values_by_mappers">Bugfix: Periodic payment: requestedExecutionTime and requestedExecutionDate properties are set to the default values by mappers</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>Payment object has to set these fields to null if they are not present in the initial request</p>
+<p>Replaced all occurrences of CmsPayment with CmsBasePaymentResponse</p>
 </li>
 <li>
-<p>PisExecutionRule.PRECEEDING was renamed to PisExecutionRule.PRECEDING</p>
+<p>Fixed npe in AIS Consent checksum validation</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_removed_deprecated_getters_in_spiexchangerate_class">Removed deprecated getters in SpiExchangeRate class</h2>
+<h2 id="_replaced_all_occurrences_of_cmspayment_with_cmsbasepaymentresponse">Replaced all occurrences of CmsPayment with CmsBasePaymentResponse</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Please use <code>getExchangeRate</code> instead of <code>getRate</code>, <code>getQuotationDate</code> instead of <code>getRateDate</code> and <code>getContractIdentification</code>
-instead of <code>getRateContract</code>.</p>
+<p>From now on, CmsPayment usages are replaced with CmsBasePaymentResponse.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_delete_a_non_existing_consent_returns_wrong_http_status_code">Bugfix: Delete a non-existing consent returns wrong http status code</h2>
+<h2 id="_fixed_npe_in_ais_consent_checksum_validation">Fixed npe in AIS Consent checksum validation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, the response is <code>403 CONSENT_UNKNOWN</code> on request ("Delete an Account Information Consent Object" DELETE <code>/v1/consents/{consentId}</code>) when consent was not found.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_counting_frequencyperday_only_for_one_off_consent_or_for_recurring_consent_without_psu_ip_address">Counting frequencyPerDay only for one-off consent or for recurring consent without PSU IP address</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, we don&#8217;t count the number of consent usages for recurring consent if the <code>PSU-IP-Address</code> header is present in the request.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_updated_mockito_core_version_to_2_27_0">Updated mockito-core version to 2.27.0</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Maven dependency version of <code>mockito-core</code> was updated to 2.27.0 from 1.10.19. Deprecated import package of <code>MockitoJUnitRunner</code> was changed from <code>org.mockito.runners</code> to <code>org.mockito.junit</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_psu_ip_address_header_is_mandatory_in_ais_consent_creation_request">PSU-IP-Address header is mandatory in AIS consent creation request</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, TPP must provide <code>PSU-IP-Address</code> header in AIS consent creation request.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugifx_xs2a_returns_error_on_creating_authorisation_if_the_request_url_contains_context_path">Bugifx: XS2A returns error on creating authorisation if the request URL contains context path</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, XS2A will correctly handle non-default context path in the URL and won&#8217;t fail with an error on creating
-authorisation.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_ais_consent_can_be_created_with_invalid_access_tag">Bugfix: AIS consent can be created with invalid <code>access</code> tag</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, attempting to create AIS consent (<code>POST /v1/consents</code>) with invalid values for <code>allPsd2</code> or
-<code>availableAccounts</code> properties in <code>access</code> property will result in <code>400 FORMAT_ERROR</code> being returned in the response.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_error_no_piis_activation_during_funds_confirmations_request_was_fixed">Bugfix: Error "NO_PIIS_ACTIVATION" during Funds-Confirmations request was fixed</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Fixed the process of finding PIIS consents during Funds-Confirmations request (<code>POST /v1/funds-confirmations</code>), which caused <code>NO_PIIS_ACTIVATION</code> error to be returned in the response.
-This bug appeared only if ASPSP supported PIIS consent(<code>piisConsentSupported</code> property set to true in the profile).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_encryption_performance_doesnt_correspond_requirements">Bugfix: Encryption performance doesn&#8217;t correspond requirements</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Cryptography algorithms were adjusted in order to increase performance.</p>
+<p>From now on, AIS Consent checksum validation works properly for multi-account consents without aspsp account id.</p>
 </div>
 </div>
 </div>
