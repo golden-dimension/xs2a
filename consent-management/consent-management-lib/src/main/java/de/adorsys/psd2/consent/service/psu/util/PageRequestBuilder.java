@@ -40,10 +40,12 @@ public class PageRequestBuilder {
     }
 
     public Pageable getPageable(PageRequestParameters pageRequestParameters) {
-        return Optional.ofNullable(pageRequestParameters)
-            .map(p -> PageRequest.of(getValueOrDefault(pageRequestParameters.getPageIndex(), defaultPageIndex),
-                getValueOrDefault(pageRequestParameters.getItemsPerPage(), defaultItemsPerPage)))
-            .orElse((PageRequest) Pageable.unpaged());
+        if (pageRequestParameters == null
+            || pageRequestParameters.getPageIndex() == null && pageRequestParameters.getItemsPerPage() == null) {
+            return Pageable.unpaged();
+        }
+        return PageRequest.of(getValueOrDefault(pageRequestParameters.getPageIndex(), defaultPageIndex),
+            getValueOrDefault(pageRequestParameters.getItemsPerPage(), defaultItemsPerPage));
     }
 
     private int getValueOrDefault(Integer value, int defaultValue) {
