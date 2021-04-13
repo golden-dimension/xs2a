@@ -623,10 +623,25 @@ spring.datasource.password=cms</pre>
 <div class="sect3">
 <h4 id="_getting_events">Getting events</h4>
 <div class="paragraph">
-<p>Use endpoint for getting events <strong>by period</strong> and <strong>instance_id</strong> (GET aspsp-api/v1/events).</p>
+<p>There are 5 endpoints for getting events:</p>
 </div>
 <div class="paragraph">
-<p>Request parameters are passed as headers:</p>
+<p><code>GET aspsp-api/v1/events</code></p>
+</div>
+<div class="paragraph">
+<p><code>GET aspsp-api/v1/events/consent/{consent-id}</code></p>
+</div>
+<div class="paragraph">
+<p><code>GET aspsp-api/v1/events/payment/{payment-id}</code></p>
+</div>
+<div class="paragraph">
+<p><code>GET aspsp-api/v1/events/type/{event-type}</code></p>
+</div>
+<div class="paragraph">
+<p><code>GET aspsp-api/v1/events/origin/{event-origin}</code></p>
+</div>
+<div class="paragraph">
+<p>Request parameters for the all 5 endpoints above are passed as headers:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Request Headers</caption>
@@ -657,6 +672,135 @@ spring.datasource.password=cms</pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">instance-id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UNDEFINED</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Description:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET aspsp-api/v1/events</code> &#8201;&#8212;&#8201; Use endpoint for getting events <strong>by period</strong>
+and <strong>instance_id</strong>.</p>
+</li>
+<li>
+<p><code>GET aspsp-api/v1/events/consent/{consent-id}</code> &#8201;&#8212;&#8201; Use endpoint for getting events <strong>by period</strong>
+and <strong>instance_id</strong> with specific consent
+identifier <strong>consent_id</strong>.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. <strong>consent_id</strong> path variable usage.</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path variable</th>
+<th class="tableblock halign-left valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">consent-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bf489af6-a2cb-4b75-b71d-d66d58b934d7</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET aspsp-api/v1/events/payment/{payment-id}</code> &#8201;&#8212;&#8201; Use endpoint for getting events <strong>by period</strong>
+and <strong>instance_id</strong> with a specific
+identifier of created payment <strong>payment_id</strong>.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. <strong>payment_id</strong> path variable usage.</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path variable</th>
+<th class="tableblock halign-left valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">payment-id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bf489af6-a2cb-4b75-b71d-d66d58b934d7</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET aspsp-api/v1/events/type/{event-type}</code> &#8201;&#8212;&#8201; Use endpoint for getting events <strong>by period</strong>
+and <strong>instance_id</strong> with a specific type of event <strong>event_type</strong>.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. <strong>event_type</strong> path variable usage.</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path variable</th>
+<th class="tableblock halign-left valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">event-type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CREATE_SIGNING_BASKET_REQUEST_RECEIVED</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET aspsp-api/v1/events/origin/{event-origin}</code> &#8201;&#8212;&#8201; Use endpoint for getting events
+<strong>by period</strong> and <strong>instance_id</strong> for a specific origin type of event <strong>event_origin</strong>.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. <strong>event_origin</strong> path variable usage.</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path variable</th>
+<th class="tableblock halign-left valign-top">Required</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">event-origin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP</p></td>
 </tr>
 </tbody>
 </table>
@@ -730,7 +874,7 @@ for adding additional products e.g., it should be updated ASPSP-Profile as well.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-12 06:10:10 UTC
+Last updated 2021-04-13 06:44:19 UTC
 </div>
 </div>
 </body>
