@@ -26,6 +26,8 @@ import de.adorsys.psd2.xs2a.service.validator.tpp.TppInfoHolder;
 import de.adorsys.psd2.xs2a.service.validator.tpp.TppRoleValidationService;
 import de.adorsys.psd2.xs2a.web.Xs2aEndpointChecker;
 import de.adorsys.psd2.xs2a.web.error.TppErrorMessageWriter;
+import de.adorsys.psd2.xs2a.web.filter.holders.QwacCertificateFilterMappersHolder;
+import de.adorsys.psd2.xs2a.web.filter.holders.QwacSertificateFilterServicesHolder;
 import de.adorsys.psd2.xs2a.web.mapper.TppInfoRolesMapper;
 import de.adorsys.psd2.xs2a.web.mapper.Xs2aTppInfoMapper;
 import org.junit.jupiter.api.Test;
@@ -64,7 +66,7 @@ class QwacCertificateFilterTest {
     @InjectMocks
     private QwacCertificateFilter qwacCertificateFilter;
     @Mock
-    private TppRoleValidationService tppRoleValidationService;
+    private QwacSertificateFilterServicesHolder qwacSertificateFilterServicesHolder;
     @Mock
     private TppInfoHolder tppInfoHolder;
     @Mock
@@ -82,21 +84,17 @@ class QwacCertificateFilterTest {
     @Mock
     private TppErrorMessageWriter tppErrorMessageWriter;
     @Mock
+    private QwacCertificateFilterMappersHolder qwacCertificateFilterMappersHolder;
+    @Mock
     private TppService tppService;
-    @Mock
-    private AspspProfileServiceWrapper aspspProfileService;
-    @Mock
-    private Xs2aTppInfoMapper xs2aTppInfoMapper;
-    @Mock
-    private TppInfoRolesMapper tppInfoRolesMapper;
 
     @Test
     void doFilter_success() throws IOException, ServletException {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
-        when(xs2aTppInfoMapper.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
+        when(qwacCertificateFilterMappersHolder.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
 
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
 
         //When
         qwacCertificateFilter.doFilter(request, response, chain);
@@ -110,7 +108,7 @@ class QwacCertificateFilterTest {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
 
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_EXPIRED);
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_EXPIRED);
         ArgumentCaptor<TppErrorMessage> message = ArgumentCaptor.forClass(TppErrorMessage.class);
 
         //When
@@ -126,13 +124,13 @@ class QwacCertificateFilterTest {
     void doFilter_success_check_tpp_roles_from_certificate() throws IOException, ServletException {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
-        when(xs2aTppInfoMapper.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
+        when(qwacCertificateFilterMappersHolder.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
 
         ArgumentCaptor<TppInfo> tppInfoArgumentCaptor = ArgumentCaptor.forClass(TppInfo.class);
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
-        when(requestProviderService.getTppRolesAllowedHeader()).thenReturn(null);
-        when(tppRoleValidationService.hasAccess(any(), eq(request))).thenReturn(true);
-        when(aspspProfileService.isCheckTppRolesFromCertificateSupported()).thenReturn(true);
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
+        when(qwacSertificateFilterServicesHolder.getTppRolesAllowedHeader()).thenReturn(null);
+        when(qwacSertificateFilterServicesHolder.hasAccess(any(), eq(request))).thenReturn(true);
+        when(qwacSertificateFilterServicesHolder.isCheckTppRolesFromCertificateSupported()).thenReturn(true);
 
         //When
         qwacCertificateFilter.doFilter(request, response, chain);
@@ -141,7 +139,7 @@ class QwacCertificateFilterTest {
         verify(chain).doFilter(any(), any());
         verify(tppInfoHolder).setTppInfo(tppInfoArgumentCaptor.capture());
         TppInfo tppInfo = tppInfoArgumentCaptor.getValue();
-        verify(tppService, times(1)).updateTppInfo(tppInfo);
+        verify(qwacSertificateFilterServicesHolder, times(1)).updateTppInfo(tppInfo);
         assertTrue(tppInfo.getTppRoles().containsAll(EnumSet.of(TppRole.AISP, TppRole.PISP, TppRole.PIISP)));
     }
 
@@ -149,15 +147,15 @@ class QwacCertificateFilterTest {
     void doFilter_success_check_tpp_roles_from_header() throws IOException, ServletException {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
-        when(xs2aTppInfoMapper.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
+        when(qwacCertificateFilterMappersHolder.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
 
         ArgumentCaptor<TppInfo> tppInfoArgumentCaptor = ArgumentCaptor.forClass(TppInfo.class);
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
-        when(tppRoleValidationService.hasAccess(any(), any())).thenReturn(true);
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
+        when(qwacSertificateFilterServicesHolder.hasAccess(any(), any())).thenReturn(true);
         List<TppRole> roles = Collections.singletonList(TppRole.AISP);
-        when(tppInfoRolesMapper.mapToTppRoles(Collections.singletonList("AISP"))).thenReturn(Collections.singletonList(TppRole.AISP));
+        when(qwacCertificateFilterMappersHolder.mapToTppRoles(Collections.singletonList("AISP"))).thenReturn(Collections.singletonList(TppRole.AISP));
         String rolesRepresentation = roles.stream().map(TppRole::toString).collect(Collectors.joining(", "));
-        when(requestProviderService.getTppRolesAllowedHeader()).thenReturn(rolesRepresentation);
+        when(qwacSertificateFilterServicesHolder.getTppRolesAllowedHeader()).thenReturn(rolesRepresentation);
 
         //When
         qwacCertificateFilter.doFilter(request, response, chain);
@@ -166,7 +164,7 @@ class QwacCertificateFilterTest {
         verify(chain).doFilter(any(), any());
         verify(tppInfoHolder).setTppInfo(tppInfoArgumentCaptor.capture());
         TppInfo tppInfo = tppInfoArgumentCaptor.getValue();
-        verify(tppService, times(1)).updateTppInfo(tppInfo);
+        verify(qwacSertificateFilterServicesHolder, times(1)).updateTppInfo(tppInfo);
         assertEquals(roles, tppInfo.getTppRoles());
     }
 
@@ -174,13 +172,13 @@ class QwacCertificateFilterTest {
     void doFilter_failure_wrong_tpp_roles() throws IOException, ServletException {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
-        when(xs2aTppInfoMapper.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
+        when(qwacCertificateFilterMappersHolder.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
 
-        when(tppRoleValidationService.hasAccess(any(), any())).thenReturn(false);
+        when(qwacSertificateFilterServicesHolder.hasAccess(any(), any())).thenReturn(false);
         ArgumentCaptor<TppErrorMessage> message = ArgumentCaptor.forClass(TppErrorMessage.class);
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
-        when(requestProviderService.getTppRolesAllowedHeader()).thenReturn("PIISP");
-        when(tppInfoRolesMapper.mapToTppRoles(Collections.singletonList("PIISP"))).thenReturn(Collections.singletonList(TppRole.PIISP));
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
+        when(qwacSertificateFilterServicesHolder.getTppRolesAllowedHeader()).thenReturn("PIISP");
+        when(qwacCertificateFilterMappersHolder.mapToTppRoles(Collections.singletonList("PIISP"))).thenReturn(Collections.singletonList(TppRole.PIISP));
 
         //When
         qwacCertificateFilter.doFilter(request, response, chain);
@@ -195,11 +193,11 @@ class QwacCertificateFilterTest {
     void doFilter_success_no_check_tpp_roles() throws IOException, ServletException {
         //Given
         when(xs2aEndpointChecker.isXs2aEndpoint(request)).thenReturn(true);
-        when(xs2aTppInfoMapper.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
+        when(qwacCertificateFilterMappersHolder.mapToTppInfo(any(TppCertificateData.class))).thenReturn(new TppInfo());
 
         ArgumentCaptor<TppInfo> tppInfoArgumentCaptor = ArgumentCaptor.forClass(TppInfo.class);
-        when(requestProviderService.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
-        when(aspspProfileService.isCheckTppRolesFromCertificateSupported()).thenReturn(false);
+        when(qwacSertificateFilterServicesHolder.getEncodedTppQwacCert()).thenReturn(TEST_QWAC_CERTIFICATE_VALID);
+        when(qwacSertificateFilterServicesHolder.isCheckTppRolesFromCertificateSupported()).thenReturn(false);
         //When
         qwacCertificateFilter.doFilter(request, response, chain);
         //Then
