@@ -24,8 +24,8 @@ import de.adorsys.psd2.xs2a.core.tpp.TppRole;
 import de.adorsys.psd2.xs2a.service.validator.tpp.TppInfoHolder;
 import de.adorsys.psd2.xs2a.web.Xs2aEndpointChecker;
 import de.adorsys.psd2.xs2a.web.error.TppErrorMessageWriter;
-import de.adorsys.psd2.xs2a.web.filter.holders.QwacCertificateFilterMappersHolder;
-import de.adorsys.psd2.xs2a.web.filter.holders.QwacSertificateFilterServicesHolder;
+import de.adorsys.psd2.xs2a.web.filter.holder.QwacCertificateService;
+import de.adorsys.psd2.xs2a.web.mapper.Xs2aTppInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 import no.difi.certvalidator.api.CertificateValidationException;
 import org.apache.commons.lang3.StringUtils;
@@ -51,26 +51,25 @@ import static de.adorsys.psd2.xs2a.core.error.MessageErrorCode.*;
 @Slf4j
 public class QwacCertificateFilter extends AbstractXs2aFilter {
     private final TppInfoHolder tppInfoHolder;
-    private final QwacSertificateFilterServicesHolder qwacSertificateFilterServicesHolder;
-    private final QwacCertificateFilterMappersHolder qwacCertificateFilterMappersHolder;
+    private final QwacCertificateService qwacCertificateFilterService;
+    private final Xs2aTppInfoMapper xs2aTppInfoMapper;
     private final TppErrorMessageWriter tppErrorMessageWriter;
 
     public QwacCertificateFilter(TppErrorMessageWriter tppErrorMessageWriter,
                                  Xs2aEndpointChecker xs2aEndpointChecker,
                                  TppInfoHolder tppInfoHolder,
-                                 QwacSertificateFilterServicesHolder qwacSertificateFilterServicesHolder,
-                                 QwacCertificateFilterMappersHolder qwacCertificateFilterMappersHolder,
-                                 TppErrorMessageWriter tppErrorMessageWriter1) {
+                                 QwacCertificateService qwacCertificateFilterService,
+                                 Xs2aTppInfoMapper xs2aTppInfoMapper) {
         super(tppErrorMessageWriter, xs2aEndpointChecker);
         this.tppInfoHolder = tppInfoHolder;
-        this.qwacSertificateFilterServicesHolder = qwacSertificateFilterServicesHolder;
-        this.qwacCertificateFilterMappersHolder = qwacCertificateFilterMappersHolder;
-        this.tppErrorMessageWriter = tppErrorMessageWriter1;
+        this.qwacCertificateFilterService = qwacCertificateFilterService;
+        this.xs2aTppInfoMapper = xs2aTppInfoMapper;
+        this.tppErrorMessageWriter = tppErrorMessageWriter;
     }
 
     @Override
     protected void doFilterInternalCustom(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String encodedTppQwacCert = qwacSertificateFilterServicesHolder.getEncodedTppQwacCert();
+        String encodedTppQwacCert = qwacCertificateFilterService.getEncodedTppQwacCert();
 
         if (StringUtils.isNotBlank(encodedTppQwacCert)) {
             try {
@@ -80,10 +79,10 @@ public class QwacCertificateFilter extends AbstractXs2aFilter {
                     return;
                 }
 
-                TppInfo tppInfo = qwacCertificateFilterMappersHolder.mapToTppInfo(tppCertificateData);
-                String tppRolesAllowedHeader = qwacSertificateFilterServicesHolder.getTppRolesAllowedHeader();
+                TppInfo tppInfo = xs2aTppInfoMapper.mapToTppInfo(tppCertificateData);
+                String tppRolesAllowedHeader = qwacCertificateFilterService.getTppRolesAllowedHeader();
                 boolean checkTppRolesFromHeader = StringUtils.isNotBlank(tppRolesAllowedHeader);
-                boolean checkTppRolesFromCertificate = qwacSertificateFilterServicesHolder.isCheckTppRolesFromCertificateSupported();
+                boolean checkTppRolesFromCertificate = qwacCertificateFilterService.isCheckTppRolesFromCertificateSupported();
                 if (checkTppRolesFromHeader) {
                     processTppRolesFromHeader(tppInfo, tppRolesAllowedHeader);
                 } else if (checkTppRolesFromCertificate) {
@@ -91,7 +90,7 @@ public class QwacCertificateFilter extends AbstractXs2aFilter {
                 }
 
                 boolean checkTppRoles = checkTppRolesFromHeader || checkTppRolesFromCertificate;
-                if (checkTppRoles && !qwacSertificateFilterServicesHolder.hasAccess(tppInfo, request)) {
+                if (checkTppRoles && !qwacCertificateFilterService.hasAccess(tppInfo, request)) {
                     buildRoleInvalidErrorResponse(response, tppCertificateData);
                     return;
                 }
@@ -118,14 +117,14 @@ public class QwacCertificateFilter extends AbstractXs2aFilter {
         Optional.of(tppRolesAllowedHeader)
             .map(roles -> roles.split(","))
             .map(Arrays::asList)
-            .map(qwacCertificateFilterMappersHolder::mapToTppRoles)
+            .map(xs2aTppInfoMapper::mapToTppRoles)
             .ifPresent(roles -> setTppRolesAndUpdateTppInfo(tppInfo, roles));
     }
 
     private void setTppRolesAndUpdateTppInfo(TppInfo tppInfo, List<TppRole> roles) {
         if (!roles.isEmpty()) {
             tppInfo.setTppRoles(roles);
-            qwacSertificateFilterServicesHolder.updateTppInfo(tppInfo);
+            qwacCertificateFilterService.updateTppInfo(tppInfo);
         }
     }
 

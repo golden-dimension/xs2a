@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.web.filter.holders;
+package de.adorsys.psd2.xs2a.web.filter.holder;
 
 import de.adorsys.psd2.consent.api.service.TppService;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
@@ -23,12 +23,11 @@ import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.tpp.TppRoleValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 
 @AllArgsConstructor
 @Service
-public class QwacSertificateFilterServicesHolder {
+public class QwacCertificateService {
     private final RequestProviderService requestProviderService;
     private final TppRoleValidationService tppRoleValidationService;
     private final TppService tppService;
