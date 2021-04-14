@@ -1502,7 +1502,13 @@ Returns a <strong>SpiPaymentExecutionResponse</strong> object with appropriate t
 </ul>
 </div>
 <div class="paragraph">
-<p>The Method <strong>authorisePsu</strong> authorises psu and returns current (success or failure) authorisation status. <strong>Should be used only with Embedded SCA Approach</strong>. It contains following Data:</p>
+<p>The Method <strong>authorisePsu</strong> authorises PSU and returns current (success or failure) authorisation status with <strong>scaExempted</strong> flag.
+This flag is taken into account by XS2A for performing SCA exemption.
+If the PSU authorisation SPI response for bulk or single payment will be successful and <strong>scaExempted</strong> is <strong>true</strong>
+- SCA will not be performed will be invoked and authorisation status will be set to <strong>EXEMPTED</strong>. SCA exemption is supported for multilevel SCA too.</p>
+</div>
+<div class="paragraph">
+<p><strong>The Method authorisePsu should be used only with Embedded SCA Approach</strong>. It contains following Data:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2033,7 +2039,7 @@ By default, SCA status is used from CMS on request for getting SCA status.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-13 09:55:12 UTC
+Last updated 2021-04-14 06:38:07 UTC
 </div>
 </div>
 </body>
