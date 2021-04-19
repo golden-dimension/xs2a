@@ -27,7 +27,7 @@ import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
 import de.adorsys.psd2.xs2a.web.controller.PaymentController;
 import de.adorsys.psd2.xs2a.web.link.PaymentInitiationLinks;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +60,7 @@ public class PaymentAspectService extends BaseAspectService<PaymentController> {
             boolean isExplicitMethod = authorisationMethodDecider.isExplicitMethod(explicitPreferred, body.isMultilevelScaRequired());
             boolean isSigningBasketModeActive = authorisationMethodDecider.isSigningBasketModeActive(explicitPreferred);
 
-            LinksFieldHolder fieldHolder =  LinksFieldHolder.builder()
+            LinkParameters linkParameters =  LinkParameters.builder()
                 .httpUrl(getHttpUrl())
                 .isExplicitMethod(isExplicitMethod)
                 .isSigningBasketModeActive(isSigningBasketModeActive)
@@ -68,7 +68,7 @@ public class PaymentAspectService extends BaseAspectService<PaymentController> {
                 .instanceId(requestProviderService.getInstanceId())
                 .build();
 
-            body.setLinks(new PaymentInitiationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+            body.setLinks(new PaymentInitiationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
                                                      redirectIdService, requestParameters, body, getScaRedirectFlow()));
         }
         return result;

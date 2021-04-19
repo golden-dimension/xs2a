@@ -22,7 +22,7 @@ import de.adorsys.psd2.xs2a.domain.HrefType;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 
 import java.util.EnumSet;
 
@@ -33,30 +33,30 @@ public class PisAuthorisationCancellationLinks extends AbstractLinks {//NOSONAR
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final ScaRedirectFlow scaRedirectFlow;
     private final RedirectIdService redirectIdService;
-    private final LinksFieldHolder fieldHolder;
+    private final LinkParameters linkParameters;
 
-    public PisAuthorisationCancellationLinks(LinksFieldHolder fieldHolder,
+    public PisAuthorisationCancellationLinks(LinkParameters linkParameters,
                                              ScaApproachResolver scaApproachResolver,
                                              RedirectLinkBuilder redirectLinkBuilder,
                                              RedirectIdService redirectIdService,
                                              ScaRedirectFlow scaRedirectFlow) {
-        super(fieldHolder.getHttpUrl());
+        super(linkParameters.getHttpUrl());
         this.redirectLinkBuilder = redirectLinkBuilder;
         this.scaRedirectFlow = scaRedirectFlow;
         this.redirectIdService = redirectIdService;
-        this.fieldHolder = fieldHolder;
+        this.linkParameters = linkParameters;
 
-        setScaStatus(buildPath(UrlHolder.PIS_CANCELLATION_AUTH_LINK_URL, fieldHolder.getPaymentService(),
-            fieldHolder.getPaymentProduct(), fieldHolder.getPaymentId(), fieldHolder.getAuthorisationId()));
+        setScaStatus(buildPath(UrlHolder.PIS_CANCELLATION_AUTH_LINK_URL, linkParameters.getPaymentService(),
+            linkParameters.getPaymentProduct(), linkParameters.getPaymentId(), linkParameters.getAuthorisationId()));
 
-        ScaApproach cancellationScaApproach = scaApproachResolver.getScaApproach(fieldHolder.getAuthorisationId());
+        ScaApproach cancellationScaApproach = scaApproachResolver.getScaApproach(linkParameters.getAuthorisationId());
         if (EnumSet.of(EMBEDDED, DECOUPLED).contains(cancellationScaApproach)) {
             setUpdatePsuAuthentication(buildPath(UrlHolder.PIS_CANCELLATION_AUTH_LINK_URL,
-                fieldHolder.getPaymentService(), fieldHolder.getPaymentProduct(),
-                fieldHolder.getPaymentId(), fieldHolder.getAuthorisationId()));
+                linkParameters.getPaymentService(), linkParameters.getPaymentProduct(),
+                linkParameters.getPaymentId(), linkParameters.getAuthorisationId()));
         } else if (cancellationScaApproach == REDIRECT) {
-            addRedirectRelatedLinks(fieldHolder.getPaymentService(), fieldHolder.getPaymentProduct(),
-                fieldHolder.getPaymentId(), fieldHolder.getAuthorisationId(), fieldHolder.getInternalRequestId());
+            addRedirectRelatedLinks(linkParameters.getPaymentService(), linkParameters.getPaymentProduct(),
+                linkParameters.getPaymentId(), linkParameters.getAuthorisationId(), linkParameters.getInternalRequestId());
         }
     }
 
@@ -65,7 +65,7 @@ public class PisAuthorisationCancellationLinks extends AbstractLinks {//NOSONAR
 
         String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
                                                   ? redirectLinkBuilder.buildPaymentCancellationScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
-                                                  : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId, internalRequestId, fieldHolder.getInstanceId());
+                                                  : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId, internalRequestId, linkParameters.getInstanceId());
 
         setScaRedirect(new HrefType(paymentCancellationOauthLink));
 

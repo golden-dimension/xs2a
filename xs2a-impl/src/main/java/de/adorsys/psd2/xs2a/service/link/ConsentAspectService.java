@@ -31,7 +31,7 @@ import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
 import de.adorsys.psd2.xs2a.web.controller.ConsentController;
 import de.adorsys.psd2.xs2a.web.link.*;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,14 +69,14 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
             boolean explicitMethod = authorisationMethodDecider.isExplicitMethod(explicitPreferred, body.isMultilevelScaRequired());
             boolean signingBasketModeActive = authorisationMethodDecider.isSigningBasketModeActive(explicitPreferred);
 
-            LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+            LinkParameters linkParameters = LinkParameters.builder()
                 .httpUrl(getHttpUrl())
                 .isExplicitMethod(explicitMethod)
                 .isSigningBasketModeActive(signingBasketModeActive)
                 .isAuthorisationConfirmationRequestMandated(isAuthorisationConfirmationRequestMandated())
                 .instanceId(requestProviderService.getInstanceId())
                 .build();
-            body.setLinks(new CreateConsentLinks(fieldHolder, scaApproachResolver, body, redirectLinkBuilder,
+            body.setLinks(new CreateConsentLinks(linkParameters, scaApproachResolver, body, redirectLinkBuilder,
                                                  redirectIdService,
                                                  getScaRedirectFlow()));
         }
@@ -90,12 +90,12 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
                 body.setLinks(buildLinksForUpdateConsentResponse(body));
             } else if (result.getBody() instanceof CreateConsentAuthorizationResponse) {
                 CreateConsentAuthorizationResponse body = (CreateConsentAuthorizationResponse) result.getBody();
-                LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+                LinkParameters linkParameters = LinkParameters.builder()
                     .httpUrl(getHttpUrl())
                     .isAuthorisationConfirmationRequestMandated(isAuthorisationConfirmationRequestMandated())
                     .instanceId(requestProviderService.getInstanceId())
                     .build();
-                body.setLinks(new CreateAisAuthorisationLinks(fieldHolder, body, scaApproachResolver, redirectLinkBuilder,
+                body.setLinks(new CreateAisAuthorisationLinks(linkParameters, body, scaApproachResolver, redirectLinkBuilder,
                                                               redirectIdService, getScaRedirectFlow()));
             }
         }
@@ -137,7 +137,7 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
             boolean explicitMethod = authorisationMethodDecider.isExplicitMethod(explicitPreferred, body.isMultilevelScaRequired());
             boolean signingBasketModeActive = authorisationMethodDecider.isSigningBasketModeActive(explicitPreferred);
 
-            LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+            LinkParameters linkParameters = LinkParameters.builder()
                 .httpUrl(getHttpUrl())
                 .isExplicitMethod(explicitMethod)
                 .isSigningBasketModeActive(signingBasketModeActive)
@@ -145,7 +145,7 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
                 .instanceId(requestProviderService.getInstanceId())
                 .build();
 
-            body.setLinks(new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, body, redirectLinkBuilder,
+            body.setLinks(new CreatePiisConsentLinks(linkParameters, scaApproachResolver, body, redirectLinkBuilder,
                                                      redirectIdService,
                                                      getScaRedirectFlow()));
         }
@@ -159,12 +159,12 @@ public class ConsentAspectService extends BaseAspectService<ConsentController> {
                 body.setLinks(buildLinksForUpdateConsentResponse(body));
             } else if (result.getBody() instanceof CreateConsentAuthorizationResponse) {
                 CreateConsentAuthorizationResponse body = (CreateConsentAuthorizationResponse) result.getBody();
-                LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+                LinkParameters linkParameters = LinkParameters.builder()
                     .httpUrl(getHttpUrl())
                     .isAuthorisationConfirmationRequestMandated(isAuthorisationConfirmationRequestMandated())
                     .instanceId(requestProviderService.getInstanceId())
                     .build();
-                body.setLinks(new CreatePiisAuthorisationLinks(fieldHolder, body, scaApproachResolver, redirectLinkBuilder,
+                body.setLinks(new CreatePiisAuthorisationLinks(linkParameters, body, scaApproachResolver, redirectLinkBuilder,
                                                                redirectIdService, getScaRedirectFlow()));
             }
         }

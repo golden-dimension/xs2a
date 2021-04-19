@@ -33,7 +33,7 @@ import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
 import de.adorsys.psd2.xs2a.web.controller.PaymentController;
 import de.adorsys.psd2.xs2a.web.link.PisAuthorisationCancellationLinks;
 import de.adorsys.psd2.xs2a.web.link.UpdatePisCancellationPsuDataLinks;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,14 +64,14 @@ public class PaymentAuthorisationCancellationAspectService extends BaseAspectSer
 
             if (authorisationResponseType == AuthorisationResponseType.START) {
                 Xs2aCreatePisCancellationAuthorisationResponse response = (Xs2aCreatePisCancellationAuthorisationResponse) result.getBody();
-                LinksFieldHolder fieldHolder = LinksFieldHolder.builder().httpUrl(getHttpUrl())
+                LinkParameters linkParameters = LinkParameters.builder().httpUrl(getHttpUrl())
                     .paymentService(request.getPaymentService().getValue())
                     .paymentProduct(request.getPaymentProduct())
                     .paymentId(request.getPaymentId())
                     .authorisationId(body.getAuthorisationId())
                     .internalRequestId(body.getInternalRequestId())
                     .instanceId(requestProviderService.getInstanceId()).build();
-                response.setLinks(new PisAuthorisationCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+                response.setLinks(new PisAuthorisationCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
                                                                         redirectIdService, getScaRedirectFlow()));
             } else if (authorisationResponseType == AuthorisationResponseType.UPDATE) {
                 Xs2aUpdatePisCommonPaymentPsuDataResponse response = (Xs2aUpdatePisCommonPaymentPsuDataResponse) result.getBody();

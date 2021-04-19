@@ -26,7 +26,7 @@ import de.adorsys.psd2.xs2a.domain.consent.Xs2aConfirmationOfFundsResponse;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,14 +74,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndExplicitMethodAndPsuDataIsEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -93,14 +93,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndExplicitMethodAndPsuDataIsNotEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -114,14 +114,14 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -135,14 +135,14 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(true)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -154,14 +154,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndImplicitMethodAndPsuDataIsEmpty() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -174,14 +174,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndEmbeddedScaApproachAndImplicitMethodAndPsuDataIsNotEmpty() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -195,13 +195,13 @@ class CreatePiisConsentLinksTest {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
-            .build();links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+            .build();links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -213,14 +213,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndExplicitMethodAndPsuDataIsNotEmptyAndMultiLevelRequired() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -234,14 +234,14 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -255,14 +255,14 @@ class CreatePiisConsentLinksTest {
 
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(true)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -274,14 +274,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndImplicitMethodAndPsuDataIsEmpty() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -294,14 +294,14 @@ class CreatePiisConsentLinksTest {
     void isScaStatusMethodAuthenticatedAndDecoupledScaApproachAndImplicitMethodAndPsuDataIsNotEmpty() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, null);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -314,14 +314,14 @@ class CreatePiisConsentLinksTest {
     void scaApproachRedirectAndExplicitMethod() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.REDIRECT);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(true)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -335,14 +335,14 @@ class CreatePiisConsentLinksTest {
         when(redirectIdService.generateRedirectId(AUTHORISATION_ID)).thenReturn(AUTHORISATION_ID);
         when(redirectLinkBuilder.buildConsentScaRedirectLink(CONSENT_ID, AUTHORISATION_ID, INTERNAL_REQUEST_ID, "", ConsentType.PIIS_TPP)).thenReturn(REDIRECT_LINK);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(false)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);
@@ -360,14 +360,14 @@ class CreatePiisConsentLinksTest {
         when(redirectLinkBuilder.buildConfirmationLink(CONSENT_ID, AUTHORISATION_ID, ConsentType.PIIS_TPP)).thenReturn(CONFIRMATION_LINK);
 
         // When
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+        LinkParameters linkParameters = LinkParameters.builder()
             .httpUrl(HTTP_URL)
             .isExplicitMethod(false)
             .isSigningBasketModeActive(false)
             .isAuthorisationConfirmationRequestMandated(true)
             .instanceId("")
             .build();
-        links = new CreatePiisConsentLinks(fieldHolder, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
+        links = new CreatePiisConsentLinks(linkParameters, scaApproachResolver, response, redirectLinkBuilder, redirectIdService, ScaRedirectFlow.REDIRECT);
 
         expectedLinks.setSelf(SELF);
         expectedLinks.setStatus(STATUS);

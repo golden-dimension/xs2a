@@ -23,7 +23,7 @@ import de.adorsys.psd2.xs2a.domain.pis.CancelPaymentResponse;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 
 import java.util.EnumSet;
 
@@ -35,20 +35,20 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final RedirectIdService redirectIdService;
     private final ScaRedirectFlow scaRedirectFlow;
-    private final LinksFieldHolder fieldHolder;
+    private final LinkParameters linkParameters;
 
-    public PaymentCancellationLinks(LinksFieldHolder fieldHolder,
+    public PaymentCancellationLinks(LinkParameters linkParameters,
                                     ScaApproachResolver scaApproachResolver,
                                     RedirectLinkBuilder redirectLinkBuilder,
                                     RedirectIdService redirectIdService,
                                     CancelPaymentResponse response,
                                     ScaRedirectFlow scaRedirectFlow) {
-        super(fieldHolder.getHttpUrl());
+        super(linkParameters.getHttpUrl());
         this.scaApproachResolver = scaApproachResolver;
         this.redirectLinkBuilder = redirectLinkBuilder;
         this.redirectIdService = redirectIdService;
         this.scaRedirectFlow = scaRedirectFlow;
-        this.fieldHolder = fieldHolder;
+        this.linkParameters = linkParameters;
 
         buildCancellationLinks(response);
     }
@@ -75,7 +75,7 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     }
 
     private void addEmbeddedDecoupledRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorisationId) {
-        if (fieldHolder.isExplicitMethod()) {
+        if (linkParameters.isExplicitMethod()) {
             setStartAuthorisationWithPsuAuthentication(buildPath(UrlHolder.START_PIS_CANCELLATION_AUTH_URL, paymentService, paymentProduct, paymentId));
         } else {
             setScaStatus(
@@ -87,7 +87,7 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     }
 
     private void addRedirectRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorisationId, String internalRequestId) {
-        if (fieldHolder.isExplicitMethod()) {
+        if (linkParameters.isExplicitMethod()) {
             setStartAuthorisation(buildPath(UrlHolder.START_PIS_CANCELLATION_AUTH_URL, paymentService, paymentProduct, paymentId));
         } else {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
@@ -95,14 +95,14 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
             String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
                                           ? redirectLinkBuilder.buildPaymentCancellationScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
                                           : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId,
-                internalRequestId, fieldHolder.getInstanceId());
+                internalRequestId, linkParameters.getInstanceId());
 
             setScaRedirect(new HrefType(paymentCancellationOauthLink));
 
             setScaStatus(
                 buildPath(UrlHolder.PIS_CANCELLATION_AUTH_LINK_URL, paymentService, paymentProduct, paymentId, authorisationId));
 
-            if (fieldHolder.isAuthorisationConfirmationRequestMandated()) {
+            if (linkParameters.isAuthorisationConfirmationRequestMandated()) {
                 setConfirmation(buildPath(redirectLinkBuilder.buildPisCancellationConfirmationLink(paymentService, paymentProduct, paymentId, redirectId)));
             }
         }

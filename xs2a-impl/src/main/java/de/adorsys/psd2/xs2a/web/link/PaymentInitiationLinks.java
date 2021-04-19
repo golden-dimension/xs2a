@@ -24,7 +24,7 @@ import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationResponse;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 
 import java.util.EnumSet;
 
@@ -37,20 +37,20 @@ public class PaymentInitiationLinks extends AbstractLinks {//NOSONAR
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final RedirectIdService redirectIdService;
     private final ScaRedirectFlow scaRedirectFlow;
-    private final LinksFieldHolder fieldHolder;
+    private final LinkParameters linkParameters;
 
-    public PaymentInitiationLinks(LinksFieldHolder fieldHolder, ScaApproachResolver scaApproachResolver, RedirectLinkBuilder redirectLinkBuilder,
+    public PaymentInitiationLinks(LinkParameters linkParameters, ScaApproachResolver scaApproachResolver, RedirectLinkBuilder redirectLinkBuilder,
                                   RedirectIdService redirectIdService,
                                   PaymentInitiationParameters paymentRequestParameters, PaymentInitiationResponse body,
                                   ScaRedirectFlow scaRedirectFlow) {
-        super(fieldHolder.getHttpUrl());
+        super(linkParameters.getHttpUrl());
         this.scaApproachResolver = scaApproachResolver;
         this.redirectLinkBuilder = redirectLinkBuilder;
         this.redirectIdService = redirectIdService;
-        this.fieldHolder = fieldHolder;
+        this.linkParameters = linkParameters;
         this.scaRedirectFlow = scaRedirectFlow;
 
-        buildPaymentLinks(paymentRequestParameters, body, fieldHolder.isSigningBasketModeActive());
+        buildPaymentLinks(paymentRequestParameters, body, linkParameters.isSigningBasketModeActive());
     }
 
     private void buildPaymentLinks(PaymentInitiationParameters paymentRequestParameters, PaymentInitiationResponse body, boolean signingBasketModeActive) {
@@ -78,7 +78,7 @@ public class PaymentInitiationLinks extends AbstractLinks {//NOSONAR
 
     private void addEmbeddedDecoupledRelatedLinks(String paymentService, String paymentProduct, String paymentId,
                                                   String authorisationId, boolean signingBasketModeActive) {
-        if (fieldHolder.isExplicitMethod()) {
+        if (linkParameters.isExplicitMethod()) {
             if (signingBasketModeActive) { // no more data needs to be updated
                 setStartAuthorisation(buildPath(UrlHolder.START_PIS_AUTHORISATION_URL, paymentService, paymentProduct, paymentId));
             } else {
@@ -93,20 +93,20 @@ public class PaymentInitiationLinks extends AbstractLinks {//NOSONAR
     }
 
     private void addRedirectRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorisationId, String internalRequestId) {
-        if (fieldHolder.isExplicitMethod()) {
+        if (linkParameters.isExplicitMethod()) {
             setStartAuthorisation(buildPath(UrlHolder.START_PIS_AUTHORISATION_URL, paymentService, paymentProduct, paymentId));
         } else {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
 
             String paymentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
                                           ? redirectLinkBuilder.buildPaymentScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
-                                          : redirectLinkBuilder.buildPaymentScaRedirectLink(paymentId, redirectId, internalRequestId, fieldHolder.getInstanceId());
+                                          : redirectLinkBuilder.buildPaymentScaRedirectLink(paymentId, redirectId, internalRequestId, linkParameters.getInstanceId());
 
             setScaRedirect(new HrefType(paymentOauthLink));
             setScaStatus(
                 buildPath(UrlHolder.PIS_AUTHORISATION_LINK_URL, paymentService, paymentProduct, paymentId, authorisationId));
 
-            if (fieldHolder.isAuthorisationConfirmationRequestMandated()) {
+            if (linkParameters.isAuthorisationConfirmationRequestMandated()) {
                 setConfirmation(buildPath(redirectLinkBuilder.buildPisConfirmationLink(paymentService, paymentProduct, paymentId, redirectId)));
             }
         }

@@ -23,7 +23,7 @@ import de.adorsys.psd2.xs2a.domain.Links;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,11 +63,11 @@ class PisAuthorisationCancellationLinksTest {
     @Test
     void scaApproachEmbedded() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.EMBEDDED);
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder().httpUrl(HTTP_URL)
+        LinkParameters linkParameters = LinkParameters.builder().httpUrl(HTTP_URL)
             .paymentService(PAYMENT_SERVICE).paymentProduct(PAYMENT_PRODUCT).paymentId(PAYMENT_ID)
             .authorisationId(AUTHORISATION_ID).internalRequestId(null).instanceId("").build();
 
-        links = new PisAuthorisationCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+        links = new PisAuthorisationCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
             redirectIdService, null);
 
         expectedLinks.setScaStatus(new HrefType("http://url/v1/payments/sepa-credit-transfers/1111111111111/cancellation-authorisations/463318a0-1e33-45d8-8209-e16444b18dda"));
@@ -80,11 +80,11 @@ class PisAuthorisationCancellationLinksTest {
     void scaApproachDecoupledAndPsuDataIsEmpty() {
         when(scaApproachResolver.getScaApproach(AUTHORISATION_ID)).thenReturn(ScaApproach.DECOUPLED);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder().httpUrl(HTTP_URL)
+        LinkParameters linkParameters = LinkParameters.builder().httpUrl(HTTP_URL)
             .paymentService(PAYMENT_SERVICE).paymentProduct(PAYMENT_PRODUCT).paymentId(PAYMENT_ID)
             .authorisationId(AUTHORISATION_ID).internalRequestId(null).instanceId("").build();
 
-        links = new PisAuthorisationCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+        links = new PisAuthorisationCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
             redirectIdService, null);
 
         expectedLinks.setScaStatus(new HrefType("http://url/v1/payments/sepa-credit-transfers/1111111111111/cancellation-authorisations/463318a0-1e33-45d8-8209-e16444b18dda"));
@@ -99,10 +99,10 @@ class PisAuthorisationCancellationLinksTest {
         when(redirectIdService.generateRedirectId(AUTHORISATION_ID)).thenReturn(AUTHORISATION_ID);
         when(redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(PAYMENT_ID, AUTHORISATION_ID, INTERNAL_REQUEST_ID, "")).thenReturn(REDIRECT_LINK);
 
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder().httpUrl(HTTP_URL)
+        LinkParameters linkParameters = LinkParameters.builder().httpUrl(HTTP_URL)
             .paymentService(PAYMENT_SERVICE).paymentProduct(PAYMENT_PRODUCT).paymentId(PAYMENT_ID)
             .authorisationId(AUTHORISATION_ID).internalRequestId(INTERNAL_REQUEST_ID).instanceId("").build();
-        links = new PisAuthorisationCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+        links = new PisAuthorisationCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
             redirectIdService, ScaRedirectFlow.REDIRECT);
 
         expectedLinks.setScaRedirect(new HrefType(REDIRECT_LINK));
@@ -121,10 +121,10 @@ class PisAuthorisationCancellationLinksTest {
             .thenReturn(AUTHORISATION_ID);
 
         // When
-        LinksFieldHolder fieldHolder = LinksFieldHolder.builder().httpUrl(HTTP_URL)
+        LinkParameters linkParameters = LinkParameters.builder().httpUrl(HTTP_URL)
             .paymentService(PAYMENT_SERVICE).paymentProduct(PAYMENT_PRODUCT).paymentId(PAYMENT_ID)
             .authorisationId(AUTHORISATION_ID).internalRequestId(INTERNAL_REQUEST_ID).instanceId("").build();
-        links = new PisAuthorisationCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder, redirectIdService,
+        links = new PisAuthorisationCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder, redirectIdService,
                                                       ScaRedirectFlow.OAUTH);
 
         // Then

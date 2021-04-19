@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LinksFieldHolder {
+public class LinkParameters {
     private final String httpUrl;
     private final String paymentService;
     private final String paymentProduct;

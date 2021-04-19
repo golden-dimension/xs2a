@@ -29,7 +29,7 @@ import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
 import de.adorsys.psd2.xs2a.web.controller.PaymentController;
 import de.adorsys.psd2.xs2a.web.link.PaymentCancellationLinks;
-import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinkParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,13 +68,13 @@ public class PaymentCancellationAspectService extends BaseAspectService<PaymentC
 
                 // in payment cancellation case 'multilevelScaRequired' is always false
                 boolean isExplicitMethod = authorisationMethodDecider.isExplicitMethod(request.getTppExplicitAuthorisationPreferred(), false);
-                LinksFieldHolder fieldHolder = LinksFieldHolder.builder()
+                LinkParameters linkParameters = LinkParameters.builder()
                     .httpUrl(getHttpUrl())
                     .isExplicitMethod(isExplicitMethod)
                     .isAuthorisationConfirmationRequestMandated(isAuthorisationConfirmationRequestMandated())
                     .instanceId(requestProviderService.getInstanceId())
                     .build();
-                response.setLinks(new PaymentCancellationLinks(fieldHolder, scaApproachResolver, redirectLinkBuilder,
+                response.setLinks(new PaymentCancellationLinks(linkParameters, scaApproachResolver, redirectLinkBuilder,
                                                                redirectIdService, response, getScaRedirectFlow()));
             }
 
