@@ -24,12 +24,15 @@ import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.web.validator.ErrorBuildingService;
 import de.adorsys.psd2.xs2a.web.validator.header.ErrorBuildingServiceMock;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FieldLengthValidatorTest {
+    public static final String FIELD_VALUE = "fieldValue";
+    public static final String FIELD_NAME = "fieldName";
     private FieldLengthValidator validator;
     private MessageError messageError;
 
@@ -43,63 +46,55 @@ class FieldLengthValidatorTest {
     @Test
     void checkFieldForMaxLength_extraField() {
         // Given
-        String fieldToCheck = "fieldToCheck";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.NONE, 0);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(FIELD_VALUE, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertFalse(messageError.getTppMessages().isEmpty());
         assertEquals(MessageCategory.ERROR, messageError.getTppMessage().getCategory());
         assertEquals(MessageErrorCode.FORMAT_ERROR_EXTRA_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[] {fieldName}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[] {FIELD_NAME}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
     void checkFieldForMaxLength_emptyField() {
         // Given
-        String fieldToCheck = "";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.REQUIRED, 50);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(StringUtils.EMPTY, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertFalse(messageError.getTppMessages().isEmpty());
         assertEquals(MessageCategory.ERROR, messageError.getTppMessage().getCategory());
         assertEquals(MessageErrorCode.FORMAT_ERROR_EMPTY_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[] {fieldName}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[] {FIELD_NAME}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
     void checkFieldForMaxLength_oversizedField() {
         // Given
-        String fieldToCheck = "fieldToCheck";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.REQUIRED, 1);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(FIELD_VALUE, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertFalse(messageError.getTppMessages().isEmpty());
         assertEquals(MessageCategory.ERROR, messageError.getTppMessage().getCategory());
         assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[] {fieldName, 1}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[] {FIELD_NAME, 1}, messageError.getTppMessage().getTextParameters());
     }
 
     @Test
     void checkFieldForMaxLength_requiredOk() {
         // Given
-        String fieldToCheck = "fieldToCheck";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.REQUIRED, 19);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(FIELD_VALUE, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertTrue(messageError.getTppMessages().isEmpty());
@@ -109,12 +104,10 @@ class FieldLengthValidatorTest {
     @Test
     void checkFieldForMaxLength_optionalOk() {
         // Given
-        String fieldToCheck = "fieldToCheck";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.OPTIONAL, 19);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(FIELD_VALUE, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertTrue(messageError.getTppMessages().isEmpty());
@@ -124,12 +117,10 @@ class FieldLengthValidatorTest {
     @Test
     void checkFieldForMaxLength_optionalBlank() {
         // Given
-        String fieldToCheck = "";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.OPTIONAL, 19);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(StringUtils.EMPTY, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertTrue(messageError.getTppMessages().isEmpty());
@@ -139,17 +130,15 @@ class FieldLengthValidatorTest {
     @Test
     void checkFieldForMaxLength_oversizedOptionalField() {
         // Given
-        String fieldToCheck = "fieldToCheck";
-        String fieldName = "fieldName";
         ValidationObject validationObject = new ValidationObject(Occurrence.OPTIONAL, 1);
 
         // When
-        validator.checkFieldForMaxLength(fieldToCheck, fieldName, validationObject, messageError);
+        validator.checkFieldForMaxLength(FIELD_VALUE, FIELD_NAME, validationObject, messageError);
 
         // Then
         assertFalse(messageError.getTppMessages().isEmpty());
         assertEquals(MessageCategory.ERROR, messageError.getTppMessage().getCategory());
         assertEquals(MessageErrorCode.FORMAT_ERROR_OVERSIZE_FIELD, messageError.getTppMessage().getMessageErrorCode());
-        assertArrayEquals(new Object[] {fieldName, 1}, messageError.getTppMessage().getTextParameters());
+        assertArrayEquals(new Object[] {FIELD_NAME, 1}, messageError.getTppMessage().getTextParameters());
     }
 }
