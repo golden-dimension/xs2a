@@ -92,7 +92,7 @@ public class PaymentController implements PaymentApi {
         }
 
         if (serviceResponse.getBody().isResponseContentTypeJson()) {
-            return responseMapper.ok(serviceResponse, paymentModelMapperPsd2::mapToStatusResponseJson);
+            return responseMapper.ok(serviceResponse, paymentModelMapperPsd2::mapToStatusResponseJson);//todo
         } else {
             return responseMapper.ok(serviceResponse, paymentModelMapperPsd2::mapToStatusResponseRaw);
         }
@@ -273,7 +273,7 @@ public class PaymentController implements PaymentApi {
             paymentCancellationServiceForAuthorisation.getAuthorisationScaStatus(paymentId, authorisationId, getPaymentType(paymentService), paymentProduct);
         return serviceResponse.hasError()
                    ? responseErrorMapper.generateErrorResponse(serviceResponse.getError())
-                   : responseMapper.ok(serviceResponse, authorisationMapper::mapToScaStatusResponse);
+                   : responseMapper.ok(serviceResponse, authorisationMapper::mapToScaStatusResponse);//todo
     }
 
     @Override
@@ -312,7 +312,7 @@ public class PaymentController implements PaymentApi {
             paymentServiceForAuthorisation.getAuthorisationScaStatus(paymentId, authorisationId, getPaymentType(paymentService), paymentProduct);
         return serviceResponse.hasError()
                    ? responseErrorMapper.generateErrorResponse(serviceResponse.getError())
-                   : responseMapper.ok(serviceResponse, authorisationMapper::mapToScaStatusResponse);
+                   : responseMapper.ok(serviceResponse, authorisationMapper::mapToScaStatusResponse);//todo
     }
 
     @Override
