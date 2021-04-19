@@ -23,40 +23,40 @@ import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationRequest;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
 
 import java.util.EnumSet;
 
 import static de.adorsys.psd2.xs2a.core.profile.ScaApproach.*;
 
 public class CreatePisAuthorisationLinks extends AbstractLinks {
-
-    public CreatePisAuthorisationLinks(String httpUrl, ScaApproachResolver scaApproachResolver, RedirectLinkBuilder redirectLinkBuilder,
+    public CreatePisAuthorisationLinks(LinksFieldHolder fieldHolder, ScaApproachResolver scaApproachResolver, RedirectLinkBuilder redirectLinkBuilder,
                                        RedirectIdService redirectIdService,
-                                       Xs2aCreatePisAuthorisationRequest createRequest, String authorisationId,
-                                       ScaRedirectFlow scaRedirectFlow, String internalRequestId,
-                                       boolean authorisationConfirmationRequestMandated, String instanceId) {
-        super(httpUrl);
+                                       Xs2aCreatePisAuthorisationRequest createRequest, ScaRedirectFlow scaRedirectFlow) {
+        super(fieldHolder.getHttpUrl());
 
         String paymentId = createRequest.getPaymentId();
         String paymentService = createRequest.getPaymentService().getValue();
         String paymentProduct = createRequest.getPaymentProduct();
 
-        setScaStatus(buildPath(UrlHolder.PIS_AUTHORISATION_LINK_URL, paymentService, paymentProduct, paymentId, authorisationId));
+        setScaStatus(buildPath(UrlHolder.PIS_AUTHORISATION_LINK_URL, paymentService, paymentProduct, paymentId, fieldHolder.getAuthorisationId()));
 
-        ScaApproach initiationScaApproach = scaApproachResolver.getScaApproach(authorisationId);
+        ScaApproach initiationScaApproach = scaApproachResolver.getScaApproach(fieldHolder.getAuthorisationId());
         if (EnumSet.of(EMBEDDED, DECOUPLED).contains(initiationScaApproach)) {
             String path = UrlHolder.PIS_AUTHORISATION_LINK_URL;
-            setUpdatePsuAuthentication(buildPath(path, paymentService, paymentProduct, paymentId, authorisationId));
+            setUpdatePsuAuthentication(buildPath(path, paymentService, paymentProduct, paymentId, fieldHolder.getAuthorisationId()));
         } else if (initiationScaApproach == REDIRECT) {
-            String redirectId = redirectIdService.generateRedirectId(authorisationId);
+            String redirectId = redirectIdService.generateRedirectId(fieldHolder.getAuthorisationId());
 
             String paymentOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
-                                          ? redirectLinkBuilder.buildPaymentScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
-                                          : redirectLinkBuilder.buildPaymentScaRedirectLink(paymentId, redirectId, internalRequestId, instanceId);
+                                          ? redirectLinkBuilder.buildPaymentScaOauthRedirectLink(paymentId, redirectId,
+                fieldHolder.getInternalRequestId())
+                                          : redirectLinkBuilder.buildPaymentScaRedirectLink(paymentId, redirectId,
+                fieldHolder.getInternalRequestId(), fieldHolder.getInstanceId());
 
             setScaRedirect(new HrefType(paymentOauthLink));
 
-            if (authorisationConfirmationRequestMandated) {
+            if (fieldHolder.isAuthorisationConfirmationRequestMandated()) {
                 setConfirmation(buildPath(redirectLinkBuilder.buildPisConfirmationLink(paymentService, paymentProduct, paymentId, redirectId)));
             }
         }

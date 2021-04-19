@@ -23,6 +23,7 @@ import de.adorsys.psd2.xs2a.domain.pis.CancelPaymentResponse;
 import de.adorsys.psd2.xs2a.service.RedirectIdService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.web.RedirectLinkBuilder;
+import de.adorsys.psd2.xs2a.web.link.holder.LinksFieldHolder;
 
 import java.util.EnumSet;
 
@@ -33,23 +34,21 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     private final ScaApproachResolver scaApproachResolver;
     private final RedirectLinkBuilder redirectLinkBuilder;
     private final RedirectIdService redirectIdService;
-    private final boolean isExplicitMethod;
     private final ScaRedirectFlow scaRedirectFlow;
-    private final boolean authorisationConfirmationRequestMandated;
-    private final String instanceId;
+    private final LinksFieldHolder fieldHolder;
 
-    public PaymentCancellationLinks(String httpUrl, ScaApproachResolver scaApproachResolver, RedirectLinkBuilder redirectLinkBuilder,
-                                    RedirectIdService redirectIdService, CancelPaymentResponse response,
-                                    boolean isExplicitMethod, ScaRedirectFlow scaRedirectFlow,
-                                    boolean authorisationConfirmationRequestMandated, String instanceId) {
-        super(httpUrl);
+    public PaymentCancellationLinks(LinksFieldHolder fieldHolder,
+                                    ScaApproachResolver scaApproachResolver,
+                                    RedirectLinkBuilder redirectLinkBuilder,
+                                    RedirectIdService redirectIdService,
+                                    CancelPaymentResponse response,
+                                    ScaRedirectFlow scaRedirectFlow) {
+        super(fieldHolder.getHttpUrl());
         this.scaApproachResolver = scaApproachResolver;
         this.redirectLinkBuilder = redirectLinkBuilder;
         this.redirectIdService = redirectIdService;
-        this.isExplicitMethod = isExplicitMethod;
         this.scaRedirectFlow = scaRedirectFlow;
-        this.authorisationConfirmationRequestMandated = authorisationConfirmationRequestMandated;
-        this.instanceId = instanceId;
+        this.fieldHolder = fieldHolder;
 
         buildCancellationLinks(response);
     }
@@ -76,7 +75,7 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     }
 
     private void addEmbeddedDecoupledRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorisationId) {
-        if (isExplicitMethod) {
+        if (fieldHolder.isExplicitMethod()) {
             setStartAuthorisationWithPsuAuthentication(buildPath(UrlHolder.START_PIS_CANCELLATION_AUTH_URL, paymentService, paymentProduct, paymentId));
         } else {
             setScaStatus(
@@ -88,21 +87,22 @@ public class PaymentCancellationLinks extends AbstractLinks {//NOSONAR
     }
 
     private void addRedirectRelatedLinks(String paymentService, String paymentProduct, String paymentId, String authorisationId, String internalRequestId) {
-        if (isExplicitMethod) {
+        if (fieldHolder.isExplicitMethod()) {
             setStartAuthorisation(buildPath(UrlHolder.START_PIS_CANCELLATION_AUTH_URL, paymentService, paymentProduct, paymentId));
         } else {
             String redirectId = redirectIdService.generateRedirectId(authorisationId);
 
             String paymentCancellationOauthLink = scaRedirectFlow == ScaRedirectFlow.OAUTH
                                           ? redirectLinkBuilder.buildPaymentCancellationScaOauthRedirectLink(paymentId, redirectId, internalRequestId)
-                                          : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId, internalRequestId, instanceId);
+                                          : redirectLinkBuilder.buildPaymentCancellationScaRedirectLink(paymentId, redirectId,
+                internalRequestId, fieldHolder.getInstanceId());
 
             setScaRedirect(new HrefType(paymentCancellationOauthLink));
 
             setScaStatus(
                 buildPath(UrlHolder.PIS_CANCELLATION_AUTH_LINK_URL, paymentService, paymentProduct, paymentId, authorisationId));
 
-            if (authorisationConfirmationRequestMandated) {
+            if (fieldHolder.isAuthorisationConfirmationRequestMandated()) {
                 setConfirmation(buildPath(redirectLinkBuilder.buildPisCancellationConfirmationLink(paymentService, paymentProduct, paymentId, redirectId)));
             }
         }
