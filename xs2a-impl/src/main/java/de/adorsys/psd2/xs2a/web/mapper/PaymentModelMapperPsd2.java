@@ -78,7 +78,7 @@ public class PaymentModelMapperPsd2 {
                    .transactionStatus(mapToTransactionStatus(response.getTransactionStatus()))
                    .fundsAvailable(response.getFundsAvailable())
                    .psuMessage(response.getPsuMessage())
-                   ._links(hrefLinkMapper.mapToLinksMap(response.getLinks()))//todo mapping
+                   ._links(hrefLinkMapper.mapToLinksMap(response.getLinks()))
                    .tppMessages(tppMessage2XXMapper.mapToTppMessage2XXList(response.getTppMessageInformation()));
     }
 
