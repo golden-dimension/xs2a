@@ -448,6 +448,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Updated project documentation</p>
 </li>
+<li>
+<p>Added new optional attributes to the Response body</p>
+</li>
 </ul>
 </div>
 </div>
@@ -461,10 +464,34 @@ Created new diagrams for Payment/Consent Creation in Decoupled approach.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_added_new_optional_attributes_to_the_response_body">Added new optional attributes to the Response body</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, responses for following endpoints contain new fields - <code>links</code> and <code>tpp messages</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}</code></p>
+</li>
+<li>
+<p><code>GET /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}</code></p>
+</li>
+<li>
+<p><code>GET /v1/{payment-service}/{payment-product}/{paymentId}/status</code></p>
+</li>
+<li>
+<p><code>GET /v1/consents/{consentId}/authorisations/{authorisationId}</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-20 10:39:04 UTC
+Last updated 2021-04-20 11:56:17 UTC
 </div>
 </div>
 </body>
