@@ -12,7 +12,7 @@ Created new diagrams for Payment/Consent Creation in Decoupled approach.
 
 == Added new optional attributes to the Response body
 
-From now on, responsens for following endpoints contains new fields - `links` and `tpp messages`:
+From now on, responses for following endpoints contain new fields - `links` and `tpp messages`:
 
 - `GET /v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}`
 - `GET /v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}`
