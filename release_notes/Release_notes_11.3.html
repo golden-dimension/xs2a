@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.14">
-<title>Versioning, Release and Support policy</title>
+<title>Release notes v.11.3</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,157 +437,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.11.3</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_versioning_release_and_support_policy">Versioning, Release and Support policy</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>In general XS2A Team follows <a href="http://semver.org/">SemVer</a> for versioning.</p>
-</div>
-<div class="paragraph">
-<p>This means our versions follow the model <strong>A.B.C</strong>, where:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>A</strong> - major version, pointing out mainline.</p>
-</li>
-<li>
-<p><strong>B</strong> - minor version, points out next release in the mainline. Minimum 2 versions backward compatibility is guaranteed for <em>stable</em> mainlines.</p>
-</li>
-<li>
-<p><strong>C</strong> - hotfix version, used to deliver patches between releases in case of need. May be omitted, therefore version <code>4.5</code> will be equal to <code>4.5.0</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>We support one stable and one development version at glance.</p>
-</div>
-<div class="paragraph">
-<p>To keep it simple:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>We use <strong>even</strong> major version to mark <strong>stable</strong> support mainlines (<code>2.x</code>, <code>4.x</code>, <code>6.x</code> etc)</p>
-</li>
-<li>
-<p>We use <strong>odd</strong> major version to mark <strong>development</strong> mainlines (<code>1.x</code>, <code>3.x</code>, <code>5.x</code> etc)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Normally new development version is released every two weeks, however this is not a strict rule, rather our willingness.</p>
-</div>
-<div class="paragraph">
-<p><a href="https://adorsys.de/kontakt/">adorsys Team</a> guarantees general support of this XS2A library at least till 01.03.2022.</p>
-</div>
-<h3 id="_backward_compatibility" class="discrete">Backward compatibility</h3>
-<div class="paragraph">
-<p>For stable mainlines we provide backward compatiblity of APIs and Database schema.
-Although for stable versions backward compatibility is high priority and we try our best to keep it as much as possible,
-we can guarantee backward compatibility only for two versions before.</p>
-</div>
-<div class="paragraph">
-<p>I.e. if you get version <code>4.25</code>, it will keep backward compatibility with <code>4.24</code> and <code>4.23</code>,
-but some changes may appear between APIs of version <code>4.25</code> with version <code>4.22</code>.</p>
-</div>
-<div class="paragraph">
-<p>The same is valid for the database schema.</p>
-</div>
-<div class="paragraph">
-<p>If you need extended support, please contact <a href="https://adorsys.de/kontakt/">adorsys Team</a>.</p>
-</div>
-<div class="sect2">
-<h3 id="_stable_versions">Stable versions</h3>
-<div class="paragraph">
-<p>Stable versions are recommended for production usage. Normally they have support period of time at least 6 months plus 3 more versions after development version is released as new Stable version.
-Here is an example of releases at timeline:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/xs2a-version-policy.png" alt="version policy">
-</div>
-</div>
-<div class="paragraph">
-<p>If you need additional support, please contact <a href="https://adorsys.de/kontakt/">adorsys Team</a>.</p>
-</div>
-<div class="sect3">
-<h4 id="_mainline_10_x_planned_to_be_supported_till_13_09_2021">Mainline 10.x (Planned to be supported till 13.09.2021)</h4>
-<div class="paragraph">
-<p>Mainline 10.x based on xs2a v.9.10 is released on 10.03.2021. The main goal is to support mandatory requirements of Berlin Group specification 1.3.8 with all Errata files and fix bugs.
-This version will be supported till 13.09.2021.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_8_x_planned_to_be_supported_till_16_04_2021">Mainline 8.x (Planned to be supported till 16.04.2021)</h4>
-<div class="paragraph">
-<p>Mainline 8.x based on xs2a v.7.9 is released on 15.09.2020. The main goal is to support mandatory requirements of Berlin Group specification 1.3.6 with all Errata files and fix bugs.
-This version will be supported till 16.04.2021.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_6_x_till_01_11_2020">Mainline 6.x (till 01.11.2020)</h4>
-<div class="paragraph">
-<p>Mainline 6.x based on xs2a v.5.11 is released on 13.03.2020. The main goal is to support mandatory requirements of Berlin Group specification 1.3.6 and fix bugs.
-This version will be supported till 01.11.2020.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_4_x_till_01_03_2020">Mainline 4.x (till 01.03.2020)</h4>
-<div class="paragraph">
-<p>Mainline 4.x based on xs2a v.3.11 is released on 13.09.2019. The main goal is to support mandatory requirements of Berlin Group specification 1.3.4 and fix bugs.
-This version will be supported till 01.03.2020.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_2_x_till_01_09_2019">Mainline 2.x (till 01.09.2019)</h4>
-<div class="paragraph">
-<p>Mainline 2.x was released on 01.03.2019. The main goal was to support mandatory requirements of Berlin Group specification 1.3.
-This version was supported till 01.09.2019.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_development_versions">Development versions</h3>
-<div class="sect3">
-<h4 id="_mainline_11_x_planned_to_be_released_13_09_2021_as_12_0_stable_version">Mainline 11.x (Planned to be released 13.09.2021 as 12.0 Stable version)</h4>
-<div class="paragraph">
-<p>The goal is to implement new features and optional endpoints of Berlin Group specification 1.3.8.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_9_x_planned_to_be_released_13_03_2021_as_10_0_stable_version">Mainline 9.x (Planned to be released 13.03.2021 as 10.0 Stable version)</h4>
-<div class="paragraph">
-<p>The goal is to implement new features and optional endpoints of Berlin Group specification 1.3.8.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_7_x_till_13_09_2020">Mainline 7.x (till 13.09.2020)</h4>
-<div class="paragraph">
-<p>The goal is to implement new features and optional endpoints of Berlin Group specification 1.3.6 and new extended services.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_5_x_till_13_03_2020">Mainline 5.x (till 13.03.2020)</h4>
-<div class="paragraph">
-<p>The goal is to implement new features and optional endpoints of Berlin Group specification 1.3.4 and new extended services.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_3_x_till_01_09_2019">Mainline 3.x (till 01.09.2019)</h4>
-<div class="paragraph">
-<p>The goal was to implement all additional features defined in the Berlin group specification 1.3.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_mainline_1_x_till_01_03_2019">Mainline 1.x (till 01.03.2019)</h4>
-<div class="paragraph">
-<p>Initial development of XS2A library and corresponding systems.</p>
-</div>
-</div>
-</div>
+
 </div>
 </div>
 </div>
