@@ -25,6 +25,7 @@ import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.HrefType;
 import de.adorsys.psd2.xs2a.domain.Links;
+import de.adorsys.psd2.xs2a.domain.authorisation.CancellationAuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.CreateConsentAuthorizationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisCancellationAuthorisationResponse;
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,6 +63,9 @@ class AuthorisationModelMapperTest {
     private ScaMethodsMapper mockScaMethodsMapper;
     @Autowired
     private ChosenScaMethodMapper mockChosenScaMethodMapper;
+
+    @Mock
+    CancellationAuthorisationResponse cancellationAuthorisationResponse;
 
 
     private JsonReader jsonReader = new JsonReader();
@@ -205,6 +210,15 @@ class AuthorisationModelMapperTest {
         assertNotNull(actual.getAuthorisationId());
         assertNotNull(actual.getScaStatus());
         assertFalse(actual.getLinks().isEmpty());
+    }
+
+    @Test
+    void mapToStartOrUpdateCancellationResponse_throwsException() {
+        //When
+        when(cancellationAuthorisationResponse.getAuthorisationResponseType()).thenReturn(null);
+        //Then
+        assertThrows(IllegalArgumentException.class,
+            () -> authorisationModelMapper.mapToStartOrUpdateCancellationResponse(cancellationAuthorisationResponse));
     }
 
     @Test
