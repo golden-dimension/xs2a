@@ -138,7 +138,7 @@ class AuthorisationMapperTest {
 
     @Test
     void mapToPisCreateOrUpdateAuthorisationResponse_for_Xs2aUpdatePisCommonPaymentPsuDataResponse() {
-        // given !!!!!
+        //Given
         when(hrefLinkMapper.mapToLinksMap(any(Links.class))).thenReturn(buildLinks());
 
         UpdatePsuAuthenticationResponse expectedUpdatePsuAuthenticationResponse =
@@ -159,11 +159,11 @@ class AuthorisationMapperTest {
         de.adorsys.psd2.xs2a.core.sca.ChallengeData xs2aChallengeData = jsonReader.getObjectFromFile("json/service/mapper/authorisation-mapper/challengeData.json", de.adorsys.psd2.xs2a.core.sca.ChallengeData.class);
         when(coreObjectsMapper.mapToChallengeData(xs2aChallengeData)).thenReturn(challengeData);
 
-        // when
+        //When
         UpdatePsuAuthenticationResponse actualUpdatePsuAuthenticationResponse =
             (UpdatePsuAuthenticationResponse) mapper.mapToPisCreateOrUpdateAuthorisationResponse(responseObject);
 
-        // then
+        //Then
         assertNotNull(actualUpdatePsuAuthenticationResponse.getLinks());
         assertFalse(actualUpdatePsuAuthenticationResponse.getLinks().isEmpty());
 
