@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.xs2a.web.mapper;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,8 +29,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class OffsetDateTimeMapperTest {
 
-    @Autowired
-    OffsetDateTimeMapper offsetDateTimeMapper = new OffsetDateTimeMapper();
+    private OffsetDateTimeMapper offsetDateTimeMapper;
+
+    @BeforeEach
+        void setUp() {
+        offsetDateTimeMapper = new OffsetDateTimeMapper();
+    }
 
     @Test
     void mapToOffsetDateTime_withNull_shouldReturnNull() {

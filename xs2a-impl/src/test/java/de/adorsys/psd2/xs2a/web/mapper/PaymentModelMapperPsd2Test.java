@@ -137,10 +137,8 @@ class PaymentModelMapperPsd2Test {
     @Test
     void mapToGetPaymentResponse_enrich_with_additional_data() {
         CommonPayment payment = new CommonPayment();
-        payment.setPaymentData(jsonReader.getBytesFromFile("json/service/mapper/common-payment.json"));
         payment.setTransactionStatus(TransactionStatus.RCVD);
         payment.setPaymentProduct(PAYMENT_PRODUCT);
-
         payment.setPaymentData("incorrectPaymentData".getBytes());
 
         Object actual = mapper.mapToGetPaymentResponse(payment);

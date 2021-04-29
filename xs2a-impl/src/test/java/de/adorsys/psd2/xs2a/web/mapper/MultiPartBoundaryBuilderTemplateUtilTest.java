@@ -17,6 +17,7 @@
 package de.adorsys.psd2.xs2a.web.mapper;
 
 import de.adorsys.xs2a.reader.JsonReader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -24,14 +25,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MultiPartBoundaryBuilderTemplateUtilTest {
+
     private static final String TEMPLATE_PATH = "/template" + "/multipart-payment-template.txt";
 
     private final JsonReader jsonReader = new JsonReader();
 
+    @BeforeEach
+    void setUp() {
+        ReflectionTestUtils.setField(MultiPartBoundaryBuilderTemplateUtil.class, "template", null);
+    }
+
     @Test
     void getTemplate_exception() {
-        ReflectionTestUtils.setField(MultiPartBoundaryBuilderTemplateUtil.class, "template", null);
-
         String actual = MultiPartBoundaryBuilderTemplateUtil.getTemplate("random");
         assertThat(actual).isNull();
     }

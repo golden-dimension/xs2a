@@ -49,8 +49,6 @@ class ScaMethodsMapperTest {
 
     @Test
     void mapToAuthenticationObject_withNull_returnsNull() {
-
-
         AuthenticationObject authenticationObject = scaMethodsMapper.mapToAuthenticationObject(null);
 
         assertNull(authenticationObject);

@@ -28,15 +28,13 @@ class PurposeCodeMapperImplTest {
 
     @Test
     void mapToPurposeCode_returnsNull () {
-        de.adorsys.psd2.model.PurposeCode nullCode = null;
-        de.adorsys.psd2.core.payment.model.PurposeCode purposeCode = purposeCodeMapper.mapToPurposeCode(nullCode);
+        de.adorsys.psd2.core.payment.model.PurposeCode purposeCode = purposeCodeMapper.mapToPurposeCode((de.adorsys.psd2.model.PurposeCode)null);
         assertNull(purposeCode);
     }
 
     @Test
     void mapToPurposeCode_returnsNullCode () {
-        de.adorsys.psd2.core.payment.model.PurposeCode nullCode = null;
-        de.adorsys.psd2.model.PurposeCode purposeCode = purposeCodeMapper.mapToPurposeCode(nullCode);
+        de.adorsys.psd2.model.PurposeCode purposeCode = purposeCodeMapper.mapToPurposeCode((de.adorsys.psd2.core.payment.model.PurposeCode) null);
         assertNull(purposeCode);
     }
 

@@ -47,8 +47,7 @@ class RemittanceMapperTest {
 
     @Test
     void mapToRemittance_isNull_returnsNull() {
-        RemittanceInformationStructured remittanceInformationStructured = null;
-        Remittance remittance = remittanceMapper.mapToRemittance(remittanceInformationStructured);
+        Remittance remittance = remittanceMapper.mapToRemittance((RemittanceInformationStructured) null);
         assertNull(remittance);
     }
 

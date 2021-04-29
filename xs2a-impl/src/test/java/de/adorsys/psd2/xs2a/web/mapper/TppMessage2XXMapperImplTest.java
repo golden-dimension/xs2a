@@ -62,7 +62,7 @@ class TppMessage2XXMapperImplTest {
 
     @Test
     void mapToTppMessageCategory_Ok_Error() {
-        TppMessageInformation tppMessageInformation = TppMessageInformation.of(MessageCategory.ERROR,MessageErrorCode.EXECUTION_DATE_INVALID,"test path", null);
+        TppMessageInformation tppMessageInformation = TppMessageInformation.of(MessageCategory.ERROR,MessageErrorCode.EXECUTION_DATE_INVALID,"test path");
 
         TppMessage2XX actual = tppMessage2XXMapper.mapToTppMessage2XX(tppMessageInformation);
 
@@ -73,7 +73,7 @@ class TppMessage2XXMapperImplTest {
 
     @Test
     void mapToTppMessageCategory_Ok_Warning() {
-        TppMessageInformation tppMessageInformation = TppMessageInformation.of(MessageCategory.WARNING,MessageErrorCode.EXECUTION_DATE_INVALID,"test path", null);
+        TppMessageInformation tppMessageInformation = TppMessageInformation.of(MessageCategory.WARNING,MessageErrorCode.EXECUTION_DATE_INVALID,"test path");
 
         TppMessage2XX actual = tppMessage2XXMapper.mapToTppMessage2XX(tppMessageInformation);
 
@@ -90,8 +90,8 @@ class TppMessage2XXMapperImplTest {
 
     @Test
     void mapToTppMessage2XXList_NonEmpty() {
-        TppMessageInformation error = TppMessageInformation.of(MessageCategory.WARNING,MessageErrorCode.EXECUTION_DATE_INVALID,"test path", null);
-        TppMessageInformation warning = TppMessageInformation.of(MessageCategory.ERROR,MessageErrorCode.EXECUTION_DATE_INVALID,"test path", null);
+        TppMessageInformation error = TppMessageInformation.of(MessageCategory.WARNING,MessageErrorCode.EXECUTION_DATE_INVALID,"test path");
+        TppMessageInformation warning = TppMessageInformation.of(MessageCategory.ERROR,MessageErrorCode.EXECUTION_DATE_INVALID,"test path");
 
         List<TppMessage2XX> actual = tppMessage2XXMapper.mapToTppMessage2XXList(Set.of(error, warning));
 

@@ -16,6 +16,7 @@
 
 package de.adorsys.psd2.xs2a.web.mapper;
 
+import de.adorsys.psd2.core.data.piis.PiisConsentData;
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.model.*;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
@@ -83,7 +84,7 @@ class PiisConsentModelMapperTest {
 
         de.adorsys.psd2.model.AccountReference accountReference = jsonReader.getObjectFromFile("json/service/mapper/account-reference.json", AccountReference.class);
 
-        when(accountModelMapper.mapToAccountReference(any())).thenReturn((accountReference));
+        when(accountModelMapper.mapToAccountReference(piisConsent.getAccountReference())).thenReturn((accountReference));
 
         ConsentConfirmationOfFundsContentResponse actual = piisConsentModelMapper.mapToConsentConfirmationOfFundsContentResponse(piisConsent);
 
@@ -106,7 +107,10 @@ class PiisConsentModelMapperTest {
 
         CreatePiisConsentRequest actual = piisConsentModelMapper.toCreatePiisConsentRequest(consentsConfirmationOfFunds);
 
+        CreatePiisConsentRequest expected = jsonReader.getObjectFromFile("json/service/mapper/piis-consent-model-mapper/piis-consent-request.json", CreatePiisConsentRequest.class);
+
         assertNotNull(actual);
+        assertEquals(expected, actual);
     }
 
     @Test

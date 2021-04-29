@@ -42,7 +42,6 @@ class PaymentModelMapperXs2aTest {
 
     private static final String CONTENT = "payment content";
 
-    @InjectMocks
     private PaymentModelMapperXs2a paymentModelMapper;
     @Autowired
     private Xs2aObjectMapper xs2aObjectMapper;
