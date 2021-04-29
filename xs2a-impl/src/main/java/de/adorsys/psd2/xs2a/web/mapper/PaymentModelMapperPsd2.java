@@ -57,8 +57,8 @@ public class PaymentModelMapperPsd2 {
         String rawData = convertResponseToRawData(commonPayment.getPaymentData());
 
         return standardPaymentProductsResolver.isRawPaymentProduct(commonPayment.getPaymentProduct())
-                   ? rawData
-                   : enrichPaymentWithAdditionalData(rawData, commonPayment);
+            ? rawData
+            : enrichPaymentWithAdditionalData(rawData, commonPayment);
     }
 
     private Object enrichPaymentWithAdditionalData(String rawData, CommonPayment commonPayment) {

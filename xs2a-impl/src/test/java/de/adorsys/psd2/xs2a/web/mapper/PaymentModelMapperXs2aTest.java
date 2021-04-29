@@ -27,6 +27,7 @@ import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,6 +42,7 @@ class PaymentModelMapperXs2aTest {
 
     private static final String CONTENT = "payment content";
 
+    @InjectMocks
     private PaymentModelMapperXs2a paymentModelMapper;
     @Autowired
     private Xs2aObjectMapper xs2aObjectMapper;

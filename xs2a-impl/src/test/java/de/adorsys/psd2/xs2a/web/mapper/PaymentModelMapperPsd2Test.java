@@ -16,6 +16,8 @@
 
 package de.adorsys.psd2.xs2a.web.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import de.adorsys.psd2.consent.api.pis.CommonPaymentData;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentCancellationRequest;
 import de.adorsys.psd2.mapper.Xs2aObjectMapper;
 import de.adorsys.psd2.model.*;
@@ -35,18 +37,23 @@ import de.adorsys.psd2.xs2a.service.mapper.AmountModelMapper;
 import de.adorsys.psd2.xs2a.service.profile.StandardPaymentProductsResolver;
 import de.adorsys.psd2.xs2a.service.validator.ValueValidatorService;
 import de.adorsys.xs2a.reader.JsonReader;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.Validation;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -125,6 +132,20 @@ class PaymentModelMapperPsd2Test {
         String actual = (String) mapper.mapToGetPaymentResponse(payment);
 
         assertEquals(jsonReader.getStringFromFile("json/service/mapper/common-payment.json"), actual);
+    }
+
+    @Test
+    void mapToGetPaymentResponse_enrich_with_additional_data() {
+        CommonPayment payment = new CommonPayment();
+        payment.setPaymentData(jsonReader.getBytesFromFile("json/service/mapper/common-payment.json"));
+        payment.setTransactionStatus(TransactionStatus.RCVD);
+        payment.setPaymentProduct(PAYMENT_PRODUCT);
+
+        payment.setPaymentData("incorrectPaymentData".getBytes());
+
+        Object actual = mapper.mapToGetPaymentResponse(payment);
+
+        assertEquals("incorrectPaymentData", actual);
     }
 
     @Test
