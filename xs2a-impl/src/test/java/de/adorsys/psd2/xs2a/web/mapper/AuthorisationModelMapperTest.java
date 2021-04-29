@@ -54,7 +54,6 @@ import static org.mockito.Mockito.*;
 class AuthorisationModelMapperTest {
     @Autowired
     private AuthorisationModelMapper authorisationModelMapper;
-
     @Autowired
     private HrefLinkMapper mockHrefLinkMapper;
     @Autowired
@@ -65,8 +64,7 @@ class AuthorisationModelMapperTest {
     private ChosenScaMethodMapper mockChosenScaMethodMapper;
 
     @Mock
-    CancellationAuthorisationResponse cancellationAuthorisationResponse;
-
+    private CancellationAuthorisationResponse cancellationAuthorisationResponse;
 
     private JsonReader jsonReader = new JsonReader();
 
