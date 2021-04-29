@@ -331,7 +331,7 @@ class ConsentModelMapperTest {
     }
 
     @Test
-    void mapToAccountAccessDomain_mapToAdditionalInformationAccess_noAdditionalInformationAccessIsTrue() {
+    void mapToAccountAccessDomain_mapToAdditionalInformationAccess_noAdditionalInformationAccess() {
         //Given
         AisConsent aisConsent = getAisConsentWithAdditionalInfoNullValues();
         //When
@@ -341,7 +341,7 @@ class ConsentModelMapperTest {
     }
 
     @Test
-    void mapToAccountAccessDomain_mapToAdditionalInformationAccess_noAdditionalInformationAccessIsFalse() {
+    void mapToAccountAccessDomain_mapToAdditionalInformationAccess_withAdditionalInformationAccess() {
         //Given
         AisConsent aisConsent = getAisConsentWithFullAdditionalInfo();
         AdditionalInformationAccess expected = jsonReader.getObjectFromFile("json/service/mapper/consent-model-mapper/additional-info-expected.json", AdditionalInformationAccess.class);
