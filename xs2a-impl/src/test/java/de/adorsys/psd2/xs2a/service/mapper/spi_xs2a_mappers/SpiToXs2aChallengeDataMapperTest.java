@@ -40,7 +40,6 @@ class SpiToXs2aChallengeDataMapperTest {
 
     private final JsonReader jsonReader = new JsonReader();
 
-
     @Test
     void toChallengeData_nullInput() {
         assertNull(mapper.toChallengeData(null));

@@ -61,6 +61,7 @@ class SpiToXs2aLinksMapperTest {
 
     @Test
     void toXs2aHrefType_null() {
+        //When
         HrefType actual = mapper.toXs2aHrefType(null);
 
         // Then
