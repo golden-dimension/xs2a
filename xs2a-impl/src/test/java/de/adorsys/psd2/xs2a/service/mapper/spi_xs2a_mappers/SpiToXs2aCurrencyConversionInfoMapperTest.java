@@ -49,7 +49,7 @@ class SpiToXs2aCurrencyConversionInfoMapperTest {
     @Test
     void toXs2aCurrencyConversionInfo_validInput() {
         Xs2aCurrencyConversionInfo expected =
-            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-xs2a-currency-conversion-info-mapper/xs2a-currency-conv-info-expected.json", Xs2aCurrencyConversionInfo.class);
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-currency-conv-info-expected.json", Xs2aCurrencyConversionInfo.class);
         Xs2aCurrencyConversionInfo actual = mapper.toXs2aCurrencyConversionInfo(getTestSpiCurrencyConversionInfo());
         assertEquals(expected, actual);
     }

@@ -42,12 +42,15 @@ class SpiToXs2aChallengeDataMapperTest {
 
     @Test
     void toChallengeData_nullInput() {
-        assertNull(mapper.toChallengeData(null));
+        //When
+        ChallengeData actual = mapper.toChallengeData(null);
+        //Then
+        assertNull(actual);
     }
 
     @Test
     void toChallengeData_validData_otpFormatIsCharacter() {
-        ChallengeData expected = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-to-xs2a-challenge-data-mapper/challenge-data-expected.json", ChallengeData.class);
+        ChallengeData expected = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/challenge-data-expected.json", ChallengeData.class);
         ChallengeData actual  = mapper.toChallengeData(getTestSpiChallengeData_otpFormatIsCharacters());
         assertEquals(expected, actual);
     }
