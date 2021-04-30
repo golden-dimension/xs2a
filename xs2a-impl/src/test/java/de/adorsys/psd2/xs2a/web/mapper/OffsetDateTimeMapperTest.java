@@ -21,6 +21,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -47,8 +50,11 @@ class OffsetDateTimeMapperTest {
         LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 10, 15, 10);
 
         OffsetDateTime actual = offsetDateTimeMapper.mapToOffsetDateTime(localDateTime);
-        OffsetDateTime expected = OffsetDateTime.parse("2021-10-10T15:10+03:00");
 
-        assertThat(actual).isEqualTo(expected);
+        ZonedDateTime zoned = ZonedDateTime.parse("2021-10-10T15:10", DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault()));
+
+        OffsetDateTime expected = OffsetDateTime.from(zoned);
+
+        assertThat(actual).isNotNull().isEqualTo(expected);
     }
 }
