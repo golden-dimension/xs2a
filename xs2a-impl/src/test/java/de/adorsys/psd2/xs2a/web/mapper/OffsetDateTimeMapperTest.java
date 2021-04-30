@@ -49,7 +49,6 @@ class OffsetDateTimeMapperTest {
         OffsetDateTime actual = offsetDateTimeMapper.mapToOffsetDateTime(localDateTime);
         OffsetDateTime expected = OffsetDateTime.parse("2021-10-10T15:10+03:00");
 
-        assertThat(actual).isNotNull();
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isNotNull().isEqualTo(expected);
     }
 }
