@@ -51,9 +51,7 @@ class OffsetDateTimeMapperTest {
 
         OffsetDateTime actual = offsetDateTimeMapper.mapToOffsetDateTime(localDateTime);
 
-        ZonedDateTime zoned = ZonedDateTime.parse("2021-10-10T15:10", DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault()));
-
-        OffsetDateTime expected = OffsetDateTime.from(zoned);
+        OffsetDateTime expected = OffsetDateTime.from(ZonedDateTime.parse("2021-10-10T15:10", DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.systemDefault())));
 
         assertThat(actual).isNotNull().isEqualTo(expected);
     }
