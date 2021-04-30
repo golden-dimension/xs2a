@@ -33,12 +33,12 @@ class MultiPartBoundaryBuilderTest {
     private String content;
     private String xmlPart;
     private String jsonPart;
-    private final JsonReader jsonReader = new JsonReader();
 
     @BeforeEach
     void setUp() {
         builder = new MultiPartBoundaryBuilder();
         request = new MockHttpServletRequest();
+        JsonReader jsonReader = new JsonReader();
 
         content = jsonReader.getStringFromFile("json/service/mapper/multi-part-boundary-response.txt").trim();
         xmlPart = jsonReader.getStringFromFile("json/service/mapper/multi-part-xml-request.xml").trim();

@@ -22,7 +22,6 @@ import de.adorsys.psd2.xs2a.core.domain.MessageCategory;
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.xs2a.reader.JsonReader;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +41,6 @@ class TppMessage2XXMapperImplTest {
     private TppMessage2XXMapper tppMessage2XXMapper;
 
     private final JsonReader jsonReader = new JsonReader();
-
-    @BeforeEach
-    void setUp() {
-        tppMessage2XXMapper = new TppMessage2XXMapperImpl();
-    }
 
     @Test
     void mapToTppMessage2XX_infoIsNull_returnsNull() {
