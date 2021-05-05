@@ -81,8 +81,6 @@
         "msisdn": "Test MSISDN",
         "currency": "EUR"
       }
-    ],
-    "additionalInformationAccess": {
-      }
+    ]
   }
 }
