@@ -79,7 +79,7 @@ class SpiToXs2aTransactionMapperTest {
         //Then
         assertThat(actual)
             .hasSize(1)
-            .isEqualTo(List.of(expected));
+            .contains(expected);
     }
 
     @Test
