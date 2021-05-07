@@ -30,8 +30,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Currency;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Xs2aToSpiFundsConfirmationRequestMapper.class,
@@ -55,8 +54,8 @@ class Xs2aToSpiFundsConfirmationRequestMapperTest {
         SpiFundsConfirmationRequest actual = mapper.mapToSpiFundsConfirmationRequest(getTestFundsConfirmationrequest());
 
         //Then
-        assertNotNull(actual);
-        assertEquals(expected, actual);
+        assertThat(actual).isNotNull();
+        assertThat(expected).isEqualTo(actual);
     }
 
     private FundsConfirmationRequest getTestFundsConfirmationrequest() {

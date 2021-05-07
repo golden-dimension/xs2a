@@ -25,8 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Xs2aToSpiAccountAccessMapper.class, Xs2aToSpiAccountReferenceMapper.class})
@@ -48,7 +47,7 @@ class Xs2aToSpiAccountAccessMapperTest {
         SpiAccountAccess actual = mapper.mapToAccountAccess(consent);
 
         //Then
-        assertEquals(expected, actual);
+        assertThat(expected).isEqualTo(actual);
     }
 
     @Test
@@ -61,6 +60,6 @@ class Xs2aToSpiAccountAccessMapperTest {
         SpiAccountAccess actual = mapper.mapToAccountAccess(consent);
 
         //Then
-        assertNull(actual.getSpiAdditionalInformationAccess());
+        assertThat(actual.getSpiAdditionalInformationAccess()).isNull();
     }
 }

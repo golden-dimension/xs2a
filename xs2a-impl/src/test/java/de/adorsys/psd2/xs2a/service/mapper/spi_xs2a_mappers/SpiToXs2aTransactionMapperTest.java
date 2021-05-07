@@ -31,7 +31,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(
@@ -53,7 +53,7 @@ class SpiToXs2aTransactionMapperTest {
             jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-transaction.json", SpiTransaction.class));
 
         //Then
-        assertEquals(expected, actual);
+        assertThat(expected).isEqualTo(actual);
     }
 
     @Test
@@ -62,7 +62,7 @@ class SpiToXs2aTransactionMapperTest {
         Transactions actual = mapper.mapToXs2aTransaction(null);
 
         //Then
-        assertNull(actual);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -75,7 +75,7 @@ class SpiToXs2aTransactionMapperTest {
         List<Transactions> actual = mapper.mapToXs2aTransactionList(spiTransactions);
 
         //Then
-        assertEquals(expected, actual.get(0));
+        assertThat(expected).isEqualTo(actual.get(0));
     }
 
     @Test
@@ -84,7 +84,7 @@ class SpiToXs2aTransactionMapperTest {
         List<Transactions> actual = mapper.mapToXs2aTransactionList(null);
 
         //Then
-        assertNull(actual);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -93,7 +93,7 @@ class SpiToXs2aTransactionMapperTest {
         EntryDetails actual = mapper.mapToEntryDetails(null);
 
         //Then
-        assertNull(actual);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -102,7 +102,7 @@ class SpiToXs2aTransactionMapperTest {
         List<EntryDetails> actual = mapper.mapToEntryDetailsList(null);
 
         //Then
-        assertNull(actual);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -111,7 +111,7 @@ class SpiToXs2aTransactionMapperTest {
         TransactionInfo actual = mapper.mapToTransactionInfo(null);
 
         //Then
-        assertNull(actual);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -125,9 +125,9 @@ class SpiToXs2aTransactionMapperTest {
             .mapToXs2aTransaction(getTestSpiTransaction_additionalInfo()).getAdditionalInformationStructured();
 
         //Then
-        assertNotNull(actual);
-        assertNotNull(actual.getStandingOrderDetails().getMonthsOfExecution());
-        assertEquals(expected, actual);
+        assertThat(actual).isNotNull();
+        assertThat(actual.getStandingOrderDetails().getMonthsOfExecution()).isNotNull();
+        assertThat(expected).isEqualTo(actual);
     }
 
     @Test
@@ -136,7 +136,7 @@ class SpiToXs2aTransactionMapperTest {
         Transactions actual = mapper.mapToXs2aTransaction(getTestSpiTransaction_additionalInfo_nullStandingOrderDetails());
 
         //Then
-        assertNull(actual.getAdditionalInformationStructured().getStandingOrderDetails());
+        assertThat(actual.getAdditionalInformationStructured().getStandingOrderDetails()).isNull();
     }
 
     private SpiTransaction getTestSpiTransaction_additionalInfo() {

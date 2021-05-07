@@ -22,7 +22,7 @@ import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SpiToXs2aPsuDataMapperTest {
     private SpiToXs2aPsuDataMapper mapper;
@@ -44,7 +44,7 @@ class SpiToXs2aPsuDataMapperTest {
         PsuIdData actual = mapper.mapToPsuIdData(getTestSpiPsuData());
 
         //Then
-        assertEquals(expected, actual);
+        assertThat(expected).isEqualTo(actual);
     }
 
     private SpiPsuData getTestSpiPsuData() {
