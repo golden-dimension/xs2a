@@ -54,61 +54,92 @@ class SpiTransactionListToXs2aAccountReportMapperTest {
 
     @Test
     void mapToXs2aAccountReport_shouldReturnOptionalContainsRawTransactions() {
+        //Given
+        Xs2aAccountReport expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-rawTransactions.json", Xs2aAccountReport.class);
+
         //When
-        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper.mapToXs2aAccountReport(BookingStatus.BOOKED, null, RAW_TRANSACTIONS);
+        Optional<Xs2aAccountReport> actual = spiTransactionListToXs2aAccountReportMapper.mapToXs2aAccountReport(BookingStatus.BOOKED, null, RAW_TRANSACTIONS);
 
         //Then
-        assertThat(accountReport).isPresent().contains(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-rawTransactions.json", Xs2aAccountReport.class));
+        assertThat(actual)
+            .isPresent()
+            .contains(expected);
     }
 
     @Test
     void mapToXs2aAccountReport_shouldReturnOnlyPending() {
         //Given
-        List<SpiTransaction> transactions = jsonReader.getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        List<SpiTransaction> transactions = jsonReader
+            .getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        Xs2aAccountReport expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-pending.json", Xs2aAccountReport.class);
 
         //When
-        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper.mapToXs2aAccountReport(BookingStatus.PENDING, transactions, null);
+        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper
+            .mapToXs2aAccountReport(BookingStatus.PENDING, transactions, null);
 
         //Then
-        assertThat(accountReport).isNotEmpty().contains(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-pending.json", Xs2aAccountReport.class));
+        assertThat(accountReport)
+            .isNotEmpty()
+            .contains(expected);
     }
 
     @Test
     void mapToXs2aAccountReport_shouldReturnOnlyBooked() {
         //Given
-        List<SpiTransaction> transactions = jsonReader.getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        List<SpiTransaction> transactions = jsonReader
+            .getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        Xs2aAccountReport expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-booked.json", Xs2aAccountReport.class);
 
         //When
-        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper.mapToXs2aAccountReport(BookingStatus.BOOKED, transactions, null);
+        Optional<Xs2aAccountReport> actual = spiTransactionListToXs2aAccountReportMapper
+            .mapToXs2aAccountReport(BookingStatus.BOOKED, transactions, null);
 
         //Then
-        assertThat(accountReport).isNotEmpty().contains(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-booked.json", Xs2aAccountReport.class));
+        assertThat(actual)
+            .isNotEmpty()
+            .contains(expected);
     }
 
     @Test
     void mapToXs2aAccountReport_shouldReturnBoth() {
         //Given
-        List<SpiTransaction> transactions = jsonReader.getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        List<SpiTransaction> transactions = jsonReader
+            .getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        Xs2aAccountReport expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-both.json", Xs2aAccountReport.class);
 
         //When
-        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper.mapToXs2aAccountReport(BookingStatus.BOTH, transactions, null);
+        Optional<Xs2aAccountReport> actual = spiTransactionListToXs2aAccountReportMapper
+            .mapToXs2aAccountReport(BookingStatus.BOTH, transactions, null);
 
         //Then
-        assertThat(accountReport).isNotEmpty().contains(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-both.json", Xs2aAccountReport.class));
+        assertThat(actual)
+            .isNotEmpty()
+            .contains(expected);
     }
 
     @Test
     void mapToXs2aAccountReport_bookingStatusIsInformation() {
         //Given
-        List<SpiTransaction> transactions = jsonReader.getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
-        List<Transactions> expected = jsonReader.getListFromFile("json/service/mapper/spi_xs2a_mappers/transactions-list-expected.json", Transactions.class);
+        List<SpiTransaction> transactions = jsonReader
+            .getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-transactions.json", SpiTransaction.class);
+        List<Transactions> expected = jsonReader
+            .getListFromFile("json/service/mapper/spi_xs2a_mappers/transactions-list-expected.json", Transactions.class);
 
         //When
         Optional<Xs2aAccountReport> actual = spiTransactionListToXs2aAccountReportMapper
             .mapToXs2aAccountReport(BookingStatus.INFORMATION, transactions, null);
 
         //Then
-        assertThat(actual).isPresent();
-        assertThat(actual.get().getInformation()).isEqualTo(expected);
+        assertThat(actual)
+            .isPresent()
+            .get()
+            .extracting(Xs2aAccountReport::getInformation)
+            .asList()
+            .hasSize(2)
+            .isEqualTo(expected);
     }
 }

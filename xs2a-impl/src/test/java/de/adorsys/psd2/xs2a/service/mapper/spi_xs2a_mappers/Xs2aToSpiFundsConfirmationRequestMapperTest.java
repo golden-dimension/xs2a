@@ -46,16 +46,16 @@ class Xs2aToSpiFundsConfirmationRequestMapperTest {
     @Test
     void mapToSpiFundsConfirmationRequest() {
         //Given
-        SpiFundsConfirmationRequest expected =
-            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-funds-confirmation-request-expected.json",
-                SpiFundsConfirmationRequest.class);
+        SpiFundsConfirmationRequest expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-funds-confirmation-request-expected.json", SpiFundsConfirmationRequest.class);
 
         //When
         SpiFundsConfirmationRequest actual = mapper.mapToSpiFundsConfirmationRequest(getTestFundsConfirmationrequest());
 
         //Then
-        assertThat(actual).isNotNull();
-        assertThat(expected).isEqualTo(actual);
+        assertThat(actual)
+            .isNotNull()
+            .isEqualTo(expected);
     }
 
     private FundsConfirmationRequest getTestFundsConfirmationrequest() {

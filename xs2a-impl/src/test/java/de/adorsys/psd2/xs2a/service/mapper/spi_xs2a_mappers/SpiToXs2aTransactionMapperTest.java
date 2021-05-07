@@ -68,14 +68,18 @@ class SpiToXs2aTransactionMapperTest {
     @Test
     void mapToXs2aTransactionList() {
         //Given
-        Transactions expected = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/transactions.json", Transactions.class);
-        List<SpiTransaction> spiTransactions = Collections.singletonList(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-transaction.json", SpiTransaction.class));
+        Transactions expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/transactions.json", Transactions.class);
+        List<SpiTransaction> spiTransactions = Collections
+            .singletonList(jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-transaction.json", SpiTransaction.class));
 
         //When
         List<Transactions> actual = mapper.mapToXs2aTransactionList(spiTransactions);
 
         //Then
-        assertThat(expected).isEqualTo(actual.get(0));
+        assertThat(actual)
+            .hasSize(1)
+            .isEqualTo(List.of(expected));
     }
 
     @Test
@@ -125,9 +129,9 @@ class SpiToXs2aTransactionMapperTest {
             .mapToXs2aTransaction(getTestSpiTransaction_additionalInfo()).getAdditionalInformationStructured();
 
         //Then
-        assertThat(actual).isNotNull();
-        assertThat(actual.getStandingOrderDetails().getMonthsOfExecution()).isNotNull();
-        assertThat(expected).isEqualTo(actual);
+        assertThat(actual)
+            .isNotNull()
+            .isEqualTo(expected);
     }
 
     @Test
