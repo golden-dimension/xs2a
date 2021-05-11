@@ -56,19 +56,13 @@ class Xs2aToSpiAccountAccessMapperTest {
         //Given
         AisConsent consent = jsonReader
             .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/ais-consent-additional-info-null.json", AisConsent.class);
-        SpiAccountAccess expected = getExpectedSpiAccountAccessWithNullAdditionalInfoAccess();
+        SpiAccountAccess expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-access-null-additional-info-expected.json", SpiAccountAccess.class);
 
         //When
         SpiAccountAccess actual = mapper.mapToAccountAccess(consent);
 
         //Then
         assertThat(actual).isEqualTo(expected);
-    }
-
-    private SpiAccountAccess getExpectedSpiAccountAccessWithNullAdditionalInfoAccess() {
-        SpiAccountAccess spiAccountAccess = jsonReader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-access-expected.json", SpiAccountAccess.class);
-        spiAccountAccess.setSpiAdditionalInformationAccess(null);
-        return spiAccountAccess;
     }
 }
