@@ -44,7 +44,7 @@ class SpiToXs2aPsuDataMapperTest {
         PsuIdData actual = mapper.mapToPsuIdData(getTestSpiPsuData());
 
         //Then
-        assertThat(expected).isEqualTo(actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     private SpiPsuData getTestSpiPsuData() {

@@ -76,11 +76,11 @@ class SpiTransactionListToXs2aAccountReportMapperTest {
             .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-account-report-only-pending.json", Xs2aAccountReport.class);
 
         //When
-        Optional<Xs2aAccountReport> accountReport = spiTransactionListToXs2aAccountReportMapper
+        Optional<Xs2aAccountReport> actual = spiTransactionListToXs2aAccountReportMapper
             .mapToXs2aAccountReport(BookingStatus.PENDING, transactions, null);
 
         //Then
-        assertThat(accountReport)
+        assertThat(actual)
             .isNotEmpty()
             .contains(expected);
     }
