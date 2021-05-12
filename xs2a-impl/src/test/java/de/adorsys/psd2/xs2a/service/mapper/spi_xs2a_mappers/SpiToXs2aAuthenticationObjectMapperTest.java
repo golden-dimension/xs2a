@@ -82,7 +82,6 @@ class SpiToXs2aAuthenticationObjectMapperTest {
 
         //Then
         assertThat(actual)
-            .isNotNull()
             .asList()
             .hasSize(1)
             .contains(expected);

@@ -92,7 +92,6 @@ class SpiToXs2aBalanceMapperTest {
 
         //Then
         assertThat(actual)
-            .isNotNull()
             .isEmpty();
     }
 

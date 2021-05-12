@@ -62,8 +62,7 @@ class SpiToXs2aAccountAccessMapperTest {
         //Then
         assertThat(actual)
             .isPresent()
-            .get()
-            .isEqualTo(expected);
+            .contains(expected);
     }
 
     @Test
