@@ -24,48 +24,74 @@ import de.adorsys.psd2.xs2a.spi.domain.piis.SpiPiisConsent;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Xs2aToSpiPiisConsentMapperImpl.class, Xs2aToSpiPsuDataMapper.class})
 class Xs2aToSpiPiisConsentMapperTest {
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
 
     @Autowired
     private Xs2aToSpiPiisConsentMapper xs2aToSpiPiisConsentMapper;
 
-    @Test
-    void mapToSpiPiisConsent() {
-        PiisConsent xs2aConsent =
-            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/piis/piis-consent.json", PiisConsent.class);
-        SpiPiisConsent expectedSpiConsent =
-            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent.json", SpiPiisConsent.class);
+    private static Stream<Arguments> params() {
+        return Stream.of(Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-tpp-info-auth-number.json",
+            "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-null-tpp-auth-number-expected.json"),
+            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent.json",
+                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent.json"),
+            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-consent-data-and-tpp-info.json",
+                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-no-card-info-expected.json"),
+            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-empty-consent-data.json",
+                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-expected.json")
+        );
+    }
 
-        SpiPiisConsent result = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(xs2aConsent);
+    @ParameterizedTest
+    @MethodSource("params")
+    void mapToSpiPiisConsent(String xs2aConsentPath, String expectedPath) {
+        //Given
+        PiisConsent xs2aConsent = jsonReader.getObjectFromFile(xs2aConsentPath, PiisConsent.class);
+        SpiPiisConsent expected = jsonReader.getObjectFromFile(expectedPath, SpiPiisConsent.class);
 
-        assertEquals(expectedSpiConsent, result);
+        //When
+        SpiPiisConsent actual = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(xs2aConsent);
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void mapToSpiPiisConsent_null() {
-        SpiPiisConsent result = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(null);
+        //When
+        SpiPiisConsent actual = xs2aToSpiPiisConsentMapper.mapToSpiPiisConsent(null);
 
-        assertNull(result);
+        //Then
+        assertThat(actual).isNull();
     }
 
     @Test
     void toSpiScaConfirmation() {
-        UpdateConsentPsuDataReq updateAuthorisationRequest = jsonReader.getObjectFromFile("json/service/mapper/consent/update-consent-psu-data-req.json", UpdateConsentPsuDataReq.class);
-        PsuIdData psuIdData = jsonReader.getObjectFromFile("json/service/mapper/psu-id-data.json", PsuIdData.class);
+        //Given
+        UpdateConsentPsuDataReq updateAuthorisationRequest = jsonReader
+            .getObjectFromFile("json/service/mapper/consent/update-consent-psu-data-req.json", UpdateConsentPsuDataReq.class);
+        PsuIdData psuIdData = jsonReader
+            .getObjectFromFile("json/service/mapper/psu-id-data.json", PsuIdData.class);
+        SpiScaConfirmation expected = jsonReader
+            .getObjectFromFile("json/service/mapper/spi-sca-confirmation.json", SpiScaConfirmation.class);
 
-        SpiScaConfirmation spiScaConfirmation = xs2aToSpiPiisConsentMapper.toSpiScaConfirmation(updateAuthorisationRequest, psuIdData);
+        //When
+        SpiScaConfirmation actual = xs2aToSpiPiisConsentMapper.toSpiScaConfirmation(updateAuthorisationRequest, psuIdData);
 
-        SpiScaConfirmation expected = jsonReader.getObjectFromFile("json/service/mapper/spi-sca-confirmation.json", SpiScaConfirmation.class);
-        assertEquals(expected, spiScaConfirmation);
+        //Then
+        assertThat(actual).isEqualTo(expected);
     }
 }

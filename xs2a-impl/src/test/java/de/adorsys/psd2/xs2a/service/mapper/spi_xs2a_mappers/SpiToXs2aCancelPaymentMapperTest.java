@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpiToXs2aCancelPaymentMapperImpl.class})
@@ -36,7 +36,7 @@ class SpiToXs2aCancelPaymentMapperTest {
 
     @Autowired
     private SpiToXs2aCancelPaymentMapper mapper;
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
 
     @Test
     void mapToCancelPaymentResponse_success() {
@@ -46,13 +46,22 @@ class SpiToXs2aCancelPaymentMapperTest {
         SpiPaymentCancellationResponse spiCancelPayment =
             jsonReader.getObjectFromFile("json/service/mapper/single-payment-cancellation-response.json", SpiPaymentCancellationResponse.class);
 
-        CancelPaymentResponse actualResponse =
+        CancelPaymentResponse actual =
             mapper.mapToCancelPaymentResponse(spiCancelPayment, spiSinglePayment, ENCRYPTED_PAYMENT_ID);
 
-        CancelPaymentResponse expectedResponse =
+        CancelPaymentResponse expected =
             jsonReader.getObjectFromFile("json/service/mapper/cancel-payment-response.json", CancelPaymentResponse.class);
 
-        assertEquals(expectedResponse, actualResponse);
+        assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    void mapToCancelPaymentResponse_nullInput() {
+        //When
+        CancelPaymentResponse actual =
+            mapper.mapToCancelPaymentResponse(null, null, null);
+
+        //Then
+        assertThat(actual).isNull();
+    }
 }
