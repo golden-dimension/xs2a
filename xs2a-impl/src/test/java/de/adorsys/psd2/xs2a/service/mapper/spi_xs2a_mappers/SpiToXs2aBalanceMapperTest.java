@@ -57,10 +57,10 @@ class SpiToXs2aBalanceMapperTest {
     @Test
     void mapToXs2aBalance() {
         //When
-        Xs2aBalance xs2aBalance = mapper.mapToXs2aBalance(spiAccountBalance);
+        Xs2aBalance actual = mapper.mapToXs2aBalance(spiAccountBalance);
 
         //Then
-        assertThat(xs2aBalance).isEqualTo(expectedBalance);
+        assertThat(actual).isEqualTo(expectedBalance);
     }
 
     @Test
