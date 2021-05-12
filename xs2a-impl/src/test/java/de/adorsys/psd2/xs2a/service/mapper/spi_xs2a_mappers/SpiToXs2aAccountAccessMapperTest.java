@@ -51,10 +51,12 @@ class SpiToXs2aAccountAccessMapperTest {
     @Test
     void mapToAccountAccess() {
         //Given
-        SpiAccountAccess spiAccountAccess = jsonReader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-access.json", SpiAccountAccess.class);
-        AccountAccess expected = jsonReader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-expected.json", AccountAccess.class);
+        SpiAccountAccess spiAccountAccess =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-access.json",
+                SpiAccountAccess.class);
+        AccountAccess expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-expected.json",
+                AccountAccess.class);
 
         //When
         Optional<AccountAccess> actual = mapper.mapToAccountAccess(spiAccountAccess);
@@ -68,10 +70,12 @@ class SpiToXs2aAccountAccessMapperTest {
     @Test
     void getAccessForGlobalOrAllAvailableAccountsConsent() {
         //Given
-        CreateConsentReq createConsentReq = jsonReader
-            .getObjectFromFile("json/service/create-consent-req-with-beneficiaries-and-owner-name.json", CreateConsentReq.class);
-        AccountAccess expected = jsonReader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-additional-info-expected.json", AccountAccess.class);
+        CreateConsentReq createConsentReq =
+            jsonReader.getObjectFromFile("json/service/create-consent-req-with-beneficiaries-and-owner-name.json",
+                CreateConsentReq.class);
+        AccountAccess expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-additional-info-expected.json",
+                AccountAccess.class);
 
         //When
         AccountAccess actual = mapper.getAccessForGlobalOrAllAvailableAccountsConsent(createConsentReq);
@@ -85,10 +89,12 @@ class SpiToXs2aAccountAccessMapperTest {
     @Test
     void getAccessForGlobalOrAllAvailableAccountsConsent_nullAdditionalInfo() {
         //Given
-        CreateConsentReq createConsentReq = jsonReader
-            .getObjectFromFile("json/service/create-consent-req-with-empty-additional-info.json", CreateConsentReq.class);
-        AccountAccess expected = jsonReader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-null-additional-info-expected.json", AccountAccess.class);
+        CreateConsentReq createConsentReq =
+            jsonReader.getObjectFromFile("json/service/create-consent-req-with-empty-additional-info.json",
+                CreateConsentReq.class);
+        AccountAccess expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/account-access-null-additional-info-expected.json",
+                AccountAccess.class);
 
         //When
         AccountAccess actual = mapper.getAccessForGlobalOrAllAvailableAccountsConsent(createConsentReq);

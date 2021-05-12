@@ -48,10 +48,12 @@ class SpiToXs2aAuthenticationObjectMapperTest {
     @Test
     void toAuthenticationObject() {
         //Given
-        SpiAuthenticationObject spiAuthenticationObject = reader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json", SpiAuthenticationObject.class);
-        AuthenticationObject expected = reader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json", AuthenticationObject.class);
+        SpiAuthenticationObject spiAuthenticationObject =
+            reader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json",
+                SpiAuthenticationObject.class);
+        AuthenticationObject expected =
+            reader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json",
+                AuthenticationObject.class);
 
         //When
         AuthenticationObject actual = mapper.toAuthenticationObject(spiAuthenticationObject);
@@ -72,10 +74,12 @@ class SpiToXs2aAuthenticationObjectMapperTest {
     @Test
     void toAuthenticationObjectList() {
         //Given
-        List<SpiAuthenticationObject> spiAuthenticationObjects = reader
-            .getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object-list.json", SpiAuthenticationObject.class);
-        AuthenticationObject expected = reader
-            .getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json", AuthenticationObject.class);
+        List<SpiAuthenticationObject> spiAuthenticationObjects =
+            reader.getListFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object-list.json",
+                SpiAuthenticationObject.class);
+        AuthenticationObject expected =
+            reader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-authentication-object.json",
+                AuthenticationObject.class);
 
         //When
         List<AuthenticationObject> actual = mapper.toAuthenticationObjectList(spiAuthenticationObjects);

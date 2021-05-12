@@ -44,14 +44,19 @@ class Xs2aToSpiPiisConsentMapperTest {
     private Xs2aToSpiPiisConsentMapper xs2aToSpiPiisConsentMapper;
 
     private static Stream<Arguments> params() {
-        return Stream.of(Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-tpp-info-auth-number.json",
-            "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-null-tpp-auth-number-expected.json"),
-            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent.json",
-                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent.json"),
-            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-consent-data-and-tpp-info.json",
-                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-no-card-info-expected.json"),
-            Arguments.arguments("json/service/mapper/spi_xs2a_mappers/piis/piis-consent-empty-consent-data.json",
-                "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-expected.json")
+        String piisConsentNullTppPath = "json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-tpp-info-auth-number.json";
+        String spiPiisConsentNullTppPath = "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-null-tpp-auth-number-expected.json";
+        String piisConsentPath = "json/service/mapper/spi_xs2a_mappers/piis/piis-consent.json";
+        String spiPiisConsentPath = "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent.json";
+        String piisConsentNullConsentDataPath = "json/service/mapper/spi_xs2a_mappers/piis/piis-consent-null-consent-data-and-tpp-info.json";
+        String spiPiisConsentNullConsentDataPath = "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-no-card-info-expected.json";
+        String piisConsentEmptyConsentData = "json/service/mapper/spi_xs2a_mappers/piis/piis-consent-empty-consent-data.json";
+        String spiPiisConsentEmptyConsentData = "json/service/mapper/spi_xs2a_mappers/piis/spi-piis-consent-expected.json";
+
+        return Stream.of(Arguments.arguments(piisConsentNullTppPath, spiPiisConsentNullTppPath),
+            Arguments.arguments(piisConsentPath, spiPiisConsentPath),
+            Arguments.arguments(piisConsentNullConsentDataPath, spiPiisConsentNullConsentDataPath),
+            Arguments.arguments(piisConsentEmptyConsentData, spiPiisConsentEmptyConsentData)
         );
     }
 
@@ -81,12 +86,15 @@ class Xs2aToSpiPiisConsentMapperTest {
     @Test
     void toSpiScaConfirmation() {
         //Given
-        UpdateConsentPsuDataReq updateAuthorisationRequest = jsonReader
-            .getObjectFromFile("json/service/mapper/consent/update-consent-psu-data-req.json", UpdateConsentPsuDataReq.class);
-        PsuIdData psuIdData = jsonReader
-            .getObjectFromFile("json/service/mapper/psu-id-data.json", PsuIdData.class);
-        SpiScaConfirmation expected = jsonReader
-            .getObjectFromFile("json/service/mapper/spi-sca-confirmation.json", SpiScaConfirmation.class);
+        UpdateConsentPsuDataReq updateAuthorisationRequest =
+            jsonReader.getObjectFromFile("json/service/mapper/consent/update-consent-psu-data-req.json",
+                UpdateConsentPsuDataReq.class);
+        PsuIdData psuIdData =
+            jsonReader.getObjectFromFile("json/service/mapper/psu-id-data.json",
+                PsuIdData.class);
+        SpiScaConfirmation expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi-sca-confirmation.json",
+                SpiScaConfirmation.class);
 
         //When
         SpiScaConfirmation actual = xs2aToSpiPiisConsentMapper.toSpiScaConfirmation(updateAuthorisationRequest, psuIdData);

@@ -44,12 +44,15 @@ class SpiToXs2aBalanceReportMapperTest {
     @Test
     void mapToXs2aBalancesReportSpi() {
         //Given
-        SpiAccountBalance spiAccountBalance = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
-                                                                           SpiAccountBalance.class);
-        SpiAccountReference spiAccountReference = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-reference.json",
-                                                                               SpiAccountReference.class);
-        Xs2aBalancesReport expected = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
-            Xs2aBalancesReport.class);
+        SpiAccountBalance spiAccountBalance =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
+                SpiAccountBalance.class);
+        SpiAccountReference spiAccountReference =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-reference.json",
+                SpiAccountReference.class);
+        Xs2aBalancesReport expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
+                Xs2aBalancesReport.class);
 
         //When
         Xs2aBalancesReport actual = mapper.mapToXs2aBalancesReportSpi(spiAccountReference, Collections.singletonList(spiAccountBalance));
@@ -79,12 +82,15 @@ class SpiToXs2aBalanceReportMapperTest {
     @Test
     void mapToXs2aBalancesReport() {
         //Given
-        SpiAccountBalance spiAccountBalance = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
-            SpiAccountBalance.class);
-        AccountReference accountReference = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-reference.json",
-            AccountReference.class);
-        Xs2aBalancesReport expected = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
-            Xs2aBalancesReport.class);
+        SpiAccountBalance spiAccountBalance =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
+                SpiAccountBalance.class);
+        AccountReference accountReference =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-reference.json",
+                AccountReference.class);
+        Xs2aBalancesReport expected =
+            jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
+                Xs2aBalancesReport.class);
 
         //When
         Xs2aBalancesReport actual = mapper.mapToXs2aBalancesReport(accountReference, Collections.singletonList(spiAccountBalance));

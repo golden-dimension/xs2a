@@ -46,10 +46,10 @@ class Xs2aRemittanceMapperTest {
     @Test
     void mapToCmsRemittance() {
         //Given
-        Remittance remittance = jsonReader
-            .getObjectFromFile("json/service/mapper/remittance.json", Remittance.class);
-        CmsRemittance expected = jsonReader
-            .getObjectFromFile("json/service/mapper/remittance.json", CmsRemittance.class);
+        Remittance remittance =
+            jsonReader.getObjectFromFile("json/service/mapper/remittance.json", Remittance.class);
+        CmsRemittance expected =
+            jsonReader.getObjectFromFile("json/service/mapper/remittance.json", CmsRemittance.class);
 
         //When
         CmsRemittance actual = mapper.mapToCmsRemittance(remittance);
@@ -70,10 +70,10 @@ class Xs2aRemittanceMapperTest {
     @Test
     void mapToRemittance() {
         //Given
-        CmsRemittance cmsRemittance = jsonReader
-            .getObjectFromFile("json/service/mapper/remittance.json", CmsRemittance.class);
-        Remittance expected = jsonReader
-            .getObjectFromFile("json/service/mapper/remittance.json", Remittance.class);
+        CmsRemittance cmsRemittance =
+            jsonReader.getObjectFromFile("json/service/mapper/remittance.json", CmsRemittance.class);
+        Remittance expected =
+            jsonReader.getObjectFromFile("json/service/mapper/remittance.json", Remittance.class);
 
         //When
         Remittance actual = mapper.mapToRemittance(cmsRemittance);

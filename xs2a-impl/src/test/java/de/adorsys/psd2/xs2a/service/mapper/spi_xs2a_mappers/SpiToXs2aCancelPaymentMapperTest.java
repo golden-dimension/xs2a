@@ -44,13 +44,15 @@ class SpiToXs2aCancelPaymentMapperTest {
         spiSinglePayment.setPaymentId(INTERNAL_PAYMENT_ID);
 
         SpiPaymentCancellationResponse spiCancelPayment =
-            jsonReader.getObjectFromFile("json/service/mapper/single-payment-cancellation-response.json", SpiPaymentCancellationResponse.class);
+            jsonReader.getObjectFromFile("json/service/mapper/single-payment-cancellation-response.json",
+                SpiPaymentCancellationResponse.class);
 
         CancelPaymentResponse actual =
             mapper.mapToCancelPaymentResponse(spiCancelPayment, spiSinglePayment, ENCRYPTED_PAYMENT_ID);
 
         CancelPaymentResponse expected =
-            jsonReader.getObjectFromFile("json/service/mapper/cancel-payment-response.json", CancelPaymentResponse.class);
+            jsonReader.getObjectFromFile("json/service/mapper/cancel-payment-response.json",
+                CancelPaymentResponse.class);
 
         assertThat(actual).isEqualTo(expected);
     }
