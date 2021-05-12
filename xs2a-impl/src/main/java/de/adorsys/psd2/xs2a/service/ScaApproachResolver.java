@@ -73,7 +73,7 @@ public class ScaApproachResolver {
         boolean tppDecoupledPreferred = tppDecoupledPreferredOptional.orElse(false);
         // Choose not embedded if both true
         if (tppRedirectPreferred && tppDecoupledPreferred) {
-            return resolveBothTrue(scaApproaches);
+            return getScaApproachByPreferredHeadersTrue(scaApproaches);
         }
 
         // only redirect is true - use redirect
@@ -86,12 +86,12 @@ public class ScaApproachResolver {
             return DECOUPLED;
         }
 
-        return getScaApproachFalse(tppRedirectPreferredOptional, tppDecoupledPreferredOptional, scaApproaches);
+        return getScaApproachByPreferredHeadersFalse(tppRedirectPreferredOptional, tppDecoupledPreferredOptional, scaApproaches);
     }
 
-    private ScaApproach getScaApproachFalse(Optional<Boolean> tppRedirectPreferredOptional,
-                                            Optional<Boolean> tppDecoupledPreferredOptional,
-                                            List<ScaApproach> scaApproaches) {
+    private ScaApproach getScaApproachByPreferredHeadersFalse(Optional<Boolean> tppRedirectPreferredOptional,
+                                                              Optional<Boolean> tppDecoupledPreferredOptional,
+                                                              List<ScaApproach> scaApproaches) {
         ScaApproach firstScaApproach = getFirst(scaApproaches);
 
         // redirect empty - use decoupled
@@ -121,7 +121,7 @@ public class ScaApproachResolver {
         return firstScaApproach;
     }
 
-    private ScaApproach resolveBothTrue(List<ScaApproach> scaApproaches) {
+    private ScaApproach getScaApproachByPreferredHeadersTrue(List<ScaApproach> scaApproaches) {
         if (getFirst(scaApproaches) != EMBEDDED || scaApproaches.size() == 1) {
             return getFirst(scaApproaches);
         } else {
