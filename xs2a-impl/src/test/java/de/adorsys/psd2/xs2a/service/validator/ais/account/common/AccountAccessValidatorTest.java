@@ -64,11 +64,11 @@ class AccountAccessValidatorTest {
             "json/service/validator/ais/account/xs2a-account-consent-all-available-accounts-with-balance.json";
         String xs2aAccountConsentAllAccsBalanceOwnerNamePath =
             "json/service/validator/ais/account/xs2a-account-consent-all-available-accounts-with-balance_with_owner_name.json";
-        String xs2aAccountConsent = "json/service/validator/ais/account/xs2a-account-consent.json";
+        String xs2aAccountConsentPath = "json/service/validator/ais/account/xs2a-account-consent.json";
 
         return Stream.of(Arguments.arguments(xs2aAccountConsentAllAccsBalancePath, true),
                          Arguments.arguments(xs2aAccountConsentAllAccsBalanceOwnerNamePath, true),
-                         Arguments.arguments(xs2aAccountConsent, false)
+                         Arguments.arguments(xs2aAccountConsentPath, false)
         );
     }
 
