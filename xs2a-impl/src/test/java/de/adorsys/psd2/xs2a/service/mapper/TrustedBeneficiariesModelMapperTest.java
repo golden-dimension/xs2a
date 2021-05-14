@@ -64,4 +64,21 @@ class TrustedBeneficiariesModelMapperTest {
         // Then
         assertThat(actual).isEqualTo(expected);
     }
+
+    @Test
+    void mapToTrustedBeneficiaries_null() {
+        TrustedBeneficiary actual = trustedBeneficiariesModelMapper.mapToTrustedBeneficiaries(null);
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    void accountReference_isNull() {
+        TrustedBeneficiary expected = jsonReader.getObjectFromFile("json/service/mapper/trusted-beneficiaries-model-mapper/trusted-beneficiaries-accountReference-null.json", TrustedBeneficiary.class);
+
+        Xs2aTrustedBeneficiaries input = jsonReader.getObjectFromFile("json/service/mapper/trusted-beneficiaries-model-mapper/xs2a-trusted-beneficiaries-accountReference-isNull.json", Xs2aTrustedBeneficiaries.class);
+
+        TrustedBeneficiary actual = trustedBeneficiariesModelMapper.mapToTrustedBeneficiaries(input);
+
+        assertThat(actual).isEqualTo(expected);
+    }
 }

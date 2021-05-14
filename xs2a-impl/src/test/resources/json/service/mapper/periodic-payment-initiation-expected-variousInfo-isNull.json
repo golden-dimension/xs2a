@@ -1,0 +1,65 @@
+{
+  "paymentId": null ,
+  "paymentProduct": null ,
+  "transactionStatus": null ,
+  "paymentType": "periodic-payments" ,
+  "paymentData": null ,
+  "psuDataList": null ,
+  "statusChangeTimestamp": null ,
+  "creditorId": null ,
+  "creationTimestamp": null ,
+  "contentType": null ,
+  "instanceId": null ,
+  "endToEndIdentification": "RI-123456789" ,
+  "instructionIdentification": null ,
+  "debtorAccount": {
+    "aspspAccountId": null ,
+    "resourceId": null ,
+    "iban": "DE52500105173911841934" ,
+    "bban": null ,
+    "pan": "1111" ,
+    "maskedPan": "23456xxxxxx1234" ,
+    "msisdn": "0172/1111111" ,
+    "currency": "EUR" ,
+    "otherAccountIdentification": null
+  } ,
+  "ultimateDebtor": "ultimateDebtor" ,
+  "instructedAmount": {
+    "currency": "EUR" ,
+    "amount": "1000.00"
+  } ,
+  "creditorAccount": {
+    "aspspAccountId": null ,
+    "resourceId": null ,
+    "iban": "DE52500105173911841934" ,
+    "bban": null ,
+    "pan": "1111" ,
+    "maskedPan": "23456xxxxxx1234" ,
+    "msisdn": "0172/1111111" ,
+    "currency": "EUR" ,
+    "otherAccountIdentification": null
+  } ,
+  "creditorAgent": "BCENECEQ" ,
+  "creditorName": "Telekom" ,
+  "creditorAddress": {
+    "streetName": "Herrnstraße" ,
+    "buildingNumber": "123-34" ,
+    "townName": "Nürnberg" ,
+    "postCode": "90431" ,
+    "country": {
+      "code": "DE"
+    }
+  } ,
+  "ultimateCreditor": "ultimateCreditor" ,
+  "purposeCode": "CDQC" ,
+  "remittanceInformationUnstructured": "Ref. Number TELEKOM-1222" ,
+  "remittanceInformationStructured": "remittanceInformationStructured" ,
+  "remittanceInformationStructuredArray": null ,
+  "requestedExecutionDate": null ,
+  "requestedExecutionTime": null ,
+  "debtorName": null ,
+  "chargeBearer": null ,
+  "startDate": "2017-03-03" ,
+  "endDate": "2018-03-03" ,
+  "dayOfExecution": "14"
+}

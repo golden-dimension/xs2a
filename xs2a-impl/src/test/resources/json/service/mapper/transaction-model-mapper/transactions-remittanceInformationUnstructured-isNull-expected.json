@@ -1,0 +1,52 @@
+{
+  "transactionId": null,
+  "entryReference": null,
+  "endToEndId": "endToEndId",
+  "mandateId": "mandateId",
+  "checkId": "checkId",
+  "creditorId": "creditorId",
+  "bookingDate": null,
+  "valueDate": null,
+  "transactionAmount": {
+    "currency": "EUR",
+    "amount": 123
+  },
+  "currencyExchange": null,
+  "creditorName": "creditorName",
+  "creditorAccount": {
+    "iban": "DE52500105173911841934",
+    "bban": "Test BBAN",
+    "pan": "1111",
+    "maskedPan": "23456xxxxxx1234",
+    "msisdn": "0172/1111111",
+    "currency": "EUR",
+    "otherAccountIdentification": null
+  },
+  "creditorAgent": "creditorAgent",
+  "ultimateCreditor": "ultimateCreditor",
+  "debtorName": "debtorName",
+  "debtorAccount": {
+    "iban": "DE52500105173911841934",
+    "bban": "Test BBAN",
+    "pan": "2222",
+    "maskedPan": "23456xxxxxx1234",
+    "msisdn": "0172/1111111",
+    "currency": "USD",
+    "otherAccountIdentification": null
+  },
+  "debtorAgent": "debtorAgent",
+  "ultimateDebtor": "ultimateDebtor",
+  "remittanceInformationUnstructured": null,
+  "remittanceInformationUnstructuredArray": null,
+  "remittanceInformationStructured": null,
+  "additionalInformation": null,
+  "additionalInformationStructured": null,
+  "purposeCode": null,
+  "bankTransactionCode": null,
+  "proprietaryBankTransactionCode": null,
+  "balanceAfterTransaction": null,
+  "batchIndicator": null,
+  "batchNumberOfTransactions": null,
+  "entryDetails": null,
+  "_links": null
+}

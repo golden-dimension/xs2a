@@ -25,8 +25,6 @@
   },
   "endDate": "2018-03-03",
   "endToEndIdentification": "RI-123456789",
-  "executionRule": "preceding",
-  "frequency": "Annual",
   "instructedAmount": {
     "amount": "1000.00",
     "currency": "EUR"
@@ -36,8 +34,5 @@
   "ultimateDebtor": "ultimateDebtor",
   "ultimateCreditor": "ultimateCreditor",
   "purposeCode": "CDQC",
-  "remittanceInformationStructured": "remittanceInformationStructured",
-  "remittanceInformationStructuredArray": [
-    "Remittance structured array element reference"
-  ]
+  "remittanceInformationStructured": "remittanceInformationStructured"
 }

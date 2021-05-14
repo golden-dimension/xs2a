@@ -16,13 +16,11 @@
 
 package de.adorsys.psd2.xs2a.service.mapper;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import de.adorsys.psd2.aspsp.profile.domain.MulticurrencyAccountLevel;
+import de.adorsys.psd2.mapper.Xs2aObjectMapper;
 import de.adorsys.psd2.model.*;
-import de.adorsys.psd2.xs2a.core.pis.Xs2aAmount;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.domain.HrefType;
-import de.adorsys.psd2.xs2a.domain.Links;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aAccountDetails;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aAccountDetailsHolder;
 import de.adorsys.psd2.xs2a.domain.account.Xs2aAccountListHolder;
@@ -30,14 +28,13 @@ import de.adorsys.psd2.xs2a.domain.account.Xs2aBalancesReport;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.web.mapper.*;
 import de.adorsys.xs2a.reader.JsonReader;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -46,58 +43,31 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AccountModelMapperImpl.class,
-    AccountModelMapperTest.TestConfiguration.class,
-    BalanceMapperImpl.class, ReportExchangeMapperImpl.class,
-    DayOfExecutionMapper.class, OffsetDateTimeMapper.class
+@ContextConfiguration(classes = {AccountModelMapperImpl.class, TestMapperConfiguration.class, BalanceMapperImpl.class,
+    ReportExchangeMapperImpl.class, DayOfExecutionMapper.class, OffsetDateTimeMapper.class, HrefLinkMapper.class,
+    Xs2aObjectMapper.class, PurposeCodeMapperImpl.class, AmountModelMapper.class
 })
 class AccountModelMapperTest {
     private static final OffsetDateTime OFFSET_DATE_TIME = OffsetDateTime.now();
-    private static final String XS2A_LINKS_JSON_PATH = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-links.json";
-    private static final String LINKS_JSON_PATH = "json/service/mapper/account-model-mapper/AccountModelMapper-links.json";
-    private static final String XS2A_AMOUNT_JSON_PATH = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-amount.json";
-    private static final String AMOUNT_JSON_PATH = "json/service/mapper/account-model-mapper/AccountModelMapper-amount.json";
 
     @Autowired
     private AccountModelMapper mapper;
-    @Autowired
-    private HrefLinkMapper mockedHrefLinkMapper;
-    @Autowired
-    private AmountModelMapper mockedAmountModelMapper;
-    @Autowired
-    private PurposeCodeMapper mockedPurposeCodeMapper;
-    @Autowired
-    protected BalanceMapper balanceMapper;
+
     @MockBean
     private AspspProfileServiceWrapper aspspProfileService;
 
     private final JsonReader jsonReader = new JsonReader();
 
-    @AfterEach
-    void resetMocks() {
-        // Resetting is necessary because these mocks are injected into the mapper as singleton beans
-        // and are not being recreated after each test
-        Mockito.reset(mockedHrefLinkMapper, mockedAmountModelMapper, mockedPurposeCodeMapper);
-    }
-
     @Test
     void mapToAccountList() {
         // Given
-        Map<String, HrefType> links = jsonReader.getObjectFromFile(LINKS_JSON_PATH, new TypeReference<Map<String, HrefType>>() {
-        });
-        Links xs2aLinks = jsonReader.getObjectFromFile(XS2A_LINKS_JSON_PATH, Links.class);
-        when(mockedHrefLinkMapper.mapToLinksMap(xs2aLinks)).thenReturn(links);
-
-        Xs2aAmount xs2aAmount = jsonReader.getObjectFromFile(XS2A_AMOUNT_JSON_PATH, Xs2aAmount.class);
-        Amount amount = jsonReader.getObjectFromFile(AMOUNT_JSON_PATH, Amount.class);
-        when(mockedAmountModelMapper.mapToAmount(xs2aAmount)).thenReturn(amount);
-
         Xs2aAccountListHolder xs2aAccountListHolder = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-list-holder.json", Xs2aAccountListHolder.class);
 
         // When
@@ -113,16 +83,11 @@ class AccountModelMapperTest {
         assertLinks(expectedAccountList.getAccounts().get(0).getLinks(), actualAccountList.getAccounts().get(0).getLinks());
 
         expectedAccountList.getAccounts().get(0).setLinks(actualAccountList.getAccounts().get(0).getLinks());
-        assertEquals(expectedAccountList, actualAccountList);
+        assertThat(actualAccountList).isEqualTo(expectedAccountList);
     }
 
     @Test
     void mapToAccountDetails() {
-        Map<String, HrefType> links = jsonReader.getObjectFromFile(LINKS_JSON_PATH, new TypeReference<Map<String, HrefType>>() {
-        });
-        Links xs2aLinks = jsonReader.getObjectFromFile(XS2A_LINKS_JSON_PATH, Links.class);
-        when(mockedHrefLinkMapper.mapToLinksMap(xs2aLinks)).thenReturn(links);
-
         Xs2aAccountDetailsHolder xs2aAccountDetailsHolder = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder.json", Xs2aAccountDetailsHolder.class);
         InlineResponse200 actualInlineResponse200 = mapper.mapToInlineResponse200(xs2aAccountDetailsHolder);
 
@@ -131,7 +96,13 @@ class AccountModelMapperTest {
         assertLinks(expectedAccountDetails.getLinks(), actualInlineResponse200.getAccount().getLinks());
 
         expectedAccountDetails.setLinks(actualInlineResponse200.getAccount().getLinks());
-        assertEquals(expectedAccountDetails, actualInlineResponse200.getAccount());
+        assertThat(expectedAccountDetails).isEqualTo(actualInlineResponse200.getAccount());
+    }
+
+    @Test
+    void mapToAccountDetails_null() {
+        AccountDetails actual = mapper.mapToAccountDetails(null);
+        assertThat(actual).isNull();
     }
 
     @Test
@@ -141,13 +112,13 @@ class AccountModelMapperTest {
 
         de.adorsys.psd2.model.AccountReference expectedAccountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference-expected.json",
                                                                                                        de.adorsys.psd2.model.AccountReference.class);
-        assertEquals(expectedAccountReference, actualAccountReference);
+        assertThat(actualAccountReference).isEqualTo(expectedAccountReference);
     }
 
     @Test
     void mapToAccountReference_nullValue() {
         de.adorsys.psd2.model.AccountReference accountReference = mapper.mapToAccountReference(null);
-        assertNull(accountReference);
+        assertThat(accountReference).isNull();
     }
 
     @Test
@@ -158,16 +129,41 @@ class AccountModelMapperTest {
         de.adorsys.psd2.model.AccountReference expectedAccountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference-expected.json",
                                                                                                        de.adorsys.psd2.model.AccountReference.class);
 
-        assertEquals(1, actualAccountReferences.size());
-        assertEquals(expectedAccountReference, actualAccountReferences.get(0));
+        assertThat(actualAccountReferences).asList().hasSize(1).contains(expectedAccountReference);
+    }
+
+    @Test
+    void mapToBalance_null() {
+        ReadAccountBalanceResponse200 actual = mapper.mapToBalance(null);
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    void mapToAccountReferences_null() {
+        List<de.adorsys.psd2.model.AccountReference> actual = mapper.mapToAccountReferences(null);
+        assertThat(actual).isNull();
+    }
+
+    @ParameterizedTest
+    @MethodSource("params")
+    void accountStatusToAccountStatus_status_deleted(String input, String expected) {
+        Xs2aAccountDetailsHolder accountDetails = jsonReader.getObjectFromFile(input, Xs2aAccountDetailsHolder.class);
+
+        AccountDetails actual = mapper.mapToAccountDetails(accountDetails.getAccountDetails());
+
+        AccountDetails accountDetailsExpected = jsonReader.getObjectFromFile(expected, AccountDetails.class);
+
+        assertLinks(accountDetailsExpected.getLinks(), actual.getLinks());
+        accountDetailsExpected.setLinks(null);
+        actual.setLinks(null);
+
+        accountDetailsExpected.setLinks(actual.getLinks());
+        assertThat(actual).isEqualTo(accountDetailsExpected);
     }
 
     @Test
     void mapToBalance_ReadAccountBalanceResponse200() {
         // Given
-        Xs2aAmount xs2aAmount = jsonReader.getObjectFromFile(XS2A_AMOUNT_JSON_PATH, Xs2aAmount.class);
-        Amount amount = jsonReader.getObjectFromFile(AMOUNT_JSON_PATH, Amount.class);
-        when(mockedAmountModelMapper.mapToAmount(xs2aAmount)).thenReturn(amount);
         Xs2aBalancesReport xs2aBalancesReport = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-balances-report.json", Xs2aBalancesReport.class);
 
         LocalDateTime lastChangeDateTime = LocalDateTime.parse("2018-03-31T15:16:16.374");
@@ -186,7 +182,7 @@ class AccountModelMapperTest {
         actualBalance.setLastChangeDateTime(OFFSET_DATE_TIME);
         expectedReadAccountBalanceResponse200.getBalances().get(0).setLastChangeDateTime(OFFSET_DATE_TIME);
 
-        assertEquals(expectedReadAccountBalanceResponse200, actualReadAccountBalanceResponse200);
+        assertThat(actualReadAccountBalanceResponse200).isEqualTo(expectedReadAccountBalanceResponse200);
     }
 
     @Test
@@ -196,7 +192,7 @@ class AccountModelMapperTest {
         //When
         String currencyRepresentation = mapper.mapToAccountDetailsCurrency(currency);
         //Then
-        assertEquals(currency.getCurrencyCode(), currencyRepresentation);
+        assertThat(currency.getCurrencyCode()).isEqualTo(currencyRepresentation);
     }
 
     @Test
@@ -205,7 +201,7 @@ class AccountModelMapperTest {
         //When
         String currencyRepresentation = mapper.mapToAccountDetailsCurrency(null);
         //Then
-        assertNull(currencyRepresentation);
+        assertThat(currencyRepresentation).isNull();
     }
 
     @Test
@@ -215,7 +211,7 @@ class AccountModelMapperTest {
         //When
         String currencyRepresentation = mapper.mapToAccountDetailsCurrency(null);
         //Then
-        assertNull(currencyRepresentation);
+        assertThat(currencyRepresentation).isNull();
     }
 
     @Test
@@ -226,7 +222,7 @@ class AccountModelMapperTest {
             //When
             String currencyRepresentation = mapper.mapToAccountDetailsCurrency(null);
             //Then
-            assertEquals("XXX", currencyRepresentation);
+            assertThat(currencyRepresentation).isEqualTo("XXX");
         });
     }
 
@@ -241,7 +237,7 @@ class AccountModelMapperTest {
         AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
         //Then
         AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-        assertEquals(currency.getCurrencyCode(), accountDetails.getCurrency());
+        assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode());
     }
 
     @Test
@@ -255,7 +251,7 @@ class AccountModelMapperTest {
         AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
         //Then
         AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-        assertNull(accountDetails.getCurrency());
+        assertThat(accountDetails.getCurrency()).isNull();
     }
 
     @Test
@@ -271,7 +267,7 @@ class AccountModelMapperTest {
             AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
             //Then
             AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-            assertEquals(currency.getCurrencyCode(), accountDetails.getCurrency());
+            assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode());
         });
     }
 
@@ -288,8 +284,22 @@ class AccountModelMapperTest {
             AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
             //Then
             AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-            assertEquals("XXX", accountDetails.getCurrency());
+            assertThat(accountDetails.getCurrency()).isEqualTo("XXX");
         });
+    }
+
+    private static Stream<Arguments> params() {
+        String accountsDetailsStatusDeleted = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusDeleted.json";
+        String accountDetailsStatusDeletedExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusDeleted.json";
+        String accountDetailsStatusBlocked = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusBlocked.json";
+        String accountDetailsStatusBlockedExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusBlocked.json";
+        String accountDetailsAccountUsageOrga = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountUsage-orga.json";
+        String accountDetailsAccountUsageOrgaExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-accountUsage-orga.json";
+
+        return Stream.of(Arguments.arguments(accountsDetailsStatusDeleted, accountDetailsStatusDeletedExpected),
+                         Arguments.arguments(accountDetailsStatusBlocked, accountDetailsStatusBlockedExpected),
+                         Arguments.arguments(accountDetailsAccountUsageOrga, accountDetailsAccountUsageOrgaExpected)
+        );
     }
 
     private Xs2aAccountDetails buildXs2aAccountDetails(Currency currency) {
@@ -307,24 +317,6 @@ class AccountModelMapperTest {
         for (Object linkKey : actualLinks.keySet()) {
             HrefType actualHrefType = (HrefType) actualLinks.get(linkKey);
             assertEquals(String.valueOf(((Map) expectedLinks.get(linkKey)).get("href")), actualHrefType.getHref());
-        }
-    }
-
-    @Configuration
-    static class TestConfiguration {
-        @Bean
-        public HrefLinkMapper mockHrefLinkMapper() {
-            return mock(HrefLinkMapper.class);
-        }
-
-        @Bean
-        public AmountModelMapper mockAmountModelMapper() {
-            return mock(AmountModelMapper.class);
-        }
-
-        @Bean
-        public PurposeCodeMapper mockPurposeCodeMapper() {
-            return mock(PurposeCodeMapper.class);
         }
     }
 }

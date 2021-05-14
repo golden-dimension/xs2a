@@ -9,7 +9,7 @@
     "displayName": "Display name",
     "product": "Girokonto",
     "cashAccountType": "CASH",
-    "accountStatus": "enabled",
+    "accountStatus": "blocked",
     "bic": "EDEKDEHHXXX",
     "linkedAccounts": "Linked Accounts",
     "usageType": "PRIV",

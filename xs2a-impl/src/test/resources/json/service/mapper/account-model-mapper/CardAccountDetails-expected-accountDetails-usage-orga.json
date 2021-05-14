@@ -1,18 +1,24 @@
 {
   "resourceId": "3276159a-27ad-46db-8491-71e629d82baa",
+  "maskedPan": "23456xxxxxx1234",
   "currency": "EUR",
-  "iban": "DE52500105173911841934",
-  "bban": "Test BBAN",
-  "msisdn": "0172/1111111",
-  "name": "Main Account",
+  "name": "Main account",
   "displayName": "Display name",
   "product": "Girokonto",
-  "cashAccountType": "CASH",
   "status": "enabled",
-  "bic": "EDEKDEHHXXX",
-  "linkedAccounts": "Linked Accounts",
-  "usage": "PRIV",
+  "usage": "ORGA",
   "details": "Details",
+  "balances": [
+    {
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "55"
+      },
+      "balanceType": "expected",
+      "referenceDate": "2018-03-31",
+      "lastCommittedTransaction": "lastCommittedTransaction"
+    }
+  ],
   "_links": {
     "scaRedirect": {
       "href": "http://scaRedirect"

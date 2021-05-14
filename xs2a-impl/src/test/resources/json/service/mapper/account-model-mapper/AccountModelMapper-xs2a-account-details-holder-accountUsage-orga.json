@@ -12,7 +12,7 @@
     "accountStatus": "enabled",
     "bic": "EDEKDEHHXXX",
     "linkedAccounts": "Linked Accounts",
-    "usageType": "PRIV",
+    "usageType": "ORGA",
     "details": "Details",
     "links": {
       "scaRedirect": {

@@ -19,8 +19,10 @@ package de.adorsys.psd2.xs2a.service.mapper;
 import de.adorsys.psd2.mapper.Xs2aObjectMapper;
 import de.adorsys.psd2.model.Amount;
 import de.adorsys.psd2.model.ConfirmationOfFunds;
+import de.adorsys.psd2.model.InlineResponse2003;
 import de.adorsys.psd2.xs2a.core.profile.AccountReference;
 import de.adorsys.psd2.xs2a.domain.fund.FundsConfirmationRequest;
+import de.adorsys.psd2.xs2a.domain.fund.FundsConfirmationResponse;
 import de.adorsys.xs2a.reader.JsonReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -58,6 +60,17 @@ class FundsConfirmationModelMapperTest {
         //When
         FundsConfirmationRequest actual = fundsConfirmationModelMapper.mapToFundsConfirmationRequest(confirmationOfFunds, CONSENT_ID);
         //Then
-        assertEquals(expected, actual);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void mapToInitialResponse2003() {
+        FundsConfirmationResponse fundsConfirmationResponse = new FundsConfirmationResponse(true);
+
+        InlineResponse2003 expected = new InlineResponse2003().fundsAvailable(true);
+
+        InlineResponse2003 actual = fundsConfirmationModelMapper.mapToInlineResponse2003(fundsConfirmationResponse);
+
+        assertThat(actual).isEqualTo(expected);
     }
 }
