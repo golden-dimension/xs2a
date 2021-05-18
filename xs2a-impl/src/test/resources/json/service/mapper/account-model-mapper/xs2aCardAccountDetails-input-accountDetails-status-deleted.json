@@ -9,7 +9,8 @@
   "accountStatus": "deleted",
   "usageType": "PRIV",
   "details": "Details",
-  "balances": [{
+  "balances": [
+    {
     "balanceAmount": {
       "currency": "EUR",
       "amount": "55"
@@ -17,7 +18,8 @@
     "balanceType": "EXPECTED",
     "referenceDate": "2018-03-31" ,
     "lastCommittedTransaction": "lastCommittedTransaction"
-  }] ,
+    }
+  ] ,
   "_links": {
     "scaRedirect": {
       "href": "http://scaRedirect"

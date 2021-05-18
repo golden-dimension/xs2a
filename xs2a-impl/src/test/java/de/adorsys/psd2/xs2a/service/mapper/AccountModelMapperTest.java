@@ -263,8 +263,9 @@ class AccountModelMapperTest {
         //When
         AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
         //Then
+        assertThat(actualAccountList.getAccounts()).asList().hasSize(1);
         AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-        assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode()).asList().hasSize(1);
+        assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode());
     }
 
     @Test
@@ -310,8 +311,9 @@ class AccountModelMapperTest {
             //When
             AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
             //Then
+            assertThat(actualAccountList.getAccounts()).asList().hasSize(1);
             AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-            assertThat(accountDetails.getCurrency()).isEqualTo("XXX").asList().hasSize(1);
+            assertThat(accountDetails.getCurrency()).isEqualTo("XXX");
         });
     }
 
