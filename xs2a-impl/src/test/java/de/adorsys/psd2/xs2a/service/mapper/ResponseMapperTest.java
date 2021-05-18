@@ -17,7 +17,6 @@
 package de.adorsys.psd2.xs2a.service.mapper;
 
 import de.adorsys.psd2.xs2a.core.error.MessageError;
-import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.domain.CustomContentTypeProvider;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.web.header.ResponseHeaders;

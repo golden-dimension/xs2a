@@ -17,7 +17,10 @@
 package de.adorsys.psd2.xs2a.service.mapper;
 
 import de.adorsys.psd2.mapper.Xs2aObjectMapper;
-import de.adorsys.psd2.model.*;
+import de.adorsys.psd2.model.AccountReport;
+import de.adorsys.psd2.model.EntryDetails;
+import de.adorsys.psd2.model.InlineResponse2001;
+import de.adorsys.psd2.model.TransactionsResponse200Json;
 import de.adorsys.psd2.xs2a.core.pis.PisExecutionRule;
 import de.adorsys.psd2.xs2a.domain.HrefType;
 import de.adorsys.psd2.xs2a.domain.Transactions;
