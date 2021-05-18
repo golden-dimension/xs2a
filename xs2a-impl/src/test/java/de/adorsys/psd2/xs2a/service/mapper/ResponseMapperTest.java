@@ -16,6 +16,8 @@
 
 package de.adorsys.psd2.xs2a.service.mapper;
 
+import de.adorsys.psd2.xs2a.core.error.MessageError;
+import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.domain.CustomContentTypeProvider;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.web.header.ResponseHeaders;
@@ -30,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class ResponseMapperTest {
@@ -41,14 +44,22 @@ class ResponseMapperTest {
 
     @Test
     void contentTypeSet() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
         ResponseEntity responseEntity = responseMapper.ok(responseObject);
 
         assertThat(responseEntity.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_PDF);
+    }
+
+    @Test
+    void contentTypeSet_error() {
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
+                                                                       .fail(new MessageError())
+                                                                       .build();
+
+        assertThrows(IllegalArgumentException.class, () -> responseMapper.ok(responseObject));
     }
 
     @Test
@@ -64,8 +75,7 @@ class ResponseMapperTest {
 
     @Test
     void contentTypeSet_ok() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -76,8 +86,7 @@ class ResponseMapperTest {
 
     @Test
     void contentTypeSet_withHeaders_ok() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -88,8 +97,7 @@ class ResponseMapperTest {
 
     @Test
     void responseCreated() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -100,8 +108,7 @@ class ResponseMapperTest {
 
     @Test
     void responseCreated_ok() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -114,8 +121,7 @@ class ResponseMapperTest {
     void responseCreated_withHeaders_ok() {
         CustomContentTypeProvider customContentTypeProvider = () -> MediaType.APPLICATION_PDF;
 
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(customContentTypeProvider)
                                                                        .build();
 
@@ -126,8 +132,7 @@ class ResponseMapperTest {
 
     @Test
     void responseCreated_withHeadersAndMappers_ok() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -138,8 +143,7 @@ class ResponseMapperTest {
 
     @Test
     void responseAccepted() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -150,8 +154,7 @@ class ResponseMapperTest {
 
     @Test
     void responseDeleted() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
@@ -162,8 +165,7 @@ class ResponseMapperTest {
 
     @Test
     void responseDeleted_withMapper() {
-        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject
-                                                                       .<CustomContentTypeProvider>builder()
+        ResponseObject<CustomContentTypeProvider> responseObject = ResponseObject.<CustomContentTypeProvider>builder()
                                                                        .body(getCustomContentTypeProvider())
                                                                        .build();
 
