@@ -40,7 +40,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -292,14 +291,9 @@ class TransactionModelMapperTest {
         Transactions transactions = new Transactions();
         Xs2aAdditionalInformationStructured additionalInformationStructured = new Xs2aAdditionalInformationStructured();
         Xs2aStandingOrderDetails standingOrderDetails = new Xs2aStandingOrderDetails();
-        standingOrderDetails.setMonthsOfExecution(getMonthsOfExecution());
+        standingOrderDetails.setMonthsOfExecution(Collections.singletonList("5"));
         additionalInformationStructured.setStandingOrderDetails(standingOrderDetails);
         transactions.setAdditionalInformationStructured(additionalInformationStructured);
         return transactions;
-    }
-
-    private List<String> getMonthsOfExecution() {
-        String month = "5";
-        return Collections.singletonList(month);
     }
 }
