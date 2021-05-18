@@ -14,7 +14,6 @@
     "pan": "1111",
     "maskedPan": "23456xxxxxx1234",
     "msisdn": "0172/1111111",
-    "currency": "EUR",
-    "otherAccountIdentification": null
+    "currency": "EUR"
   }
 }

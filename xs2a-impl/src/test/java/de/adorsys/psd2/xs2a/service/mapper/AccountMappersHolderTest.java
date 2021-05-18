@@ -98,8 +98,7 @@ class AccountMappersHolderTest {
         SpiAccountBalance spiAccountBalance = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
                                                                            SpiAccountBalance.class);
 
-        List<SpiAccountBalance> balanceList = new ArrayList<>();
-        balanceList.add(spiAccountBalance);
+        List<SpiAccountBalance> balanceList = Collections.singletonList(spiAccountBalance);
 
         Xs2aBalancesReport expectedXs2aBalancesReport = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
                                                                                      Xs2aBalancesReport.class);
@@ -119,8 +118,7 @@ class AccountMappersHolderTest {
         SpiAccountBalance spiAccountBalance = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/spi-account-balance.json",
                                                                            SpiAccountBalance.class);
 
-        List<SpiAccountBalance> balanceList = new ArrayList<>();
-        balanceList.add(spiAccountBalance);
+        List<SpiAccountBalance> balanceList = Collections.singletonList(spiAccountBalance);
 
         Xs2aBalancesReport expectedXs2aBalancesReport = jsonReader.getObjectFromFile("json/service/mapper/spi_xs2a_mappers/xs2a-balances-report.json",
                                                                                      Xs2aBalancesReport.class);

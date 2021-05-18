@@ -141,25 +141,25 @@ class PaymentModelMapperImplTest {
     }
 
     private static Stream<Arguments> params() {
-        String periodicPayment = "json/service/mapper/periodic-payment-initiation.json";
-        String periodicPaymentExpected = "json/service/mapper/periodic-payment-initiation-expected.json";
-        String periodicPaymentExecutionRuleFollowing = "json/service/mapper/periodic-payment-initiation-executionRule-following.json";
-        String periodicPaymentExecutionRuleFollowingExpected = "json/service/mapper/periodic-payment-initiation-expected-executionRule-following.json";
-        String periodicPaymentExecutionRuleIsNull = "json/service/mapper/periodic-payment-initiation-variousInfo-isNull.json";
-        String periodicPaymentExecutionRuleIsNullExpected = "json/service/mapper/periodic-payment-initiation-expected-variousInfo-isNull.json";
+        String periodicPaymentFilePath = "json/service/mapper/periodic-payment-initiation.json";
+        String periodicPaymentExpectedFilePath = "json/service/mapper/periodic-payment-initiation-expected.json";
+        String periodicPaymentExecutionRuleFollowingFilePath = "json/service/mapper/periodic-payment-initiation-executionRule-following.json";
+        String periodicPaymentExecutionRuleFollowingExpectedFilePath = "json/service/mapper/periodic-payment-initiation-expected-executionRule-following.json";
+        String periodicPaymentExecutionRuleIsNullFilePath = "json/service/mapper/periodic-payment-initiation-variousInfo-isNull.json";
+        String periodicPaymentExecutionRuleIsNullExpectedFilePath = "json/service/mapper/periodic-payment-initiation-expected-variousInfo-isNull.json";
 
         return Stream.of(
-            Arguments.arguments(periodicPayment, periodicPaymentExpected),
-            Arguments.arguments(periodicPaymentExecutionRuleFollowing, periodicPaymentExecutionRuleFollowingExpected),
-            Arguments.arguments(periodicPaymentExecutionRuleIsNull, periodicPaymentExecutionRuleIsNullExpected)
+            Arguments.arguments(periodicPaymentFilePath, periodicPaymentExpectedFilePath),
+            Arguments.arguments(periodicPaymentExecutionRuleFollowingFilePath, periodicPaymentExecutionRuleFollowingExpectedFilePath),
+            Arguments.arguments(periodicPaymentExecutionRuleIsNullFilePath, periodicPaymentExecutionRuleIsNullExpectedFilePath)
         );
     }
 
     @ParameterizedTest
     @MethodSource("params")
-    void mapToXs2aPayment(String inputPath, String expectedPath) {
-        PeriodicPaymentInitiationJson input = jsonReader.getObjectFromFile(inputPath, PeriodicPaymentInitiationJson.class);
-        PeriodicPayment expected = jsonReader.getObjectFromFile(expectedPath, PeriodicPayment.class);
+    void mapToXs2aPayment(String inputFilePath, String expectedFilePath) {
+        PeriodicPaymentInitiationJson input = jsonReader.getObjectFromFile(inputFilePath, PeriodicPaymentInitiationJson.class);
+        PeriodicPayment expected = jsonReader.getObjectFromFile(expectedFilePath, PeriodicPayment.class);
 
         PeriodicPayment actual = paymentModelMapper.mapToXs2aPayment(input);
 

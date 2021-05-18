@@ -1,54 +1,23 @@
 {
-  "paymentId": null,
-  "paymentProduct": null,
-  "transactionStatus": null,
   "paymentType": "bulk-payments",
-  "paymentData": null,
-  "psuDataList": null,
-  "statusChangeTimestamp": null,
-  "creditorId": null,
-  "creationTimestamp": null,
-  "contentType": null,
-  "instanceId": null,
   "debtorAccount": {
-    "aspspAccountId": null,
-    "resourceId": null,
     "iban": "DE52500105173911841934",
-    "bban": null,
     "pan": "1111",
     "maskedPan": "23456xxxxxx1234",
     "msisdn": "0172/1111111",
-    "currency": "EUR",
-    "otherAccountIdentification": null
+    "currency": "EUR"
   },
-  "debtorName": null,
   "requestedExecutionDate": "2020-02-02",
-  "requestedExecutionTime": null,
   "payments": [
     {
-      "paymentId": null,
-      "paymentProduct": null,
-      "transactionStatus": null,
       "paymentType": "payments",
-      "paymentData": null,
-      "psuDataList": null,
-      "statusChangeTimestamp": null,
-      "creditorId": null,
-      "creationTimestamp": null,
-      "contentType": null,
-      "instanceId": null,
       "endToEndIdentification": "WBG-123456789",
-      "instructionIdentification": null,
       "debtorAccount": {
-        "aspspAccountId": null,
-        "resourceId": null,
         "iban": "DE52500105173911841934",
-        "bban": null,
         "pan": "1111",
         "maskedPan": "23456xxxxxx1234",
         "msisdn": "0172/1111111",
-        "currency": "EUR",
-        "otherAccountIdentification": null
+        "currency": "EUR"
       },
       "ultimateDebtor": "ultimateDebtor",
       "instructedAmount": {
@@ -56,15 +25,11 @@
         "amount": "520.00"
       },
       "creditorAccount": {
-        "aspspAccountId": null,
-        "resourceId": null,
         "iban": "DE52500105173911841934",
-        "bban": null,
         "pan": "1111",
         "maskedPan": "23456xxxxxx1234",
         "msisdn": "0172/1111111",
-        "currency": "EUR",
-        "otherAccountIdentification": null
+        "currency": "EUR"
       },
       "creditorAgent": "AAAADEBBXXX",
       "creditorName": "WBG",
@@ -84,24 +49,17 @@
       "remittanceInformationStructuredArray": [
         "Remittance structured array element reference"
       ],
-      "requestedExecutionDate": "2020-02-02",
-      "requestedExecutionTime": null,
-      "debtorName": null,
-      "chargeBearer": null
+      "requestedExecutionDate": "2020-02-02"
     }
   ],
   "batchBookingPreferred": false,
   "accountReferences": [
     {
-      "aspspAccountId": null,
-      "resourceId": null,
       "iban": "DE52500105173911841934",
-      "bban": null,
       "pan": "1111",
       "maskedPan": "23456xxxxxx1234",
       "msisdn": "0172/1111111",
-      "currency": "EUR",
-      "otherAccountIdentification": null
+      "currency": "EUR"
     }
   ]
 }

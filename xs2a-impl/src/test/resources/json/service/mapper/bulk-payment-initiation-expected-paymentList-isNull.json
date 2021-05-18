@@ -1,41 +1,21 @@
 {
-  "paymentId": null,
-  "paymentProduct": null,
-  "transactionStatus": null,
   "paymentType": "bulk-payments",
-  "paymentData": null,
-  "psuDataList": null,
-  "statusChangeTimestamp": null,
-  "creditorId": null,
-  "creationTimestamp": null,
-  "contentType": null,
-  "instanceId": null,
   "debtorAccount": {
-    "aspspAccountId": null,
-    "resourceId": null,
     "iban": "DE52500105173911841934",
-    "bban": null,
     "pan": "1111",
     "maskedPan": "23456xxxxxx1234",
     "msisdn": "0172/1111111",
-    "currency": "EUR",
-    "otherAccountIdentification": null
+    "currency": "EUR"
   },
-  "debtorName": null,
   "requestedExecutionDate": "2020-02-02",
-  "requestedExecutionTime": null,
   "batchBookingPreferred": false,
   "accountReferences": [
     {
-      "aspspAccountId": null,
-      "resourceId": null,
       "iban": "DE52500105173911841934",
-      "bban": null,
       "pan": "1111",
       "maskedPan": "23456xxxxxx1234",
       "msisdn": "0172/1111111",
-      "currency": "EUR",
-      "otherAccountIdentification": null
+      "currency": "EUR"
     }
   ]
 }

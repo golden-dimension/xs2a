@@ -36,6 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.OffsetDateTime;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -57,41 +58,56 @@ class TransactionModelMapperTest {
 
     @Test
     void mapToTransaction_success() {
-        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transactions.json", Transactions.class);
+        // Given
+        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transactions.json",
+                                                                 Transactions.class);
+
+        // When
         de.adorsys.psd2.model.Transactions actualTransactionDetails = mapper.mapToTransactions(transactions);
 
         de.adorsys.psd2.model.Transactions expectedReportTransactionDetails = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transaction-details-expected.json",
                                                                                                            de.adorsys.psd2.model.Transactions.class);
+        // Then
         assertThat(actualTransactionDetails).isEqualTo(expectedReportTransactionDetails);
     }
 
     @Test
     void mapToTransactionDetails_success() {
-        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transactions.json", Transactions.class);
+        // Given
+        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transactions.json",
+                                                                 Transactions.class);
 
+        // When
         InlineResponse2001 actualInlineResponse2001 = mapper.mapToTransactionDetails(transactions);
 
         de.adorsys.psd2.model.Transactions expectedTransactionDetails = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transaction-details-expected.json",
                                                                                                      de.adorsys.psd2.model.Transactions.class);
+
+        // Then
         assertThat(actualInlineResponse2001).isNotNull();
         assertThat(actualInlineResponse2001.getTransactionsDetails().getTransactionDetails()).isEqualTo(expectedTransactionDetails);
     }
 
     @Test
     void mapToTransactionsResponseRaw_success() {
-        Xs2aTransactionsReport xs2aTransactionsReport = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-transactions-report.json", Xs2aTransactionsReport.class);
+        // Given
+        Xs2aTransactionsReport xs2aTransactionsReport = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-transactions-report.json",
+                                                                                     Xs2aTransactionsReport.class);
 
+        // When
         byte[] actualByteArray = mapper.mapToTransactionsResponseRaw(xs2aTransactionsReport);
 
         String actual = Base64.getEncoder().encodeToString(actualByteArray);
 
+        // Then
         assertThat(actual).isEqualTo(BYTE_ARRAY_IN_STRING);
     }
 
     @Test
     void mapToTransactionsResponse200Json_success() {
         // Given
-        Xs2aTransactionsReport xs2aTransactionsReport = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-transactions-report.json", Xs2aTransactionsReport.class);
+        Xs2aTransactionsReport xs2aTransactionsReport = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-transactions-report.json",
+                                                                                     Xs2aTransactionsReport.class);
 
         // When
         TransactionsResponse200Json actual = mapper.mapToTransactionsResponse200Json(xs2aTransactionsReport);
@@ -112,111 +128,130 @@ class TransactionModelMapperTest {
 
     @Test
     void mapToAccountReport_null() {
+        // When
         AccountReport actual = mapper.mapToAccountReport(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToTransactionsResponse200Json_null() {
+        // When
         TransactionsResponse200Json actual = mapper.mapToTransactionsResponse200Json(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToTransactions_null() {
+        // When
         de.adorsys.psd2.model.Transactions actual = mapper.mapToTransactions(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToEntryDetails_null() {
+        // When
         EntryDetails actual = mapper.mapToEntryDetails(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void transactionInfo_isNull() {
-        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transaction-info-isNull.json", Transactions.class);
+        // Given
+        Transactions transactions = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transaction-info-isNull.json",
+                                                                 Transactions.class);
+
+        // When
         de.adorsys.psd2.model.Transactions actualTransactionDetails = mapper.mapToTransactions(transactions);
 
         de.adorsys.psd2.model.Transactions expectedReportTransactionDetails = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-transaction-expected-info-isNull.json",
                                                                                                            de.adorsys.psd2.model.Transactions.class);
+
+        // Then
         assertThat(actualTransactionDetails).isEqualTo(expectedReportTransactionDetails);
     }
 
     @Test
     void remittanceInformationStructured_missingVariousInfo() {
-        de.adorsys.psd2.xs2a.domain.EntryDetails inputDetails = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/entryDetails-variousInfo-isNull.json", de.adorsys.psd2.xs2a.domain.EntryDetails.class);
+        // Given
+        de.adorsys.psd2.xs2a.domain.EntryDetails inputDetails = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/entryDetails-variousInfo-isNull.json",
+                                                                                             de.adorsys.psd2.xs2a.domain.EntryDetails.class);
 
+        // When
         EntryDetails actual = mapper.mapToEntryDetails(inputDetails);
 
-        EntryDetails expectedDetails = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/entryDetails-variousInfo-isNull-expected.json", EntryDetails.class);
+        EntryDetails expectedDetails = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/entryDetails-variousInfo-isNull-expected.json",
+                                                                    EntryDetails.class);
 
+        // Then
         assertThat(actual).isEqualTo(expectedDetails);
     }
 
     @ParameterizedTest
     @EnumSource(de.adorsys.psd2.xs2a.core.pis.FrequencyCode.class)
     void frequencyCodeToFrequencyCode(de.adorsys.psd2.xs2a.core.pis.FrequencyCode frequencyCode) {
-        Transactions transactions = new Transactions();
-        Xs2aAdditionalInformationStructured a = new Xs2aAdditionalInformationStructured();
-        Xs2aStandingOrderDetails s = new Xs2aStandingOrderDetails();
-        s.setFrequency(frequencyCode);
-        a.setStandingOrderDetails(s);
-        transactions.setAdditionalInformationStructured(a);
+        // Given
+        Transactions transactions = getTransactionWithFrequencyCode(frequencyCode);
 
-        de.adorsys.psd2.model.Transactions transactions1 = mapper.mapToTransactions(transactions);
+        // When
+        de.adorsys.psd2.model.Transactions actual = mapper.mapToTransactions(transactions);
 
-        String actual = transactions1.getAdditionalInformationStructured().getStandingOrderDetails().getFrequency().name();
+        String actualResult = actual.getAdditionalInformationStructured().getStandingOrderDetails().getFrequency().name();
 
-        assertThat(actual).isEqualTo(frequencyCode.name());
+        // Then
+        assertThat(actualResult).isEqualTo(frequencyCode.name());
     }
 
     @ParameterizedTest
     @EnumSource(PisExecutionRule.class)
     void frequencyCodeToFrequencyCode(PisExecutionRule pisExecutionRule) {
-        Transactions transactions = new Transactions();
-        Xs2aAdditionalInformationStructured a = new Xs2aAdditionalInformationStructured();
-        Xs2aStandingOrderDetails s = new Xs2aStandingOrderDetails();
-        s.setExecutionRule(pisExecutionRule);
-        a.setStandingOrderDetails(s);
-        transactions.setAdditionalInformationStructured(a);
+        // Given
+        Transactions transactions = getTransactionsWithExecutionRule(pisExecutionRule);
 
-        de.adorsys.psd2.model.Transactions transactions1 = mapper.mapToTransactions(transactions);
+        // When
+        de.adorsys.psd2.model.Transactions actual = mapper.mapToTransactions(transactions);
 
-        String actual = transactions1.getAdditionalInformationStructured().getStandingOrderDetails().getExecutionRule().name();
+        String actualResult = actual.getAdditionalInformationStructured().getStandingOrderDetails().getExecutionRule().name();
 
-        assertThat(actual).isEqualTo(pisExecutionRule.name());
+        // Then
+        assertThat(actualResult).isEqualTo(pisExecutionRule.name());
     }
 
     @Test
     void monthOfExecution() {
-        List<String> monthsOfExecution = new MonthsOfExecution();
-        String month = "month";
-        monthsOfExecution.add(month);
+        // Given
+        Transactions transactions = getTransactionsWithMonthOfExecution();
 
-        Transactions transactions = new Transactions();
-        Xs2aAdditionalInformationStructured a = new Xs2aAdditionalInformationStructured();
-        Xs2aStandingOrderDetails s = new Xs2aStandingOrderDetails();
-        s.setMonthsOfExecution(monthsOfExecution);
-        a.setStandingOrderDetails(s);
-        transactions.setAdditionalInformationStructured(a);
+        // When
+        de.adorsys.psd2.model.Transactions actual = mapper.mapToTransactions(transactions);
 
-        de.adorsys.psd2.model.Transactions transactions1 = mapper.mapToTransactions(transactions);
+        de.adorsys.psd2.model.Transactions expected = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/transactions-monthOfExecution-expected.json",
+                                                                                   de.adorsys.psd2.model.Transactions.class);
 
-        MonthsOfExecution actual = transactions1.getAdditionalInformationStructured().getStandingOrderDetails().getMonthsOfExecution();
-
-        assertThat(actual).isEqualTo(monthsOfExecution);
+        // Then
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void remittanceInformationUnstructured_isNull() {
-        de.adorsys.psd2.xs2a.domain.Transactions input = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/transactions-remittanceInformationUnstructured-isNull.json", Transactions.class);
+        // Given
+        de.adorsys.psd2.xs2a.domain.Transactions input = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/transactions-remittanceInformationUnstructured-isNull.json",
+                                                                                      Transactions.class);
 
+        // When
         de.adorsys.psd2.model.Transactions actual = mapper.mapToTransactions(input);
 
-        de.adorsys.psd2.model.Transactions expected = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/transactions-remittanceInformationUnstructured-isNull-expected.json", de.adorsys.psd2.model.Transactions.class);
+        de.adorsys.psd2.model.Transactions expected = jsonReader.getObjectFromFile("json/service/mapper/transaction-model-mapper/transactions-remittanceInformationUnstructured-isNull-expected.json",
+                                                                                   de.adorsys.psd2.model.Transactions.class);
 
+        // Then
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -228,5 +263,40 @@ class TransactionModelMapperTest {
             HrefType actualHrefType = (HrefType) actualLinks.get(linkKey);
             assertEquals(String.valueOf(((Map) expectedLinks.get(linkKey)).get("href")), actualHrefType.getHref());
         }
+    }
+
+    private Transactions getTransactionWithFrequencyCode(de.adorsys.psd2.xs2a.core.pis.FrequencyCode frequencyCode) {
+        Transactions transactions = new Transactions();
+        Xs2aAdditionalInformationStructured additionalInformationStructured = new Xs2aAdditionalInformationStructured();
+        Xs2aStandingOrderDetails standingOrderDetails = new Xs2aStandingOrderDetails();
+        standingOrderDetails.setFrequency(frequencyCode);
+        additionalInformationStructured.setStandingOrderDetails(standingOrderDetails);
+        transactions.setAdditionalInformationStructured(additionalInformationStructured);
+        return transactions;
+    }
+
+    private Transactions getTransactionsWithExecutionRule(PisExecutionRule executionRule) {
+        Transactions transactions = new Transactions();
+        Xs2aAdditionalInformationStructured additionalInformationStructured = new Xs2aAdditionalInformationStructured();
+        Xs2aStandingOrderDetails standingOrderDetails = new Xs2aStandingOrderDetails();
+        standingOrderDetails.setExecutionRule(executionRule);
+        additionalInformationStructured.setStandingOrderDetails(standingOrderDetails);
+        transactions.setAdditionalInformationStructured(additionalInformationStructured);
+        return transactions;
+    }
+
+    private Transactions getTransactionsWithMonthOfExecution() {
+        Transactions transactions = new Transactions();
+        Xs2aAdditionalInformationStructured additionalInformationStructured = new Xs2aAdditionalInformationStructured();
+        Xs2aStandingOrderDetails standingOrderDetails = new Xs2aStandingOrderDetails();
+        standingOrderDetails.setMonthsOfExecution(getMonthsOfExecution());
+        additionalInformationStructured.setStandingOrderDetails(standingOrderDetails);
+        transactions.setAdditionalInformationStructured(additionalInformationStructured);
+        return transactions;
+    }
+
+    private List<String> getMonthsOfExecution() {
+        String month = "5";
+        return Collections.singletonList(month);
     }
 }

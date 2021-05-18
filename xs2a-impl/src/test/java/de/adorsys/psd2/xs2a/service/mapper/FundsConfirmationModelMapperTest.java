@@ -50,27 +50,30 @@ class FundsConfirmationModelMapperTest {
 
     @Test
     void mapToFundsConfirmationRequest() {
-        //Given
+        // Given
         ConfirmationOfFunds confirmationOfFunds = jsonReader.getObjectFromFile("json/service/mapper/funds-confirmation-model-mapper/confirmation-of-funds.json", ConfirmationOfFunds.class);
         FundsConfirmationRequest expected = jsonReader.getObjectFromFile("json/service/mapper/funds-confirmation-model-mapper/funds-confirmation-request.json", FundsConfirmationRequest.class);
         when(xs2aObjectMapper.convertValue(any(Object.class), eq(AccountReference.class)))
             .thenReturn(expected.getPsuAccount());
         when(amountModelMapper.mapToXs2aAmount(any(Amount.class)))
             .thenReturn(expected.getInstructedAmount());
-        //When
+        // When
         FundsConfirmationRequest actual = fundsConfirmationModelMapper.mapToFundsConfirmationRequest(confirmationOfFunds, CONSENT_ID);
-        //Then
+        // Then
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void mapToInitialResponse2003() {
+        // Given
         FundsConfirmationResponse fundsConfirmationResponse = new FundsConfirmationResponse(true);
+
+        // When
+        InlineResponse2003 actual = fundsConfirmationModelMapper.mapToInlineResponse2003(fundsConfirmationResponse);
 
         InlineResponse2003 expected = new InlineResponse2003().fundsAvailable(true);
 
-        InlineResponse2003 actual = fundsConfirmationModelMapper.mapToInlineResponse2003(fundsConfirmationResponse);
-
+        // Then
         assertThat(actual).isEqualTo(expected);
     }
 }

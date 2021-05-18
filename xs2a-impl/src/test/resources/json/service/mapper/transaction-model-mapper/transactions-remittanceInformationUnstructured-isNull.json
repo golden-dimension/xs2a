@@ -17,8 +17,7 @@
       "pan": "1111",
       "maskedPan": "23456xxxxxx1234",
       "msisdn": "0172/1111111",
-      "currency": "EUR",
-      "otherAccountIdentification": null
+      "currency": "EUR"
     },
     "creditorAgent": "creditorAgent",
     "ultimateCreditor": "ultimateCreditor",
@@ -31,8 +30,7 @@
       "pan": "2222",
       "maskedPan": "23456xxxxxx1234",
       "msisdn": "0172/1111111",
-      "currency": "USD",
-      "otherAccountIdentification": null
+      "currency": "USD"
     },
     "debtorAgent": "debtorAgent",
     "ultimateDebtor": "ultimateDebtor"

@@ -88,71 +88,99 @@ class AccountModelMapperTest {
 
     @Test
     void mapToAccountDetails() {
+        // Given
         Xs2aAccountDetailsHolder xs2aAccountDetailsHolder = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder.json", Xs2aAccountDetailsHolder.class);
+
+        // When
         InlineResponse200 actualInlineResponse200 = mapper.mapToInlineResponse200(xs2aAccountDetailsHolder);
 
         AccountDetails expectedAccountDetails = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected.json", AccountDetails.class);
 
+        //Then
         assertLinks(expectedAccountDetails.getLinks(), actualInlineResponse200.getAccount().getLinks());
-
         expectedAccountDetails.setLinks(actualInlineResponse200.getAccount().getLinks());
+
         assertThat(expectedAccountDetails).isEqualTo(actualInlineResponse200.getAccount());
     }
 
     @Test
     void mapToAccountDetails_null() {
+        // When
         AccountDetails actual = mapper.mapToAccountDetails(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToAccountReference_success() {
+        // Given
         AccountReference accountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference.json", AccountReference.class);
+
+        // When
         de.adorsys.psd2.model.AccountReference actualAccountReference = mapper.mapToAccountReference(accountReference);
 
         de.adorsys.psd2.model.AccountReference expectedAccountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference-expected.json",
                                                                                                        de.adorsys.psd2.model.AccountReference.class);
+
+        // Then
         assertThat(actualAccountReference).isEqualTo(expectedAccountReference);
     }
 
     @Test
     void mapToAccountReference_nullValue() {
+        // When
         de.adorsys.psd2.model.AccountReference accountReference = mapper.mapToAccountReference(null);
+
+        // Then
         assertThat(accountReference).isNull();
     }
 
     @Test
     void mapToAccountReferences() {
+        // Given
         AccountReference accountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference.json", AccountReference.class);
+
+        // When
         List<de.adorsys.psd2.model.AccountReference> actualAccountReferences = mapper.mapToAccountReferences(Collections.singletonList(accountReference));
 
         de.adorsys.psd2.model.AccountReference expectedAccountReference = jsonReader.getObjectFromFile("json/service/mapper/account-model-mapper/AccountModelMapper-account-reference-expected.json",
                                                                                                        de.adorsys.psd2.model.AccountReference.class);
 
+        // Then
         assertThat(actualAccountReferences).asList().hasSize(1).contains(expectedAccountReference);
     }
 
     @Test
     void mapToBalance_null() {
+        // When
         ReadAccountBalanceResponse200 actual = mapper.mapToBalance(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToAccountReferences_null() {
+        // When
         List<de.adorsys.psd2.model.AccountReference> actual = mapper.mapToAccountReferences(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @ParameterizedTest
     @MethodSource("params")
-    void accountStatusToAccountStatus_status_deleted(String input, String expected) {
-        Xs2aAccountDetailsHolder accountDetails = jsonReader.getObjectFromFile(input, Xs2aAccountDetailsHolder.class);
+    void accountStatusToAccountStatus_status_deleted(String inputFilePath, String expectedFilePath) {
+        // Given
+        Xs2aAccountDetailsHolder accountDetails = jsonReader.getObjectFromFile(inputFilePath, Xs2aAccountDetailsHolder.class);
 
+        // When
         AccountDetails actual = mapper.mapToAccountDetails(accountDetails.getAccountDetails());
 
-        AccountDetails accountDetailsExpected = jsonReader.getObjectFromFile(expected, AccountDetails.class);
+        AccountDetails accountDetailsExpected = jsonReader.getObjectFromFile(expectedFilePath, AccountDetails.class);
 
+        // Then
         assertLinks(accountDetailsExpected.getLinks(), actual.getLinks());
         accountDetailsExpected.setLinks(null);
         actual.setLinks(null);
@@ -177,7 +205,7 @@ class AccountModelMapperTest {
 
         // Then
         Balance actualBalance = actualReadAccountBalanceResponse200.getBalances().get(0);
-        assertEquals(expectedLastChangeDateTime, actualBalance.getLastChangeDateTime());
+        assertThat(actualBalance.getLastChangeDateTime()).isEqualTo(expectedLastChangeDateTime);
 
         actualBalance.setLastChangeDateTime(OFFSET_DATE_TIME);
         expectedReadAccountBalanceResponse200.getBalances().get(0).setLastChangeDateTime(OFFSET_DATE_TIME);
@@ -197,7 +225,6 @@ class AccountModelMapperTest {
 
     @Test
     void mapToAccountDetailsCurrency_currencyNull() {
-        //Given
         //When
         String currencyRepresentation = mapper.mapToAccountDetailsCurrency(null);
         //Then
@@ -237,7 +264,7 @@ class AccountModelMapperTest {
         AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
         //Then
         AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-        assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode());
+        assertThat(accountDetails.getCurrency()).isEqualTo(currency.getCurrencyCode()).asList().hasSize(1);
     }
 
     @Test
@@ -284,21 +311,21 @@ class AccountModelMapperTest {
             AccountList actualAccountList = mapper.mapToAccountList(xs2aAccountListHolder);
             //Then
             AccountDetails accountDetails = actualAccountList.getAccounts().get(0);
-            assertThat(accountDetails.getCurrency()).isEqualTo("XXX");
+            assertThat(accountDetails.getCurrency()).isEqualTo("XXX").asList().hasSize(1);
         });
     }
 
     private static Stream<Arguments> params() {
-        String accountsDetailsStatusDeleted = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusDeleted.json";
-        String accountDetailsStatusDeletedExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusDeleted.json";
-        String accountDetailsStatusBlocked = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusBlocked.json";
-        String accountDetailsStatusBlockedExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusBlocked.json";
-        String accountDetailsAccountUsageOrga = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountUsage-orga.json";
-        String accountDetailsAccountUsageOrgaExpected = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-accountUsage-orga.json";
+        String accountsDetailsStatusDeletedFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusDeleted.json";
+        String accountDetailsStatusDeletedExpectedFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusDeleted.json";
+        String accountDetailsStatusBlockedFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountStatusBlocked.json";
+        String accountDetailsStatusBlockedExpectedFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-statusBlocked.json";
+        String accountDetailsAccountUsageOrgaFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-xs2a-account-details-holder-accountUsage-orga.json";
+        String accountDetailsAccountUsageOrgaExpectedFilePath = "json/service/mapper/account-model-mapper/AccountModelMapper-account-details-expected-accountUsage-orga.json";
 
-        return Stream.of(Arguments.arguments(accountsDetailsStatusDeleted, accountDetailsStatusDeletedExpected),
-                         Arguments.arguments(accountDetailsStatusBlocked, accountDetailsStatusBlockedExpected),
-                         Arguments.arguments(accountDetailsAccountUsageOrga, accountDetailsAccountUsageOrgaExpected)
+        return Stream.of(Arguments.arguments(accountsDetailsStatusDeletedFilePath, accountDetailsStatusDeletedExpectedFilePath),
+                         Arguments.arguments(accountDetailsStatusBlockedFilePath, accountDetailsStatusBlockedExpectedFilePath),
+                         Arguments.arguments(accountDetailsAccountUsageOrgaFilePath, accountDetailsAccountUsageOrgaExpectedFilePath)
         );
     }
 

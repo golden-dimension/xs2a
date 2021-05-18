@@ -107,7 +107,9 @@ class CardAccountModelMapperTest {
 
     @Test
     void mapToCardAccountDetails_null() {
+        // When
         CardAccountDetails actual = mapper.mapToCardAccountDetails(null);
+        // Then
         assertThat(actual).isNull();
     }
 
@@ -137,66 +139,70 @@ class CardAccountModelMapperTest {
 
     @Test
     void mapToBalance_null() {
+        // When
         Balance actual = mapper.mapToBalance((Xs2aBalance) null);
+
+        //Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToBalance_null_returnsNull() {
+        // When
         ReadCardAccountBalanceResponse200 actual = mapper.mapToBalance((Xs2aBalancesReport) null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToCardAccountReport_null() {
+        // When
         CardAccountReport actual = mapper.mapToCardAccountReport(null);
+
+        //Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToTransactionsResponse200Json_null() {
+        // When
         CardAccountsTransactionsResponse200 actual = mapper.mapToTransactionsResponse200Json(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToTransactions_null() {
+        // When
         CardTransaction actual = mapper.mapToCardTransaction(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
     @Test
     void mapToReportExchangeRate_null() {
+        // When
         ReportExchangeRate actual = mapper.mapToReportExchangeRate(null);
+
+        // Then
         assertThat(actual).isNull();
     }
 
-    private static Stream<Arguments> params() {
-        String accountsDetailsNull = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-null.json";
-        String accountDetailsNullExpected = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-null.json";
-        String accountDetailsStatusDeleted = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-status-deleted.json";
-        String accountDetailsStatusDeletedExpected = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-status-deleted.json";
-        String accountDetailsStatusBlocked = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-status-blocked.json";
-        String accountDetailsStatusBlockedExpected = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-status-blocked.json";
-        String accountDetailsAccountUsageOrga = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-accountUsage-orga.json";
-        String accountDetailsAccountUsageOrgaExpected = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-usage-orga.json";
-
-        return Stream.of(Arguments.arguments(accountsDetailsNull, accountDetailsNullExpected),
-                         Arguments.arguments(accountDetailsStatusDeleted, accountDetailsStatusDeletedExpected),
-                         Arguments.arguments(accountDetailsStatusBlocked, accountDetailsStatusBlockedExpected),
-                         Arguments.arguments(accountDetailsAccountUsageOrga, accountDetailsAccountUsageOrgaExpected)
-        );
-    }
 
     @ParameterizedTest
     @MethodSource("params")
-    void accountStatusToAccountStatus_missingVariousParameters(String input, String expected) {
-        Xs2aCardAccountDetails accountDetails = jsonReader.getObjectFromFile(input, Xs2aCardAccountDetails.class);
+    void accountStatusToAccountStatus_missingVariousParameters(String inputFilePath, String expectedFilePath) {
+        // Given
+        Xs2aCardAccountDetails accountDetails = jsonReader.getObjectFromFile(inputFilePath, Xs2aCardAccountDetails.class);
 
-        CardAccountDetails expectedAccountDetails = jsonReader.getObjectFromFile(expected, CardAccountDetails.class);
-
+        // When
         CardAccountDetails actual = mapper.mapToCardAccountDetails(accountDetails);
+        CardAccountDetails expectedAccountDetails = jsonReader.getObjectFromFile(expectedFilePath, CardAccountDetails.class);
 
+        // Then
         assertLinks(expectedAccountDetails.getLinks(), actual.getLinks());
         expectedAccountDetails.setLinks(null);
         actual.setLinks(null);
@@ -312,6 +318,23 @@ class CardAccountModelMapperTest {
         // Then
         CardAccountDetails accountDetails = actualAccountList.getCardAccounts().get(0);
         assertThat(accountDetails.getCurrency()).isNull();
+    }
+
+    private static Stream<Arguments> params() {
+        String accountsDetailsNullFilePath = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-null.json";
+        String accountDetailsNullExpectedFilePath = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-null.json";
+        String accountDetailsStatusDeletedFilePath = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-status-deleted.json";
+        String accountDetailsStatusDeletedExpectedFilePath = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-status-deleted.json";
+        String accountDetailsStatusBlockedFilePath = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-status-blocked.json";
+        String accountDetailsStatusBlockedExpectedFilePath = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-status-blocked.json";
+        String accountDetailsAccountUsageOrgaFilePath = "json/service/mapper/account-model-mapper/xs2aCardAccountDetails-input-accountDetails-accountUsage-orga.json";
+        String accountDetailsAccountUsageOrgaExpectedFilePath = "json/service/mapper/account-model-mapper/CardAccountDetails-expected-accountDetails-usage-orga.json";
+
+        return Stream.of(Arguments.arguments(accountsDetailsNullFilePath, accountDetailsNullExpectedFilePath),
+                         Arguments.arguments(accountDetailsStatusDeletedFilePath, accountDetailsStatusDeletedExpectedFilePath),
+                         Arguments.arguments(accountDetailsStatusBlockedFilePath, accountDetailsStatusBlockedExpectedFilePath),
+                         Arguments.arguments(accountDetailsAccountUsageOrgaFilePath, accountDetailsAccountUsageOrgaExpectedFilePath)
+        );
     }
 
     private Xs2aCardAccountDetails buildXs2aCardAccountDetails(Currency currency) {
