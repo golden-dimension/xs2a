@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Cross-cutting Concepts</title>
+<title>Release notes v.10.5</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,51 +437,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.10.5</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="section-concepts">Cross-cutting Concepts</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_embeddable_services">Embeddable services</h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_multi_tenancy_for_cms_database">Multi-tenancy for CMS Database</h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_database_schema_migrations">Database schema migrations</h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_event_api_structure">Event API structure</h3>
-<div class="paragraph">
-<p>Event functionality is extracted in separate module. There are <code>event-service-xs2a-api</code> and <code>event-service-aspsp-api</code> services are presented.
-Currently event module is a part of CMS and connects with XS2A using REST API. All events are stored to the database.</p>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="images/08_XS2A_HTTP_Event_Service.png" alt="Event workflow using HTTP">
-</div>
-<div class="title">Figure 1. Event workflow using HTTP</div>
-</div>
-<div class="paragraph">
-<p>Event service is able to work without CMS. In this case event service is linked as maven dependency directly in XS2A.</p>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="images/08_XS2A_Embedded_Event_Service.png" alt="Event workflow embedded mode">
-</div>
-<div class="title">Figure 2. Event workflow embedded mode</div>
-</div>
-</div>
+
 </div>
 </div>
 </div>
