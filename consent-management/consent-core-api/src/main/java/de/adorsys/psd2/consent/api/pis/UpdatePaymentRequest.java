@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,15 @@
 
 package de.adorsys.psd2.consent.api.pis;
 
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
-import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.jetbrains.annotations.Nullable;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-@EqualsAndHashCode(callSuper = true)
 @Data
-public abstract class BaseCmsPayment extends CmsBasePaymentResponse {
+@AllArgsConstructor
+public class UpdatePaymentRequest {
+    private byte[] payment;
+    private String instanceId;
     private String paymentId;
     private String paymentProduct;
-    private List<PsuIdData> psuIdDatas = new ArrayList<>();
-    private TppInfo tppInfo;
-    private OffsetDateTime creationTimestamp;
-    private OffsetDateTime statusChangeTimestamp;
-    @Nullable
-    private String tppBrandLoggingInformation;
+    private String paymentService;
 }

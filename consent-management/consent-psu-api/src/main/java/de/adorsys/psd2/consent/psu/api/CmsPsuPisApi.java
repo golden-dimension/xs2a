@@ -17,9 +17,7 @@
 package de.adorsys.psd2.consent.psu.api;
 
 import de.adorsys.psd2.consent.api.CmsConstant;
-import de.adorsys.psd2.consent.api.pis.CmsBasePaymentResponse;
-import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
-import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.*;
 import de.adorsys.psd2.consent.psu.api.config.CmsPsuApiTagName;
 import de.adorsys.psd2.consent.psu.api.pis.CmsPisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -49,6 +47,32 @@ public interface CmsPsuPisApi {
         @PathVariable("authorisation-id") String authorisationId,
         @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
         @RequestBody PsuIdData psuIdData);
+
+    @PutMapping(path = "/{payment-service}/{payment-product}/{payment-id}")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK", response = UpdatePisCommonPaymentResponse.class),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 408, message = "Request Timeout", response = CmsPaymentResponse.class)})
+    ResponseEntity<Object> updatePayment(
+
+        @ApiParam(name = "payment-id",
+            value = "The payment identification assigned to the created payment.",
+            example = "bf489af6-a2cb-4b75-b71d-d66d58b934d7",
+            required = true)
+        @PathVariable("payment-id") String paymentId,
+
+        @ApiParam(value = "Payment service ",
+            example = "payments",
+            required = true)
+        @PathVariable("payment-service") String paymentService,
+
+        @ApiParam(value = "Payment product ",
+            example = "sepa-credit-transfers",
+            required = true)
+        @PathVariable("payment-product") String paymentProduct,
+
+        @RequestHeader(value = "instance-id", required = false, defaultValue = DEFAULT_SERVICE_INSTANCE_ID) String instanceId,
+        @RequestBody Object body);
 
     @GetMapping(path = "/redirect/{redirect-id}")
     @ApiOperation(value = "")
