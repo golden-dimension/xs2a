@@ -17,7 +17,9 @@
 package de.adorsys.psd2.consent.psu.api;
 
 import de.adorsys.psd2.consent.api.CmsConstant;
-import de.adorsys.psd2.consent.api.pis.*;
+import de.adorsys.psd2.consent.api.pis.CmsBasePaymentResponse;
+import de.adorsys.psd2.consent.api.pis.CmsPaymentResponse;
+import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
 import de.adorsys.psd2.consent.psu.api.config.CmsPsuApiTagName;
 import de.adorsys.psd2.consent.psu.api.pis.CmsPisPsuDataAuthorisation;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -50,9 +52,9 @@ public interface CmsPsuPisApi {
 
     @PutMapping(path = "/{payment-service}/{payment-product}/{payment-id}")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = UpdatePisCommonPaymentResponse.class),
+        @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 408, message = "Request Timeout", response = CmsPaymentResponse.class)})
+        @ApiResponse(code = 408, message = "Request Timeout")})
     ResponseEntity<Object> updatePayment(
 
         @ApiParam(name = "payment-id",
