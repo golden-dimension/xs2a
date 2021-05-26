@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v.3.0</title>
+<title>Release notes v.11.5</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,159 +437,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.3.0</h1>
+<h1>Release notes v.11.5</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_aspsp_mock_server_and_the_corresponding_connector_are_removed">ASPSP Mock Server and the corresponding connector are removed</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>ASPSP Mock Server and corresponding connector were replaced by the XS2A started and stub SPI implementation.
-Integration tests were moved from <code>spi-mock</code> package to <code>xs2a-standalone-starter</code>. <code>QwacCertificateFilterMock.java</code>
-class was moved from <code>spi-mock</code> to <code>xs2a-impl</code> package.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_add_missing_links_and_location_header_to_the_ais_consent_creation_response">Bugfix: Add missing links and <code>Location</code> header to the AIS consent creation response</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, response to the AIS consent creation request(<code>POST /v1/consents</code>) contains previously missing <code>Location</code>
-header and the <code>self</code> link. Also this response now contains <code>status</code> and <code>scaStatus</code>(in case of <code>implicit</code> start of the
-authorisation process) links that were missing in <code>EMBEDDED</code> approach.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_piis_consent_was_extended_with_new_properties">PIIS consent was extended with new properties</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The following fields were added to PIIS consent (<code>de.adorsys.psd2.xs2a.core.piis.PiisConsent</code>):
-| Name                    | Description                                                                                                   |
-|-----------------|--------------------------------------------------------------------------|
-| cardNumber              | Card Number of the card issued by the PIISP. Should be delivered if available.                                |
-| cardExpiryDate          | Expiry date of the card issued by the PIISP                                                                   |
-| cardInformation         | Additional explanation for the card product.                                                                  |
-| registrationInformation | Additional information about the registration process for the PSU, e.g. a reference to the TPP / PSU contract |</p>
-</div>
-<div class="paragraph">
-<p>Also these fields were added to <code>de.adorsys.psd2.consent.aspsp.api.piis.CreatePiisConsentRequest</code> and can be used for PIIS consent creation in CMS-ASPSP-API
-From now on method de.adorsys.psd2.consent.aspsp.api.piis.CmsAspspPiisService#createConsent(PsuIdData, TppInfo, List, LocalDate, int) is deprecated,
-use CmsAspspPiisService#createConsent(PsuIdData, CreatePiisConsentRequest)instead.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_feature_added_date_and_time_of_last_status_changing_in_pis_ais_and_piis">feature: added date and time of last status changing in PIS, AIS and PIIS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Added new columns with timestamps to CMS tables <code>ais_consent</code>, <code>pis_common_payment</code> and <code>piis_consent</code>. Timestamp of the
-last status changing is stored, if the entity is created - this timestamp is the same as entity creation timestamp.</p>
-</div>
-<div class="paragraph">
-<p>The responses for the listed below endpoints are enriched with the proper field - <code>statusChangeTimestamp</code>:</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>GET <code>/aspsp-api/v1/pis/payments/tpp/{tpp-id}</code></p>
+<p>Upgraded commons-io</p>
 </li>
 <li>
-<p>GET <code>/aspsp-api/v1/pis/payments/psu</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/pis/payments/account/{account-id}</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/ais/consents/tpp/{tpp-id}</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/ais/consents/psu</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/ais/consents/account/{account-id}</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/piis/consents/tpp/{tpp-id}</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/piis/consents/psu</code></p>
-</li>
-<li>
-<p>GET <code>/aspsp-api/v1/piis/consents/account/{account-id}</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Also, this field is propagated to the SPI level for PIS, AIS and PIIS.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_x_request_id_header_validation">Bugfix: X-Request-ID header validation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Added validation for the <code>X-Request-ID</code> header in all controllers. Two cases are handled by now:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Header is null. In this case response is <code>400 FORMAT ERROR</code> with the text <code>'X-Request-ID' may not be null</code></p>
-</li>
-<li>
-<p>Header is not UUID (wrong format). In this case response is also <code>400 FORMAT ERROR</code>, the text is <code>'X-Request-ID'
-has to be represented by standard 36-char UUID representation</code></p>
+<p>Upgraded commons-validator</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_all_links_must_be_contained_in_an_object_with_href">Bugfix: All links must be contained in an object with <code>href</code></h2>
+<h2 id="_upgraded_commons_io">Upgraded commons-io</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, all Links in the response in the _links object contain an object with <code>href</code>. E.g.
-<code>"scaRedirect": {"href": "https://www.testbank.com/asdfasdfasdf"}</code></p>
+<p>From now on, commons-io version is 2.8.0</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_search_for_ais_and_piis_consent_now_use_all_psu_data_properties_in_getconsentsforpsu_method">Bugfix: search for AIS and PIIS consent now use all PSU Data properties in getConsentsForPsu method</h2>
+<h2 id="_upgraded_commons_validator">Upgraded commons-validator</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on in CmsAspspPiisService#getConsentsForPsu, CmsPsuPiisService#getConsentsForPsu and CmsPsuAisService#getConsentsForPsu
-all PSU Data properties are used for filtering results.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_tpp_validation_in_ais_and_pis">Bugfix: TPP validation in AIS and PIS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on XS2A will check every request to AIS and PIS endpoints that contains consent ID or payment ID (i. e. every
-request, except <code>POST /v1/payments/{payment-product}</code> for payments and <code>POST /v1/consents</code> for consents) and verify that
-the request comes from the same TPP that created given consent or payment. TPP in requests are considered to be equal if
-they&#8217;ve used certificates that contain the same authorisation number and authority id.
-If there is a mismatch, <code>401 Unauthorized</code> error will be returned in the response.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_update_psu_data_in_consent_authorisation">Bugfix: Update PSU data in consent authorisation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on CMS will update PSU data in authorisation while calling the <code>/psu-api/v1/ais/consent/{consent-id}/authorisation/{authorisation-id}/psu-data</code>
-endpoint.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_check_whether_consent_has_access_to_balances_in_read_account_list_request_with_balances">Bugfix: Check whether consent has access to balances in Read account list request with balances</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on XS2A will validate Read account list request (<code>GET /v1/accounts</code>) with query parameter <code>withBalance</code> set to
-<code>true</code> by checking whether given consent has access to balances. If the consent has no such access (i. e. consent&#8217;s <code>access</code>
-property doesn&#8217;t contain <code>balances</code>), <code>401 CONSENT_INVALID</code> error will be returned in the response.</p>
+<p>From now on, commons-validator version is 1.7</p>
 </div>
 </div>
 </div>
