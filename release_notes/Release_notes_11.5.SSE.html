@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Payment Initiation Service</title>
+<title>Release notes v.11.5</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,232 +437,142 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.11.5</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_payment_initiation_service">Payment Initiation Service</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<!-- toc disabled -->
-<div class="paragraph">
-<p>The support of this service at the XS2A interface is mandatory.
-Transactions according to this use case can be used to initiate a single payment in form of a credit transfer from an account of the PSU to an account of the payee.</p>
-</div>
-<div class="paragraph">
-<p>While the transaction at the XS2A interface is initiated by the TPP, it must first be initiated by the PSU at the PSU – TPP interface.
-The ASPSP will reject the transaction if the TPP cannot be identified correctly at the XS2A interface and/or if it does not have the role PISP. Subject to the decision of the ASPSP, strong customer authentication of the PSU has to be executed.</p>
-</div>
-<div class="paragraph">
-<p>Current version of the XS2A Interface supports the following types of payments:</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Single payment;</p>
-</li>
-<li>
-<p>Future dated single payment;</p>
-</li>
-<li>
-<p>Bulk payment;</p>
-</li>
-<li>
-<p>Periodic payment.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Multipart periodic payment</strong> uses boundary from request header Content-Type: multipart/form-data; boundary=gc0p4Jq0M2Yt08jU534c0p
-or default --AaaBbbCcc otherwise when it is stored to CMS database.
-Resource get payment information returns such payment with boundary delemiters.</p>
-</div>
-<div class="sect2">
-<h3 id="_country_validation">Country validation</h3>
-<div class="paragraph">
-<p>According to BG Specification every country can have their local requirements for information included in the Payment Request.
-Payment validation on XS2A side can support different countries.</p>
-</div>
-<div class="paragraph">
-<p>It is up to ASPSP to decide the for which countries payment validation will be performed.
-Parameter <strong>"countryValidationSupported"</strong> in the ASPSP-Profile, defines for which country the payment is validated.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_sca_approaches_fo_pis">SCA Approaches fo PIS</h3>
-<div class="sect3">
-<h4 id="_payment_initiation_service_in_redirect_approach">Payment Initiation Service in Redirect Approach</h4>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../usecases/diagrams/paymentInitRedirect.png" alt="Payment Initiation in Redirect Approach">
-</div>
-<div class="title">Figure 1. Payment Initiation in Redirect Approach</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_integration_oauth2_redirect_sca_approach">Integration OAuth2 Redirect SCA Approach</h4>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../usecases/diagrams/PaymentInitOAuth.png" alt="Payment Initiation in OAuth with Redirect Approach">
-</div>
-<div class="title">Figure 2. Payment Initiation in OAuth with Redirect Approach</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_payment_initiation_service_in_embedded_approach">Payment Initiation Service in Embedded Approach</h4>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../usecases/diagrams/paymentInitEmbedded.png" alt="Payment Initiation in Embedded Approach">
-</div>
-<div class="title">Figure 3. Payment Initiation in Embedded Approach</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_payment_initiation_service_in_decoupled_approach_decoupled_approach_as_a_second_sca_factor">Payment Initiation Service in Decoupled Approach (Decoupled approach as a second SCA factor)</h4>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../usecases/diagrams/paymentInitDecoupled.png" alt="Payment Initiation in Decopled Approach">
-</div>
-<div class="title">Figure 4. Payment Initiation in Decoupled Approach</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_payment_statuses">Payment statuses</h3>
-<div class="paragraph">
-<p>Payment transaction status is synchronised in bank&#8217;s database and in CMS. When payment data with payment transaction status is given from ASPSP, status will be updated in CMS, even if it is already finalised. There is endpoint in cms-aspsp-api to set payment data with payment transaction status directly from ASPSP to CMS.</p>
-</div>
-<div class="paragraph">
-<p>Status settlement:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Not confirmed with SCA payments obsolete after a certain period. Payment Transaction Status becomes "rejected" and Sca Status for dedicated payment authorisation becomes "failed";</p>
-</li>
-<li>
-<p>In case TPP tries to initiate new authorisation for expired payment, XS2A sends the response with <strong>HTTP code 403 RESOURCE_EXPIRED</strong>;</p>
-</li>
-<li>
-<p>In case of usage non-existent payment-id XS2A sends response with HTTP code 404 RESOURCE_UNKNOWN.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The transaction statuses of the payment initiation resource which are defined as <strong>Finalised</strong>:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Cancelled</strong> (Payment initiation has been cancelled before execution);</p>
-</li>
-<li>
-<p><strong>Rejected</strong> (Payment initiation or individual transaction included in the payment initiation has been rejected);</p>
-</li>
-<li>
-<p><strong>AcceptedSettlementCompleted</strong> (indicating that the money has been booked already from the debtor account).</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>After setting finalised status for payment:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>status isn&#8217;t allowed to be changed in CMS any more (except the case when ASPSP updates is directly in CMS);</p>
-</li>
-<li>
-<p>new authorisation sub-resource can&#8217;t be created;</p>
-</li>
-<li>
-<p>cancellation can&#8217;t be proceeded.</p>
+<p>Migrated to .yaml open API ver 1.3.9_2021-05-04v1</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_payment_cancellation">Payment Cancellation</h3>
-<div class="paragraph">
-<p>The support of this use case at the XS2A interface is optional.
-A TPP may execute a transaction according to this use case to cancel a (still pending) payment, which has been initiated before. Only future dated payments and recurring payments may be cancelled.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-It is up to the ASPSP to decide if a given payment can still be cancelled or not.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Depending on SpiPaymentCancellationResponse properties <strong>transactionStatus</strong> and <strong>cancellationAuthorisationMandated</strong>:</p>
-</div>
+<div class="sect1">
+<h2 id="_migrated_to_yaml_open_api_ver_1_3_9_2021_05_04v1">Migrated to .yaml open API ver 1.3.9_2021-05-04v1</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>XS2A starts authorisation process of payment cancellation only for authorised payments (which were sent and accepted by ASPSP);</p>
+<p>New models were added:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DebitAccounting</code></p>
 </li>
 <li>
-<p>When payment is finished (has one of transaction statuses Cancelled, Rejected, AcceptedSettlementCompleted) there isn&#8217;t possibility to cancel it or to proceed payment cancellation authorisation flow. In this case XS2A sends the response with HTTP code 400 FORMAT_ERROR and output "Payment is finalised already and cannot be cancelled";</p>
+<p><code>EntryDetailsElement</code></p>
 </li>
 <li>
-<p>If the payment is initiated and authorisation is not finished yet, then it is not yet sent to ASPSP and cancellation will be done without authorisation, even if ASPSP supports authorisation for cancellation of payment.</p>
+<p><code>LinksPaymentInitiationStatus</code></p>
+</li>
+<li>
+<p><code>MessageCode201PaymentInitiation</code></p>
+</li>
+<li>
+<p><code>MessageCode202InitiationStatus</code></p>
+</li>
+<li>
+<p><code>OtherAccountIdentification</code></p>
+</li>
+<li>
+<p><code>PaymentInitiationStatusResponse202Json</code></p>
+</li>
+<li>
+<p><code>TppMessage201PaymentInitiation</code></p>
+</li>
+<li>
+<p><code>TppMessageGeneric</code></p>
+</li>
+<li>
+<p><code>TppMessageInitiationStatusResponse202</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Changes were made in models:</p>
 </li>
 </ul>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Payment Cancellation Authorisation Mandated in Profile and in SpiPaymentCancellationResponse</caption>
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top"></th>
-<th class="tableblock halign-left valign-top">value</th>
-<th class="tableblock halign-left valign-top">value</th>
-<th class="tableblock halign-left valign-top">value</th>
-<th class="tableblock halign-left valign-top">value</th>
+<th class="tableblock halign-left valign-top">Classname</th>
+<th class="tableblock halign-left valign-top">Changes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Profile: <strong>paymentCancellationAuthorisationMandated</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BulkPaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field  <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SpiPaymentCancellationResponse:</p>
-<p class="tableblock">  <strong>cancellationAuthorisationMandated</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CardAccountDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">delete without authorisation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">with authorisation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">with authorisation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">with authorisation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CardAccountsTransactionsResponse200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ConsentsResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LinksCardAccountReport</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>HrefType</code> <code>card</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitationRequestResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessage201PaymentInitiation&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationCancelResponse202</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationStatusResponse200Json</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name and type of field <code>List&lt;TppMessage2XX&gt;</code> <code>tppMessages</code> changed to <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PeriodicPaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReadCardAccountBalanceResponse200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ScaStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name and type of field <code>List&lt;TppMessage2XX&gt;</code> <code>tppMessages</code> changed to <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SigningBasketResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>List&lt;EntryDetails&gt;</code> <code>entryDetails</code> changed to <code>EntryDetails</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EntryDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now it extends <code>ArrayList</code> <code>&lt;EntryDetailsElement&gt;</code></p></td>
 </tr>
 </tbody>
 </table>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../usecases/diagrams/PaymentCancellation%20Redirect.png" alt="Payment Cancellation in Redirect Approach">
-</div>
-<div class="title">Figure 5. Payment Cancellation in Redirect Approach</div>
-</div>
-</div>
 </div>
 </div>
 </div>
