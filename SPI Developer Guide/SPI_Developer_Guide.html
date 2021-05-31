@@ -2968,6 +2968,9 @@ REST controllers classes are located in the <code>de.adorsys.psd2.consent.web.ps
 <li>
 <p><strong>GET /psu-api/v1/payment/redirect/{redirect-id}</strong> - returns PIS payment object by provided authorisation (redirect) ID. Method - <code>getPaymentIdByRedirectId</code>.</p>
 </li>
+<li>
+<p><strong>PUT psu-api/v1/payment/{payment_service}/{payment_product}/{payment_id}</strong> - updates initial payment.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -3840,11 +3843,6 @@ Mocked certificate in xs2a-impl uses the data provided as example in Swagger UI 
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.iban.validation.enabled</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enable IBAN field validation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TRUE</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">xs2a.cms.consent-service.baseurl</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Consent service base URL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://localhost:38080/api/v1" class="bare">http://localhost:38080/api/v1</a></p></td>
@@ -3981,7 +3979,7 @@ Then different PSUs, that are involved in payment or consent authorisation proce
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-05-26 13:30:08 UTC
+Last updated 2021-05-31 12:27:01 UTC
 </div>
 </div>
 </body>
