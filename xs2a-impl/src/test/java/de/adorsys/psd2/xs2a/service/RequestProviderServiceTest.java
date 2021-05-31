@@ -63,6 +63,7 @@ class RequestProviderServiceTest {
     private static final String TPP_BRAND_LOGGING_INFORMATION = "tpp-brand-logging-information";
     private static final String TPP_BRAND_LOGGING_INFORMATION_VALUE = "tppBrandLoggingInformation";
     private static final String INSTANCE_ID = "bank1";
+    private static final String TPP_REJECTION_NO_FUNDS_PREFERRED = "tpp-rejection-nofunds-preferred";
     private static final String TPP_REDIRECT_PREFERRED_HEADER = "tpp-redirect-preferred";
     private static final String TPP_DECOUPLED_PREFERRED_HEADER = "tpp-decoupled-preferred";
 
@@ -256,5 +257,110 @@ class RequestProviderServiceTest {
 
         // Then
         assertEquals(ACCEPT_HEADER_ANY, actual);
+    }
+
+    @Test
+    void getTppRejectionNoFundsPreferred_shouldReturnNull() {
+        //When
+        Boolean actual = requestProviderService.getTppRejectionNoFundsPreferred();
+
+        //Then
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    void getTppRejectionNoFundsPreferred_true() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_REJECTION_NO_FUNDS_PREFERRED)).thenReturn("true");
+        Boolean expected = Boolean.TRUE;
+
+        //When
+        Boolean actual = requestProviderService.getTppRejectionNoFundsPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getTppRejectionNoFundsPreferred_false() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_REJECTION_NO_FUNDS_PREFERRED)).thenReturn("false");
+        Boolean expected = Boolean.FALSE;
+
+        //When
+        Boolean actual = requestProviderService.getTppRejectionNoFundsPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getTppDecoupledPreferred_shouldReturnNull() {
+        //When
+        Boolean actual = requestProviderService.getTppDecoupledPreferred();
+
+        //Then
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    void getTppDecoupledPreferred_true() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_DECOUPLED_PREFERRED_HEADER)).thenReturn("true");
+        Boolean expected = Boolean.TRUE;
+
+        //When
+        Boolean actual = requestProviderService.getTppDecoupledPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getTppDecoupledPreferred_false() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_DECOUPLED_PREFERRED_HEADER)).thenReturn("false");
+        Boolean expected = Boolean.FALSE;
+
+        //When
+        Boolean actual = requestProviderService.getTppDecoupledPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getTppRedirectPreferred_shouldReturnNull() {
+        //When
+        Boolean actual = requestProviderService.getTppRedirectPreferred();
+
+        //Then
+        assertThat(actual).isNull();
+    }
+
+    @Test
+    void getTppRedirectPreferred_true() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_REDIRECT_PREFERRED_HEADER)).thenReturn("true");
+        Boolean expected = Boolean.TRUE;
+
+        //When
+        Boolean actual = requestProviderService.getTppRedirectPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    void getTppRedirectPreferred_false() {
+        //Given
+        when(httpServletRequest.getHeader(TPP_REDIRECT_PREFERRED_HEADER)).thenReturn("false");
+        Boolean expected = Boolean.FALSE;
+
+        //When
+        Boolean actual = requestProviderService.getTppRedirectPreferred();
+
+        //Then
+        assertThat(actual).isEqualTo(expected);
     }
 }
