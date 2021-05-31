@@ -219,7 +219,7 @@ public class CmsPsuPisServiceInternal implements CmsPsuPisService {
                    .filter(p -> p.getTransactionStatus().isNotFinalisedStatus())
                    .map(pd -> commonPaymentDataService.updateStatusInPaymentData(pd, status))
                    .orElseGet(() -> {
-                       log.info("Payment ID [{}], Instance ID: [{}]. Update payment status failed, because PIS common payment data not found",
+                       log.info("Payment ID [{}], Instance ID: [{}]. Update payment status failed, because common payment data not found",
                                 paymentId, instanceId);
                        return false;
                    });
@@ -252,7 +252,7 @@ public class CmsPsuPisServiceInternal implements CmsPsuPisService {
                    .filter(p -> p.getTransactionStatus().isNotFinalisedStatus())
                    .map(pd -> commonPaymentDataService.updatePaymentData(pd, updatePaymentRequest.getPayment()))
                    .orElseGet(() -> {
-                       log.info("Payment ID [{}], Instance ID: [{}]. Update payment failed, because PIS common payment data not found",
+                       log.info("Payment ID [{}], Instance ID: [{}]. Update payment failed, because common payment data not found",
                                 updatePaymentRequest.getPaymentId(), updatePaymentRequest.getInstanceId());
                        return false;
                    });
