@@ -28,47 +28,57 @@ import de.adorsys.psd2.xs2a.spi.domain.payment.response.SpiBulkPaymentInitiation
 import de.adorsys.psd2.xs2a.spi.domain.payment.response.SpiPaymentInitiationResponse;
 import de.adorsys.psd2.xs2a.spi.domain.payment.response.SpiPeriodicPaymentInitiationResponse;
 import de.adorsys.psd2.xs2a.spi.domain.payment.response.SpiSinglePaymentInitiationResponse;
+import de.adorsys.psd2.xs2a.web.mapper.ScaMethodsMapper;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueMappingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
-public interface SpiToXs2aPaymentMapper {
+@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+uses = ScaMethodsMapper.class)
+public abstract class SpiToXs2aPaymentMapper {
 
-    @Mapping(target = "scaMethods", ignore = true)
-    @Mapping(target = "psuMessage", ignore = true)
-    @Mapping(target = "tppMessages", ignore = true)
+    @Autowired
+    protected ScaMethodsMapper scaMethodsMapper;
+
+    @Mapping(target = "scaMethods", expression = "java(scaMethodsMapper.mapToAuthenticationObjectList(spi.getScaMethods()))")
+    @Mapping(target = "psuMessage", source = "spi.psuMessage")
+    @Mapping(target = "tppMessageInformation", source ="spi.tppMessages")
     @Mapping(target = "transactionFeeIndicator", source = "spi.spiTransactionFeeIndicator")
     @Mapping(target = "aspspConsentDataProvider", source = "aspspConsentDataProvider")
-    SinglePaymentInitiationResponse mapToPaymentInitiateResponse(SpiSinglePaymentInitiationResponse spi,
+    public abstract SinglePaymentInitiationResponse mapToPaymentInitiateResponse(SpiSinglePaymentInitiationResponse spi,
                                                                  InitialSpiAspspConsentDataProvider aspspConsentDataProvider);
 
-    @Mapping(target = "scaMethods", ignore = true)
-    @Mapping(target = "psuMessage", ignore = true)
-    @Mapping(target = "tppMessages", ignore = true)
+    public void main(SpiSinglePaymentInitiationResponse spi, SinglePaymentInitiationResponse s) {
+       s.setTppMessageInformation(spi.getTppMessages());
+    }
+
+    @Mapping(target = "scaMethods", expression = "java(scaMethodsMapper.mapToAuthenticationObjectList(spi.getScaMethods()))")
+    @Mapping(target = "psuMessage", source = "spi.psuMessage")
+    @Mapping(target = "tppMessageInformation", source ="spi.tppMessages")
     @Mapping(target = "transactionFeeIndicator", source = "spi.spiTransactionFeeIndicator")
     @Mapping(target = "aspspConsentDataProvider", source = "aspspConsentDataProvider")
-    PeriodicPaymentInitiationResponse mapToPaymentInitiateResponse(SpiPeriodicPaymentInitiationResponse spi,
+    public abstract PeriodicPaymentInitiationResponse mapToPaymentInitiateResponse(SpiPeriodicPaymentInitiationResponse spi,
                                                                    InitialSpiAspspConsentDataProvider aspspConsentDataProvider);
 
-    @Mapping(target = "scaMethods", ignore = true)
-    @Mapping(target = "psuMessage", ignore = true)
-    @Mapping(target = "tppMessages", ignore = true)
+    @Mapping(target = "scaMethods", expression = "java(scaMethodsMapper.mapToAuthenticationObjectList(spi.getScaMethods()))")
+    @Mapping(target = "psuMessage", source = "spi.psuMessage")
+    @Mapping(target = "tppMessageInformation", source ="spi.tppMessages")
     @Mapping(target = "transactionFeeIndicator", source = "spi.spiTransactionFeeIndicator")
     @Mapping(target = "aspspConsentDataProvider", source = "aspspConsentDataProvider")
-    BulkPaymentInitiationResponse mapToPaymentInitiateResponse(SpiBulkPaymentInitiationResponse spi,
+    public abstract BulkPaymentInitiationResponse mapToPaymentInitiateResponse(SpiBulkPaymentInitiationResponse spi,
                                                                InitialSpiAspspConsentDataProvider aspspConsentDataProvider);
 
-    @Mapping(target = "scaMethods", ignore = true)
-    @Mapping(target = "psuMessage", ignore = true)
-    @Mapping(target = "tppMessages", ignore = true)
+    @Mapping(target = "scaMethods", expression = "java(scaMethodsMapper.mapToAuthenticationObjectList(spi.getScaMethods()))")
+    @Mapping(target = "psuMessage", source = "spi.psuMessage")
+    @Mapping(target = "tppMessageInformation", source ="spi.tppMessages")
     @Mapping(target = "paymentType", source = "type")
     @Mapping(target = "transactionFeeIndicator", source = "spi.spiTransactionFeeIndicator")
     @Mapping(target = "aspspConsentDataProvider", source = "aspspConsentDataProvider")
-    CommonPaymentInitiationResponse mapToCommonPaymentInitiateResponse(SpiPaymentInitiationResponse spi,
+    public abstract CommonPaymentInitiationResponse mapToCommonPaymentInitiateResponse(SpiPaymentInitiationResponse spi,
                                                                        PaymentType type, InitialSpiAspspConsentDataProvider aspspConsentDataProvider);
 
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
-    Xs2aAmount spiAmountToXs2aAmount(SpiAmount spiAmount);
+    public abstract Xs2aAmount spiAmountToXs2aAmount(SpiAmount spiAmount);
 }
