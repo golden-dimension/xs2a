@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v.5.9</title>
+<title>Release notes v.11.5</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.5.9</h1>
+<h1>Release notes v.11.5</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -446,148 +446,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Migrate to jUnit 5.x and Mockito 3.x</p>
-</li>
-<li>
-<p>Remove deprecated getTppInfoWithPath method in CmsAspspTppInfoController</p>
-</li>
-<li>
-<p>Bugfix: Update Response Code in Consent Initiation requests for not supported consent types</p>
-</li>
-<li>
-<p>Bugfix: Payment endpoints return incorrect HTTP status code on providing unknown payment ID</p>
-</li>
-<li>
-<p>Bugfix: Fixing that expiration of an AIS consent changes its validUntil date</p>
-</li>
-<li>
-<p>Bugfix: Payment/Consent status doesn&#8217;t change after ConfirmationCode validation in xs2a</p>
-</li>
-<li>
-<p>Bugfix: Prevent OauthModeFilter from executing for non-XS2A endpoints</p>
-</li>
-<li>
-<p>Implement cards accounts</p>
-</li>
-<li>
-<p>Bugfix: Missing properties for bulk and periodic payments in cms-psu-api</p>
+<p>Headers TPP-Redirect-Preferred,TPP-Decoupled-Preferred were passed to SPI level</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_migrate_to_junit_5_x_and_mockito_3_x">Migrate to jUnit 5.x and Mockito 3.x</h2>
+<h2 id="_headers_tpp_redirect_preferredtpp_decoupled_preferred_were_passed_to_spi_level">Headers TPP-Redirect-Preferred,TPP-Decoupled-Preferred were passed to SPI level</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, project uses jUnit 5.x and Mockito 3.x for testing.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remove_deprecated_gettppinfowithpath_method_in_cmsaspsptppinfocontroller">Remove deprecated getTppInfoWithPath method in CmsAspspTppInfoController</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Method <code>de.adorsys.psd2.consent.web.aspsp.controller.CmsAspspTppInfoController.getTppInfoWithPath</code> was removed.
-From now on, use <code>de.adorsys.psd2.consent.web.aspsp.controller.CmsAspspTppInfoController.getTppInfo</code> method instead.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_update_response_code_in_consent_initiation_requests_for_not_supported_consent_types">Bugfix: Update Response Code in Consent Initiation requests for not supported consent types</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, if TPP sends Consent initiation requests and ASPSP doesn&#8217;t support certain consent type TPP will receive 400 response code with <code>SERVICE_INVALID</code> message.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_payment_endpoints_return_incorrect_http_status_code_on_providing_unknown_payment_id">Bugfix: Payment endpoints return incorrect HTTP status code on providing unknown payment ID</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, PIS endpoints that take payment ID as a path parameter will return <code>RESOURCE_UNKNOWN</code> error with HTTP status
-code <code>403</code> instead of <code>400</code> or <code>404</code> if the payment couldn&#8217;t be located by the provided ID.</p>
-</div>
-<div class="paragraph">
-<p>The following endpoints were affected by this change:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Payment information request (<code>GET /v1/{payment_service}/{payment_product}/{payment_id}</code>)</p>
-</li>
-<li>
-<p>Payment initiation status request (<code>GET /v1/{payment_service}/{payment_product}/{payment_id}/status</code>)</p>
-</li>
-<li>
-<p>Payment cancellation request (<code>DELETE /v1/{payment_service}/{payment_product}/{payment_id}</code>)</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_fixing_that_expiration_of_an_ais_consent_changes_its_validuntil_date">Fixing that expiration of an AIS consent changes its validUntil date</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, expiration of an AIS consent does not change its <code>validUntil</code> date. A second value
-<code>expireDate</code> has been introduced, which indicates the date of expiration. The <code>expireDate</code> is properly
-propagated to SPI, CMS-PSU and CMS-ASPSP APIs.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_paymentconsent_status_doesnt_change_after_confirmationcode_validation_in_xs2a">Bugfix: Payment/Consent status doesn&#8217;t change after ConfirmationCode validation in xs2a</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, after ConfirmationCode validation in XS2A (<code>authorisationConfirmationCheckByXs2a = true</code> in ASPSP profile)
-there is an additional call to SPI Level (<code>de.adorsys.psd2.xs2a.spi.service.AisConsentSpi#notifyConfirmationCodeValidation</code> for consent or <code>de.adorsys.psd2.xs2a.spi.service.PaymentSpi#notifyConfirmationCodeValidation</code> for payment)
-with validation result. In response, XS2A receives an object with
-authorisation status and consent/payment status and updates them in CMS.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_prevent_oauthmodefilter_from_executing_for_non_xs2a_endpoints">Bugfix: Prevent OauthModeFilter from executing for non-XS2A endpoints</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, OauthModeFilter is not being executed for non-XS2A endpoints</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_implement_cards_accounts">Implement cards accounts</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, XS2A supports new interface - card account with endpoints described below:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Read list of card accounts (<code>GET /v1/card-accounts</code>)</p>
-</li>
-<li>
-<p>Read card account balances (<code>GET /v1/card-accounts/{account-id}/balances</code>)</p>
-</li>
-<li>
-<p>Read card transaction list of an account (<code>GET /v1/card-accounts/{account-id}/transactions</code>)</p>
-</li>
-<li>
-<p>Read details about a card account (<code>GET /v1/card-accounts/{account-id}</code>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>To use card account interface, one should add parameter to ASPSP profile in <code>supportedAccountReferenceFields</code> field (<code>MASKED_PAN</code> or/and <code>PAN</code>).
-For providing access to card accounts standard AIS consent should be used. Corresponding changes were made to SPI level.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_missing_properties_for_bulk_and_periodic_payments_in_cms_psu_api">Bugfix: missing properties for bulk and periodic payments in cms-psu-api</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Fixed missing properties for bulk and periodic payments in the response of <code>CmsPsuPisService#getPayment</code>, <code>CmsPsuPisService#checkRedirectAndGetPayment</code> and <code>CmsPsuPisService#checkRedirectAndGetPaymentForCancellation</code> methods in case of using <code>cms-payment-support-impl</code> module.</p>
+<p>Headers TPP-Redirect-Preferred and TPP-Decoupled-Preferred were passed to SPI level of the application for Payment/Consent flow.</p>
 </div>
 </div>
 </div>
