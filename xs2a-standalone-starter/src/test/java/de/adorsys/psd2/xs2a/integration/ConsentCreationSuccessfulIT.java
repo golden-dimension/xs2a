@@ -36,7 +36,6 @@ import de.adorsys.psd2.xs2a.config.CorsConfigurationProperties;
 import de.adorsys.psd2.xs2a.config.WebConfig;
 import de.adorsys.psd2.xs2a.config.Xs2aEndpointPathConstant;
 import de.adorsys.psd2.xs2a.config.Xs2aInterfaceConfig;
-import de.adorsys.psd2.xs2a.core.authorisation.AuthenticationObject;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.consent.AspspConsentData;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
@@ -49,7 +48,6 @@ import de.adorsys.psd2.xs2a.integration.builder.TppInfoBuilder;
 import de.adorsys.psd2.xs2a.integration.builder.UrlBuilder;
 import de.adorsys.psd2.xs2a.integration.builder.ais.AisConsentAuthorizationResponseBuilder;
 import de.adorsys.psd2.xs2a.integration.builder.ais.CmsConsentBuilder;
-import de.adorsys.psd2.xs2a.web.mapper.ScaMethodsMapper;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,8 +133,6 @@ class ConsentCreationSuccessfulIT {
     private AspspDataService aspspDataService;
     @MockBean
     private AisConsentServiceEncrypted aisConsentServiceEncrypted;
-    @MockBean
-    private ScaMethodsMapper scaMethodsMapper;
 
     @BeforeEach
     void init() {
@@ -329,8 +325,6 @@ class ConsentCreationSuccessfulIT {
             .thenReturn(CmsResponse.<AuthorisationScaApproachResponse>builder()
                             .payload(new AuthorisationScaApproachResponse(scaApproach))
                             .build());
-        given(scaMethodsMapper.mapToAuthenticationObjectList(any()))
-            .willReturn(Collections.singletonList(getAuthenticationObject()));
 
         MockHttpServletRequestBuilder requestBuilder = post(UrlBuilder.buildConsentCreation());
         requestBuilder.headers(headers);
@@ -347,17 +341,5 @@ class ConsentCreationSuccessfulIT {
 
     private CreateAuthorisationResponse buildCreateAisConsentAuthorizationResponse() {
         return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, INTERNAL_REQUEST_ID, null);
-    }
-
-    private AuthenticationObject getAuthenticationObject(){
-        AuthenticationObject authenticationObject = new AuthenticationObject();
-        authenticationObject.setAuthenticationType("MockedAuthenticationType");
-        authenticationObject.setAuthenticationMethodId("MockedAuthenticationMethodId");
-        authenticationObject.setAuthenticationVersion("MockedAuthenticationVersion");
-        authenticationObject.setName("MockedName");
-        authenticationObject.setDecoupled(false);
-        authenticationObject.setExplanation("MockedExplanation");
-
-        return authenticationObject;
     }
 }

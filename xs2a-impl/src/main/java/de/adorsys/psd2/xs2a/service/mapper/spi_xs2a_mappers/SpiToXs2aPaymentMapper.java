@@ -50,10 +50,6 @@ public abstract class SpiToXs2aPaymentMapper {
     public abstract SinglePaymentInitiationResponse mapToPaymentInitiateResponse(SpiSinglePaymentInitiationResponse spi,
                                                                  InitialSpiAspspConsentDataProvider aspspConsentDataProvider);
 
-    public void main(SpiSinglePaymentInitiationResponse spi, SinglePaymentInitiationResponse s) {
-       s.setTppMessageInformation(spi.getTppMessages());
-    }
-
     @Mapping(target = "scaMethods", expression = "java(scaMethodsMapper.mapToAuthenticationObjectList(spi.getScaMethods()))")
     @Mapping(target = "psuMessage", source = "spi.psuMessage")
     @Mapping(target = "tppMessageInformation", source ="spi.tppMessages")

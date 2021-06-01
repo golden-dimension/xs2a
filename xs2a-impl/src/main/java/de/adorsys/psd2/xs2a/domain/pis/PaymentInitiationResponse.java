@@ -56,7 +56,7 @@ public abstract class PaymentInitiationResponse {
     private ErrorHolder errorHolder;
     private String internalRequestId;
     private List<NotificationSupportedMode> tppNotificationContentPreferred;
-    private Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
+    private final Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
     private Xs2aAmount currencyConversionFee;
     private Xs2aAmount estimatedTotalAmount;
     private Xs2aAmount estimatedInterbankSettlementAmount;

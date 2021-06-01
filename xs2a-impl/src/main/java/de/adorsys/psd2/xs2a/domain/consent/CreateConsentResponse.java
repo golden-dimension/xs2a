@@ -56,5 +56,5 @@ public class CreateConsentResponse {
     private final String internalRequestId;
 
     private final List<NotificationSupportedMode> tppNotificationContentPreferred;
-    private Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
+    private final Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
 }
