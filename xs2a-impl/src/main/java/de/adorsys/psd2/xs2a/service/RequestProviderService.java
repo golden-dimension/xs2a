@@ -197,18 +197,6 @@ public class RequestProviderService {
                    .orElse(null);
     }
 
-    public Boolean getTppDecoupledPreferred() {
-        return Optional.ofNullable(getHeader(TPP_DECOUPLED_PREFERRED_HEADER))
-                   .map(BooleanUtils::toBoolean)
-                   .orElse(null);
-    }
-
-    public Boolean getTppRedirectPreferred() {
-        return Optional.ofNullable(getHeader(TPP_REDIRECT_PREFERRED_HEADER))
-                   .map(BooleanUtils::toBoolean)
-                   .orElse(null);
-    }
-
     private String getHeader(String headerName) {
         return httpServletRequest.getHeader(headerName);
     }

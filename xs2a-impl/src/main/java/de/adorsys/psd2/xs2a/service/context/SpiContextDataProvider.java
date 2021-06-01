@@ -49,7 +49,7 @@ public class SpiContextDataProvider {
                                   requestProviderService.getInternalRequestId(), requestProviderService.getOAuth2Token(),
                                   requestProviderService.getTppBrandLoggingInformationHeader(),
                                   requestProviderService.getTppRejectionNoFundsPreferred(),
-                                  requestProviderService.getTppDecoupledPreferred(),
-                                  requestProviderService.getTppRedirectPreferred());
+                                  requestProviderService.resolveTppRedirectPreferred().orElse(null),
+                                  requestProviderService.resolveTppDecoupledPreferred().orElse(null));
     }
 }
