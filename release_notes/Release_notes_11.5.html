@@ -457,6 +457,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>Added new method to terminate old consents</p>
 </li>
+<li>
+<p>Migrated to .yaml open API ver 1.3.9_2021-05-04v1</p>
+</li>
+<li>
+<p>Upgraded commons-io</p>
+</li>
+<li>
+<p>Upgraded commons-validator</p>
+</li>
+<li>
+<p>Headers TPP-Redirect-Preferred,TPP-Decoupled-Preferred were passed to SPI level</p>
+</li>
 </ul>
 </div>
 </div>
@@ -510,10 +522,157 @@ It updates initial payment data.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_migrated_to_yaml_open_api_ver_1_3_9_2021_05_04v1">Migrated to .yaml open API ver 1.3.9_2021-05-04v1</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>New models were added:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DebitAccounting</code></p>
+</li>
+<li>
+<p><code>EntryDetailsElement</code></p>
+</li>
+<li>
+<p><code>LinksPaymentInitiationStatus</code></p>
+</li>
+<li>
+<p><code>MessageCode201PaymentInitiation</code></p>
+</li>
+<li>
+<p><code>MessageCode202InitiationStatus</code></p>
+</li>
+<li>
+<p><code>OtherAccountIdentification</code></p>
+</li>
+<li>
+<p><code>PaymentInitiationStatusResponse202Json</code></p>
+</li>
+<li>
+<p><code>TppMessage201PaymentInitiation</code></p>
+</li>
+<li>
+<p><code>TppMessageGeneric</code></p>
+</li>
+<li>
+<p><code>TppMessageInitiationStatusResponse202</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Changes were made in models:</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Classname</th>
+<th class="tableblock halign-left valign-top">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BulkPaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field  <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CardAccountDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CardAccountsTransactionsResponse200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ConsentsResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LinksCardAccountReport</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>HrefType</code> <code>card</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitationRequestResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessage201PaymentInitiation&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationCancelResponse202</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationStatusResponse200Json</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name and type of field <code>List&lt;TppMessage2XX&gt;</code> <code>tppMessages</code> changed to <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PeriodicPaymentInitiationWithStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ReadCardAccountBalanceResponse200</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">new field <code>Boolean</code> <code>debitAccounting</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ScaStatusResponse</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name and type of field <code>List&lt;TppMessage2XX&gt;</code> <code>tppMessages</code> changed to <code>List&lt;TppMessageGeneric&gt;</code> <code>tppMessage</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SigningBasketResponse201</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>tppMessages</code> changed from <code>List&lt;TppMessage2XX&gt;</code> to <code>List&lt;TppMessageGeneric&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type of field <code>List&lt;EntryDetails&gt;</code> <code>entryDetails</code> changed to <code>EntryDetails</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EntryDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now it extends <code>ArrayList</code> <code>&lt;EntryDetailsElement&gt;</code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_upgraded_commons_io">Upgraded commons-io</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, commons-io version is 2.8.0</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_upgraded_commons_validator">Upgraded commons-validator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, commons-validator version is 1.7</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_headers_tpp_redirect_preferredtpp_decoupled_preferred_were_passed_to_spi_level">Headers TPP-Redirect-Preferred,TPP-Decoupled-Preferred were passed to SPI level</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Headers TPP-Redirect-Preferred and TPP-Decoupled-Preferred were passed to SPI level of the application for Payment/Consent flow.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-01 16:20:23 UTC
+Last updated 2021-06-02 12:24:30 UTC
 </div>
 </div>
 </body>
