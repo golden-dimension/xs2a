@@ -51,7 +51,7 @@ Also, *SpiContextData* object stores the OAuth2 token in the *oAuth2Token* field
 that should be present
 in any XS2A request during OAuth SCA approach. This header is passed to SPI level in each method.
 
-There are a few optional fields in *SpiContextData*, which can be sent in request by TPP:
+There are a few optional fields in *SpiContextData*, which can be sent as headers in request by TPP:
 
 |===
 | Attribute | Type | Condition | Description
