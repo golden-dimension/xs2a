@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Extending payment validation</title>
+<title>Release notes v.11.6</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,31 +437,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
+<h1>Release notes v.11.6</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_extending_payment_validation">Extending payment validation</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>In order to extend payment validation with custom bank&#8217;s requirements, one needs to override:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>DefaultPaymentValidationConfigImpl</code> with custom <code>ValidationObject</code> fields (Occurrence and max length);</p>
-</li>
-<li>
-<p><code>DefaultPaymentBodyFieldsValidatorImpl</code> with overridden method <code>createPaymentValidationConfig</code> (put there custom DefaultPaymentValidationConfigImpl extension);</p>
-</li>
-<li>
-<p><code>DefaultPaymentValidatorHolder</code> with passing custom extended <code>DefaultPaymentBodyFieldsValidatorImpl</code> in constructor parameters and overridden method <code>isCustom</code> (return true here);</p>
-</li>
-<li>
-<p><code>CustomPaymentValidationService</code> with annotation <code>@Primary</code> and override needed methods according to bank&#8217;s requirements. Use
-<code>ErrorBuildingService</code> to enrich message error.</p>
-</li>
-</ul>
-</div>
+
 </div>
 </div>
 </div>
