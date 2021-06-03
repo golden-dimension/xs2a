@@ -1217,9 +1217,76 @@ are common for all of them:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Also, SpiContextData object stores the OAuth2 token in the <strong>oAuth2Token</strong> field - this is the authorisation token that should be present
+<p>Also, <strong>SpiContextData</strong> object stores the OAuth2 token in the <strong>oAuth2Token</strong> field - this is the authorisation token
+that should be present
 in any XS2A request during OAuth SCA approach. This header is passed to SPI level in each method.</p>
 </div>
+<div class="paragraph">
+<p>There are a few optional fields in <strong>SpiContextData</strong>, which can be sent as headers in request by TPP:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tppBrandLoggingInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This parameter might be used by TPPs to inform the ASPSP about
+the brand used by the TPP towards the PSU.
+This information is meant for logging entries to enhance communication between ASPSP and PSU or ASPSP and TPP.
+This parameter might be ignored by the ASPSP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tppRejectionNoFundsPreferred</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If it equals "true" then the TPP prefers a rejection of the
+payment initiation in case the ASPSP is providing an integrated confirmation of funds request an the result of this
+is that not sufficient funds are available.
+If it equals "false" then the TPP prefers that the ASPSP is dealing with the payment initiation like in the ASPSPs
+online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.
+This parameter may be ignored by the ASPSP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tppRedirectPreferred</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If it equals "true", the TPP prefers a redirect over an embedded SCA
+approach.
+If it equals "false", the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded
+or the Decoupled SCA approach, depending on the parameter TPP- Decoupled-Preferred and the choice of the SCA
+procedure by the TPP/PSU.
+If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method
+chosen by the TPP/PSU.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tppDecoupledPreferred</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If it equals "true", the TPP prefers a decoupled SCA approach.
+If it equals "false", the TPP prefers not to use the decoupled approach for SCA. The ASPSP will then choose
+between the embedded or the redirect SCA approach, depending on the choice of the SCA procedure by the TPP/PSU.
+If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the parameter
+TPP-Redirect- Preferred and the SCA method chosen by the TPP/PSU.
+The parameter might be ignored by the ASPSP.
+If both parameters TPP-Redirect-Preferred and TPP-Decoupled-Preferred are present and true, the request is still
+not rejected, but it is up to the ASPSP, which approach will actually be used.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>The response from the connector to XS2A and the ASPSP consent data provider are described in the next chapters.</p>
 </div>
@@ -3979,7 +4046,7 @@ Then different PSUs, that are involved in payment or consent authorisation proce
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-02 14:15:25 UTC
+Last updated 2021-06-03 13:57:06 UTC
 </div>
 </div>
 </body>
