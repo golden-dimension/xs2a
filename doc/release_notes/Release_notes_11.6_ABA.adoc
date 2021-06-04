@@ -8,5 +8,5 @@
 
 From now on, `psuMessage`, `tppMessage` and `scaMethods` fields are present in Payment Initiation Response for Single, Bulk, Periodic and Common payments and in AIS Consent Response.
 
-- In `SpiPaymentInitiationResponse` field *scaMethods* was changed from `List<String>` to `List<SpiAuthenticationObject>`;
+- In `SpiPaymentInitiationResponse` field *scaMethods* was changed from `List<String>` to `List<SpiAuthenticationObject>` and since it was previously ignored, it is not requred to be remapped;
 - In `SpiInitiateAisConsentResponse` fields *tppMessage* and *scaMethods* were added;
