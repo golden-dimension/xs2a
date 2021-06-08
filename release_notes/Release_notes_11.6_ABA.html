@@ -446,24 +446,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Changed transactionDetails structure</p>
+<p>Retrieve fields from SPI</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_changed_transactiondetails_structure">Changed transactionDetails structure</h2>
+<h2 id="_retrieve_fields_from_spi">Retrieve fields from SPI</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, <code>transactionDetails</code> are stored in <code>Transactions</code> object, and response has correct structure. Before they were stored in <code>transactionDetailsBody</code> object, and this was the cause of the incorrect structure of the response. Unnecessary <code>TransactionDetailsBody</code> object model was removed.</p>
+<p>From now on, <code>psuMessage</code>, <code>tppMessage</code> and <code>scaMethods</code> fields are present in Payment Initiation Response for Single, Bulk, Periodic and Common payments and in AIS Consent Response. Previously, mentioned fields were ignored and haven&#8217;t been used;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In <code>SpiPaymentInitiationResponse</code> field <strong>scaMethods</strong> was changed from <code>List&lt;String&gt;</code> to <code>List&lt;SpiAuthenticationObject&gt;</code>;</p>
+</li>
+<li>
+<p>In <code>SpiInitiateAisConsentResponse</code> fields <strong>tppMessage</strong> and <strong>scaMethods</strong> were added;</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-08 09:32:37 UTC
+Last updated 2021-06-08 16:01:05 UTC
 </div>
 </div>
 </body>
