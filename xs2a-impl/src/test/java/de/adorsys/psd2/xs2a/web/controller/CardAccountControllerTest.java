@@ -240,7 +240,7 @@ class CardAccountControllerTest {
         // When
         CardAccountReport result = (CardAccountReport) cardAccountController.getCardAccountTransactionList(ACCOUNT_ID, "pending",
                                                                                                            null, CONSENT_ID, null, null, "both", false,
-                                                                                                           false, null, null, null, null, null,
+                                                                                                           null, null, null, null, null,
                                                                                                            null, null, null, null, null,
                                                                                                            null, null, null).getBody();
         // Then
