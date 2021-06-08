@@ -56,10 +56,10 @@ public abstract class PaymentInitiationResponse {
     private ErrorHolder errorHolder;
     private String internalRequestId;
     private List<NotificationSupportedMode> tppNotificationContentPreferred;
-    private final Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
     private Xs2aAmount currencyConversionFee;
     private Xs2aAmount estimatedTotalAmount;
     private Xs2aAmount estimatedInterbankSettlementAmount;
+    private final Set<TppMessageInformation> tppMessageInformation = new HashSet<>();
 
     PaymentInitiationResponse(ErrorHolder errorHolder) {
         this.errorHolder = errorHolder;
