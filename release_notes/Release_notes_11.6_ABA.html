@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v. 1.12</title>
+<title>Release notes v.11.6</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,247 +437,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v. 1.12</h1>
+<h1>Release notes v.11.6</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_extract_cms_web_endpoints_to_different_maven_modules">Extract CMS web-endpoints to different maven modules</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>A SPI Developer now can decide what endpoints on CMS side he needs.
-There are three modules with different endpoints to serve different possible purposes of CMS.</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>consent-xs2a-web is used to provide endpoints for xs2a-service.
-This is normally needed if CMS is deployed as a separate service.</p>
-</li>
-<li>
-<p>consent-psu-web is used to provide endpoints for presentation and work with consents in some PSU application,
-i.e. online-banking system. This module can be used in any setup of CMS (embedded and standalone).</p>
-</li>
-<li>
-<p>consent-aspsp-web is used to provide other endpoints available for banking systems.
-This module can be used in any setup of CMS (embedded and standalone).</p>
+<p>Changed transactionDetails structure</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_payment_cancellation_is_added">Payment cancellation is added</h2>
+<h2 id="_changed_transactiondetails_structure">Changed transactionDetails structure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A PSU may want to cancel the payment. The flow of payment cancellation for embedded and redirect approaches was added.
-SPI Developer needs to implement PaymentCancellationSpi in order to support it.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_return_full_sca_object_from_spi_during_request_to_send_tan">Return full SCA Object from SPI during request to send TAN</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>By invoking <code>requestAuthorisationCode</code> method SPI developer now obliged
-to return full SCA Authentification Object for choosen SCA Method.
-This is done to avoid unnecessary additional call to list all available methods second time.
-<code>SpiAuthorizationCodeResult</code> now adjusted accordingly.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_improved_nullability_checks_in_spiresponse">Improved nullability checks in SpiResponse</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Due to importance of having not-nullable results in SPI API nullability checks by SpiResponse object construction were added.
-Please note, that this also implies, if you need to return VoidResponse.
-Please use SpiResponse.voidResponse() static method for that.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_support_oracle_db">Support Oracle DB</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Migrations scripts were modified in order to fix oracle supporting issues. You may be required to regenerate local schemes.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_log_tpp_requests_and_responses">Log TPP requests and responses</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Now all the requests and responses from TPP to XS2A are logged.
-Logging flow is configured in logback-spring.xml file. By default, all such logs are written to console only.
-It is possible to change this behaviour by uncommenting the lines inside logback-spring.xml (see the hints inside this logback file).</p>
-</div>
-<div class="paragraph">
-<p>If there is a need to rewrite logging configurations, the following should be done:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>logback file (logback.xml or logback.groovy (if Groovy is on the classpath)) should be created inside the project.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Please, use only mentioned names for logback files to make rewriting configs work.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_java_interface_for_locking_tpp_access_provided_in_cms_aspsp_api">New Java Interface for locking TPP Access provided in CMS-ASPSP-API</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>With the de.adorsys.psd2.consent.aspsp.api.tpp.CmsAspspTppService ASPSP can implement a functionality of locking TPP by a certain
-time or forever or unlocking it. This may be required to provide temporary solutions to block requests from inappropriately
-behaving TPP before its certificate will be revoked.
-Functional implementation for this Java interface is planned to provided in the upcoming weeks. See <a href="../roadmap.html">Roadmap</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_create_one_endpoint_in_cms_for_working_with_aspspconsentdata">Create one endpoint in CMS for working with AspspConsentData</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Supported all types of services: AIS, PIS, PIIS</p>
-</li>
-<li>
-<p>Added ability to delete AspspConsentData</p>
-</li>
-</ul>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">api/v1/aspsp-consent-data/consents/{consent-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Get aspsp consent data identified by given consent id / payment id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PUT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">api/v1/aspsp-consent-data/consents/{consent-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Update aspsp consent data identified by given consent id / payment id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DELETE</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">api/v1/aspsp-consent-data/consents/{consent-id}</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Delete aspsp consent data identified by given consent id / payment id</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Next old endpoints are not supported:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>api/v1/ais/consent/{consent-id}/aspsp-consent-data</p>
-</li>
-<li>
-<p>api/v1/pis/payment/{payment-id}/aspsp-consent-data</p>
-</li>
-<li>
-<p>api/v1/pis/consent/{consent-id}/aspsp-consent-data</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Developer should change them according to the information in the table above.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_java_interfaces_for_exporting_consents_and_payments_provided_in_cms_aspsp_api">New Java Interfaces for exporting consents and payments provided in CMS-ASPSP-API</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>With the de.adorsys.psd2.consent.aspsp.api.ais.CmsAspspAisExportService and
-de.adorsys.psd2.consent.aspsp.api.pis.CmsAspspPisExportService ASPSP can implement a functionality of exporting AIS Consents
-and Payments by certain TPP or PSU and certain period of time.
-Functional implementation for this Java interface is planned to provided in the upcoming weeks. See <a href="../roadmap.html">Roadmap</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_java_interface_and_cms_endpoints_for_creating_terminating_and_retrieving_piis_consents_in_cms_aspsp_api">New Java interface and CMS endpoints for creating, terminating and retrieving PIIS consents in CMS-ASPSP-API</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>With the de.adorsys.psd2.consent.aspsp.api.service.CmsAspspPiisService ASPSP can now create new PIIS consents,
-terminate them by their Ids and retrieve them by PSU Id.
-Appropriate endpoints were added to the CMS in consent-aspsp-web module.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_record_tpp_requests">Record TPP requests</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on all TPP request are recorded to the CMS database. Requests are recorder and stored as events,
-with event type that corresponds to specific request.
-Recorded event contains:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>event timestamp, indicating when the event has occurred</p>
-</li>
-<li>
-<p>consent id or payment id if it they were contained in the request</p>
-</li>
-<li>
-<p>origin and type of the event</p>
-</li>
-<li>
-<p>payload with: information about the TPP, TPP&#8217;s ip address, unique identifier of the request, request URI,
-request headers and body</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Added Java interface de.adorsys.psd2.consent.aspsp.api.CmsAspspEventService that allows ASPSP to retrieve list
-of events by the requested. Appropriate endpoints were added to the CMS in consent-aspsp-web module.</p>
-</div>
-<div class="paragraph">
-<p>Developers should apply new liquibase migration scripts in order to update the database.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_set_finalised_statuses">Set finalised statuses</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now there is no possibility to update statuses of Authorisation, Payment Transaction, Consent if they are marked as "finalised".</p>
-</div>
-<div class="paragraph">
-<p>Finalised statuses are:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>for Authorisation (SCA) status - <em>Finalised, Failed</em>;</p>
-</li>
-<li>
-<p>for Payment Transaction status: <em>Cancelled, Rejected, AcceptedSettlementCompleted</em>;</p>
-</li>
-<li>
-<p>for Consent status: <em>Rejected, RevokedByPSU, Expired, TerminatedByTpp, TerminatedByAspsp</em>.</p>
-</li>
-</ul>
+<p>From now on, <code>transactionDetails</code> are stored in <code>Transactions</code> object, and response has correct structure. Before they were stored in <code>transactionDetailsBody</code> object, and this was the cause of the incorrect structure of the response. Unnecessary <code>TransactionDetailsBody</code> object model was removed.</p>
 </div>
 </div>
 </div>
