@@ -235,7 +235,7 @@ class CardAccountControllerTest {
         transactionsReport.setCardAccountReport(new Xs2aCardAccountReport(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), null));
 
         doReturn(ResponseObject.<Xs2aCardTransactionsReport>builder().body(transactionsReport).build())
-            .when(cardTransactionService).getCardTransactionsReportByPeriod(any(Xs2aTransactionsReportByPeriodRequest.class));
+            .when(cardTransactionService).getCardTransactionsReportByPeriod(any(Xs2aCardTransactionsReportByPeriodRequest.class));
 
         // When
         CardAccountReport result = (CardAccountReport) cardAccountController.getCardAccountTransactionList(ACCOUNT_ID, "pending",

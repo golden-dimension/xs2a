@@ -69,8 +69,8 @@ public class CardAccountController implements CardAccountsApi {
 
     @Override
     public ResponseEntity getCardAccountTransactionList(String accountId, String bookingStatus, UUID xRequestID, String consentID, LocalDate dateFrom, LocalDate dateTo, String entryReferenceFrom, Boolean deltaList, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Xs2aTransactionsReportByPeriodRequest xs2aTransactionsReportByPeriodRequest = new Xs2aTransactionsReportByPeriodRequest(consentID, accountId, request.getHeader("accept"), Boolean.FALSE, dateFrom, dateTo, BookingStatus.forValue(bookingStatus), trimEndingSlash(request.getRequestURI()), entryReferenceFrom, deltaList, null, null);
-        ResponseObject<Xs2aCardTransactionsReport> cardTransactionsReport = cardTransactionService.getCardTransactionsReportByPeriod(xs2aTransactionsReportByPeriodRequest);
+        Xs2aCardTransactionsReportByPeriodRequest xs2aCardTransactionsReportByPeriodRequest = new Xs2aCardTransactionsReportByPeriodRequest(consentID, accountId, request.getHeader("accept"), dateFrom, dateTo, BookingStatus.forValue(bookingStatus), trimEndingSlash(request.getRequestURI()), entryReferenceFrom, deltaList, null, null);
+        ResponseObject<Xs2aCardTransactionsReport> cardTransactionsReport = cardTransactionService.getCardTransactionsReportByPeriod(xs2aCardTransactionsReportByPeriodRequest);
 
         if (cardTransactionsReport.hasError()) {
             return responseErrorMapper.generateErrorResponse(cardTransactionsReport.getError());
