@@ -44,7 +44,7 @@ import de.adorsys.psd2.xs2a.service.validator.ais.account.GetCardTransactionsRep
 import de.adorsys.psd2.xs2a.service.validator.ais.account.dto.CardTransactionsReportByPeriodObject;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiAccountReference;
 import de.adorsys.psd2.xs2a.spi.domain.account.SpiCardTransactionReport;
-import de.adorsys.psd2.xs2a.spi.domain.account.SpiCardTransactionReportParameters;
+import de.adorsys.psd2.xs2a.spi.domain.account.SpiTransactionReportParameters;
 import de.adorsys.psd2.xs2a.spi.domain.response.SpiResponse;
 import de.adorsys.psd2.xs2a.spi.service.CardAccountSpi;
 import lombok.AllArgsConstructor;
@@ -152,8 +152,8 @@ public class CardTransactionService {
                                                                 aspspConsentDataProviderFactory.getSpiAspspDataProviderFor(request.getConsentId()));
     }
 
-    private SpiCardTransactionReportParameters buildSpiTransactionReportParameters(Xs2aCardTransactionsReportByPeriodRequest request) {
-        return new SpiCardTransactionReportParameters(request.getAcceptHeader(), request.getDateFrom(), request.getDateTo(),
+    private SpiTransactionReportParameters buildSpiTransactionReportParameters(Xs2aCardTransactionsReportByPeriodRequest request) {
+        return new SpiTransactionReportParameters(request.getAcceptHeader(), Boolean.FALSE, request.getDateFrom(), request.getDateTo(),
                                                   request.getBookingStatus(), request.getEntryReferenceFrom(), request.getDeltaList(), null, null);
     }
 

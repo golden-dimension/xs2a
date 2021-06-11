@@ -270,7 +270,7 @@ class CardTransactionServiceTest {
         when(consentMapper.mapToSpiAccountConsent(any()))
             .thenReturn(SPI_ACCOUNT_CONSENT);
 
-        ArgumentCaptor<SpiCardTransactionReportParameters> argumentCaptor = ArgumentCaptor.forClass(SpiCardTransactionReportParameters.class);
+        ArgumentCaptor<SpiTransactionReportParameters> argumentCaptor = ArgumentCaptor.forClass(SpiTransactionReportParameters.class);
 
         // When
         ResponseObject<Xs2aCardTransactionsReport> actualResponse = cardTransactionService.getCardTransactionsReportByPeriod(XS2A_TRANSACTIONS_REPORT_BY_PERIOD_REQUEST);
@@ -443,7 +443,7 @@ class CardTransactionServiceTest {
         assertThat(argumentCaptor.getValue()).isEqualTo(ConsentStatus.VALID);
     }
 
-    private void checkPassingParametersWithoutAnyChanges(SpiCardTransactionReportParameters parameters) {
+    private void checkPassingParametersWithoutAnyChanges(SpiTransactionReportParameters parameters) {
         assertEquals(DATE_FROM, parameters.getDateFrom());
         assertEquals(DATE_TO, parameters.getDateTo());
         assertEquals(ENTRY_REFERENCE_FROM, parameters.getEntryReferenceFrom());
@@ -550,8 +550,8 @@ class CardTransactionServiceTest {
         return new Xs2aCardTransactionsReportByPeriodRequest(CONSENT_ID, ACCOUNT_ID, MediaType.APPLICATION_JSON_VALUE, DATE_FROM, DATE_TO, BOOKING_STATUS, REQUEST_URI, ENTRY_REFERENCE_FROM, DELTA_LIST, null, null);
     }
 
-    private SpiCardTransactionReportParameters buildSpiTransactionReportParameters() {
-        return new SpiCardTransactionReportParameters(MediaType.APPLICATION_JSON_VALUE, DATE_FROM, DATE_TO, BOOKING_STATUS, ENTRY_REFERENCE_FROM, DELTA_LIST, null, null);
+    private SpiTransactionReportParameters buildSpiTransactionReportParameters() {
+        return new SpiTransactionReportParameters(MediaType.APPLICATION_JSON_VALUE, false, DATE_FROM, DATE_TO, BOOKING_STATUS, ENTRY_REFERENCE_FROM, DELTA_LIST, null, null);
     }
 
 

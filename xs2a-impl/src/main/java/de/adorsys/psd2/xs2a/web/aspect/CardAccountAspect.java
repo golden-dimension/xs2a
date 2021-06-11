@@ -51,3 +51,4 @@ public class CardAccountAspect {
         return cardAccountAspectService.getTransactionsReportByPeriod(result, request);
     }
 }
+
