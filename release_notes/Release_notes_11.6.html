@@ -452,6 +452,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Fixed cancellation flow</p>
 </li>
 <li>
+<p>Changed transactionDetails structure</p>
+</li>
+<li>
 <p>Removed withBalance field from read card transactions list</p>
 </li>
 <li>
@@ -482,6 +485,14 @@ be performed only for successful cancellation responses.</p>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_changed_transactiondetails_structure">Changed transactionDetails structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, <code>transactionDetails</code> are stored in <code>Transactions</code> object, and response has correct structure. Before they were stored in <code>transactionDetailsBody</code> object, and this was the cause of the incorrect structure of the response. Unnecessary <code>TransactionDetailsBody</code> object model was removed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_removed_withbalance_field_from_read_card_transactions_list">Removed withBalance field from read card transactions list</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -508,7 +519,7 @@ be performed only for successful cancellation responses.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-16 13:03:12 UTC
+Last updated 2021-06-16 13:19:09 UTC
 </div>
 </div>
 </body>
