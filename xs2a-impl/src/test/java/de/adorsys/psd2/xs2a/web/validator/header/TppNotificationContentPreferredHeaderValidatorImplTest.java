@@ -31,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TppNotificationContentPreferredHeaderValidatorImplTest {
     private static final String CORRECT_HEADER = "status=sca, process, last, none";
+    private static final String WRONG_HEADER_1 = "status=sca,process,last,unknown";
+    private static final String WRONG_HEADER_2 = "status=sca,process,last,no ne";
+    private static final String WRONG_HEADER_3 = "status=";
 
     private TppNotificationContentPreferredHeaderValidatorImpl validator;
     private Map<String, String> headers;
@@ -54,7 +57,7 @@ class TppNotificationContentPreferredHeaderValidatorImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"status=sca,process,last,unknown", "status=sca,process,last,no ne", "status=", ""})
+    @ValueSource(strings = {WRONG_HEADER_1, WRONG_HEADER_2, WRONG_HEADER_3, ""})
     void validate_error(String value) {
         //Given
         headers.put(validator.getHeaderName(), value);

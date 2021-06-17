@@ -190,7 +190,7 @@ class RedirectLinkBuilderTest {
     @Test
     void buildAisConfirmationLink_exception() {
         assertThrows(UnsupportedOperationException.class,
-                     () -> redirectLinkBuilder.buildConfirmationLink("consentID", "redirectID", ConsentType.PIIS_ASPSP));
+                     () -> redirectLinkBuilder.buildConfirmationLink("", "", ConsentType.PIIS_ASPSP));
     }
 
     @Test

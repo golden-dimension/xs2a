@@ -33,6 +33,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PsuDeviceIdHeaderValidatorImplTest {
     private static final String CORRECT_PSU_DEVICE_ID = "99391c7e-ad88-49ec-a2ad-99ddcb1f7723";
+    private static final String WRONG_PSU_DEVICE_ID_1 = "99391ce-ad88-49ec-a2ad-99ddcb1f7723";
+    private static final String WRONG_PSU_DEVICE_ID_2 = "99391c7e-ad884-49ec-a2ad-99ddcb1f7723";
+    private static final String WRONG_PSU_DEVICE_ID_3 = "99391c7e-ad88-49e-a2ad-99ddcb1f7723";
+    private static final String WRONG_PSU_DEVICE_ID_4 = "99391c7e-ad88-49ec-a2ad4-99ddcb1f7723";
+    private static final String WRONG_PSU_DEVICE_ID_5 = "99391c7e-ad88-49ec-c2ad-99ddcb1f7723";
 
     private PsuDeviceIdHeaderValidatorImpl validator;
     private Map<String, String> headers;
@@ -56,9 +61,8 @@ class PsuDeviceIdHeaderValidatorImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"99391ce-ad88-49ec-a2ad-99ddcb1f7723", "99391c7e-ad884-49ec-a2ad-99ddcb1f7723",
-        "99391c7e-ad88-49e-a2ad-99ddcb1f7723", "99391c7e-ad88-49ec-a2ad4-99ddcb1f7723",
-        "99391c7e-ad88-49ec-c2ad-99ddcb1f7723"})
+    @ValueSource(strings = {WRONG_PSU_DEVICE_ID_1, WRONG_PSU_DEVICE_ID_2, WRONG_PSU_DEVICE_ID_3, WRONG_PSU_DEVICE_ID_4,
+        WRONG_PSU_DEVICE_ID_5})
     void validate_error(String value) {
         //Given
         headers.put(validator.getHeaderName(), value);
