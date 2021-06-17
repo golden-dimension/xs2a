@@ -20,6 +20,9 @@ import de.adorsys.psd2.validator.payment.CountryValidatorHolder;
 import de.adorsys.psd2.validator.payment.PaymentBodyFieldsValidator;
 import de.adorsys.psd2.validator.payment.PaymentBusinessValidator;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
+import de.adorsys.psd2.xs2a.service.validator.pis.payment.raw.DefaultPaymentBusinessValidatorImpl;
+import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.AustriaPaymentBodyFieldsValidatorImpl;
+import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.DefaultPaymentBodyFieldsValidatorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,8 +48,10 @@ class CountryPaymentValidatorResolverTest {
 
     @BeforeEach
     void setUp() {
-        DefaultPaymentValidatorHolder defaultPaymentValidatorHolder = new DefaultPaymentValidatorHolder(null, null);
-        AustriaPaymentValidatorHolder austriaPaymentValidatorHolder = new AustriaPaymentValidatorHolder(null, null);
+        DefaultPaymentValidatorHolder defaultPaymentValidatorHolder =
+            new DefaultPaymentValidatorHolder(new DefaultPaymentBodyFieldsValidatorImpl(null, null), new DefaultPaymentBusinessValidatorImpl(null, null, null));
+        AustriaPaymentValidatorHolder austriaPaymentValidatorHolder =
+            new AustriaPaymentValidatorHolder(new AustriaPaymentBodyFieldsValidatorImpl(null, null), new DefaultPaymentBusinessValidatorImpl(null, null, null));
         resolver = new CountryPaymentValidatorResolver(aspspProfileServiceWrapper,
                                                        Arrays.asList(defaultPaymentValidatorHolder, austriaPaymentValidatorHolder));
     }
@@ -63,6 +68,28 @@ class CountryPaymentValidatorResolverTest {
     void getValidationConfig_AT() {
         when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("At");
         assertTrue(resolver.getCountryValidatorHolder() instanceof AustriaPaymentValidatorHolder);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "wrong value", "dE"})
+    @NullSource
+    void getPaymentBodyFieldValidator_default(String value) {
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(value);
+        assertTrue(resolver.getPaymentBodyFieldValidator() instanceof DefaultPaymentBodyFieldsValidatorImpl);
+    }
+
+    @Test
+    void getPaymentBodyFieldValidator_AT() {
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("At");
+        assertTrue(resolver.getPaymentBodyFieldValidator() instanceof AustriaPaymentBodyFieldsValidatorImpl);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "wrong value", "dE", "At"})
+    @NullSource
+    void getPaymentBusinessValidator_default(String value) {
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(value);
+        assertTrue(resolver.getPaymentBusinessValidator() instanceof DefaultPaymentBusinessValidatorImpl);
     }
 
     @Test
