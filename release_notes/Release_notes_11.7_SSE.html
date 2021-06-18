@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v.3.3.1</title>
+<title>Release notes v.11.7</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,24 +437,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.3.3.1</h1>
+<h1>Release notes v.11.7</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_bugfix_payment_initiation_request_fails_for_non_json_payment_products">Bugfix: Payment initiation request fails for non-json payment products</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Executing valid initiate payment request (<code>POST /v1/{payment-service}/{payment-product}</code>) with non-json body will no
-longer result in <code>400 FORMAT_ERROR</code> being returned in the response.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Added tests to xs2a-impl</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_missing_links_in_response_to_update_psu_data_for_account_information_consent_request">Bugfix: Missing links in response to update PSU Data for account information consent request</h2>
+<h2 id="_added_tests_to_xs2a_impl">Added tests to xs2a-impl</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>From now on, response to the update PSU Data for account information consent request
-(<code>PUT /v1/consents/{consentId}/authorisations/{authorsationId}</code>) will contain proper links instead of only <code>self</code> and <code>status</code> links.</p>
+<p>Increased unit test coverage for xs2a-impl classes.</p>
 </div>
 </div>
 </div>
