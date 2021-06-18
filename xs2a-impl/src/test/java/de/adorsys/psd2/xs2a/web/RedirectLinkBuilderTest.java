@@ -18,6 +18,7 @@ package de.adorsys.psd2.xs2a.web;
 
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -190,7 +191,7 @@ class RedirectLinkBuilderTest {
     @Test
     void buildAisConfirmationLink_exception() {
         assertThrows(UnsupportedOperationException.class,
-                     () -> redirectLinkBuilder.buildConfirmationLink("", "", ConsentType.PIIS_ASPSP));
+                     () -> redirectLinkBuilder.buildConfirmationLink(StringUtils.EMPTY, StringUtils.EMPTY, ConsentType.PIIS_ASPSP));
     }
 
     @Test

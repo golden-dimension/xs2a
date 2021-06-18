@@ -23,6 +23,7 @@ import de.adorsys.psd2.xs2a.service.profile.AspspProfileServiceWrapper;
 import de.adorsys.psd2.xs2a.service.validator.pis.payment.raw.DefaultPaymentBusinessValidatorImpl;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.AustriaPaymentBodyFieldsValidatorImpl;
 import de.adorsys.psd2.xs2a.web.validator.body.payment.handler.DefaultPaymentBodyFieldsValidatorImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CountryPaymentValidatorResolverTest {
+    private static final String AUSTRIA_CODE = "At";
+    private static final String GERMANY_CODE = "dE";
+    private static final String WRONG_CODE = "wrong value";
     private CountryPaymentValidatorResolver resolver;
 
     @Mock
@@ -57,7 +61,7 @@ class CountryPaymentValidatorResolverTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "wrong value", "dE"})
+    @ValueSource(strings = {StringUtils.EMPTY, WRONG_CODE, GERMANY_CODE})
     @NullSource
     void getValidationConfig_default(String value) {
         when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(value);
@@ -66,12 +70,12 @@ class CountryPaymentValidatorResolverTest {
 
     @Test
     void getValidationConfig_AT() {
-        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("At");
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(AUSTRIA_CODE);
         assertTrue(resolver.getCountryValidatorHolder() instanceof AustriaPaymentValidatorHolder);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "wrong value", "dE"})
+    @ValueSource(strings = {StringUtils.EMPTY, WRONG_CODE, GERMANY_CODE})
     @NullSource
     void getPaymentBodyFieldValidator_default(String value) {
         when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(value);
@@ -80,12 +84,12 @@ class CountryPaymentValidatorResolverTest {
 
     @Test
     void getPaymentBodyFieldValidator_AT() {
-        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("At");
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(AUSTRIA_CODE);
         assertTrue(resolver.getPaymentBodyFieldValidator() instanceof AustriaPaymentBodyFieldsValidatorImpl);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "wrong value", "dE", "At"})
+    @ValueSource(strings = {StringUtils.EMPTY, WRONG_CODE, GERMANY_CODE, AUSTRIA_CODE})
     @NullSource
     void getPaymentBusinessValidator_default(String value) {
         when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(value);
@@ -115,11 +119,11 @@ class CountryPaymentValidatorResolverTest {
         resolver = new CountryPaymentValidatorResolver(aspspProfileServiceWrapper,
                                                        Arrays.asList(customCountryValidatorHolder, defaultPaymentValidatorHolder, austriaPaymentValidatorHolder));
 
-        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("de");
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(GERMANY_CODE);
         assertEquals(customCountryValidatorHolder, resolver.getCountryValidatorHolder());
         reset(aspspProfileServiceWrapper);
 
-        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn("at");
+        when(aspspProfileServiceWrapper.getSupportedPaymentCountryValidation()).thenReturn(AUSTRIA_CODE);
         assertEquals(austriaPaymentValidatorHolder, resolver.getCountryValidatorHolder());
     }
 }

@@ -19,6 +19,7 @@ package de.adorsys.psd2.xs2a.web.validator.header;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,7 +58,7 @@ class TppNotificationContentPreferredHeaderValidatorImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {WRONG_HEADER_1, WRONG_HEADER_2, WRONG_HEADER_3, ""})
+    @ValueSource(strings = {WRONG_HEADER_1, WRONG_HEADER_2, WRONG_HEADER_3, StringUtils.EMPTY})
     void validate_error(String value) {
         //Given
         headers.put(validator.getHeaderName(), value);
