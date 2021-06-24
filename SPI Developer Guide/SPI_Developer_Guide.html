@@ -2857,7 +2857,8 @@ Only non-standard payments will be handled as common payments and forwarded to <
 </div>
 <div class="paragraph">
 <p>If connector is launched as Spring Boot application, the order will be guaranteed by the priority of the filter beans and no additional configuration is required.
-If it&#8217;s not the case, connector should make sure that <code>de.adorsys.psd2.xs2a.web.filter.Xs2aLoggingContextFilter</code> will be executed before any other XS2A filter.</p>
+If it&#8217;s not the case, connector should make sure that <code>de.adorsys.psd2.xs2a.web.filter.ContentCachingWrappingFilter</code> will be executed first,
+then <code>de.adorsys.psd2.xs2a.web.filter.Xs2aLoggingContextFilter</code> and then any other XS2A filter.</p>
 </div>
 </div>
 </div>
@@ -4046,7 +4047,7 @@ Then different PSUs, that are involved in payment or consent authorisation proce
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-23 06:46:35 UTC
+Last updated 2021-06-24 09:15:10 UTC
 </div>
 </div>
 </body>
