@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v.11.7</title>
+<title>Release notes v.10.7</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,7 +437,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.11.7</h1>
+<h1>Release notes v.10.7</h1>
 </div>
 <div id="content">
 <div class="sect1">
@@ -450,6 +450,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Fixed inner structure of Transaction List Response</p>
+</li>
+<li>
+<p>Fix filters order</p>
 </li>
 </ul>
 </div>
@@ -473,10 +476,19 @@ but also with paging information.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_fix_filters_order">Fix filters order</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, <code>de.adorsys.psd2.xs2a.web.filter.Xs2aLoggingContextFilter</code> will be executed first,
+then <code>de.adorsys.psd2.xs2a.web.filter.ContentCachingWrappingFilter</code> and then any other XS2A filters.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-25 13:41:26 UTC
+Last updated 2021-06-30 13:21:25 UTC
 </div>
 </div>
 </body>

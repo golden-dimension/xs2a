@@ -443,13 +443,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-
+<div class="ulist">
+<ul>
+<li>
+<p>Added tests to xs2a-impl</p>
+</li>
+<li>
+<p>Fixed inner structure of Transaction List Response</p>
+</li>
+<li>
+<p>Fix filters order</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_added_tests_to_xs2a_impl">Added tests to xs2a-impl</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Increased unit test coverage for xs2a-impl classes.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fixed_inner_structure_of_transaction_list_response">Fixed inner structure of Transaction List Response</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on according to BG specification <code>Account Report</code> type returned as
+<code>transactions</code> subfield contains <code>_links</code> section not only with <code>account</code> property,
+but also with paging information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fix_filters_order">Fix filters order</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From now on, <code>de.adorsys.psd2.xs2a.web.filter.Xs2aLoggingContextFilter</code> will be executed first,
+then <code>de.adorsys.psd2.xs2a.web.filter.ContentCachingWrappingFilter</code> and then any other XS2A filters.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-25 13:41:26 UTC
+Last updated 2021-06-30 13:21:25 UTC
 </div>
 </div>
 </body>
