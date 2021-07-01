@@ -24,7 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,23 +41,22 @@ class ContentCachingWrappingFilterCmsTest {
     private ContentCachingWrappingFilterCms filter;
     @Mock
     private FilterChain filterChain;
+    @Mock
+    private HttpServletResponse response;
 
     @Captor
     private ArgumentCaptor<HttpServletRequest> capturedRequest;
-    @Captor
-    private ArgumentCaptor<HttpServletResponse> capturedResponse;
 
     @Test
     void doFilterInternal_shouldWrapRequestAndResponse() throws ServletException, IOException {
         // Given
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
-        MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 
         // When
-        filter.doFilter(mockRequest, mockResponse, filterChain);
+        filter.doFilter(mockRequest, response, filterChain);
 
         // Then
-        verify(filterChain).doFilter(capturedRequest.capture(), capturedResponse.capture());
+        verify(filterChain).doFilter(capturedRequest.capture(), eq(response));
         assertTrue(capturedRequest.getValue() instanceof MultiReadHttpServletRequestCms);
     }
 }

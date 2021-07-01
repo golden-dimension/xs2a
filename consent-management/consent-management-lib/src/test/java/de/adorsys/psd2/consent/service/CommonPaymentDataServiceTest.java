@@ -97,7 +97,6 @@ class CommonPaymentDataServiceTest {
     void updateInternalStatusInPaymentData() {
         InternalPaymentStatus transactionStatus = InternalPaymentStatus.INITIATED;
         PisCommonPaymentData paymentData = new PisCommonPaymentData();
-        assertNull(paymentData.getTransactionStatus());
 
         when(pisCommonPaymentDataRepository.save(paymentData)).thenReturn(new PisCommonPaymentData());
 

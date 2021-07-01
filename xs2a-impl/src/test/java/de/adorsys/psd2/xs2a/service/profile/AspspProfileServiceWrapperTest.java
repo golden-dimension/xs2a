@@ -43,6 +43,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AspspProfileServiceWrapperTest {
     private static final String ASPSP_SETTINGS_JSON_PATH = "json/service/profile/AspspSettings.json";
+    public static final AspspSettings PROFILE = getProfile();
+
     private static final String INSTANCE_ID = "bank1";
 
     @Mock
@@ -61,8 +63,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getAvailableBookingStatuses() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         BookingStatus bookingStatus = BookingStatus.BOOKED;
 
         // When
@@ -75,8 +76,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getSupportedTransactionStatusFormats() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         List<String> expectedFormats = Collections.singletonList("application/json");
 
         // When
@@ -89,8 +89,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getSupportedTransactionApplicationTypes() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         List<String> expected = Collections.singletonList("supportedTransactionApplicationTypes");
 
         // When
@@ -103,8 +102,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getSupportedPaymentTypeAndProductMatrix() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         Set<String> products = Collections.singleton("sepa-credit-transfers");
         Map<PaymentType, Set<String>> expected = Collections.singletonMap(PaymentType.SINGLE, products);
 
@@ -131,8 +129,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isTppSignatureRequired() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isTppSignatureRequired();
@@ -144,8 +141,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isAvailableAccountsConsentSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isAvailableAccountsConsentSupported();
@@ -157,8 +153,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isScaByOneTimeAvailableAccountsConsentRequired() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isScaByOneTimeAvailableAccountsConsentRequired();
@@ -170,8 +165,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isScaByOneTimeGlobalConsentRequired() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isScaByOneTimeGlobalConsentRequired();
@@ -183,8 +177,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isPsuInInitialRequestMandated() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isPsuInInitialRequestMandated();
@@ -196,8 +189,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isForceXs2aBaseLinksUrl() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isForceXs2aBaseLinksUrl();
@@ -209,8 +201,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isGlobalConsentSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isGlobalConsentSupported();
@@ -222,8 +213,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isBankOfferedConsentSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isBankOfferedConsentSupported();
@@ -235,8 +225,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isTransactionsWithoutBalancesSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isTransactionsWithoutBalancesSupported();
@@ -248,8 +237,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isSigningBasketSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isSigningBasketSupported();
@@ -261,8 +249,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isPaymentCancellationAuthorisationMandated() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isPaymentCancellationAuthorisationMandated();
@@ -274,8 +261,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isDebtorAccountOptionalInInitialRequest() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isDebtorAccountOptionalInInitialRequest();
@@ -287,8 +273,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isIbanValidationDisabled() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isIbanValidationDisabled();
@@ -300,8 +285,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isPsuInInitialRequestIgnored() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isPsuInInitialRequestIgnored();
@@ -313,8 +297,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isCheckUriComplianceToDomainSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isCheckUriComplianceToDomainSupported();
@@ -326,8 +309,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isAuthorisationConfirmationCheckByXs2a() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isAuthorisationConfirmationCheckByXs2a();
@@ -339,8 +321,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isAuthorisationConfirmationRequestMandated() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isAuthorisationConfirmationRequestMandated();
@@ -352,8 +333,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isCheckTppRolesFromCertificateSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isCheckTppRolesFromCertificateSupported();
@@ -365,8 +345,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isTrustedBeneficiariesSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isTrustedBeneficiariesSupported();
@@ -378,8 +357,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isAccountOwnerInformationSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isAccountOwnerInformationSupported();
@@ -391,8 +369,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isEntryReferenceFromSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isEntryReferenceFromSupported();
@@ -404,8 +381,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isAisPisSessionsSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isAisPisSessionsSupported();
@@ -417,8 +393,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void isDeltaListSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         boolean actual = aspspProfileServiceWrapper.isDeltaListSupported();
@@ -430,8 +405,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getPiisConsentSupported() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         PiisConsentSupported actual = aspspProfileServiceWrapper.getPiisConsentSupported();
@@ -443,8 +417,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getPisRedirectUrlToAspsp() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://localhost:4200/pis/{redirect-id}/{encrypted-payment-id}";
 
         // When
@@ -457,8 +430,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getSupportedPaymentCountryValidation() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "DE";
 
         // When
@@ -471,8 +443,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getXs2aBaseLinksUrl() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://myhost.com/";
 
         // When
@@ -485,8 +456,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getOauthConfigurationUrl() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://oauthConfigurationUrl.com/";
 
         // When
@@ -499,8 +469,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getStartAuthorisationMode() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         StartAuthorisationMode expected = StartAuthorisationMode.AUTO;
 
         // When
@@ -513,8 +482,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getScaRedirectFlow() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         ScaRedirectFlow expected = ScaRedirectFlow.REDIRECT;
 
         // When
@@ -527,8 +495,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getAisRedirectUrlToAspsp() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://localhost:4200/ais/{redirect-id}/{encrypted-consent-id}";
 
         // When
@@ -541,8 +508,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getPiisRedirectUrlToAspsp() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://localhost:4200/piis/{redirect-id}/{encrypted-consent-id}";
 
         // When
@@ -555,8 +521,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getTppUriComplianceResponse() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         TppUriCompliance expected = TppUriCompliance.WARNING;
 
         // When
@@ -569,8 +534,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getMulticurrencyAccountLevel() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         MulticurrencyAccountLevel expected = MulticurrencyAccountLevel.SUBACCOUNT;
 
         // When
@@ -583,8 +547,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getPisPaymentCancellationRedirectUrlToAspsp() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         String expected = "http://localhost:4200/pis/cancellation/{redirect-id}/{encrypted-payment-id}";
 
         // When
@@ -597,8 +560,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getSupportedAccountReferenceFields() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         List<SupportedAccountReferenceField> expected = Collections.singletonList(SupportedAccountReferenceField.IBAN);
 
         // When
@@ -611,8 +573,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getNotificationSupportedModes() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
         List<NotificationSupportedMode> expected = Collections.singletonList(NotificationSupportedMode.NONE);
 
         // When
@@ -625,8 +586,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getMaxConsentValidityDays() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         int actual = aspspProfileServiceWrapper.getMaxConsentValidityDays();
@@ -638,8 +598,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getAccountAccessFrequencyPerDay() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         int actual = aspspProfileServiceWrapper.getAccountAccessFrequencyPerDay();
@@ -651,8 +610,7 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getRedirectUrlExpirationTimeMs() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         long actual = aspspProfileServiceWrapper.getRedirectUrlExpirationTimeMs();
@@ -664,13 +622,20 @@ class AspspProfileServiceWrapperTest {
     @Test
     void getAuthorisationExpirationTimeMs() {
         // Given
-        when(aspspProfileService.getAspspSettings(INSTANCE_ID))
-            .thenReturn(new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class));
+        mockProfile();
 
         // When
         long actual = aspspProfileServiceWrapper.getAuthorisationExpirationTimeMs();
 
         // Then
         assertThat(actual).isEqualTo(86400000);
+    }
+
+    private void mockProfile() {
+        when(aspspProfileService.getAspspSettings(INSTANCE_ID)).thenReturn(PROFILE);
+    }
+
+    private static AspspSettings getProfile() {
+        return new JsonReader().getObjectFromFile(ASPSP_SETTINGS_JSON_PATH, AspspSettings.class);
     }
 }
