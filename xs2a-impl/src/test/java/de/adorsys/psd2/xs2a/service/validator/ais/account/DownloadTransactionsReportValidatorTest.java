@@ -71,6 +71,13 @@ class DownloadTransactionsReportValidatorTest {
         // Given
         requestObject = jsonReader.getObjectFromFile("json/service/validator/ais/account/xs2a-download-object-valid.json", DownloadTransactionListRequestObject.class);
         when(aisAccountTppInfoValidator.validateTpp(requestObject.getTppInfo())).thenReturn(ValidationResult.valid());
+        AisConsent aisConsent = requestObject.getAisConsent();
+        when(aisAccountTppInfoValidator.validateTpp(requestObject.getTppInfo())).thenReturn(ValidationResult.valid());
+        when(accountReferenceAccessValidator.validate(aisConsent,
+                                                      requestObject.getTransactions(),
+                                                      requestObject.getAccountId(),
+                                                      aisConsent.getAisConsentRequestType()))
+            .thenReturn(ValidationResult.valid());
 
         // When
         ValidationResult actual = downloadTransactionsReportValidator.validate(requestObject);
