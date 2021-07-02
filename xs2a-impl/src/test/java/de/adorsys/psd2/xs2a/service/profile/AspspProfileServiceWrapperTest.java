@@ -259,42 +259,6 @@ class AspspProfileServiceWrapperTest {
     }
 
     @Test
-    void isDebtorAccountOptionalInInitialRequest() {
-        // Given
-        mockProfile();
-
-        // When
-        boolean actual = aspspProfileServiceWrapper.isDebtorAccountOptionalInInitialRequest();
-
-        // Then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void isIbanValidationDisabled() {
-        // Given
-        mockProfile();
-
-        // When
-        boolean actual = aspspProfileServiceWrapper.isIbanValidationDisabled();
-
-        // Then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void isPsuInInitialRequestIgnored() {
-        // Given
-        mockProfile();
-
-        // When
-        boolean actual = aspspProfileServiceWrapper.isPsuInInitialRequestIgnored();
-
-        // Then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
     void isCheckUriComplianceToDomainSupported() {
         // Given
         mockProfile();
