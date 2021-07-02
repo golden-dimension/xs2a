@@ -105,17 +105,6 @@ class CommonPaymentDataServiceTest {
     }
 
     @Test
-    void updatePaymentData() {
-        byte[] payment = "payment".getBytes();
-        PisCommonPaymentData paymentData = new PisCommonPaymentData();
-
-        when(pisCommonPaymentDataRepository.save(paymentData)).thenReturn(new PisCommonPaymentData());
-
-        commonPaymentDataService.updatePaymentData(paymentData, payment);
-        assertThat(paymentData.getPayment()).isEqualTo(payment);
-    }
-
-    @Test
     void updateStatusInPaymentData_TransactionStatusPATC() {
         TransactionStatus transactionStatus = TransactionStatus.PATC;
         PisCommonPaymentData paymentData = new PisCommonPaymentData();
