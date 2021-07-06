@@ -29,12 +29,12 @@ import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.AuthorisationScaApproachResponse;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
-import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
-import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
+import de.adorsys.psd2.xs2a.domain.authorisation.CommonAuthorisationParameters;
+import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
 import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
@@ -65,19 +65,23 @@ public class PisAuthorisationService {
     /**
      * Sends a POST request to CMS to store created pis authorisation
      *
-     * @param paymentId String representation of identifier of stored payment
-     * @param psuData   PsuIdData container of authorisation data about PSU
+     * @param xs2aCreateAuthorisationRequest xs2a create authorisation request
      * @return a response object containing authorisation id
      */
-    public CreateAuthorisationResponse createPisAuthorisation(String paymentId, PsuIdData psuData) {
+    public CreateAuthorisationResponse createPisAuthorisation(Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest) {
         TppRedirectUri redirectURIs = tppRedirectUriMapper.mapToTppRedirectUri(requestProviderService.getTppRedirectURI(), requestProviderService.getTppNokRedirectURI());
 
-        CreateAuthorisationRequest request = new CreateAuthorisationRequest(psuData, scaApproachResolver.resolveScaApproach(), redirectURIs);
-        CmsResponse<CreateAuthorisationResponse> cmsResponse = authorisationServiceEncrypted.createAuthorisation(new PisAuthorisationParentHolder(paymentId), request);
+        CreateAuthorisationRequest request = new CreateAuthorisationRequest(xs2aCreateAuthorisationRequest.getAuthorisationId(),
+                                                                            xs2aCreateAuthorisationRequest.getPsuData(),
+                                                                            xs2aCreateAuthorisationRequest.getScaApproach(),
+                                                                            xs2aCreateAuthorisationRequest.getScaStatus(),
+                                                                            redirectURIs);
+        CmsResponse<CreateAuthorisationResponse> cmsResponse =
+            authorisationServiceEncrypted.createAuthorisation(new PisAuthorisationParentHolder(xs2aCreateAuthorisationRequest.getPaymentId()), request);
 
         if (cmsResponse.hasError()) {
             log.info("Payment-ID [{}]. Create PIS authorisation has failed: can't save authorisation to cms DB",
-                     paymentId);
+                     xs2aCreateAuthorisationRequest.getPaymentId());
             return null;
         }
 
@@ -91,7 +95,7 @@ public class PisAuthorisationService {
      * @param scaApproach current SCA approach, preferred by the server
      * @return update pis authorisation response, which contains payment id, authorisation id, sca status, psu message and links
      */
-    public Xs2aUpdatePisCommonPaymentPsuDataResponse updatePisAuthorisation(Xs2aUpdatePisCommonPaymentPsuDataRequest request, ScaApproach scaApproach) {
+    public Xs2aUpdatePisCommonPaymentPsuDataResponse updatePisAuthorisation(PaymentAuthorisationParameters request, ScaApproach scaApproach) {
         String authorisationId = request.getAuthorisationId();
         CmsResponse<Authorisation> pisAuthorisationResponse = authorisationServiceEncrypted.getAuthorisationById(authorisationId);
         if (pisAuthorisationResponse.hasError()) {
@@ -120,7 +124,7 @@ public class PisAuthorisationService {
      * @param scaApproach current SCA approach, preferred by the server
      * @return update pis authorisation response, which contains payment id, authorisation id, sca status, psu message and links
      */
-    public Xs2aUpdatePisCommonPaymentPsuDataResponse updatePisCancellationAuthorisation(Xs2aUpdatePisCommonPaymentPsuDataRequest request, ScaApproach scaApproach) {
+    public Xs2aUpdatePisCommonPaymentPsuDataResponse updatePisCancellationAuthorisation(PaymentAuthorisationParameters request, ScaApproach scaApproach) {
         String authorisationId = request.getAuthorisationId();
         CmsResponse<Authorisation> pisCancellationAuthorisationResponse = authorisationServiceEncrypted.getAuthorisationById(request.getAuthorisationId());
         if (pisCancellationAuthorisationResponse.hasError()) {
@@ -145,19 +149,22 @@ public class PisAuthorisationService {
     /**
      * Sends a POST request to CMS to store created pis authorisation cancellation
      *
-     * @param paymentId String representation of identifier of payment ID
-     * @param psuData   PsuIdData container of authorisation data about PSU
+     * @param xs2aCreateAuthorisationRequest create Authorisation Request
      * @return long representation of identifier of stored pis authorisation cancellation
      */
-    public CreateAuthorisationResponse createPisAuthorisationCancellation(String paymentId, PsuIdData psuData) {
+    public CreateAuthorisationResponse createPisAuthorisationCancellation(Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest) {
         TppRedirectUri redirectURIs = tppRedirectUriMapper.mapToTppRedirectUri(requestProviderService.getTppRedirectURI(), requestProviderService.getTppNokRedirectURI());
 
-        CreateAuthorisationRequest request = new CreateAuthorisationRequest(psuData, scaApproachResolver.resolveScaApproach(), redirectURIs);
-        CmsResponse<CreateAuthorisationResponse> cmsResponse = authorisationServiceEncrypted.createAuthorisation(new PisCancellationAuthorisationParentHolder(paymentId), request);
+        CreateAuthorisationRequest request = new CreateAuthorisationRequest(xs2aCreateAuthorisationRequest.getAuthorisationId(),
+                                                                            xs2aCreateAuthorisationRequest.getPsuData(),
+                                                                            xs2aCreateAuthorisationRequest.getScaApproach(),
+                                                                            xs2aCreateAuthorisationRequest.getScaStatus(),
+                                                                            redirectURIs);
+        CmsResponse<CreateAuthorisationResponse> cmsResponse = authorisationServiceEncrypted.createAuthorisation(new PisCancellationAuthorisationParentHolder(xs2aCreateAuthorisationRequest.getPaymentId()), request);
 
         if (cmsResponse.hasError()) {
             log.info("Payment-ID [{}]. Create PIS Payment Cancellation Authorisation has failed. Can't find Payment Data by id or Payment is Finalised.",
-                     paymentId);
+                     xs2aCreateAuthorisationRequest.getPaymentId());
             return null;
         }
 
@@ -216,7 +223,7 @@ public class PisAuthorisationService {
     /**
      * Gets SCA status of the cancellation authorisation
      *
-     * @param paymentId      String representation of the payment identifier
+     * @param paymentId       String representation of the payment identifier
      * @param authorisationId String representation of the authorisation identifier
      * @return SCA status of the authorisation
      */
@@ -233,7 +240,7 @@ public class PisAuthorisationService {
     /**
      * Gets SCA approach of the authorisation by its id and type
      *
-     * @param authorisationId   String representation of the authorisation identifier
+     * @param authorisationId String representation of the authorisation identifier
      * @return SCA approach of the authorisation
      */
     public Optional<AuthorisationScaApproachResponse> getAuthorisationScaApproach(String authorisationId) {
@@ -246,7 +253,7 @@ public class PisAuthorisationService {
         return Optional.ofNullable(cmsResponse.getPayload());
     }
 
-    public void updateAuthorisation(UpdateAuthorisationRequest request,
+    public void updateAuthorisation(CommonAuthorisationParameters request,
                                     AuthorisationProcessorResponse response) {
         if (response.hasError()) {
             log.warn("Payment-ID [{}], Authorisation-ID [{}]. Updating PIS authorisation PSU Data has failed. Error msg: [{}]",
@@ -257,7 +264,7 @@ public class PisAuthorisationService {
         }
     }
 
-    public void updateCancellationAuthorisation(UpdateAuthorisationRequest request,
+    public void updateCancellationAuthorisation(CommonAuthorisationParameters request,
                                                 AuthorisationProcessorResponse response) {
         if (response.hasError()) {
             log.warn("Payment-ID [{}], Authorisation-ID [{}]. Updating PIS Payment Cancellation authorisation PSU Data has failed:. Error msg: [{}]",

@@ -20,6 +20,7 @@ import de.adorsys.psd2.core.data.ais.AisConsent;
 import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -47,6 +48,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
 import static de.adorsys.psd2.xs2a.core.error.ErrorType.*;
@@ -68,6 +70,7 @@ public class ConsentAuthorisationService {
     private final AisAuthorisationConfirmationService aisAuthorisationConfirmationService;
     private final PsuIdDataAuthorisationService psuIdDataAuthorisationService;
     private final EventTypeService eventTypeService;
+    private final ScaApproachResolver scaApproachResolver;
 
     public ResponseObject<AuthorisationResponse> createAisAuthorisation(PsuIdData psuData, String consentId, String password) {
         ResponseObject<CreateConsentAuthorizationResponse> createAisAuthorizationResponse = createConsentAuthorizationWithResponse(psuData, consentId);
@@ -88,7 +91,7 @@ public class ConsentAuthorisationService {
 
         String authorisationId = createAisAuthorizationResponse.getBody().getAuthorisationId();
 
-        UpdateConsentPsuDataReq updatePsuData = new UpdateConsentPsuDataReq();
+        ConsentAuthorisationsParameters updatePsuData = new ConsentAuthorisationsParameters();
         updatePsuData.setPsuData(psuData);
         updatePsuData.setConsentId(consentId);
         updatePsuData.setAuthorizationId(authorisationId);
@@ -186,7 +189,7 @@ public class ConsentAuthorisationService {
                    .build();
     }
 
-    public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(UpdateConsentPsuDataReq updatePsuData) {
+    public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(ConsentAuthorisationsParameters updatePsuData) {
         xs2aEventService.recordConsentTppRequest(updatePsuData.getConsentId(), eventTypeService.getEventType(updatePsuData, EventAuthorisationType.AIS), updatePsuData);
 
         String consentId = updatePsuData.getConsentId();
@@ -239,7 +242,7 @@ public class ConsentAuthorisationService {
         return getUpdateConsentPsuDataResponse(updatePsuData);
     }
 
-    private ResponseObject<UpdateConsentPsuDataResponse> getUpdateConsentPsuDataResponse(UpdateConsentPsuDataReq updatePsuData) {
+    private ResponseObject<UpdateConsentPsuDataResponse> getUpdateConsentPsuDataResponse(ConsentAuthorisationsParameters updatePsuData) {
         AisAuthorizationService service = aisScaAuthorisationServiceResolver.getService(updatePsuData.getAuthorizationId());
 
         Optional<Authorisation> authorizationOptional = service.getConsentAuthorizationById(updatePsuData.getAuthorizationId());
@@ -310,11 +313,43 @@ public class ConsentAuthorisationService {
         AisAuthorizationService service = aisScaAuthorisationServiceResolver.getService();
         PsuIdData psuIdData = getActualPsuData(psuDataFromRequest, aisConsent);
 
-        return service.createConsentAuthorization(psuIdData, consentId)
+        ConsentAuthorisationsParameters startAuthorisationRequest = new ConsentAuthorisationsParameters();
+        startAuthorisationRequest.setPsuData(psuIdData);
+        startAuthorisationRequest.setConsentId(consentId);
+        ScaStatus scaStatus = ScaStatus.STARTED;
+        startAuthorisationRequest.setScaStatus(scaStatus);
+
+        String authorisationId = UUID.randomUUID().toString();
+        startAuthorisationRequest.setAuthorizationId(authorisationId);
+
+        Authorisation authorisation = new Authorisation(authorisationId, psuIdData, consentId, AuthorisationType.CONSENT, scaStatus);
+        CreateConsentAuthorisationProcessorResponse createConsentAuthorisationProcessorResponse = (CreateConsentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
+            new AisAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(), scaStatus, startAuthorisationRequest, authorisation));
+        loggingContextService.storeScaStatus(createConsentAuthorisationProcessorResponse.getScaStatus());
+
+        Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                        .psuData(psuIdData)
+                                                                        .consentId(consentId)
+                                                                        .authorisationId(authorisationId)
+                                                                        .scaStatus(createConsentAuthorisationProcessorResponse.getScaStatus())
+                                                                        .scaApproach(createConsentAuthorisationProcessorResponse.getScaApproach())
+                                                                        .build();
+
+        return service.createConsentAuthorization(createAuthorisationRequest)
+                   .map(resp -> setPsuMessageAndTppMessages(resp, createConsentAuthorisationProcessorResponse))
                    .map(resp -> ResponseObject.<CreateConsentAuthorizationResponse>builder().body(resp).build())
                    .orElseGet(ResponseObject.<CreateConsentAuthorizationResponse>builder()
                                   .fail(AIS_403, of(CONSENT_UNKNOWN_403))
                                   ::build);
+    }
+
+    private CreateConsentAuthorizationResponse setPsuMessageAndTppMessages(CreateConsentAuthorizationResponse authorizationResponse,
+                                                                           CreateConsentAuthorisationProcessorResponse authorisationProcessorResponse) {
+        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
+        if (authorisationProcessorResponse.getTppMessages() != null) {
+            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+        }
+        return authorizationResponse;
     }
 
     private PsuIdData getActualPsuData(PsuIdData psuDataFromRequest, AisConsent aisConsent) {

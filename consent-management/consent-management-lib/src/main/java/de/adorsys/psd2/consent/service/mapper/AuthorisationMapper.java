@@ -28,6 +28,8 @@ import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -37,6 +39,8 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = PsuDataMapper.class)
 public interface AuthorisationMapper {
+    Logger log = LoggerFactory.getLogger(AuthorisationMapper.class);
+
     @Mapping(target = "psuIdData", source = "psuData")
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "authorisationId", source = "externalId")
@@ -53,13 +57,15 @@ public interface AuthorisationMapper {
         AuthorisationEntity entity = new AuthorisationEntity();
         entity.setType(authorisationType);
 
-        ScaStatus scaStatus = ScaStatus.RECEIVED;
-        if (psuDataOptional.isPresent()) {
+        ScaStatus scaStatus = request.getScaStatus();
+        if (psuDataOptional.isPresent() && ScaStatus.STARTED.equals(scaStatus)) {
             entity.setPsuData(psuDataOptional.get());
             scaStatus = ScaStatus.PSUIDENTIFIED;
+            log.info("Sca status was changed to [{}] for authorisation of type [{}]: business object id [{}]",
+                     scaStatus, authorisationType, authorisationParent.getExternalId());
         }
 
-        entity.setExternalId(UUID.randomUUID().toString());
+        entity.setExternalId(Optional.ofNullable(request.getAuthorisationId()).orElse(UUID.randomUUID().toString()));
         entity.setParentExternalId(authorisationParent.getExternalId());
         entity.setScaStatus(scaStatus);
         entity.setRedirectUrlExpirationTimestamp(OffsetDateTime.now().plus(redirectUrlExpirationTimeMs, ChronoUnit.MILLIS));

@@ -14,11 +14,31 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.service.validator.pis.authorisation;
+package de.adorsys.psd2.xs2a.domain.authorisation;
 
-import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
-import de.adorsys.psd2.xs2a.service.validator.pis.PaymentTypeAndInfoProvider;
+import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 
-public interface UpdatePisPsuDataPO extends PaymentTypeAndInfoProvider {
-    PaymentAuthorisationParameters getUpdateRequest();
+/**
+ * Common interface for AIS and PIS update authorisation requests
+ */
+public interface CommonAuthorisationParameters {
+
+    PsuIdData getPsuData();
+
+    String getBusinessObjectId();
+
+    String getAuthorisationId();
+
+    ScaStatus getScaStatus();
+
+    boolean isUpdatePsuIdentification();
+
+    String getAuthenticationMethodId();
+
+    String getScaAuthenticationData();
+
+    String getPassword();
+
+    String getConfirmationCode();
 }

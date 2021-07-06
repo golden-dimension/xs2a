@@ -19,14 +19,14 @@ package de.adorsys.psd2.xs2a.domain.consent.pis;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
-import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.domain.authorisation.CommonAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Xs2aUpdatePisCommonPaymentPsuDataRequest implements UpdateAuthorisationRequest {
+public class PaymentAuthorisationParameters implements CommonAuthorisationParameters {
     private PsuIdData psuData;
     private String paymentId;
     private String authorisationId;
@@ -40,7 +40,7 @@ public class Xs2aUpdatePisCommonPaymentPsuDataRequest implements UpdateAuthorisa
     private String paymentProduct;
     private PaymentType paymentService;
 
-    public Xs2aUpdatePisCommonPaymentPsuDataRequest(Xs2aCreatePisAuthorisationRequest createRequest, String authorisationId) {
+    public PaymentAuthorisationParameters(Xs2aCreatePisAuthorisationRequest createRequest, String authorisationId) {
         this.psuData = createRequest.getPsuData();
         this.paymentId = createRequest.getPaymentId();
         this.authorisationId = authorisationId;

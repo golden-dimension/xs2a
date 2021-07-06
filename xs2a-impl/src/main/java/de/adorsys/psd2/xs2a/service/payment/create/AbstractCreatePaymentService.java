@@ -18,19 +18,26 @@ package de.adorsys.psd2.xs2a.service.payment.create;
 
 import de.adorsys.psd2.consent.api.pis.CreatePisCommonPaymentResponse;
 import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
+import de.adorsys.psd2.logger.context.LoggingContextService;
+import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aPisCommonPayment;
+import de.adorsys.psd2.xs2a.domain.consent.*;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationParameters;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationResponse;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
+import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
+import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationMethodDecider;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationServiceResolver;
+import de.adorsys.psd2.xs2a.service.authorization.processor.model.PisAuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aPisCommonPaymentService;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aPisCommonPaymentMapper;
 import de.adorsys.psd2.xs2a.service.mapper.cms_xs2a_mappers.Xs2aToCmsPisCommonPaymentRequestMapper;
@@ -41,6 +48,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
 import static de.adorsys.psd2.xs2a.core.error.ErrorType.PIS_400;
@@ -55,6 +63,9 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
     private final Xs2aToCmsPisCommonPaymentRequestMapper xs2aToCmsPisCommonPaymentRequestMapper;
     private final S paymentInitiationService;
     private final RequestProviderService requestProviderService;
+    private final LoggingContextService loggingContextService;
+    private final AuthorisationChainResponsibilityService authorisationChainResponsibilityService;
+    private final ScaApproachResolver scaApproachResolver;
 
     /**
      * Initiates payment
@@ -104,7 +115,37 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
         boolean implicitMethod = authorisationMethodDecider.isImplicitMethod(paymentInitiationParameters.isTppExplicitAuthorisationPreferred(), response.isMultilevelScaRequired());
         if (implicitMethod) {
             PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
-            Optional<Xs2aCreatePisAuthorisationResponse> consentAuthorisation = pisScaAuthorisationService.createCommonPaymentAuthorisation(externalPaymentId, paymentRequest.getPaymentType(), paymentInitiationParameters.getPsuData());
+
+            PaymentAuthorisationParameters startAuthorisationRequest = new PaymentAuthorisationParameters();
+
+            startAuthorisationRequest.setPsuData(psuData);
+            startAuthorisationRequest.setPaymentId(externalPaymentId);
+            ScaStatus scaStatus = ScaStatus.STARTED;
+            startAuthorisationRequest.setScaStatus(scaStatus);
+
+            String authorisationId = UUID.randomUUID().toString();
+            startAuthorisationRequest.setAuthorisationId(authorisationId);
+
+            Authorisation authorisation = new Authorisation(authorisationId, psuData, externalPaymentId, AuthorisationType.PIS_CREATION, scaStatus);
+            CreatePaymentAuthorisationProcessorResponse createPaymentAuthorisationProcessorResponse =
+                (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
+                    new PisAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(),
+                                                         scaStatus,
+                                                         startAuthorisationRequest,
+                                                         authorisation));
+            loggingContextService.storeScaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus());
+
+            Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                            .psuData(psuData)
+                                                                            .paymentId(externalPaymentId)
+                                                                            .authorisationId(authorisationId)
+                                                                            .scaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus())
+                                                                            .scaApproach(createPaymentAuthorisationProcessorResponse.getScaApproach())
+                                                                            .build();
+
+            Optional<Xs2aCreatePisAuthorisationResponse> consentAuthorisation =
+                pisScaAuthorisationService.createCommonPaymentAuthorisation(createAuthorisationRequest, paymentRequest.getPaymentType());
+
             if (consentAuthorisation.isEmpty()) {
                 return ResponseObject.<PaymentInitiationResponse>builder()
                            .fail(PIS_400, of(PAYMENT_FAILED))
@@ -114,11 +155,20 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
             Xs2aCreatePisAuthorisationResponse authorisationResponse = consentAuthorisation.get();
             response.setAuthorizationId(authorisationResponse.getAuthorisationId());
             response.setScaStatus(authorisationResponse.getScaStatus());
+            setPsuMessageAndTppMessages(response, createPaymentAuthorisationProcessorResponse);
         }
 
         return ResponseObject.<PaymentInitiationResponse>builder()
                    .body(response)
                    .build();
+    }
+
+    private void setPsuMessageAndTppMessages(PaymentInitiationResponse authorizationResponse,
+                                             CreatePaymentAuthorisationProcessorResponse authorisationProcessorResponse) {
+        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
+        if (authorisationProcessorResponse.getTppMessages() != null) {
+            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+        }
     }
 
     protected abstract P getPaymentRequest(byte[] payment, PaymentInitiationParameters paymentInitiationParameters);

@@ -22,7 +22,7 @@ import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
 import de.adorsys.psd2.xs2a.core.mapper.ServiceType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
-import de.adorsys.psd2.xs2a.domain.authorisation.UpdateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.domain.authorisation.CommonAuthorisationParameters;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorResponse;
 import de.adorsys.psd2.xs2a.spi.domain.authorisation.SpiAuthorizationCodeResult;
@@ -92,7 +92,7 @@ abstract class BaseAuthorisationProcessorService implements AuthorisationProcess
         return authorizationCodeResult.getChallengeData();
     }
 
-    PsuIdData extractPsuIdData(UpdateAuthorisationRequest request,
+    PsuIdData extractPsuIdData(CommonAuthorisationParameters request,
                                Authorisation authorisation) {
         PsuIdData psuDataInRequest = request.getPsuData();
         return isPsuExist(psuDataInRequest) ? psuDataInRequest : authorisation.getPsuIdData();

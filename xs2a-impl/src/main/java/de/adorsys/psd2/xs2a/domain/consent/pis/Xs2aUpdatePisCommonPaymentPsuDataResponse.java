@@ -17,7 +17,9 @@
 package de.adorsys.psd2.xs2a.domain.consent.pis;
 
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.pis.Xs2aCurrencyConversionInfo;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponseType;
@@ -28,6 +30,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -69,6 +73,16 @@ public class Xs2aUpdatePisCommonPaymentPsuDataResponse extends AuthorisationProc
     @Override
     public AuthorisationResponseType getAuthorisationResponseType() {
         return AuthorisationResponseType.UPDATE;
+    }
+
+    @Override
+    public Set<TppMessageInformation> getTppMessageInformation() {
+        return null;
+    }
+
+    @Override
+    public ScaApproach getScaApproach() {
+        return null;
     }
 }
 

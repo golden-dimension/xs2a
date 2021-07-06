@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,21 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.domain.authorisation;
+package de.adorsys.psd2.xs2a.spi.domain.authorisation;
 
-import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-/**
- * Common interface for AIS and PIS update authorisation requests
- */
-public interface UpdateAuthorisationRequest {
+import java.util.Set;
 
-    PsuIdData getPsuData();
-
-    String getBusinessObjectId();
-
-    String getAuthorisationId();
-
-    ScaStatus getScaStatus();
-
-    boolean isUpdatePsuIdentification();
-
-    String getAuthenticationMethodId();
-
-    String getScaAuthenticationData();
-
-    String getPassword();
-
-    String getConfirmationCode();
+@Value
+@EqualsAndHashCode
+public class SpiStartAuthorisationResponse {
+    ScaApproach scaApproach;
+    ScaStatus scaStatus;
+    String psuMessage;
+    Set<TppMessageInformation> tppMessages;
 }

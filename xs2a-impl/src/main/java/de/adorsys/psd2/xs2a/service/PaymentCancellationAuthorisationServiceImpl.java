@@ -19,6 +19,8 @@ package de.adorsys.psd2.xs2a.service;
 import de.adorsys.psd2.consent.api.pis.PisCommonPaymentResponse;
 import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.logger.context.LoggingContextService;
+import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
@@ -27,15 +29,14 @@ import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.domain.authorisation.CancellationAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.PaymentScaStatus;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationRequest;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisCancellationAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aPaymentCancellationAuthorisationSubResource;
-import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
+import de.adorsys.psd2.xs2a.domain.consent.*;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
+import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationServiceResolver;
+import de.adorsys.psd2.xs2a.service.authorization.processor.model.PisCancellationAuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aPisCommonPaymentService;
 import de.adorsys.psd2.xs2a.service.event.EventAuthorisationType;
 import de.adorsys.psd2.xs2a.service.event.EventTypeService;
@@ -49,6 +50,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
 import static de.adorsys.psd2.xs2a.core.error.ErrorType.*;
@@ -70,6 +72,8 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
     private final LoggingContextService loggingContextService;
     private final PsuIdDataAuthorisationService psuIdDataAuthorisationService;
     private final EventTypeService eventTypeService;
+    private final ScaApproachResolver scaApproachResolver;
+    private final AuthorisationChainResponsibilityService authorisationChainResponsibilityService;
 
     /**
      * Creates authorisation for payment cancellation request if given psu data is valid
@@ -91,7 +95,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
         }
 
         String authorisationId = cancellationAuthorisation.getBody().getAuthorisationId();
-        Xs2aUpdatePisCommonPaymentPsuDataRequest updateRequest = new Xs2aUpdatePisCommonPaymentPsuDataRequest(request, authorisationId);
+        PaymentAuthorisationParameters updateRequest = new PaymentAuthorisationParameters(request, authorisationId);
         ResponseObject<Xs2aUpdatePisCommonPaymentPsuDataResponse> updatePsuDataResponse = updatePisCancellationPsuData(updateRequest);
 
         if (updatePsuDataResponse.hasError()) {
@@ -112,7 +116,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
      * @return Xs2aUpdatePisCommonPaymentPsuDataResponse that contains authorisationId, scaStatus, psuId and related links in case of success, otherwise contains error
      */
     @Override
-    public ResponseObject<Xs2aUpdatePisCommonPaymentPsuDataResponse> updatePisCancellationPsuData(Xs2aUpdatePisCommonPaymentPsuDataRequest request) {
+    public ResponseObject<Xs2aUpdatePisCommonPaymentPsuDataResponse> updatePisCancellationPsuData(PaymentAuthorisationParameters request) {
         String paymentId = request.getPaymentId();
         xs2aEventService.recordPisTppRequest(paymentId, eventTypeService.getEventType(request, EventAuthorisationType.PIS_CANCELLATION), request);
 
@@ -292,8 +296,35 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
                        .build();
         }
 
+        PaymentAuthorisationParameters startAuthorisationRequest = new PaymentAuthorisationParameters();
+
+        startAuthorisationRequest.setPsuData(psuData);
+        startAuthorisationRequest.setPaymentId(paymentId);
+        ScaStatus scaStatus = ScaStatus.STARTED;
+        startAuthorisationRequest.setScaStatus(scaStatus);
+
+        String authorisationId = UUID.randomUUID().toString();
+        startAuthorisationRequest.setAuthorisationId(authorisationId);
+
+        Authorisation authorisation = new Authorisation(authorisationId, psuData, paymentId, AuthorisationType.PIS_CREATION, scaStatus);
+        CreatePaymentAuthorisationProcessorResponse createPaymentAuthorisationProcessorResponse =
+            (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
+                new PisCancellationAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(),
+                                                                 scaStatus,
+                                                                 startAuthorisationRequest,
+                                                                 authorisation));
+        loggingContextService.storeScaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus());
+
+        Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                        .psuData(psuData)
+                                                                        .paymentId(paymentId)
+                                                                        .authorisationId(authorisationId)
+                                                                        .scaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus())
+                                                                        .scaApproach(createPaymentAuthorisationProcessorResponse.getScaApproach())
+                                                                        .build();
+
         PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
-        Optional<Xs2aCreatePisCancellationAuthorisationResponse> createAuthorisationResponseOptional = pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(paymentId, paymentType, psuData);
+        Optional<Xs2aCreatePisCancellationAuthorisationResponse> createAuthorisationResponseOptional = pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(createAuthorisationRequest, paymentType);
 
         if (createAuthorisationResponseOptional.isEmpty()) {
             return ResponseObject.<Xs2aCreatePisCancellationAuthorisationResponse>builder()
@@ -302,10 +333,19 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
         }
 
         Xs2aCreatePisCancellationAuthorisationResponse createAuthorisationResponse = createAuthorisationResponseOptional.get();
+        setPsuMessageAndTppMessages(createAuthorisationResponse, createPaymentAuthorisationProcessorResponse);
         loggingContextService.storeTransactionAndScaStatus(pisCommonPaymentResponseOptional.get().getTransactionStatus(), createAuthorisationResponse.getScaStatus());
 
         return ResponseObject.<Xs2aCreatePisCancellationAuthorisationResponse>builder()
                    .body(createAuthorisationResponse)
                    .build();
+    }
+
+    private void setPsuMessageAndTppMessages(Xs2aCreatePisCancellationAuthorisationResponse authorizationResponse,
+                                             CreatePaymentAuthorisationProcessorResponse authorisationProcessorResponse) {
+        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
+        if (authorisationProcessorResponse.getTppMessages() != null) {
+            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+        }
     }
 }

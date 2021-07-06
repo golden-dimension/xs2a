@@ -16,8 +16,12 @@
 
 package de.adorsys.psd2.xs2a.domain.authorisation;
 
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
 
 /**
  * Common authorisation response to be used on creating or updating cancellation authorisation
@@ -33,4 +37,10 @@ public interface CancellationAuthorisationResponse {
     default String getInternalRequestId() {
         return "";
     }
+
+    String getPsuMessage();
+
+    Set<TppMessageInformation> getTppMessageInformation();
+
+    ScaApproach getScaApproach();
 }

@@ -19,6 +19,9 @@ package de.adorsys.psd2.xs2a.service;
 import de.adorsys.psd2.core.data.AccountAccess;
 import de.adorsys.psd2.core.data.piis.v1.PiisConsent;
 import de.adorsys.psd2.event.core.model.EventType;
+import de.adorsys.psd2.logger.context.LoggingContextService;
+import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
+import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
@@ -37,9 +40,12 @@ import de.adorsys.psd2.xs2a.domain.account.Xs2aCreatePiisConsentResponse;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.domain.fund.CreatePiisConsentRequest;
+import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationMethodDecider;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
+import de.adorsys.psd2.xs2a.service.authorization.piis.PiisAuthorizationService;
 import de.adorsys.psd2.xs2a.service.authorization.piis.PiisScaAuthorisationServiceResolver;
+import de.adorsys.psd2.xs2a.service.authorization.processor.model.PiisAuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.consent.AccountReferenceInConsentUpdater;
 import de.adorsys.psd2.xs2a.service.consent.Xs2aPiisConsentService;
 import de.adorsys.psd2.xs2a.service.context.SpiContextDataProvider;
@@ -68,6 +74,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
@@ -94,6 +101,9 @@ public class PiisConsentService {
     private final PiisConsentAuthorisationService piisConsentAuthorisationService;
     private final Xs2aAuthorisationService xs2aAuthorisationService;
     private final SpiToXs2aLinksMapper spiToXs2aLinksMapper;
+    private final ScaApproachResolver scaApproachResolver;
+    private final AuthorisationChainResponsibilityService authorisationChainResponsibilityService;
+    private final LoggingContextService loggingContextService;
 
     public ResponseObject<Xs2aConfirmationOfFundsResponse> createPiisConsentWithResponse(CreatePiisConsentRequest request, PsuIdData psuData, boolean explicitPreferred) {
         xs2aEventService.recordTppRequest(EventType.CREATE_PIIS_CONSENT_REQUEST_RECEIVED, request);
@@ -150,8 +160,8 @@ public class PiisConsentService {
         Xs2aConfirmationOfFundsResponse xs2aConfirmationOfFundsResponse = new Xs2aConfirmationOfFundsResponse(consentStatus.getValue(),
                                                                                                               encryptedConsentId,
                                                                                                               multilevelScaRequired,
-                                                                                                              requestProviderService.getInternalRequestIdString(),
-                                                                                                              spiInitiatePiisConsentResponse.getPsuMessage());
+                                                                                                              requestProviderService.getInternalRequestIdString());
+        xs2aConfirmationOfFundsResponse.setPsuMessage(spiInitiatePiisConsentResponse.getPsuMessage());
 
         if (authorisationMethodDecider.isImplicitMethod(explicitPreferred, multilevelScaRequired)) {
             proceedImplicitCaseForCreateConsent(xs2aConfirmationOfFundsResponse, psuData, encryptedConsentId);
@@ -329,7 +339,7 @@ public class PiisConsentService {
         }
     }
 
-    public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(UpdateConsentPsuDataReq updatePsuData) {
+    public ResponseObject<UpdateConsentPsuDataResponse> updateConsentPsuData(ConsentAuthorisationsParameters updatePsuData) {
         return piisConsentAuthorisationService.updateConsentPsuData(updatePsuData);
     }
 
@@ -345,8 +355,48 @@ public class PiisConsentService {
         return piisConsentSpi.getConsentStatus(spiContextDataProvider.provide(), spiPiisConsent, aspspDataProvider);
     }
 
-    private void proceedImplicitCaseForCreateConsent(Xs2aConfirmationOfFundsResponse response, PsuIdData psuData, String consentId) {
-        piisScaAuthorisationServiceResolver.getService().createConsentAuthorization(psuData, consentId)
-            .ifPresent(a -> response.setAuthorizationId(a.getAuthorisationId()));
+    private void proceedImplicitCaseForCreateConsent(Xs2aConfirmationOfFundsResponse createConsentResponse, PsuIdData psuData, String consentId) {
+        ConsentAuthorisationsParameters startAuthorisationRequest = new ConsentAuthorisationsParameters();
+        startAuthorisationRequest.setPsuData(psuData);
+        startAuthorisationRequest.setConsentId(consentId);
+
+        ScaStatus scaStatus = ScaStatus.STARTED;
+        startAuthorisationRequest.setScaStatus(scaStatus);
+
+        String authorisationId = UUID.randomUUID().toString();
+        startAuthorisationRequest.setAuthorizationId(authorisationId);
+
+        Authorisation authorisation = new Authorisation(authorisationId, psuData, consentId, AuthorisationType.CONSENT, scaStatus);
+        CreateConsentAuthorisationProcessorResponse createConsentAuthorisationProcessorResponse = (CreateConsentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
+            new PiisAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(), scaStatus, startAuthorisationRequest, authorisation));
+        loggingContextService.storeScaStatus(createConsentAuthorisationProcessorResponse.getScaStatus());
+
+        Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                        .psuData(psuData)
+                                                                        .consentId(consentId)
+                                                                        .authorisationId(authorisationId)
+                                                                        .scaStatus(createConsentAuthorisationProcessorResponse.getScaStatus())
+                                                                        .scaApproach(createConsentAuthorisationProcessorResponse.getScaApproach())
+                                                                        .build();
+
+        PiisAuthorizationService service = piisScaAuthorisationServiceResolver.getService();
+
+        service.createConsentAuthorization(createAuthorisationRequest)
+            .ifPresent(a -> {
+                           createConsentResponse.setAuthorizationId(a.getAuthorisationId());
+                           createConsentResponse.setScaStatus(a.getScaStatus());
+                           createConsentResponse.setScaApproach(a.getScaApproach());
+                           setPsuMessageAndTppMessages(createConsentResponse, createConsentAuthorisationProcessorResponse);
+                           loggingContextService.storeScaStatus(a.getScaStatus());
+                       }
+            );
+    }
+
+    private void setPsuMessageAndTppMessages(Xs2aConfirmationOfFundsResponse createConsentResponse,
+                                             CreateConsentAuthorisationProcessorResponse createConsentAuthorizationResponse) {
+        createConsentResponse.setPsuMessage(createConsentAuthorizationResponse.getPsuMessage());
+        if (createConsentAuthorizationResponse.getTppMessages() != null) {
+            createConsentResponse.getTppMessageInformation().addAll(createConsentAuthorizationResponse.getTppMessages());
+        }
     }
 }
