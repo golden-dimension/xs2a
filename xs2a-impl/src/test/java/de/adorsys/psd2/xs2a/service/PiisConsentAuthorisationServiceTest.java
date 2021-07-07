@@ -145,7 +145,7 @@ class PiisConsentAuthorisationServiceTest {
             .thenReturn(ValidationResult.valid());
         when(piisScaAuthorisationServiceResolver.getService())
             .thenReturn(redirectPiisAuthorizationService);
-        when(redirectPiisAuthorizationService.createConsentAuthorization(any(), anyString()))
+        when(redirectPiisAuthorizationService.createConsentAuthorization(any()))
             .thenReturn(Optional.empty());
         // When
         ResponseObject<AuthorisationResponse> actualResponse = service.createPiisAuthorisation(PSU_ID_DATA, CONSENT_ID, PASSWORD);
@@ -166,7 +166,7 @@ class PiisConsentAuthorisationServiceTest {
         when(piisScaAuthorisationServiceResolver.getService()).thenReturn(piisAuthorizationService);
 
         CreateConsentAuthorizationResponse createConsentAuthorizationResponse = buildCreateConsentAuthorizationResponse();
-        when(piisAuthorizationService.createConsentAuthorization(any(), anyString()))
+        when(piisAuthorizationService.createConsentAuthorization(any()))
             .thenReturn(Optional.of(createConsentAuthorizationResponse));
 
         when(endpointAccessCheckerService.isEndpointAccessible(AUTHORISATION_ID, false)).thenReturn(true);
@@ -307,8 +307,8 @@ class PiisConsentAuthorisationServiceTest {
         assertThat(response.getError()).isEqualTo(messageError);
     }
 
-    private UpdateConsentPsuDataReq buildUpdateConsentPsuDataReq() {
-        UpdateConsentPsuDataReq updatePsuData = new UpdateConsentPsuDataReq();
+    private ConsentAuthorisationsParameters buildUpdateConsentPsuDataReq() {
+        ConsentAuthorisationsParameters updatePsuData = new ConsentAuthorisationsParameters();
         updatePsuData.setPsuData(PSU_ID_DATA);
         updatePsuData.setConsentId(CONSENT_ID);
         updatePsuData.setAuthorizationId(AUTHORISATION_ID);

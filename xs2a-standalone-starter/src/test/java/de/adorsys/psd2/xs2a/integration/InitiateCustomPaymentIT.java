@@ -200,9 +200,9 @@ class InitiateCustomPaymentIT extends CustomPaymentTestParent {
 
     private void makePreparation(ScaApproach scaApproach) {
         given(authorisationServiceEncrypted.createAuthorisation(new PisAuthorisationParentHolder(ENCRYPT_PAYMENT_ID),
-                                                                new CreateAuthorisationRequest(PsuIdDataBuilder.buildPsuIdData(), scaApproach, TPP_REDIRECT_URIs)))
+                                                                new CreateAuthorisationRequest(AUTHORISATION_ID, PsuIdDataBuilder.buildPsuIdData(), scaApproach, SCA_STATUS, TPP_REDIRECT_URIs)))
             .willReturn(CmsResponse.<CreateAuthorisationResponse>builder()
-                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, SCA_STATUS, null, null))
+                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, SCA_STATUS, null, null, scaApproach))
                             .build());
         given(aspspProfileService.getScaApproaches(null)).willReturn(Collections.singletonList(scaApproach));
         given(commonPaymentSpi.initiatePayment(any(SpiContextData.class), any(SpiPaymentInfo.class), any(SpiAspspConsentDataProvider.class)))

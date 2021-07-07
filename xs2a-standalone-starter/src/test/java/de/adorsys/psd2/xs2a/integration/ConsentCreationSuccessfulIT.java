@@ -347,6 +347,6 @@ class ConsentCreationSuccessfulIT {
     }
 
     private CreateAuthorisationResponse buildCreateAisConsentAuthorizationResponse() {
-        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, INTERNAL_REQUEST_ID, null);
+        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, INTERNAL_REQUEST_ID, null, ScaApproach.EMBEDDED);
     }
 }

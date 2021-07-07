@@ -21,7 +21,7 @@ import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
-import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorResponse;
@@ -115,7 +115,7 @@ class PisCancellationAuthorisationProcessorServiceImplTest {
     }
 
     private AuthorisationProcessorRequest buildAuthorisationProcessorRequest() {
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = new Xs2aUpdatePisCommonPaymentPsuDataRequest();
+        PaymentAuthorisationParameters request = new PaymentAuthorisationParameters();
         request.setPaymentId(TEST_PAYMENT_ID);
         request.setAuthorisationId(TEST_AUTHORISATION_ID);
         request.setPsuData(TEST_PSU_DATA);

@@ -26,6 +26,7 @@ import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
@@ -33,11 +34,8 @@ import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponseType;
 import de.adorsys.psd2.xs2a.domain.authorisation.CancellationAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.PaymentScaStatus;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationRequest;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisCancellationAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aPaymentCancellationAuthorisationSubResource;
-import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
+import de.adorsys.psd2.xs2a.domain.consent.*;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.PisScaAuthorisationServiceResolver;
@@ -88,6 +86,7 @@ class PaymentCancellationAuthorisationServiceTest {
     private static final MessageError INVALID_FLOW_ERROR = new MessageError(ErrorType.PIS_403, TppMessageInformation.of(FORBIDDEN_INCORRECT_FLOW));
     private static final MessageError SCA_STATUS_ERROR = new MessageError(ErrorType.PIS_403, of(RESOURCE_UNKNOWN_403));
     private static final ScaStatus SCA_STATUS = ScaStatus.RECEIVED;
+    private static final ScaApproach SCA_APPROACH = ScaApproach.EMBEDDED;
 
     @InjectMocks
     private PaymentCancellationAuthorisationServiceImpl paymentCancellationAuthorisationService;
@@ -125,7 +124,7 @@ class PaymentCancellationAuthorisationServiceTest {
 
         when(createPisCancellationAuthorisationValidator.validate(any(CreatePisCancellationAuthorisationObject.class))).thenReturn(ValidationResult.valid());
 
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(anyString(), any(), any()))
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(any(), any()))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, null, null, null)));
 
         // Given:
@@ -153,8 +152,14 @@ class PaymentCancellationAuthorisationServiceTest {
 
         when(createPisCancellationAuthorisationValidator.validate(any(CreatePisCancellationAuthorisationObject.class))).thenReturn(ValidationResult.valid());
 
-
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(PAYMENT_ID, paymentType, PSU_ID_DATA))
+        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                            .paymentId(PAYMENT_ID)
+                                                                            .psuData(PSU_ID_DATA)
+                                                                            .scaStatus(SCA_STATUS)
+                                                                            .scaApproach(SCA_APPROACH)
+                                                                            .authorisationId(CANCELLATION_AUTHORISATION_ID)
+                                                                            .build();
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(xs2aCreateAuthorisationRequest, paymentType))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, scaStatus, paymentType, null)));
 
         // When
@@ -186,7 +191,7 @@ class PaymentCancellationAuthorisationServiceTest {
 
         when(createPisCancellationAuthorisationValidator.validate(any(CreatePisCancellationAuthorisationObject.class))).thenReturn(ValidationResult.valid());
 
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(anyString(), any(), any()))
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(any(), any()))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, authorisationStatus, null, null)));
 
         // When
@@ -210,7 +215,7 @@ class PaymentCancellationAuthorisationServiceTest {
         assertThat(pisCancellationAuthorisation.getError()).isEqualTo(UNKNOWN_PAYMENT_ERROR);
 
         verify(pisScaAuthorisationServiceResolver, never()).getService(anyString());
-        verify(pisScaAuthorisationService, never()).createCommonPaymentCancellationAuthorisation(anyString(), any(PaymentType.class), any(PsuIdData.class));
+        verify(pisScaAuthorisationService, never()).createCommonPaymentCancellationAuthorisation(any(Xs2aCreateAuthorisationRequest.class), any(PaymentType.class));
     }
 
     @Test
@@ -227,7 +232,7 @@ class PaymentCancellationAuthorisationServiceTest {
         assertThat(pisCancellationAuthorisation.getError()).isEqualTo(INVALID_FLOW_ERROR);
 
         verify(pisScaAuthorisationServiceResolver, never()).getService(anyString());
-        verify(pisScaAuthorisationService, never()).createCommonPaymentCancellationAuthorisation(anyString(), any(PaymentType.class), any(PsuIdData.class));
+        verify(pisScaAuthorisationService, never()).createCommonPaymentCancellationAuthorisation(any(Xs2aCreateAuthorisationRequest.class), any(PaymentType.class));
     }
 
     @Test
@@ -248,7 +253,7 @@ class PaymentCancellationAuthorisationServiceTest {
 
         ScaStatus scaStatus = ScaStatus.RECEIVED;
 
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(anyString(), any(), any()))
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(any(), any()))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, scaStatus, PaymentType.SINGLE, null)));
         when(updatePisCancellationPsuDataValidator.validate(any()))
             .thenReturn(ValidationResult.valid());
@@ -283,7 +288,7 @@ class PaymentCancellationAuthorisationServiceTest {
         assertThat(pisCancellationAuthorisation.getError()).isEqualTo(UNKNOWN_PAYMENT_ERROR);
 
         verify(pisScaAuthorisationServiceResolver, never()).getService(anyString());
-        verify(pisScaAuthorisationService, never()).updateCommonPaymentCancellationPsuData(any(Xs2aUpdatePisCommonPaymentPsuDataRequest.class));
+        verify(pisScaAuthorisationService, never()).updateCommonPaymentCancellationPsuData(any(PaymentAuthorisationParameters.class));
     }
 
     @Test
@@ -302,7 +307,7 @@ class PaymentCancellationAuthorisationServiceTest {
 
         ScaStatus scaStatus = ScaStatus.RECEIVED;
 
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(anyString(), any(), any()))
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(any(), any()))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, scaStatus, PaymentType.SINGLE, null)));
 
         // When
@@ -314,7 +319,7 @@ class PaymentCancellationAuthorisationServiceTest {
         assertThat(pisCancellationAuthorisation.getError()).isEqualTo(VALIDATION_ERROR);
 
         verify(pisScaAuthorisationServiceResolver, never()).getService(anyString());
-        verify(pisScaAuthorisationService, never()).updateCommonPaymentCancellationPsuData(any(Xs2aUpdatePisCommonPaymentPsuDataRequest.class));
+        verify(pisScaAuthorisationService, never()).updateCommonPaymentCancellationPsuData(any(PaymentAuthorisationParameters.class));
     }
 
     @Test
@@ -335,14 +340,14 @@ class PaymentCancellationAuthorisationServiceTest {
         ErrorHolder errorHolder = ErrorHolder.builder(AUTHORISATION_SERVICE_ERROR.getErrorType())
                                       .tppMessages(AUTHORISATION_SERVICE_ERROR.getTppMessage())
                                       .build();
-        when(pisScaAuthorisationService.updateCommonPaymentCancellationPsuData(any(Xs2aUpdatePisCommonPaymentPsuDataRequest.class)))
+        when(pisScaAuthorisationService.updateCommonPaymentCancellationPsuData(any(PaymentAuthorisationParameters.class)))
             .thenReturn(new Xs2aUpdatePisCommonPaymentPsuDataResponse(errorHolder, PAYMENT_ID, CANCELLATION_AUTHORISATION_ID, PSU_ID_DATA));
         when(updatePisCancellationPsuDataValidator.validate(any()))
             .thenReturn(ValidationResult.valid());
 
         ScaStatus scaStatus = ScaStatus.RECEIVED;
 
-        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(anyString(), any(), any()))
+        when(pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(any(), any()))
             .thenReturn(Optional.of(new Xs2aCreatePisCancellationAuthorisationResponse(CANCELLATION_AUTHORISATION_ID, scaStatus, PaymentType.SINGLE, null)));
 
         // When
@@ -369,7 +374,7 @@ class PaymentCancellationAuthorisationServiceTest {
             .thenReturn(new Xs2aUpdatePisCommonPaymentPsuDataResponse(ScaStatus.RECEIVED, PAYMENT_ID, CANCELLATION_AUTHORISATION_ID, PSU_ID_DATA, null));
 
         // Given:
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = buildXs2aUpdatePisPsuDataRequest();
+        PaymentAuthorisationParameters request = buildXs2aUpdatePisPsuDataRequest();
         ArgumentCaptor<EventType> argumentCaptor = ArgumentCaptor.forClass(EventType.class);
         when(eventTypeService.getEventType(request, EventAuthorisationType.PIS_CANCELLATION))
             .thenReturn(EventType.UPDATE_PAYMENT_CANCELLATION_PSU_DATA_IDENTIFICATION_REQUEST_RECEIVED);
@@ -397,7 +402,7 @@ class PaymentCancellationAuthorisationServiceTest {
             .thenReturn(new Xs2aUpdatePisCommonPaymentPsuDataResponse(SCA_STATUS, PAYMENT_ID, CANCELLATION_AUTHORISATION_ID, PSU_ID_DATA, null));
 
         // Given:
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = buildXs2aUpdatePisPsuDataRequest();
+        PaymentAuthorisationParameters request = buildXs2aUpdatePisPsuDataRequest();
 
         // When
         ResponseObject<Xs2aUpdatePisCommonPaymentPsuDataResponse> response = paymentCancellationAuthorisationService.updatePisCancellationPsuData(request);
@@ -417,7 +422,7 @@ class PaymentCancellationAuthorisationServiceTest {
         when(xs2aPisCommonPaymentService.getPisCommonPaymentById(WRONG_PAYMENT_ID))
             .thenReturn(Optional.of(INVALID_PIS_COMMON_PAYMENT_RESPONSE));
 
-        Xs2aUpdatePisCommonPaymentPsuDataRequest invalidUpdatePisPsuDataRequest = buildInvalidXs2aUpdatePisPsuDataRequest();
+        PaymentAuthorisationParameters invalidUpdatePisPsuDataRequest = buildInvalidXs2aUpdatePisPsuDataRequest();
         when(updatePisCancellationPsuDataValidator.validate(new UpdatePaymentPsuDataPO(INVALID_PIS_COMMON_PAYMENT_RESPONSE, buildInvalidXs2aUpdatePisPsuDataRequest())))
             .thenReturn(ValidationResult.invalid(VALIDATION_ERROR));
 
@@ -441,7 +446,7 @@ class PaymentCancellationAuthorisationServiceTest {
         when(updatePisCancellationPsuDataValidator.validate(new UpdatePaymentPsuDataPO(buildPisCommonPaymentResponse(), buildXs2aUpdatePisPsuDataRequest())))
             .thenReturn(ValidationResult.valid());
 
-        Xs2aUpdatePisCommonPaymentPsuDataRequest updatePisPsuDataRequest = buildXs2aUpdatePisPsuDataRequest();
+        PaymentAuthorisationParameters updatePisPsuDataRequest = buildXs2aUpdatePisPsuDataRequest();
         when(updatePisCancellationPsuDataValidator.validate(new UpdatePaymentPsuDataPO(PIS_COMMON_PAYMENT_RESPONSE, updatePisPsuDataRequest)))
             .thenReturn(ValidationResult.invalid(VALIDATION_ERROR));
 
@@ -468,11 +473,11 @@ class PaymentCancellationAuthorisationServiceTest {
         when(updatePisCancellationPsuDataValidator.validate(new UpdatePaymentPsuDataPO(buildPisCommonPaymentResponse(), buildXs2aUpdatePisPsuDataRequest())))
             .thenReturn(ValidationResult.valid());
 
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = buildXs2aUpdatePisPsuDataRequest();
+        PaymentAuthorisationParameters request = buildXs2aUpdatePisPsuDataRequest();
         ErrorHolder errorHolder = ErrorHolder.builder(AUTHORISATION_SERVICE_ERROR.getErrorType())
                                       .tppMessages(AUTHORISATION_SERVICE_ERROR.getTppMessage())
                                       .build();
-        when(pisScaAuthorisationService.updateCommonPaymentCancellationPsuData(any(Xs2aUpdatePisCommonPaymentPsuDataRequest.class)))
+        when(pisScaAuthorisationService.updateCommonPaymentCancellationPsuData(any(PaymentAuthorisationParameters.class)))
             .thenReturn(new Xs2aUpdatePisCommonPaymentPsuDataResponse(errorHolder, PAYMENT_ID, CANCELLATION_AUTHORISATION_ID, PSU_ID_DATA));
         ArgumentCaptor<ScaStatus> scaStatusArgumentCaptor = ArgumentCaptor.forClass(ScaStatus.class);
 
@@ -711,16 +716,16 @@ class PaymentCancellationAuthorisationServiceTest {
         return response;
     }
 
-    private Xs2aUpdatePisCommonPaymentPsuDataRequest buildXs2aUpdatePisPsuDataRequest() {
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = new Xs2aUpdatePisCommonPaymentPsuDataRequest();
+    private PaymentAuthorisationParameters buildXs2aUpdatePisPsuDataRequest() {
+        PaymentAuthorisationParameters request = new PaymentAuthorisationParameters();
         request.setAuthorisationId(CANCELLATION_AUTHORISATION_ID);
         request.setPaymentId(PAYMENT_ID);
         request.setPsuData(PSU_ID_DATA);
         return request;
     }
 
-    private Xs2aUpdatePisCommonPaymentPsuDataRequest buildInvalidXs2aUpdatePisPsuDataRequest() {
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = new Xs2aUpdatePisCommonPaymentPsuDataRequest();
+    private PaymentAuthorisationParameters buildInvalidXs2aUpdatePisPsuDataRequest() {
+        PaymentAuthorisationParameters request = new PaymentAuthorisationParameters();
         request.setAuthorisationId(INVALID_AUTHORISATION_ID);
         request.setPaymentId(WRONG_PAYMENT_ID);
         request.setPsuData(PSU_ID_DATA);

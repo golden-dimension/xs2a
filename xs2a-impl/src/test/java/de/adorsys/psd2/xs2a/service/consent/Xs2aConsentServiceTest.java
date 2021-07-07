@@ -66,7 +66,7 @@ class Xs2aConsentServiceTest {
         // Given
         when(scaApproachResolver.resolveScaApproach())
             .thenReturn(SCA_APPROACH);
-        when(aisConsentAuthorisationMapper.mapToAuthorisationRequest(SCA_STATUS, PSU_DATA, SCA_APPROACH, REDIRECT_URI, NOK_REDIRECT_URI))
+        when(aisConsentAuthorisationMapper.mapToAuthorisationRequest(AUTHORISATION_ID, SCA_STATUS, PSU_DATA, SCA_APPROACH, REDIRECT_URI, NOK_REDIRECT_URI))
             .thenReturn(AIS_CONSENT_AUTHORISATION_REQUEST);
         when(authorisationService.createAuthorisation(AIS_CONSENT_AUTHORISATION_REQUEST, CONSENT_ID, AuthorisationType.CONSENT))
             .thenReturn(Optional.of(buildCreateAisConsentAuthorizationResponse()));
@@ -76,7 +76,7 @@ class Xs2aConsentServiceTest {
             .thenReturn(NOK_REDIRECT_URI);
 
         // When
-        Optional<CreateAuthorisationResponse> actualResponse = xs2aConsentService.createConsentAuthorisation(CONSENT_ID, SCA_STATUS, PSU_DATA);
+        Optional<CreateAuthorisationResponse> actualResponse = xs2aConsentService.createConsentAuthorisation(CONSENT_ID, AUTHORISATION_ID, SCA_APPROACH, SCA_STATUS, PSU_DATA);
 
         // Then
         assertThat(actualResponse).isPresent().contains(buildCreateAisConsentAuthorizationResponse());
@@ -90,13 +90,13 @@ class Xs2aConsentServiceTest {
 
         when(scaApproachResolver.resolveScaApproach()).thenReturn(SCA_APPROACH);
         CreateAuthorisationRequest request = new CreateAuthorisationRequest();
-        when(aisConsentAuthorisationMapper.mapToAuthorisationRequest(SCA_STATUS, PSU_DATA, SCA_APPROACH, "ok.uri", "nok.uri"))
+        when(aisConsentAuthorisationMapper.mapToAuthorisationRequest(AUTHORISATION_ID, SCA_STATUS, PSU_DATA, SCA_APPROACH, "ok.uri", "nok.uri"))
             .thenReturn(request);
         when(authorisationService.createAuthorisation(request, CONSENT_ID, AuthorisationType.CONSENT))
             .thenReturn(Optional.empty());
 
         // When
-        Optional<CreateAuthorisationResponse> actualResponse = xs2aConsentService.createConsentAuthorisation(CONSENT_ID, SCA_STATUS, PSU_DATA);
+        Optional<CreateAuthorisationResponse> actualResponse = xs2aConsentService.createConsentAuthorisation(CONSENT_ID, AUTHORISATION_ID, SCA_APPROACH, SCA_STATUS, PSU_DATA);
 
         // Then
         assertThat(actualResponse).isNotPresent();
@@ -116,7 +116,6 @@ class Xs2aConsentServiceTest {
     }
 
     private static CreateAuthorisationResponse buildCreateAisConsentAuthorizationResponse() {
-        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, "", null);
+        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, "", null, SCA_APPROACH);
     }
-
 }

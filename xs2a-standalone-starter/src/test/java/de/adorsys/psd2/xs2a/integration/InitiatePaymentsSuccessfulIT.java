@@ -473,11 +473,11 @@ class InitiatePaymentsSuccessfulIT {
     }
 
     private CreateAuthorisationRequest getAuthorisationRequest(ScaApproach scaApproach) {
-        return new CreateAuthorisationRequest(PsuIdDataBuilder.buildPsuIdData(), scaApproach, TPP_REDIRECT_URIs);
+        return new CreateAuthorisationRequest(AUTHORISATION_ID, PsuIdDataBuilder.buildPsuIdData(), scaApproach, SCA_STATUS, TPP_REDIRECT_URIs);
     }
 
     private CreateAuthorisationRequest getAuthorisationRequestWithEmptyPsuIdData(ScaApproach scaApproach) {
-        return new CreateAuthorisationRequest(PsuIdDataBuilder.buildPsuIdDataWithIpAddress(), scaApproach, TPP_REDIRECT_URIs);
+        return new CreateAuthorisationRequest(AUTHORISATION_ID, PsuIdDataBuilder.buildPsuIdDataWithIpAddress(), scaApproach, SCA_STATUS, TPP_REDIRECT_URIs);
     }
 
     private void initiateSinglePayment_successful(HttpHeaders headers, ScaApproach scaApproach, boolean multilevelSca, boolean isPsuIdDataEmpty) throws Exception {
@@ -624,6 +624,6 @@ class InitiatePaymentsSuccessfulIT {
     }
 
     private CreateAuthorisationResponse buildCreateAuthorisationResponse(ScaStatus scaStatus) {
-        return new CreateAuthorisationResponse(AUTHORISATION_ID, scaStatus, null, null);
+        return new CreateAuthorisationResponse(AUTHORISATION_ID, scaStatus, null, null, ScaApproach.EMBEDDED);
     }
 }

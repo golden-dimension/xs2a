@@ -32,6 +32,7 @@ import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.core.tpp.TppRole;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
+import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aPisCommonPayment;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationParameters;
@@ -83,7 +84,7 @@ class CreatePeriodicPaymentTest {
     private static final PisPaymentInfo PAYMENT_INFO = buildPisPaymentInfoRequest();
     private static final String PAYMENT_PRODUCT = "sepa-credit-transfers";
     private final Xs2aPisCommonPayment PIS_COMMON_PAYMENT_FAIL = new Xs2aPisCommonPayment(null, PSU_ID_DATA);
-    private static final Xs2aCreatePisAuthorisationResponse CREATE_PIS_AUTHORISATION_RESPONSE = new Xs2aCreatePisAuthorisationResponse(null, null, null, null, null, null);
+    private static final Xs2aCreatePisAuthorisationResponse CREATE_PIS_AUTHORISATION_RESPONSE = new Xs2aCreatePisAuthorisationResponse(null, null, null, null, null, null, null, null);
     private static final String INTERNAL_REQUEST_ID = "5c2d5564-367f-4e03-a621-6bef76fa4208";
     private static final byte[] PAYMENT_BODY = "some payment body".getBytes();
 
@@ -187,7 +188,11 @@ class CreatePeriodicPaymentTest {
             .thenReturn(true);
         when(pisScaAuthorisationServiceResolver.getService())
             .thenReturn(pisScaAuthorisationService);
-        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(PAYMENT_ID, PaymentType.PERIODIC, PARAM.getPsuData()))
+        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                            .paymentId(PAYMENT_ID)
+                                                                            .psuData(PARAM.getPsuData())
+                                                                            .build();
+        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(xs2aCreateAuthorisationRequest, PaymentType.PERIODIC))
             .thenReturn(Optional.of(CREATE_PIS_AUTHORISATION_RESPONSE));
 
         //When
@@ -212,7 +217,11 @@ class CreatePeriodicPaymentTest {
             .thenReturn(true);
         when(pisScaAuthorisationServiceResolver.getService())
             .thenReturn(pisScaAuthorisationService);
-        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(PAYMENT_ID, PaymentType.PERIODIC, PARAM.getPsuData()))
+        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
+                                                                            .paymentId(PAYMENT_ID)
+                                                                            .psuData(PARAM.getPsuData())
+                                                                            .build();
+        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(xs2aCreateAuthorisationRequest, PaymentType.PERIODIC))
             .thenReturn(Optional.empty());
 
         //When

@@ -184,7 +184,7 @@ class PaymentStartAuthorisationIT {
         given(aspspProfileService.getScaApproaches(null)).willReturn(Collections.singletonList(ScaApproach.EMBEDDED));
         given(authorisationServiceEncrypted.createAuthorisation(parentHolderCaptor.capture(), createAuthorisationRequest.capture()))
             .willReturn(CmsResponse.<CreateAuthorisationResponse>builder()
-                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.PSUIDENTIFIED, null, buildPsuIdData()))
+                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.PSUIDENTIFIED, null, buildPsuIdData(), ScaApproach.EMBEDDED))
                             .build());
 
         given(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))

@@ -31,7 +31,7 @@ import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
-import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataRequest;
+import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.authorization.Xs2aAuthorisationService;
 import de.adorsys.psd2.xs2a.service.authorization.pis.*;
@@ -627,7 +627,7 @@ class PisAuthorisationProcessorServiceImplTest {
     void doScaReceived_identification_no_psu_failure() {
         // Given
         AuthorisationProcessorRequest authorisationProcessorRequest = buildIdentificationAuthorisationProcessorRequest();
-        ((Xs2aUpdatePisCommonPaymentPsuDataRequest) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setPsuData(null);
+        ((PaymentAuthorisationParameters) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setPsuData(null);
 
         // When
         AuthorisationProcessorResponse actual = pisAuthorisationProcessorService.doScaReceived(authorisationProcessorRequest);
@@ -1114,7 +1114,7 @@ class PisAuthorisationProcessorServiceImplTest {
     void doScaPsuIdentified_identification_no_psu_failure() {
         // Given
         AuthorisationProcessorRequest authorisationProcessorRequest = buildIdentificationAuthorisationProcessorRequest();
-        ((Xs2aUpdatePisCommonPaymentPsuDataRequest) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setPsuData(null);
+        ((PaymentAuthorisationParameters) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setPsuData(null);
 
         // When
         AuthorisationProcessorResponse actual = pisAuthorisationProcessorService.doScaPsuIdentified(authorisationProcessorRequest);
@@ -1517,7 +1517,7 @@ class PisAuthorisationProcessorServiceImplTest {
     }
 
     private AuthorisationProcessorRequest buildAuthorisationProcessorRequest() {
-        Xs2aUpdatePisCommonPaymentPsuDataRequest request = new Xs2aUpdatePisCommonPaymentPsuDataRequest();
+        PaymentAuthorisationParameters request = new PaymentAuthorisationParameters();
         request.setPaymentId(TEST_PAYMENT_ID);
         request.setAuthorisationId(TEST_AUTHORISATION_ID);
         request.setPsuData(TEST_PSU_DATA);
@@ -1532,7 +1532,7 @@ class PisAuthorisationProcessorServiceImplTest {
 
     private AuthorisationProcessorRequest buildIdentificationAuthorisationProcessorRequest() {
         AuthorisationProcessorRequest authorisationProcessorRequest = buildAuthorisationProcessorRequest();
-        ((Xs2aUpdatePisCommonPaymentPsuDataRequest) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setUpdatePsuIdentification(true);
+        ((PaymentAuthorisationParameters) authorisationProcessorRequest.getUpdateAuthorisationRequest()).setUpdatePsuIdentification(true);
         return authorisationProcessorRequest;
     }
 

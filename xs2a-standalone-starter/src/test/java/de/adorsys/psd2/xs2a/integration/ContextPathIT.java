@@ -169,7 +169,7 @@ class ContextPathIT {
         given(aspspProfileService.getScaApproaches(null)).willReturn(Collections.singletonList(SCA_APPROACH));
         given(authorisationServiceEncrypted.createAuthorisation(any(AuthorisationParentHolder.class), any(CreateAuthorisationRequest.class)))
             .willReturn(CmsResponse.<CreateAuthorisationResponse>builder()
-                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, "", null))
+                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, "", null, ScaApproach.EMBEDDED))
                             .build());
         given(consentServiceEncrypted.createConsent(any(CmsConsent.class)))
             .willReturn(CmsResponse.<CmsCreateConsentResponse>builder()

@@ -157,7 +157,7 @@ class PaymentStartCancellationAuthorisationIT {
         given(aspspProfileService.getScaApproaches(null)).willReturn(Collections.singletonList(ScaApproach.EMBEDDED));
         given(authorisationServiceEncrypted.createAuthorisation(pisCancellationAuthorisationParentHolderCaptor.capture(), createAuthorisationRequestCaptor.capture()))
             .willReturn(CmsResponse.<CreateAuthorisationResponse>builder()
-                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, PIS_AUTHORISATION_SCA_STATUS, null, null))
+                            .payload(new CreateAuthorisationResponse(AUTHORISATION_ID, PIS_AUTHORISATION_SCA_STATUS, null, null, ScaApproach.EMBEDDED))
                             .build());
 
         given(authorisationServiceEncrypted.getAuthorisationById(AUTHORISATION_ID))
@@ -174,8 +174,8 @@ class PaymentStartCancellationAuthorisationIT {
         requestBuilder.headers(httpHeadersExplicit);
 
         CreateAuthorisationRequest expectedCreatePisAuthorisationRequest =
-            new CreateAuthorisationRequest(new PsuIdData(PSU_ID, null, null, null, null),
-                                           ScaApproach.EMBEDDED, TPP_REDIRECT_URIs);
+            new CreateAuthorisationRequest(AUTHORISATION_ID, new PsuIdData(PSU_ID, null, null, null, null),
+                                           ScaApproach.EMBEDDED, ScaStatus.STARTED, TPP_REDIRECT_URIs);
 
         //When
         ResultActions resultActions = mockMvc.perform(requestBuilder);
