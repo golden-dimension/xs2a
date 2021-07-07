@@ -49,7 +49,6 @@ public class PaymentCancellationSpiMockImpl implements PaymentCancellationSpi {
     public SpiResponse<SpiStartAuthorisationResponse> startAuthorisation(@NotNull SpiContextData contextData, @NotNull ScaApproach scaApproach, @NotNull ScaStatus scaStatus, @NotNull String authorisationId, SpiPayment businessObject, @NotNull SpiAspspConsentDataProvider aspspConsentDataProvider) {
         return SpiResponse.<SpiStartAuthorisationResponse>builder()
                    .payload(new SpiStartAuthorisationResponse(scaApproach, scaStatus, SpiMockData.PSU_MESSAGE_START_AUTHORISATION, SpiMockData.TPP_MESSAGES_START_AUTHORISATION))
-//                   .payload(new SpiStartAuthorisationResponse(scaApproach, ScaStatus.FAILED, SpiMockData.PSU_MESSAGE_START_AUTHORISATION, SpiMockData.TPP_MESSAGES_START_AUTHORISATION))
                    .build();
     }
 
