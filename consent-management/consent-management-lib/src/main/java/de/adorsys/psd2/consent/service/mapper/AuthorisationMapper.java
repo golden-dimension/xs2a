@@ -64,6 +64,11 @@ public interface AuthorisationMapper {
             log.info("Sca status was changed to [{}] for authorisation of type [{}]: business object id [{}]",
                      scaStatus, authorisationType, authorisationParent.getExternalId());
         }
+        if (psuDataOptional.isEmpty() && ScaStatus.STARTED.equals(scaStatus)) {
+            scaStatus = ScaStatus.RECEIVED;
+            log.info("Sca status was changed to [{}] for authorisation of type [{}]: business object id [{}]",
+                     scaStatus, authorisationType, authorisationParent.getExternalId());
+        }
 
         entity.setExternalId(Optional.ofNullable(request.getAuthorisationId()).orElse(UUID.randomUUID().toString()));
         entity.setParentExternalId(authorisationParent.getExternalId());

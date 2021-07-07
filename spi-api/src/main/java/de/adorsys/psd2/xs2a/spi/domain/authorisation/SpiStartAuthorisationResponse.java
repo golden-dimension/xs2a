@@ -21,14 +21,20 @@ import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 @Value
 @EqualsAndHashCode
 public class SpiStartAuthorisationResponse {
+    @NotNull
     ScaApproach scaApproach;
+    @NotNull
     ScaStatus scaStatus;
+    @Nullable
     String psuMessage;
+    @Nullable
     Set<TppMessageInformation> tppMessages;
 }
