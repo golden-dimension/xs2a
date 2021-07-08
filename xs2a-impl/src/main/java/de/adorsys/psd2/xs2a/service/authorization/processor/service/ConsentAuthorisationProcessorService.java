@@ -76,11 +76,6 @@ public abstract class ConsentAuthorisationProcessorService<T extends Consent> ex
     @Override
     public AuthorisationProcessorResponse doScaStarted(AuthorisationProcessorRequest authorisationProcessorRequest) {
         CommonAuthorisationParameters updateAuthorisationRequest = authorisationProcessorRequest.getUpdateAuthorisationRequest();
-
-        if (updateAuthorisationRequest.isUpdatePsuIdentification()) {
-            return doScaPsuIdentified(authorisationProcessorRequest);
-        }
-
         PsuIdData psuIdData = updateAuthorisationRequest.getPsuData();
         String consentId = updateAuthorisationRequest.getBusinessObjectId();
         ScaApproach scaApproach = authorisationProcessorRequest.getScaApproach();
