@@ -21,6 +21,7 @@ import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -50,6 +51,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
@@ -330,7 +332,7 @@ public class PaymentAuthorisationServiceImpl implements PaymentAuthorisationServ
         }
 
         Xs2aCreatePisAuthorisationResponse createAuthorisationResponse = commonPaymentAuthorisation.get();
-        setPsuMessageAndTppMessages(createAuthorisationResponse, createPaymentAuthorisationProcessorResponse);
+        setPsuMessageAndTppMessages(createAuthorisationResponse, createPaymentAuthorisationProcessorResponse.getPsuMessage(), createPaymentAuthorisationProcessorResponse.getTppMessages());
         loggingContextService.storeTransactionAndScaStatus(pisCommonPayment.getTransactionStatus(), createAuthorisationResponse.getScaStatus());
 
         return ResponseObject.<Xs2aCreatePisAuthorisationResponse>builder()
@@ -338,11 +340,13 @@ public class PaymentAuthorisationServiceImpl implements PaymentAuthorisationServ
                    .build();
     }
 
-    private void setPsuMessageAndTppMessages(Xs2aCreatePisAuthorisationResponse authorizationResponse,
-                                             CreatePaymentAuthorisationProcessorResponse authorisationProcessorResponse) {
-        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
-        if (authorisationProcessorResponse.getTppMessages() != null) {
-            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+    private void setPsuMessageAndTppMessages(AuthorisationResponse response,
+                                             String psuMessage, Set<TppMessageInformation> tppMessageInformationSet) {
+        if (psuMessage != null) {
+            response.setPsuMessage(psuMessage);
+        }
+        if (tppMessageInformationSet != null) {
+            response.getTppMessageInformation().addAll(tppMessageInformationSet);
         }
     }
 

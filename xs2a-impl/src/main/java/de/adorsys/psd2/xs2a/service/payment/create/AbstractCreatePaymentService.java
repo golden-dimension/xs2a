@@ -21,12 +21,16 @@ import de.adorsys.psd2.consent.api.pis.proto.PisPaymentInfo;
 import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
-import de.adorsys.psd2.xs2a.domain.consent.*;
+import de.adorsys.psd2.xs2a.domain.consent.CreatePaymentAuthorisationProcessorResponse;
+import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
+import de.adorsys.psd2.xs2a.domain.consent.Xs2aPisCommonPayment;
 import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationParameters;
@@ -48,6 +52,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
@@ -117,7 +122,6 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
             PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
 
             PaymentAuthorisationParameters startAuthorisationRequest = new PaymentAuthorisationParameters();
-
             startAuthorisationRequest.setPsuData(psuData);
             startAuthorisationRequest.setPaymentId(externalPaymentId);
             ScaStatus scaStatus = ScaStatus.STARTED;
@@ -155,7 +159,7 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
             Xs2aCreatePisAuthorisationResponse authorisationResponse = consentAuthorisation.get();
             response.setAuthorizationId(authorisationResponse.getAuthorisationId());
             response.setScaStatus(authorisationResponse.getScaStatus());
-            setPsuMessageAndTppMessages(response, createPaymentAuthorisationProcessorResponse);
+            setPsuMessageAndTppMessages(response, createPaymentAuthorisationProcessorResponse.getPsuMessage(), createPaymentAuthorisationProcessorResponse.getTppMessages());
         }
 
         return ResponseObject.<PaymentInitiationResponse>builder()
@@ -163,11 +167,13 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
                    .build();
     }
 
-    private void setPsuMessageAndTppMessages(PaymentInitiationResponse authorizationResponse,
-                                             CreatePaymentAuthorisationProcessorResponse authorisationProcessorResponse) {
-        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
-        if (authorisationProcessorResponse.getTppMessages() != null) {
-            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+    private void setPsuMessageAndTppMessages(PaymentInitiationResponse response,
+                                             String psuMessage, Set<TppMessageInformation> tppMessageInformationSet) {
+        if (psuMessage != null) {
+            response.setPsuMessage(psuMessage);
+        }
+        if (tppMessageInformationSet != null) {
+            response.getTppMessageInformation().addAll(tppMessageInformationSet);
         }
     }
 

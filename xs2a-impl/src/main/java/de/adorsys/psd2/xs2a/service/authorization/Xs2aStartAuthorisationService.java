@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.psd2.xs2a.domain.authorisation;
+package de.adorsys.psd2.xs2a.service.authorization;
 
-import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 
-import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-/**
- * Common authorisation response to be used in AIS and PIS on creating or updating the authorisation
- */
-public interface AuthorisationResponse {
-    String getAuthorisationId();
-    void setPsuMessage(String psuMessage);
-    Set<TppMessageInformation> getTppMessageInformation();
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class Xs2aStartAuthorisationService {
+
 }

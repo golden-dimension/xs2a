@@ -21,6 +21,7 @@ import de.adorsys.psd2.xs2a.core.profile.PaymentType;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.Links;
+import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponseType;
 import de.adorsys.psd2.xs2a.domain.authorisation.CancellationAuthorisationResponse;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class Xs2aCreatePisCancellationAuthorisationResponse implements CancellationAuthorisationResponse {
+public class Xs2aCreatePisCancellationAuthorisationResponse implements CancellationAuthorisationResponse, AuthorisationResponse {
     @NotNull
     private String authorisationId;
     private ScaStatus scaStatus;

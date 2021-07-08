@@ -25,6 +25,7 @@ import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.consent.ConsentStatus;
 import de.adorsys.psd2.xs2a.core.consent.ConsentType;
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
@@ -71,10 +72,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
@@ -498,21 +496,26 @@ public class ConsentService {
 
         AisAuthorizationService service = aisScaAuthorisationServiceResolver.getService();
 
-        service.createConsentAuthorization(createAuthorisationRequest)
-            .ifPresent(a -> {
-                createConsentResponse.setAuthorizationId(a.getAuthorisationId());
-                createConsentResponse.setScaStatus(a.getScaStatus());
-                createConsentResponse.setScaApproach(a.getScaApproach());
-                setPsuMessageAndTppMessages(createConsentResponse, createConsentAuthorisationProcessorResponse);
-                loggingContextService.storeScaStatus(a.getScaStatus());
-            });
+        Optional<CreateConsentAuthorizationResponse> consentAuthorizationResponse = service.createConsentAuthorization(createAuthorisationRequest);
+        if (consentAuthorizationResponse.isPresent()) {
+            CreateConsentAuthorizationResponse createConsentAuthorizationResponse = consentAuthorizationResponse.get();
+            createConsentResponse.setAuthorizationId(createConsentAuthorizationResponse.getAuthorisationId());
+            createConsentResponse.setScaStatus(createConsentAuthorizationResponse.getScaStatus());
+            createConsentResponse.setScaApproach(createConsentAuthorizationResponse.getScaApproach());
+
+            setPsuMessageAndTppMessages(createConsentResponse, createConsentAuthorisationProcessorResponse.getPsuMessage(), createConsentAuthorisationProcessorResponse.getTppMessages());
+
+            loggingContextService.storeScaStatus(createConsentAuthorizationResponse.getScaStatus());
+        }
     }
 
-    private void setPsuMessageAndTppMessages(CreateConsentResponse createConsentResponse,
-                                             CreateConsentAuthorisationProcessorResponse createConsentAuthorizationResponse) {
-        createConsentResponse.setPsuMessage(createConsentAuthorizationResponse.getPsuMessage());
-        if (createConsentAuthorizationResponse.getTppMessages() != null) {
-            createConsentResponse.getTppMessageInformation().addAll(createConsentAuthorizationResponse.getTppMessages());
+    private void setPsuMessageAndTppMessages(CreateConsentResponse response,
+                                             String psuMessage, Set<TppMessageInformation> tppMessageInformationSet) {
+        if (psuMessage != null) {
+            response.setPsuMessage(psuMessage);
+        }
+        if (tppMessageInformationSet != null) {
+            response.getTppMessageInformation().addAll(tppMessageInformationSet);
         }
     }
 

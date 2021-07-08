@@ -21,6 +21,7 @@ import de.adorsys.psd2.event.core.model.EventType;
 import de.adorsys.psd2.logger.context.LoggingContextService;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
+import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
@@ -48,6 +49,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static de.adorsys.psd2.xs2a.core.domain.TppMessageInformation.of;
@@ -335,21 +337,32 @@ public class ConsentAuthorisationService {
                                                                         .scaApproach(createConsentAuthorisationProcessorResponse.getScaApproach())
                                                                         .build();
 
-        return service.createConsentAuthorization(createAuthorisationRequest)
-                   .map(resp -> setPsuMessageAndTppMessages(resp, createConsentAuthorisationProcessorResponse))
-                   .map(resp -> ResponseObject.<CreateConsentAuthorizationResponse>builder().body(resp).build())
-                   .orElseGet(ResponseObject.<CreateConsentAuthorizationResponse>builder()
-                                  .fail(AIS_403, of(CONSENT_UNKNOWN_403))
-                                  ::build);
+        Optional<CreateConsentAuthorizationResponse> consentAuthorizationResponse = service.createConsentAuthorization(createAuthorisationRequest);
+
+        if (consentAuthorizationResponse.isEmpty()) {
+            return ResponseObject.<CreateConsentAuthorizationResponse>builder()
+                       .fail(AIS_403, of(CONSENT_UNKNOWN_403))
+                       .build();
+        }
+        CreateConsentAuthorizationResponse createConsentAuthorizationResponse = consentAuthorizationResponse.get();
+
+        setPsuMessageAndTppMessages(createConsentAuthorizationResponse,
+                                    createConsentAuthorisationProcessorResponse.getPsuMessage(),
+                                    createConsentAuthorisationProcessorResponse.getTppMessages());
+
+        return ResponseObject.<CreateConsentAuthorizationResponse>builder()
+                   .body(createConsentAuthorizationResponse)
+                   .build();
     }
 
-    private CreateConsentAuthorizationResponse setPsuMessageAndTppMessages(CreateConsentAuthorizationResponse authorizationResponse,
-                                                                           CreateConsentAuthorisationProcessorResponse authorisationProcessorResponse) {
-        authorizationResponse.setPsuMessage(authorisationProcessorResponse.getPsuMessage());
-        if (authorisationProcessorResponse.getTppMessages() != null) {
-            authorizationResponse.getTppMessageInformation().addAll(authorisationProcessorResponse.getTppMessages());
+    private void setPsuMessageAndTppMessages(AuthorisationResponse response,
+                                             String psuMessage, Set<TppMessageInformation> tppMessageInformationSet) {
+        if (psuMessage != null) {
+            response.setPsuMessage(psuMessage);
         }
-        return authorizationResponse;
+        if (tppMessageInformationSet != null) {
+            response.getTppMessageInformation().addAll(tppMessageInformationSet);
+        }
     }
 
     private PsuIdData getActualPsuData(PsuIdData psuDataFromRequest, AisConsent aisConsent) {
