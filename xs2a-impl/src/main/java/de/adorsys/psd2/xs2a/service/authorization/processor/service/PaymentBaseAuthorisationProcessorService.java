@@ -123,13 +123,12 @@ abstract class PaymentBaseAuthorisationProcessorService extends BaseAuthorisatio
 
         SpiStartAuthorisationResponse startAuthorisationResponse = spiResponse.getPayload();
 
-        ScaStatus scaStatus = startAuthorisationResponse.getScaStatus();
-
+        ScaStatus scaStatusFromSpi = startAuthorisationResponse.getScaStatus();
         ScaApproach scaApproachFromSpi = startAuthorisationResponse.getScaApproach();
         String psuMessage = startAuthorisationResponse.getPsuMessage();
         Set<TppMessageInformation> tppMessages = startAuthorisationResponse.getTppMessages();
 
-        return new CreatePaymentAuthorisationProcessorResponse(scaStatus, scaApproachFromSpi, psuMessage, tppMessages, paymentId, psuIdData);
+        return new CreatePaymentAuthorisationProcessorResponse(scaStatusFromSpi, scaApproachFromSpi, psuMessage, tppMessages, paymentId, psuIdData);
     }
 
     protected abstract SpiResponse<SpiStartAuthorisationResponse> getSpiStartAuthorisationResponse(SpiContextData spiContextData,

@@ -25,6 +25,7 @@ import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
@@ -265,7 +266,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
                    .build();
     }
 
-    private ResponseObject<Xs2aCreatePisCancellationAuthorisationResponse> createCancellationAuthorisation(String paymentId, PsuIdData psuData, PaymentType paymentType, String paymentProduct) {
+    private ResponseObject<Xs2aCreatePisCancellationAuthorisationResponse> createCancellationAuthorisation(String paymentId, PsuIdData psuIdData, PaymentType paymentType, String paymentProduct) {
         xs2aEventService.recordPisTppRequest(paymentId, EventType.START_PAYMENT_CANCELLATION_AUTHORISATION_REQUEST_RECEIVED);
 
         Optional<PisCommonPaymentResponse> pisCommonPaymentResponseOptional = xs2aPisCommonPaymentService.getPisCommonPaymentById(paymentId);
@@ -288,7 +289,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
 
         ValidationResult validationResult =
             createPisCancellationAuthorisationValidator.validate(new CreatePisCancellationAuthorisationObject(pisCommonPaymentResponseOptional.get(),
-                                                                                                              psuData,
+                                                                                                              psuIdData,
                                                                                                               paymentType,
                                                                                                               paymentProduct));
         if (validationResult.isNotValid()) {
@@ -299,34 +300,33 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
                        .build();
         }
 
-        PaymentAuthorisationParameters startAuthorisationRequest = new PaymentAuthorisationParameters();
-        startAuthorisationRequest.setPsuData(psuData);
-        startAuthorisationRequest.setPaymentId(paymentId);
         ScaStatus scaStatus = ScaStatus.STARTED;
-        startAuthorisationRequest.setScaStatus(scaStatus);
-
         String authorisationId = UUID.randomUUID().toString();
-        startAuthorisationRequest.setAuthorisationId(authorisationId);
+        ScaApproach scaApproach = scaApproachResolver.resolveScaApproach();
+        StartAuthorisationsParameters startAuthorisationsParameters = StartAuthorisationsParameters.builder()
+                                                                          .psuData(psuIdData)
+                                                                          .businessObjectId(paymentId)
+                                                                          .scaStatus(scaStatus)
+                                                                          .authorisationId(authorisationId)
+                                                                          .build();
+        Authorisation authorisation = new Authorisation(authorisationId, psuIdData, paymentId, AuthorisationType.PIS_CANCELLATION, scaStatus);
+        PisCancellationAuthorisationProcessorRequest processorRequest = new PisCancellationAuthorisationProcessorRequest(scaApproach, scaStatus, startAuthorisationsParameters, authorisation);
+        CreatePaymentAuthorisationProcessorResponse processorResponse =
+            (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(processorRequest);
 
-        Authorisation authorisation = new Authorisation(authorisationId, psuData, paymentId, AuthorisationType.PIS_CREATION, scaStatus);
-        CreatePaymentAuthorisationProcessorResponse createPaymentAuthorisationProcessorResponse =
-            (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
-                new PisCancellationAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(),
-                                                                 scaStatus,
-                                                                 startAuthorisationRequest,
-                                                                 authorisation));
-        loggingContextService.storeScaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus());
+        loggingContextService.storeScaStatus(processorResponse.getScaStatus());
 
         Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                        .psuData(psuData)
+                                                                        .psuData(psuIdData)
                                                                         .paymentId(paymentId)
                                                                         .authorisationId(authorisationId)
-                                                                        .scaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus())
-                                                                        .scaApproach(createPaymentAuthorisationProcessorResponse.getScaApproach())
+                                                                        .scaStatus(processorResponse.getScaStatus())
+                                                                        .scaApproach(processorResponse.getScaApproach())
                                                                         .build();
 
         PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
-        Optional<Xs2aCreatePisCancellationAuthorisationResponse> createAuthorisationResponseOptional = pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(createAuthorisationRequest, paymentType);
+        Optional<Xs2aCreatePisCancellationAuthorisationResponse> createAuthorisationResponseOptional =
+            pisScaAuthorisationService.createCommonPaymentCancellationAuthorisation(createAuthorisationRequest, paymentType);
 
         if (createAuthorisationResponseOptional.isEmpty()) {
             return ResponseObject.<Xs2aCreatePisCancellationAuthorisationResponse>builder()
@@ -335,9 +335,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
         }
 
         Xs2aCreatePisCancellationAuthorisationResponse createAuthorisationResponse = createAuthorisationResponseOptional.get();
-
-        setPsuMessageAndTppMessages(createAuthorisationResponse, createPaymentAuthorisationProcessorResponse.getPsuMessage(), createPaymentAuthorisationProcessorResponse.getTppMessages());
-
+        setPsuMessageAndTppMessages(createAuthorisationResponse, processorResponse.getPsuMessage(), processorResponse.getTppMessages());
         loggingContextService.storeTransactionAndScaStatus(pisCommonPaymentResponseOptional.get().getTransactionStatus(), createAuthorisationResponse.getScaStatus());
 
         return ResponseObject.<Xs2aCreatePisCancellationAuthorisationResponse>builder()

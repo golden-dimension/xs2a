@@ -23,13 +23,10 @@ import de.adorsys.psd2.consent.domain.AuthorisationTemplateEntity;
 import de.adorsys.psd2.consent.domain.PsuData;
 import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
-import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppRedirectUri;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -39,8 +36,6 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = PsuDataMapper.class)
 public interface AuthorisationMapper {
-    Logger log = LoggerFactory.getLogger(AuthorisationMapper.class);
-
     @Mapping(target = "psuIdData", source = "psuData")
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "authorisationId", source = "externalId")
@@ -56,23 +51,10 @@ public interface AuthorisationMapper {
                                                            long redirectUrlExpirationTimeMs, long authorisationExpirationTimeMs) {
         AuthorisationEntity entity = new AuthorisationEntity();
         entity.setType(authorisationType);
-
-        ScaStatus scaStatus = request.getScaStatus();
-        if (psuDataOptional.isPresent() && ScaStatus.STARTED.equals(scaStatus)) {
-            entity.setPsuData(psuDataOptional.get());
-            scaStatus = ScaStatus.PSUIDENTIFIED;
-            log.info("Sca status was changed to [{}] for authorisation of type [{}]: business object id [{}]",
-                     scaStatus, authorisationType, authorisationParent.getExternalId());
-        }
-        if (psuDataOptional.isEmpty() && ScaStatus.STARTED.equals(scaStatus)) {
-            scaStatus = ScaStatus.RECEIVED;
-            log.info("Sca status was changed to [{}] for authorisation of type [{}]: business object id [{}]",
-                     scaStatus, authorisationType, authorisationParent.getExternalId());
-        }
-
+        psuDataOptional.ifPresent(entity::setPsuData);
         entity.setExternalId(Optional.ofNullable(request.getAuthorisationId()).orElse(UUID.randomUUID().toString()));
         entity.setParentExternalId(authorisationParent.getExternalId());
-        entity.setScaStatus(scaStatus);
+        entity.setScaStatus(request.getScaStatus());
         entity.setRedirectUrlExpirationTimestamp(OffsetDateTime.now().plus(redirectUrlExpirationTimeMs, ChronoUnit.MILLIS));
         entity.setAuthorisationExpirationTimestamp(OffsetDateTime.now().plus(authorisationExpirationTimeMs, ChronoUnit.MILLIS));
         entity.setScaApproach(request.getScaApproach());

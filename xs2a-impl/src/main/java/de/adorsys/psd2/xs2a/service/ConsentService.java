@@ -31,6 +31,7 @@ import de.adorsys.psd2.xs2a.core.error.MessageError;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.error.TppMessage;
 import de.adorsys.psd2.xs2a.core.mapper.ServiceType;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.service.validator.ValidationResult;
@@ -470,29 +471,33 @@ public class ConsentService {
         return aisConsentSpi.getConsentStatus(spiContextDataProvider.provide(), spiAccountConsent, aspspDataProvider);
     }
 
-    private void proceedImplicitCaseForCreateConsent(CreateConsentResponse createConsentResponse, PsuIdData psuData, String consentId) {
-        ConsentAuthorisationsParameters startAuthorisationRequest = new ConsentAuthorisationsParameters();
-        startAuthorisationRequest.setPsuData(psuData);
-        startAuthorisationRequest.setConsentId(consentId);
-
+    private void proceedImplicitCaseForCreateConsent(CreateConsentResponse createConsentResponse, PsuIdData psuIdData, String consentId) {
         ScaStatus scaStatus = ScaStatus.STARTED;
-        startAuthorisationRequest.setScaStatus(scaStatus);
-
         String authorisationId = UUID.randomUUID().toString();
-        startAuthorisationRequest.setAuthorizationId(authorisationId);
+        ScaApproach scaApproach = scaApproachResolver.resolveScaApproach();
 
-        Authorisation authorisation = new Authorisation(authorisationId, psuData, consentId, AuthorisationType.CONSENT, scaStatus);
-        CreateConsentAuthorisationProcessorResponse createConsentAuthorisationProcessorResponse = (CreateConsentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
-            new AisAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(), scaStatus, startAuthorisationRequest, authorisation));
-        loggingContextService.storeScaStatus(createConsentAuthorisationProcessorResponse.getScaStatus());
+        StartAuthorisationsParameters startAuthorisationsParameters = StartAuthorisationsParameters.builder()
+                                                                          .psuData(psuIdData)
+                                                                          .businessObjectId(consentId)
+                                                                          .scaStatus(scaStatus)
+                                                                          .authorisationId(authorisationId)
+                                                                          .build();
+
+        Authorisation authorisation = new Authorisation(authorisationId, psuIdData, consentId, AuthorisationType.CONSENT, scaStatus);
+        AisAuthorisationProcessorRequest processorRequest = new AisAuthorisationProcessorRequest(scaApproach, scaStatus, startAuthorisationsParameters, authorisation);
+        CreateConsentAuthorisationProcessorResponse processorResponse =
+            (CreateConsentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(processorRequest);
+
+        loggingContextService.storeScaStatus(processorResponse.getScaStatus());
 
         Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                        .psuData(psuData)
+                                                                        .psuData(psuIdData)
                                                                         .consentId(consentId)
                                                                         .authorisationId(authorisationId)
-                                                                        .scaStatus(createConsentAuthorisationProcessorResponse.getScaStatus())
-                                                                        .scaApproach(createConsentAuthorisationProcessorResponse.getScaApproach())
+                                                                        .scaStatus(processorResponse.getScaStatus())
+                                                                        .scaApproach(processorResponse.getScaApproach())
                                                                         .build();
+
 
         AisAuthorizationService service = aisScaAuthorisationServiceResolver.getService();
 
@@ -503,7 +508,7 @@ public class ConsentService {
             createConsentResponse.setScaStatus(createConsentAuthorizationResponse.getScaStatus());
             createConsentResponse.setScaApproach(createConsentAuthorizationResponse.getScaApproach());
 
-            setPsuMessageAndTppMessages(createConsentResponse, createConsentAuthorisationProcessorResponse.getPsuMessage(), createConsentAuthorisationProcessorResponse.getTppMessages());
+            setPsuMessageAndTppMessages(createConsentResponse, processorResponse.getPsuMessage(), processorResponse.getTppMessages());
 
             loggingContextService.storeScaStatus(createConsentAuthorizationResponse.getScaStatus());
         }

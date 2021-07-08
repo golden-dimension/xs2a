@@ -109,13 +109,12 @@ public abstract class ConsentAuthorisationProcessorService<T extends Consent> ex
 
         SpiStartAuthorisationResponse startAuthorisationResponse = spiResponse.getPayload();
 
-        ScaStatus scaStatus = startAuthorisationResponse.getScaStatus();
-
+        ScaStatus scaStatusFromSpi = startAuthorisationResponse.getScaStatus();
         ScaApproach scaApproachFromSpi = startAuthorisationResponse.getScaApproach();
         String psuMessage = startAuthorisationResponse.getPsuMessage();
         Set<TppMessageInformation> tppMessages = startAuthorisationResponse.getTppMessages();
 
-        return new CreateConsentAuthorisationProcessorResponse(scaStatus, scaApproachFromSpi, psuMessage, tppMessages, consentId, psuIdData);
+        return new CreateConsentAuthorisationProcessorResponse(scaStatusFromSpi, scaApproachFromSpi, psuMessage, tppMessages, consentId, psuIdData);
     }
 
     protected abstract SpiResponse<SpiStartAuthorisationResponse> getSpiStartAuthorisationResponse(SpiContextData spiContextData, ScaApproach scaApproach, ScaStatus scaStatus, String authorisationId, T consent, SpiAspspConsentDataProvider spiAspspConsentDataProvider);

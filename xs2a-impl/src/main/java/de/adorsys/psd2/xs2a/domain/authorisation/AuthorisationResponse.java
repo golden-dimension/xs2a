@@ -26,5 +26,7 @@ import java.util.Set;
 public interface AuthorisationResponse {
     String getAuthorisationId();
     void setPsuMessage(String psuMessage);
-    Set<TppMessageInformation> getTppMessageInformation();
+    default Set<TppMessageInformation> getTppMessageInformation() {
+        return null;
+    }
 }

@@ -51,7 +51,7 @@ public abstract class RedirectConsentAuthorizationService implements ConsentAuth
     public Optional<CreateConsentAuthorizationResponse> createConsentAuthorization(@NotNull Xs2aCreateAuthorisationRequest createAuthorisationRequest) {
         String consentId = createAuthorisationRequest.getConsentId();
         if (isConsentAbsent(consentId)) {
-            log.info("Consent-ID [{}]. Create consent authorisation has failed. Consent not found by id.", consentId);
+            log.warn("Consent-ID [{}]. Create consent authorisation has failed. Consent not found by id.", consentId);
             return Optional.empty();
         }
         PsuIdData psuData = createAuthorisationRequest.getPsuData();

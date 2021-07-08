@@ -37,15 +37,15 @@ import org.jetbrains.annotations.Nullable;
 interface AuthorisationSpi<T> {
 
     /**
-     * Authorises psu and returns current authorisation status. Used only with embedded SCA Approach.
+     * Starts SCA authorisation.
      *
      * @param contextData              holder of call's context data (e.g. about PSU and TPP)
-     * @param scaApproach              SCA approach
-     * @param scaStatus                scaStatus from CMS
+     * @param scaApproach              SCA approach from xs2a
+     * @param scaStatus                scaStatus from CMS which is always be equal STARTED
      * @param authorisationId          a unique identifier of authorisation process
      * @param businessObject           generic consent/payment object
      * @param aspspConsentDataProvider Provides access to read/write encrypted data to be stored in the consent management system.
-     * @return Returns an object, containing the status of the authorisation and an indicator whether the SCA should be exempted
+     * @return Returns an object containing scaApproach, scaStatus, psuMessage, tppMessages from the bank.
      */
     default SpiResponse<SpiStartAuthorisationResponse> startAuthorisation(@NotNull SpiContextData contextData, @NotNull ScaApproach scaApproach,
                                                                           @NotNull ScaStatus scaStatus, @NotNull String authorisationId,

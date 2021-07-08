@@ -19,7 +19,6 @@ package de.adorsys.psd2.xs2a.domain.consent.pis;
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.pis.Xs2aCurrencyConversionInfo;
-import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.domain.authorisation.AuthorisationResponseType;
@@ -69,20 +68,15 @@ public class Xs2aUpdatePisCommonPaymentPsuDataResponse extends AuthorisationProc
         return authorisationId;
     }
 
+    @Override
+    public Set<TppMessageInformation> getTppMessageInformation() {
+        return super.getTppMessageInformation();
+    }
+
     @NotNull
     @Override
     public AuthorisationResponseType getAuthorisationResponseType() {
         return AuthorisationResponseType.UPDATE;
-    }
-
-    @Override
-    public Set<TppMessageInformation> getTppMessageInformation() {
-        return null;
-    }
-
-    @Override
-    public ScaApproach getScaApproach() {
-        return null;
     }
 }
 

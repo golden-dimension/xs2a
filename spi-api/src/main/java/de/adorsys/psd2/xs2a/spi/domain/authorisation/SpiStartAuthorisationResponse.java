@@ -26,6 +26,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
+/**
+ * This class is used as a response to a start SCA flow.
+ * The response contains:
+ * - SCA approach regarding SCA starting.
+ * - SCA status regarding SCA starting.
+ * - message to PSU regarding SCA starting.
+ * - warnings for TPP regarding SCA starting.
+ */
 @Value
 @EqualsAndHashCode
 public class SpiStartAuthorisationResponse {

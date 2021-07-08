@@ -56,6 +56,7 @@ abstract class BaseAuthorisationProcessorService implements AuthorisationProcess
                    .orElse(false);
     }
 
+    // TODO https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1627
     void writeErrorLog(AuthorisationProcessorRequest request, PsuIdData psuData, ErrorHolder errorHolder, String message) {
         String businessObjectName = resolveBusinessObjectName(request.getServiceType());
         String messageToLog = String.format("%s [{}], Authorisation-ID [{}], PSU-ID [{}], SCA Approach [{}]. %s Error msg: [{}]", businessObjectName, message);
@@ -67,6 +68,7 @@ abstract class BaseAuthorisationProcessorService implements AuthorisationProcess
                  errorHolder);
     }
 
+    // TODO https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1627
     void writeInfoLog(AuthorisationProcessorRequest request, PsuIdData psuData, String message) {
         String businessObjectName = resolveBusinessObjectName(request.getServiceType());
         String messageToLog = String.format("%s [{}], Authorisation-ID [{}], PSU-ID [{}], SCA Approach [{}]. %s", businessObjectName, message);

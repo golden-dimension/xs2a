@@ -18,7 +18,6 @@ package de.adorsys.psd2.xs2a.service.authorization.processor.model;
 
 import de.adorsys.psd2.xs2a.core.authorisation.AuthenticationObject;
 import de.adorsys.psd2.xs2a.core.domain.ErrorHolder;
-import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ChallengeData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
@@ -28,7 +27,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -51,9 +49,5 @@ public class AuthorisationProcessorResponse implements AuthorisationResponse {
 
     public boolean hasError() {
         return errorHolder != null;
-    }
-    @Override
-    public Set<TppMessageInformation> getTppMessageInformation() {
-        return null;
     }
 }

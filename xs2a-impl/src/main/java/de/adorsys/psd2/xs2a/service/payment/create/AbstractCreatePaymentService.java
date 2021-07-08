@@ -23,15 +23,12 @@ import de.adorsys.psd2.xs2a.core.authorisation.Authorisation;
 import de.adorsys.psd2.xs2a.core.authorisation.AuthorisationType;
 import de.adorsys.psd2.xs2a.core.domain.TppMessageInformation;
 import de.adorsys.psd2.xs2a.core.pis.InternalPaymentStatus;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
 import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
-import de.adorsys.psd2.xs2a.domain.consent.CreatePaymentAuthorisationProcessorResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aPisCommonPayment;
-import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
+import de.adorsys.psd2.xs2a.domain.consent.*;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationParameters;
 import de.adorsys.psd2.xs2a.domain.pis.PaymentInitiationResponse;
@@ -82,13 +79,13 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
      */
     @Override
     public ResponseObject<PaymentInitiationResponse> createPayment(byte[] payment, PaymentInitiationParameters paymentInitiationParameters, TppInfo tppInfo) {
-        PsuIdData psuData = paymentInitiationParameters.getPsuData();
+        PsuIdData psuIdData = paymentInitiationParameters.getPsuData();
 
         P paymentRequest = getPaymentRequest(payment, paymentInitiationParameters);
         OffsetDateTime creationTimestamp = OffsetDateTime.now();
         paymentRequest.setCreationTimestamp(creationTimestamp);
         paymentRequest.setInstanceId(paymentInitiationParameters.getInstanceId());
-        PaymentInitiationResponse response = paymentInitiationService.initiatePayment(paymentRequest, paymentInitiationParameters.getPaymentProduct(), psuData);
+        PaymentInitiationResponse response = paymentInitiationService.initiatePayment(paymentRequest, paymentInitiationParameters.getPaymentProduct(), psuIdData);
 
         if (response.hasError()) {
             return buildErrorResponse(response.getErrorHolder());
@@ -102,7 +99,7 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
         CreatePisCommonPaymentResponse cmsResponse = pisCommonPaymentService.createCommonPayment(pisPaymentInfo);
         response.setTppNotificationContentPreferred(cmsResponse.getTppNotificationContentPreferred());
 
-        Xs2aPisCommonPayment pisCommonPayment = xs2aPisCommonPaymentMapper.mapToXs2aPisCommonPayment(cmsResponse, psuData);
+        Xs2aPisCommonPayment pisCommonPayment = xs2aPisCommonPaymentMapper.mapToXs2aPisCommonPayment(cmsResponse, psuIdData);
 
         String externalPaymentId = pisCommonPayment.getPaymentId();
 
@@ -119,33 +116,32 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
 
         boolean implicitMethod = authorisationMethodDecider.isImplicitMethod(paymentInitiationParameters.isTppExplicitAuthorisationPreferred(), response.isMultilevelScaRequired());
         if (implicitMethod) {
-            PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
-
-            PaymentAuthorisationParameters startAuthorisationRequest = new PaymentAuthorisationParameters();
-            startAuthorisationRequest.setPsuData(psuData);
-            startAuthorisationRequest.setPaymentId(externalPaymentId);
             ScaStatus scaStatus = ScaStatus.STARTED;
-            startAuthorisationRequest.setScaStatus(scaStatus);
-
             String authorisationId = UUID.randomUUID().toString();
-            startAuthorisationRequest.setAuthorisationId(authorisationId);
+            ScaApproach scaApproach = scaApproachResolver.resolveScaApproach();
+            StartAuthorisationsParameters startAuthorisationsParameters = StartAuthorisationsParameters.builder()
+                                                                              .psuData(psuIdData)
+                                                                              .businessObjectId(externalPaymentId)
+                                                                              .scaStatus(scaStatus)
+                                                                              .authorisationId(authorisationId)
+                                                                              .build();
 
-            Authorisation authorisation = new Authorisation(authorisationId, psuData, externalPaymentId, AuthorisationType.PIS_CREATION, scaStatus);
-            CreatePaymentAuthorisationProcessorResponse createPaymentAuthorisationProcessorResponse =
-                (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(
-                    new PisAuthorisationProcessorRequest(scaApproachResolver.resolveScaApproach(),
-                                                         scaStatus,
-                                                         startAuthorisationRequest,
-                                                         authorisation));
-            loggingContextService.storeScaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus());
+            Authorisation authorisation = new Authorisation(authorisationId, psuIdData, externalPaymentId, AuthorisationType.PIS_CREATION, scaStatus);
+            PisAuthorisationProcessorRequest processorRequest = new PisAuthorisationProcessorRequest(scaApproach, scaStatus, startAuthorisationsParameters, authorisation);
+            CreatePaymentAuthorisationProcessorResponse processorResponse =
+                (CreatePaymentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(processorRequest);
+
+            loggingContextService.storeScaStatus(processorResponse.getScaStatus());
 
             Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                            .psuData(psuData)
+                                                                            .psuData(psuIdData)
                                                                             .paymentId(externalPaymentId)
                                                                             .authorisationId(authorisationId)
-                                                                            .scaStatus(createPaymentAuthorisationProcessorResponse.getScaStatus())
-                                                                            .scaApproach(createPaymentAuthorisationProcessorResponse.getScaApproach())
+                                                                            .scaStatus(processorResponse.getScaStatus())
+                                                                            .scaApproach(processorResponse.getScaApproach())
                                                                             .build();
+
+            PisScaAuthorisationService pisScaAuthorisationService = pisScaAuthorisationServiceResolver.getService();
 
             Optional<Xs2aCreatePisAuthorisationResponse> consentAuthorisation =
                 pisScaAuthorisationService.createCommonPaymentAuthorisation(createAuthorisationRequest, paymentRequest.getPaymentType());
@@ -159,7 +155,7 @@ public abstract class AbstractCreatePaymentService<P extends CommonPayment, S ex
             Xs2aCreatePisAuthorisationResponse authorisationResponse = consentAuthorisation.get();
             response.setAuthorizationId(authorisationResponse.getAuthorisationId());
             response.setScaStatus(authorisationResponse.getScaStatus());
-            setPsuMessageAndTppMessages(response, createPaymentAuthorisationProcessorResponse.getPsuMessage(), createPaymentAuthorisationProcessorResponse.getTppMessages());
+            setPsuMessageAndTppMessages(response, processorResponse.getPsuMessage(), processorResponse.getTppMessages());
         }
 
         return ResponseObject.<PaymentInitiationResponse>builder()
