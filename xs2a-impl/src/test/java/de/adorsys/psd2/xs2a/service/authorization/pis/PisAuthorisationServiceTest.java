@@ -35,7 +35,6 @@ import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
 import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
-import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorRequest;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorResponse;
@@ -80,8 +79,6 @@ class PisAuthorisationServiceTest {
     @Mock
     private AuthorisationServiceEncrypted authorisationServiceEncrypted;
     @Mock
-    private ScaApproachResolver scaApproachResolver;
-    @Mock
     private RequestProviderService requestProviderService;
     @Mock
     private TppRedirectUriMapper tppRedirectUriMapper;
@@ -95,7 +92,6 @@ class PisAuthorisationServiceTest {
         // Given
         ArgumentCaptor<PisAuthorisationParentHolder> authorisationParentHolderCaptor = ArgumentCaptor.forClass(PisAuthorisationParentHolder.class);
 
-        when(scaApproachResolver.resolveScaApproach()).thenReturn(SCA_APPROACH);
         when(authorisationServiceEncrypted.createAuthorisation(authorisationParentHolderCaptor.capture(), any(CreateAuthorisationRequest.class)))
             .thenReturn(CmsResponse.<CreateAuthorisationResponse>builder().payload(CREATE_PIS_AUTHORISATION_RESPONSE).build());
         when(requestProviderService.getTppRedirectURI()).thenReturn(TPP_REDIRECT_URI);
@@ -124,8 +120,6 @@ class PisAuthorisationServiceTest {
         // Given
         ArgumentCaptor<PisAuthorisationParentHolder> authorisationParentHolderCaptor = ArgumentCaptor.forClass(PisAuthorisationParentHolder.class);
 
-        when(scaApproachResolver.resolveScaApproach())
-            .thenReturn(SCA_APPROACH);
         when(authorisationServiceEncrypted.createAuthorisation(authorisationParentHolderCaptor.capture(), any(CreateAuthorisationRequest.class)))
             .thenReturn(CmsResponse.<CreateAuthorisationResponse>builder().error(CmsError.TECHNICAL_ERROR).build());
         when(requestProviderService.getTppRedirectURI())
@@ -193,7 +187,6 @@ class PisAuthorisationServiceTest {
         // Given
         ArgumentCaptor<PisCancellationAuthorisationParentHolder> authorisationParentHolderCaptor = ArgumentCaptor.forClass(PisCancellationAuthorisationParentHolder.class);
 
-        when(scaApproachResolver.resolveScaApproach()).thenReturn(SCA_APPROACH);
         when(authorisationServiceEncrypted.createAuthorisation(authorisationParentHolderCaptor.capture(), any(CreateAuthorisationRequest.class)))
             .thenReturn(CmsResponse.<CreateAuthorisationResponse>builder().payload(CREATE_PIS_AUTHORISATION_RESPONSE).build());
         when(requestProviderService.getTppRedirectURI()).thenReturn(TPP_REDIRECT_URI);
@@ -219,8 +212,6 @@ class PisAuthorisationServiceTest {
     @Test
     void createPisAuthorisationCancellation_wrongId_fail() {
         // Given
-        when(scaApproachResolver.resolveScaApproach())
-            .thenReturn(SCA_APPROACH);
         when(authorisationServiceEncrypted.createAuthorisation(any(), any()))
             .thenReturn(CmsResponse.<CreateAuthorisationResponse>builder().error(CmsError.TECHNICAL_ERROR).build());
         when(requestProviderService.getTppRedirectURI())

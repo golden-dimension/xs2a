@@ -49,6 +49,7 @@ public class Xs2aConsentService {
      * @param psuData         authorisation data about PSU
      * @return CreateAuthorisationResponse object with authorisation ID and scaStatus
      */
+    // TODO https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1628
     public Optional<CreateAuthorisationResponse> createConsentAuthorisation(String consentId, String authorisationId, ScaApproach scaApproach, ScaStatus scaStatus, PsuIdData psuData) {
         String tppRedirectURI = requestProviderService.getTppRedirectURI();
         String tppNOKRedirectURI = requestProviderService.getTppNokRedirectURI();

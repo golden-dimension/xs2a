@@ -37,7 +37,6 @@ import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
 import de.adorsys.psd2.xs2a.domain.consent.pis.PaymentAuthorisationParameters;
 import de.adorsys.psd2.xs2a.domain.consent.pis.Xs2aUpdatePisCommonPaymentPsuDataResponse;
 import de.adorsys.psd2.xs2a.service.RequestProviderService;
-import de.adorsys.psd2.xs2a.service.ScaApproachResolver;
 import de.adorsys.psd2.xs2a.service.authorization.AuthorisationChainResponsibilityService;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.AuthorisationProcessorResponse;
 import de.adorsys.psd2.xs2a.service.authorization.processor.model.PisAuthorisationProcessorRequest;
@@ -57,7 +56,6 @@ import java.util.Optional;
 public class PisAuthorisationService {
     private final AuthorisationServiceEncrypted authorisationServiceEncrypted;
     private final Xs2aPisCommonPaymentMapper pisCommonPaymentMapper;
-    private final ScaApproachResolver scaApproachResolver;
     private final RequestProviderService requestProviderService;
     private final TppRedirectUriMapper tppRedirectUriMapper;
     private final AuthorisationChainResponsibilityService authorisationChainResponsibilityService;

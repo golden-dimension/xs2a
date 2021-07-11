@@ -27,11 +27,13 @@ import de.adorsys.psd2.xs2a.core.error.ErrorType;
 import de.adorsys.psd2.xs2a.core.error.MessageErrorCode;
 import de.adorsys.psd2.xs2a.core.pis.TransactionStatus;
 import de.adorsys.psd2.xs2a.core.profile.PaymentType;
+import de.adorsys.psd2.xs2a.core.profile.ScaApproach;
 import de.adorsys.psd2.xs2a.core.psu.PsuIdData;
+import de.adorsys.psd2.xs2a.core.sca.ScaStatus;
 import de.adorsys.psd2.xs2a.core.tpp.TppInfo;
 import de.adorsys.psd2.xs2a.core.tpp.TppRole;
 import de.adorsys.psd2.xs2a.domain.ResponseObject;
-import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreateAuthorisationRequest;
+import de.adorsys.psd2.xs2a.domain.consent.CreatePaymentAuthorisationProcessorResponse;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aCreatePisAuthorisationResponse;
 import de.adorsys.psd2.xs2a.domain.consent.Xs2aPisCommonPayment;
 import de.adorsys.psd2.xs2a.domain.pis.CommonPayment;
@@ -62,6 +64,7 @@ import org.springframework.http.MediaType;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -87,6 +90,10 @@ class CreateCommonPaymentServiceTest {
     private static final Xs2aCreatePisAuthorisationResponse CREATE_PIS_AUTHORISATION_RESPONSE = new Xs2aCreatePisAuthorisationResponse(null, null, null, null, null, null, null, null);
     private CommonPaymentInitiationResponse commonPaymentInitiationResponse;
     private static final String INTERNAL_REQUEST_ID = "5c2d5564-367f-4e03-a621-6bef76fa4208";
+    private static final ScaStatus SCA_STATUS = ScaStatus.RECEIVED;
+    private static final ScaApproach SCA_APPROACH = ScaApproach.EMBEDDED;
+    private static final Set<TppMessageInformation> TEST_TPP_MESSAGES = Collections.singleton(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR));
+    private static final String TEST_PSU_MESSAGE = "This test message is created in ASPSP and directed to PSU";
 
     @InjectMocks
     private CreateCommonPaymentService createCommonPaymentService;
@@ -200,11 +207,11 @@ class CreateCommonPaymentServiceTest {
             .thenReturn(true);
         when(pisScaAuthorisationServiceResolver.getService())
             .thenReturn(pisScaAuthorisationService);
-        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                            .paymentId(PAYMENT_ID)
-                                                                            .psuData(PARAM.getPsuData())
-                                                                            .build();
-        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(xs2aCreateAuthorisationRequest, PaymentType.SINGLE))
+
+        CreatePaymentAuthorisationProcessorResponse response = new CreatePaymentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, PAYMENT_ID, PSU_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
+
+        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(any(), eq(PaymentType.SINGLE)))
             .thenReturn(Optional.of(CREATE_PIS_AUTHORISATION_RESPONSE));
 
         //When
@@ -228,11 +235,9 @@ class CreateCommonPaymentServiceTest {
             .thenReturn(true);
         when(pisScaAuthorisationServiceResolver.getService())
             .thenReturn(pisScaAuthorisationService);
-        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                            .paymentId(PAYMENT_ID)
-                                                                            .psuData(PARAM.getPsuData())
-                                                                            .build();
-        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(xs2aCreateAuthorisationRequest, PaymentType.SINGLE))
+        CreatePaymentAuthorisationProcessorResponse response = new CreatePaymentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, PAYMENT_ID, PSU_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
+        when(pisScaAuthorisationService.createCommonPaymentAuthorisation(any(), eq(PaymentType.SINGLE)))
             .thenReturn(Optional.empty());
 
         //When

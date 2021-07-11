@@ -47,6 +47,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class DecoupledPiisAuthorizationServiceTest {
     private static final String CONSENT_ID = "f2c43cad-6811-4cb6-bfce-31050095ed5d";
+    private static final String INTERNAL_REQUEST_ID = "internal request id";
     private static final String WRONG_CONSENT_ID = "Wrong consent id";
     private static final String AUTHORISATION_ID = "a01562ea-19ff-4b5a-8188-c45d85bfa20a";
     private static final String WRONG_AUTHORISATION_ID = "Wrong authorisation id";
@@ -201,6 +202,8 @@ class DecoupledPiisAuthorizationServiceTest {
         resp.setAuthorisationId(AUTHORISATION_ID);
         resp.setScaStatus(ScaStatus.RECEIVED);
         resp.setPsuIdData(PSU_DATA);
+        resp.setScaApproach(SCA_APPROACH);
+        resp.setInternalRequestId(INTERNAL_REQUEST_ID);
         return resp;
     }
 
@@ -223,7 +226,7 @@ class DecoupledPiisAuthorizationServiceTest {
     }
 
     private CreateAuthorisationResponse buildCreateAuthorisationResponse() {
-        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, "", PSU_DATA, SCA_APPROACH);
+        return new CreateAuthorisationResponse(AUTHORISATION_ID, ScaStatus.RECEIVED, INTERNAL_REQUEST_ID, PSU_DATA, SCA_APPROACH);
     }
 
     private AuthorisationProcessorResponse buildAuthorisationProcessorResponseWithError() {

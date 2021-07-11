@@ -488,8 +488,6 @@ public class ConsentService {
         CreateConsentAuthorisationProcessorResponse processorResponse =
             (CreateConsentAuthorisationProcessorResponse) authorisationChainResponsibilityService.apply(processorRequest);
 
-        loggingContextService.storeScaStatus(processorResponse.getScaStatus());
-
         Xs2aCreateAuthorisationRequest createAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
                                                                         .psuData(psuIdData)
                                                                         .consentId(consentId)

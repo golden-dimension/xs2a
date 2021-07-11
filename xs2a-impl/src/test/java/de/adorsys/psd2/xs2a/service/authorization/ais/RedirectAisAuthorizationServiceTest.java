@@ -45,7 +45,6 @@ class RedirectAisAuthorizationServiceTest {
     private static final String WRONG_AUTHORISATION_ID = "Wrong authorisation id";
     private static final ScaStatus SCA_STATUS = ScaStatus.RECEIVED;
     private static final PsuIdData PSU_ID_DATA = new PsuIdData("Test psuId", null, null, null, null);
-    private static final CreateConsentAuthorizationResponse CREATE_CONSENT_AUTHORIZATION_RESPONSE = buildCreateConsentAuthResponse();
     private static final String INTERNAL_REQUEST_ID = "5c2d5564-367f-4e03-a621-6bef76fa4208";
     private static final ScaApproach SCA_APPROACH = ScaApproach.REDIRECT;
 
@@ -79,7 +78,7 @@ class RedirectAisAuthorizationServiceTest {
         Optional<CreateConsentAuthorizationResponse> actualResponse = redirectAisAuthorisationService.createConsentAuthorization(xs2aCreateAuthorisationRequest);
 
         // Then
-        assertThat(actualResponse).isPresent().contains(CREATE_CONSENT_AUTHORIZATION_RESPONSE);
+        assertThat(actualResponse).isPresent().contains(buildCreateConsentAuthResponse());
     }
 
     @Test
@@ -148,6 +147,7 @@ class RedirectAisAuthorizationServiceTest {
     private static CreateConsentAuthorizationResponse buildCreateConsentAuthResponse() {
         CreateConsentAuthorizationResponse response = new CreateConsentAuthorizationResponse();
         response.setConsentId(CONSENT_ID);
+        response.setScaApproach(SCA_APPROACH);
         response.setAuthorisationId(AUTHORISATION_ID);
         response.setScaStatus(ScaStatus.RECEIVED);
         response.setInternalRequestId(INTERNAL_REQUEST_ID);

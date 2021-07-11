@@ -116,6 +116,9 @@ class ConsentServiceTest {
         new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.PARAMETER_NOT_SUPPORTED));
     private static final MessageError SERVICE_INVALID_400_ERROR =
         new MessageError(ErrorType.AIS_400, TppMessageInformation.of(MessageErrorCode.SERVICE_INVALID_400));
+    private static final ScaStatus SCA_STATUS = ScaStatus.STARTED;
+    private static final ScaApproach SCA_APPROACH = ScaApproach.EMBEDDED;
+    private static final Set<TppMessageInformation> TEST_TPP_MESSAGES = Collections.singleton(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR));
 
     @InjectMocks
     private ConsentService consentService;
@@ -687,20 +690,14 @@ class ConsentServiceTest {
 
         when(authorisationMethodDecider.isImplicitMethod(true, false))
             .thenReturn(true);
-
+        CreateConsentAuthorisationProcessorResponse response = new CreateConsentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, CONSENT_ID, PSU_ID_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
         when(scaApproachResolver.resolveScaApproach()).thenReturn(ScaApproach.EMBEDDED);
         when(aisScaAuthorisationServiceResolver.getService()).thenReturn(redirectAisAuthorizationService);
         CreateConsentAuthorizationResponse authorisationResponse = new CreateConsentAuthorizationResponse();
         authorisationResponse.setAuthorisationId(AUTHORISATION_ID);
-        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                            .consentId(CONSENT_ID)
-                                                                            .psuData(PSU_ID_DATA)
-                                                                            .authorisationId(AUTHORISATION_ID)
-                                                                            .scaStatus(ScaStatus.STARTED)
-                                                                            .scaApproach(ScaApproach.EMBEDDED)
-                                                                            .build();
 
-        when(redirectAisAuthorizationService.createConsentAuthorization(xs2aCreateAuthorisationRequest))
+        when(redirectAisAuthorizationService.createConsentAuthorization(any()))
             .thenReturn(Optional.of(authorisationResponse));
         when(scaMethodsMapper.mapToAuthenticationObjectList(any())).thenReturn(Collections.singletonList(getAuthenticationObject()));
 
@@ -787,16 +784,12 @@ class ConsentServiceTest {
             .thenReturn(redirectAisAuthorizationService);
         CreateConsentAuthorizationResponse authorisationResponse = new CreateConsentAuthorizationResponse();
         authorisationResponse.setScaStatus(ScaStatus.RECEIVED);
-        Xs2aCreateAuthorisationRequest xs2aCreateAuthorisationRequest = Xs2aCreateAuthorisationRequest.builder()
-                                                                            .consentId(CONSENT_ID)
-                                                                            .psuData(PSU_ID_DATA)
-                                                                            .authorisationId(AUTHORISATION_ID)
-                                                                            .scaStatus(ScaStatus.STARTED)
-                                                                            .scaApproach(ScaApproach.EMBEDDED)
-                                                                            .build();
-        when(redirectAisAuthorizationService.createConsentAuthorization(xs2aCreateAuthorisationRequest))
+
+        when(redirectAisAuthorizationService.createConsentAuthorization(any()))
             .thenReturn(Optional.of(authorisationResponse));
         when(scaMethodsMapper.mapToAuthenticationObjectList(any())).thenReturn(Collections.singletonList(getAuthenticationObject()));
+        CreateConsentAuthorisationProcessorResponse response = new CreateConsentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, CONSENT_ID, PSU_ID_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
 
         // When
         consentService.createAccountConsentsWithResponse(req, PSU_ID_DATA, EXPLICIT_PREFERRED);

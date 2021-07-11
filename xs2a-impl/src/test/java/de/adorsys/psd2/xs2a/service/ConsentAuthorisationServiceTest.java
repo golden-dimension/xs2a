@@ -56,6 +56,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,6 +75,10 @@ class ConsentAuthorisationServiceTest {
     private static final PsuIdData PSU_ID_DATA_EMPTY = new PsuIdData(null, null, null, null, null);
     private static final boolean CONFIRMATION_CODE_RECEIVED_FALSE = false;
     private static final String SCA_AUTHENTICATION_DATA = "some_confirmation_code";
+    private static final ScaStatus SCA_STATUS = ScaStatus.STARTED;
+    private static final ScaApproach SCA_APPROACH = ScaApproach.EMBEDDED;
+    private static final Set<TppMessageInformation> TEST_TPP_MESSAGES = Collections.singleton(TppMessageInformation.of(MessageErrorCode.FORMAT_ERROR));
+    private static final String TEST_PSU_MESSAGE = "psu message";
 
     private static final MessageError CONSENT_INVALID_401_ERROR =
         new MessageError(ErrorType.AIS_401, TppMessageInformation.of(MessageErrorCode.CONSENT_INVALID));
@@ -110,7 +115,7 @@ class ConsentAuthorisationServiceTest {
     @Mock
     private ScaApproachResolver scaApproachResolver;
 
-    private JsonReader jsonReader = new JsonReader();
+    private final JsonReader jsonReader = new JsonReader();
     private AisConsent aisConsent;
     private CreateConsentAuthorisationObject createConsentAuthorisationObject;
 
@@ -494,6 +499,9 @@ class ConsentAuthorisationServiceTest {
             .thenReturn(ValidationResult.valid());
 
         when(aisScaAuthorisationServiceResolver.getService()).thenReturn(redirectAisAuthorizationService);
+        CreateConsentAuthorisationProcessorResponse response = new CreateConsentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, CONSENT_ID, PSU_ID_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
+
         CreateConsentAuthorizationResponse createConsentAuthorizationResponse = new CreateConsentAuthorizationResponse();
         createConsentAuthorizationResponse.setScaStatus(ScaStatus.RECEIVED);
         when(redirectAisAuthorizationService.createConsentAuthorization(any()))
@@ -537,8 +545,8 @@ class ConsentAuthorisationServiceTest {
             .thenReturn(ValidationResult.valid());
         when(consentValidationService.validateConsentPsuDataOnUpdate(aisConsent, updatePsuData))
             .thenReturn(ValidationResult.valid());
-        when(authorisationChainResponsibilityService.apply(any())).thenReturn(new UpdateConsentPsuDataResponse(ScaStatus.RECEIVED, CONSENT_ID, AUTHORISATION_ID, PSU_ID_DATA));
-
+        CreateConsentAuthorisationProcessorResponse response = new CreateConsentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, CONSENT_ID, PSU_ID_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response, updateConsentPsuDataResponse);
         ArgumentCaptor<ConsentStatus> consentStatusArgumentCaptor = ArgumentCaptor.forClass(ConsentStatus.class);
         ArgumentCaptor<ScaStatus> scaStatusArgumentCaptor = ArgumentCaptor.forClass(ScaStatus.class);
 
@@ -561,7 +569,8 @@ class ConsentAuthorisationServiceTest {
         when(aisConsentService.getAccountConsentById(CONSENT_ID)).thenReturn(Optional.of(aisConsent));
         when(consentValidationService.validateConsentAuthorisationOnCreate(any(CreateConsentAuthorisationObject.class)))
             .thenReturn(ValidationResult.valid());
-
+        CreateConsentAuthorisationProcessorResponse response = new CreateConsentAuthorisationProcessorResponse(SCA_STATUS, SCA_APPROACH, TEST_PSU_MESSAGE, TEST_TPP_MESSAGES, CONSENT_ID, PSU_ID_DATA);
+        when(authorisationChainResponsibilityService.apply(any())).thenReturn(response);
         when(aisScaAuthorisationServiceResolver.getService()).thenReturn(redirectAisAuthorizationService);
         CreateConsentAuthorizationResponse createConsentAuthorizationResponse = new CreateConsentAuthorizationResponse();
         createConsentAuthorizationResponse.setAuthorisationId(AUTHORISATION_ID);
