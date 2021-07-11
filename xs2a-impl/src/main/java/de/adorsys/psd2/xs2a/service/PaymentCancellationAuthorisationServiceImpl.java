@@ -299,7 +299,7 @@ public class PaymentCancellationAuthorisationServiceImpl implements PaymentCance
                        .fail(validationResult.getMessageError())
                        .build();
         }
-
+        // TODO https://git.adorsys.de/adorsys/xs2a/aspsp-xs2a/-/issues/1629
         ScaStatus scaStatus = ScaStatus.STARTED;
         String authorisationId = UUID.randomUUID().toString();
         ScaApproach scaApproach = scaApproachResolver.resolveScaApproach();
