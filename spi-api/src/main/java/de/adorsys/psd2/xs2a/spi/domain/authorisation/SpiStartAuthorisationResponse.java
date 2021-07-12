@@ -28,21 +28,28 @@ import java.util.Set;
 
 /**
  * This class is used as a response to a start SCA flow.
- * The response contains:
- * - SCA approach regarding SCA starting.
- * - SCA status regarding SCA starting.
- * - message to PSU regarding SCA starting.
- * - warnings for TPP regarding SCA starting.
  */
 @Value
 @EqualsAndHashCode
 public class SpiStartAuthorisationResponse {
+    /**
+     * SCA approach regarding SCA starting.
+     */
     @NotNull
     ScaApproach scaApproach;
+    /**
+     * SCA status regarding SCA starting.
+     */
     @NotNull
     ScaStatus scaStatus;
+    /**
+     * Message to PSU regarding SCA starting.
+     */
     @Nullable
     String psuMessage;
+    /**
+     * Warnings for TPP regarding SCA starting.
+     */
     @Nullable
     Set<TppMessageInformation> tppMessages;
 }
