@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.15">
-<title>Release notes v.2.5.2</title>
+<title>Release notes v.10.8</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,46 +437,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Release notes v.2.5.2</h1>
+<h1>Release notes v.10.8</h1>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_bugfix_update_psu_data_select_authentication_method_for_account_information_consent_request_fails_with_an_error">Bugfix: Update PSU Data (Select Authentication Method) for account information consent request fails with an error</h2>
+<h2 id="_table_of_contents">Table of Contents</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Executing valid Update PSU Data (Select Authentication Method) for account information consent request
- (<code>PUT /v1/consents/{consentId}/authorisations/{authorisationId}</code>) with non-json body will no longer result in
- <code>400 FORMAT_ERROR</code> being returned in the response.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add validation for download transactions endpoint</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bugfix_increase_the_length_of_the_iban_and_end_to_end_identification_columns_in_the_database">Bugfix: Increase the length of the <code>iban</code> and <code>end_to_end_identification</code> columns in the database</h2>
+<h2 id="_add_validation_for_download_transactions_endpoint">Add validation for download transactions endpoint</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Types of the <code>iban</code> and <code>end_to_end_identification</code> columns were changed to increase the value length limit.
-The type of the <code>iban</code> column in the <code>account_reference</code> table was changed to <code>VARCHAR(34)</code> and the type of the
-<code>end_to_end_identification</code> column in the <code>pis_payment_data</code> table was changed to the <code>VARCHAR(35)</code>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_bugfix_enriched_accountreference_validation">Bugfix: Enriched AccountReference validation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>From now on, while creating the consent or payment, every account reference must have only one attribute (IBAN, BBAN,
-PAN etc). If there are several attributes in the initial JSON body - the <code>400 FORMAT ERROR</code> is returned. The list of
-bank supportable attributes is located in the bank_profile ASPSP configuration file (<code>supportedAccountReferenceFields</code>
-parameter). Also, possible errors while creating bank offered AIS consent are fixed.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_iban_is_no_longer_added_to_the_supported_account_reference_fields_by_default">IBAN is no longer added to the supported account reference fields by default</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>IBAN is no longer added to the <code>supportedAccountReferenceFields</code> property of the ASPSP profile in source code by default.
-It should be added to the bank_profile explicitly.</p>
+<p>From now on, requests for download transactions with all available accounts consent will be rejected by xs2a.</p>
 </div>
 </div>
 </div>
